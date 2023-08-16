@@ -47,3 +47,8 @@ button {
 .heading {
   font-weight: 100;
 }
+
+.user-list {
+  background-color: #ed2222;
+  border-radius: 10px;
+}
