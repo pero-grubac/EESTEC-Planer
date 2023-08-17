@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 function App() {
 
-  const [currentForm, setCurrentForm] = useState('login');
+  const [currentForm, setCurrentForm] = useState('main');
 
   const toggleForm = (formName) => {
     setCurrentForm(formName);
@@ -13,6 +13,7 @@ function App() {
 
   return (
     <div className="App">
+      
       {
         currentForm === "login" ? <Login onFormSwitch={toggleForm}/> : <Main onFormSwitch={toggleForm}/>
       }

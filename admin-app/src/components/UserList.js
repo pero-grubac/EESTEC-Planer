@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { Table } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css'
 
@@ -11,29 +11,29 @@ const UserList = () => {
             datumKreiranja: "12.12.2023 14:13:01"
         },
         {
-            id: 1,
+            id: 2,
             korisnik: "korisnik2",
             datumKreiranja: "12.12.2023 14:13:02"
         },
         {
-            id: 1,
+            id: 3,
             korisnik: "korisnik3",
             datumKreiranja: "12.12.2023 14:13:03"
         }
     ]
 
         return( 
-        <div>
-            <h2>Lista</h2>
-            <Table hover class="table table-borderless">
+        <div className='user-list'>
+            <h2>Zahtjevi za naloge</h2>
+            <Table hover class="table table-borderless" className='my-table'>
                 <thead>
                     <tr>
-                        <th></th>
+                        <th scope="row"></th>
                         <th>Korisnik</th>
                         <th>Vrijeme slanja zahtjeva</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className='table-row'>
                     {testArray.map(korisnik => <tr>
                         <td>{korisnik.id}</td>
                         <td>{korisnik.korisnik}</td>

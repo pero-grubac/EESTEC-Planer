@@ -4,7 +4,8 @@
   min-height: 100vh;
   align-items: center;
   justify-content: center;
-  background-image: linear-gradient(60deg, #d71c1c, #fe9a9a 50%);
+  background-image: url(./images/pozadina.png);
+  background-size: contain;
   color: rgb(255, 255, 255);
 }
 
@@ -14,11 +15,12 @@
 }
 
 .login-form-container {
+  max-width: min-content;
   padding: 5rem;
+  border: 2px solid white;
   border-radius: 10px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  background-image: linear-gradient(60deg, #961616, #ee6d6d 50%);
-  box-shadow: 5px 5px 20px #ae3f3f;
+  background-color: #e52a30;
 }
 
 label {
@@ -44,11 +46,61 @@ button {
   color: #000000;
 }
 
+.login-button {
+  margin-top: 1rem;
+  border-radius: 7px;
+}
+
 .heading {
   font-weight: 100;
 }
 
 .user-list {
-  background-color: #ed2222;
+  background-color: #600000;
   border-radius: 10px;
+  margin: 38px;
+  justify-content: center;
+}
+
+.logo {
+  max-width: 100%;
+  height: auto;
+  margin: auto;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.main {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar {
+  justify-content: left;
+  background-color: #600000;
+  width: 20rem;
+}
+
+.my-list-group {
+  cursor: pointer;
+  background-color: #600000;
+  padding: 1rem 0;
+}
+
+.my-list-group-item {
+  padding: 0.5rem 0;
+  font-size: larger;
+  background-image: linear-gradient(20deg, #9a0000, #600000 100%);
+}
+
+.table-row {
+  cursor: pointer;
+}
+
+.my-list-group-item-active {
+  padding: 0.5rem 0;
+  font-size: larger;
+  background-color: #e52a30;
 }
