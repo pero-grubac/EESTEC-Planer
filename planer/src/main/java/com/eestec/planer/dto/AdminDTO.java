@@ -42,3 +42,4 @@ public class AdminDTO {
         this.lozinka = lozinka;
     }
 }
+
