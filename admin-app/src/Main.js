@@ -1,5 +1,6 @@
 //import 'bootstrap/dist/css/bootstrap.css'
 import RequestsList from "./components/RequestsList.js";
+import UserDetails from "./components/UserDetails.js";
 import UserList from "./components/UserList";
 import { useState } from "react";
 
@@ -55,7 +56,7 @@ export const Main = () => {
         {currentList === "requests" ? (
           <RequestsList onFormSwitch={toggleList} />
         ) : (
-          <UserList onFormSwitch={toggleList} />
+          <UserDetails onFormSwitch={toggleList} />
         )}
       </div>
     </div>

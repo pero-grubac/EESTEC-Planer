@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from './images/LC_Banja_Luka_white.png';
+import logo from './images/LC_Banja_Luka_red.png';
 
 
 //const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,20}$/;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css'
+import SearchBar from './SearchBar';
 
 const UserList = () => {
 
@@ -28,8 +29,13 @@ const UserList = () => {
         }
     ]
 
+    const handleRowClick = () => {
+        
+    }
+
         return( 
         <div className='user-list'>
+            <SearchBar></SearchBar>
             <h2>Korisnici</h2>
             <Table hover class="table table-borderless" className='my-table'>
                 <thead>
@@ -41,7 +47,7 @@ const UserList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {testArray.map(korisnik => <tr className='table-row'>
+                    {testArray.map(korisnik => <tr className='table-row' onClick={handleRowClick}>
                         <th>{korisnik.id}</th>
                         <td>{korisnik.ime}</td>
                         <td>{korisnik.prezime}</td>

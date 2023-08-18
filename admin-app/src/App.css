@@ -17,10 +17,10 @@
 .login-form-container {
   max-width: min-content;
   padding: 5rem;
-  border: 2px solid white;
   border-radius: 10px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  background-color: #e52a30;
+  background-color: #ffffff;
+  color: #000000;
 }
 
 label {
@@ -30,10 +30,11 @@ label {
 }
 
 input {
-  border: none;
+  background-color: #ffd6d6;
   padding: 6px;
   border-radius: 5px;
   margin: 0.25rem 0;
+  max-height: 2rem;
 }
 
 button {
@@ -43,12 +44,14 @@ button {
   padding: 8px;
   border-radius: 7px;
   cursor: pointer;
-  color: #000000;
+  color: #ffffff;
 }
 
 .login-button {
   margin-top: 1rem;
+  background-color: #e52a30;
   border-radius: 7px;
+  min-width: 6rem;
 }
 
 .heading {
@@ -117,4 +120,45 @@ button {
 
 .my-table {
   min-width: 75vw;
+  max-height: 25vh;
+}
+
+.search {
+  display: flex;
+  padding: 0.25rem 0;
+  margin-left: 20px;
+  justify-content: left;
+}
+
+.user-details-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #600000;
+  padding: 4rem;
+  margin: 3rem;
+  border-radius: 10px;
+}
+
+.user-details-edit {
+  display: flex;
+  flex-direction: row;
+}
+
+.user-details-column {
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items:end;
+  margin: 1rem;
+  justify-content: space-evenly;
+}
+
+.user-details-buttons{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  justify-content: space-evenly;
 }
