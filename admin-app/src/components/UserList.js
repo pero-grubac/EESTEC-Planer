@@ -7,37 +7,45 @@ const UserList = () => {
     const testArray = [
         {
             id: 1,
-            korisnik: "korisnik1",
-            datumKreiranja: "12.12.2023 14:13:01"
+            korisnickoIme: "korisnik1",
+            ime: "ime1",
+            prezime: "prezime1",
+            uloga: "koordinator"
         },
         {
             id: 2,
-            korisnik: "korisnik2",
-            datumKreiranja: "12.12.2023 14:13:02"
+            korisnickoIme: "korisnik2",
+            ime: "ime2",
+            prezime: "prezime2",
+            uloga: "koordinator"
         },
         {
             id: 3,
-            korisnik: "korisnik3",
-            datumKreiranja: "12.12.2023 14:13:03"
+            korisnickoIme: "korisnik3",
+            ime: "ime3",
+            prezime: "prezime3",
+            uloga: "koordinator"
         }
     ]
 
         return( 
         <div className='user-list'>
-            <h2>Zahtjevi za naloge</h2>
+            <h2>Korisnici</h2>
             <Table hover class="table table-borderless" className='my-table'>
                 <thead>
                     <tr>
                         <th scope="row"></th>
-                        <th>Korisnik</th>
-                        <th>Vrijeme slanja zahtjeva</th>
+                        <th>Ime</th>
+                        <th>Prezime</th>
+                        <th>Uloga</th>
                     </tr>
                 </thead>
-                <tbody className='table-row'>
-                    {testArray.map(korisnik => <tr>
-                        <td>{korisnik.id}</td>
-                        <td>{korisnik.korisnik}</td>
-                        <td>{korisnik.datumKreiranja}</td>
+                <tbody>
+                    {testArray.map(korisnik => <tr className='table-row'>
+                        <th>{korisnik.id}</th>
+                        <td>{korisnik.ime}</td>
+                        <td>{korisnik.prezime}</td>
+                        <td>{korisnik.uloga}</td>
                     </tr>)}
                 </tbody>
             </Table>

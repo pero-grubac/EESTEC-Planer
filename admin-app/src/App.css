@@ -103,4 +103,18 @@ button {
   padding: 0.5rem 0;
   font-size: larger;
   background-color: #e52a30;
+  color: #000000;
+}
+
+#pregledi-label {
+  padding: 0.25rem 0;
+  margin-top: 0.75rem;
+}
+
+.table-row {
+  cursor: pointer;
+}
+
+.my-table {
+  min-width: 75vw;
 }

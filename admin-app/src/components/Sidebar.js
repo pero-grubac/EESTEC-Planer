@@ -1,5 +1,5 @@
 
-function ListGroup () {
+function Sidebar () {
     return (
         <div>
             <h1>Pregledi</h1>
@@ -11,4 +11,4 @@ function ListGroup () {
     )
 }
 
-export default ListGroup;
+export default Sidebar;
