@@ -2,6 +2,7 @@ import './App.css';
 import { Login } from './Login';
 import { Main } from './Main';
 import { useState } from 'react';
+import AdminList from './AdminList';
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
 
   return (
     <div className="App">
+      <AdminList></AdminList>
       
       {
         currentForm === "login" ? <Login onFormSwitch={toggleForm}/> : <Main onFormSwitch={toggleForm}/>
