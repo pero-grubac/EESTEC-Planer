@@ -12,14 +12,14 @@ function App() {
 
   return (
     <div>
-      <h1>Admins</h1>
+      {/* <h1>Admins</h1>
       <ul>
         {admins.map(admin => (
           <li key={admin.idAdmin}>
             {admin.korisnickoIme} - {admin.lozinka}
           </li>
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 }
