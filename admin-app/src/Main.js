@@ -1,4 +1,5 @@
 //import 'bootstrap/dist/css/bootstrap.css'
+import { DeleteConfirmation } from "./components/DeleteConfirmation.js";
 import RequestsList from "./components/RequestsList.js";
 import UserDetails from "./components/UserDetails.js";
 import UserList from "./components/UserList";
@@ -18,18 +19,35 @@ export const Main = () => {
     },
   ];
 
-  const [currentList, setCurrentList] = useState("requests");
+  const [currentTab, setCurrentTab] = useState("requests");
 
-  const toggleList = (listName) => {
-    setCurrentList(listName);
+  const toggleTab = (tabName) => {
+    setCurrentTab(tabName);
   };
 
   const handleSidebarClick = (sidebarItem) => {
     setSelectedSidebarItem(sidebarItem.id);
-    toggleList(sidebarItem.name);
+    toggleTab(sidebarItem.name);
   };
 
   const [selectedSidebarItem, setSelectedSidebarItem] = useState(1);
+
+  const SelectedTab = () => {
+    switch(currentTab){
+        case 'requests':
+            return <RequestsList onFormSwitch={toggleTab} />
+        case 'users':
+            return <UserList userClicked={toggleTab} onFormSwitch={toggleTab} />
+        case 'user':
+            return <UserDetails onFonFormSwitch={toggleTab} />
+        case 'user_del':
+            return <DeleteConfirmation objectName={"korisnika iz baze"}></DeleteConfirmation>
+        case 'request':
+        case 'request_del':
+        default:
+          return <div />
+    }
+  }
 
   return (
     <div className="main">
@@ -53,11 +71,12 @@ export const Main = () => {
         </div>
       </div>
       <div className="list-view">
-        {currentList === "requests" ? (
-          <RequestsList onFormSwitch={toggleList} />
+        {SelectedTab()}
+        {/* {currentTab === "requests" ? (
+          <RequestsList onFormSwitch={toggleTab} />
         ) : (
-          <UserDetails onFormSwitch={toggleList} />
-        )}
+          <UserDetails toggleTab={toggleTab} onFormSwitch={toggleTab} />
+        )} */}
       </div>
     </div>
   );

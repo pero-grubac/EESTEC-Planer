@@ -120,14 +120,31 @@ button {
 
 .my-table {
   min-width: 75vw;
-  max-height: 25vh;
+  max-height: 75%;
+  overflow-y: scroll;
+}
+
+.table-wrapper {
+  max-height: 85vh;
+  overflow-y: scroll;
+}
+
+.table-wrapper-users {
+  max-height: 80vh;
 }
 
 .search {
   display: flex;
+  flex-direction: column;
   padding: 0.25rem 0;
-  margin-left: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
   justify-content: left;
+}
+
+.table-header {
+  position: sticky;
+  top: 0px;
 }
 
 .user-details-container {
@@ -153,6 +170,11 @@ button {
   align-items:end;
   margin: 1rem;
   justify-content: space-evenly;
+}
+
+.user-input-column {
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
 .user-details-buttons{
