@@ -2,64 +2,52 @@ package com.eestec.planer.service;
 
 import com.eestec.planer.dao.AdminDAO;
 import com.eestec.planer.dto.AdminDTO;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Service
-public class AdminServiceImpl implements  AdminService{
+public class AdminServiceImpl implements AdminService {
     private final AdminDAO adminDAO;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Autowired
     public AdminServiceImpl(AdminDAO adminDAO) {
         this.adminDAO = adminDAO;
     }
+
     @Override
-    @Transactional
     public List<AdminDTO> getAllAdmins() {
-        List<AdminDTO> admins = adminDAO.getAllAdmin();
-        List<AdminDTO> adminDTOs = new ArrayList<>();
-        for (AdminDTO admin : admins) {
-            AdminDTO adminDTO = new AdminDTO();
-            BeanUtils.copyProperties(admin, adminDTO);
-            adminDTOs.add(adminDTO);
-        }
-        return adminDTOs;
-    }
-    @Override
-    @Transactional
-    public AdminDTO createAdmin(AdminDTO adminDTO) {
-        AdminDTO admin = new AdminDTO();
-        BeanUtils.copyProperties(adminDTO, admin);
-        adminDAO.createAdmin(admin);
-        return adminDTO;
+
+        List<AdminDTO> adminDTOList = adminDAO.findAll();
+        return adminDTOList;
     }
 
     @Override
-    @Transactional
-    public AdminDTO getAdminById(int id) {
-        AdminDTO admin = adminDAO.getAdminById(id);
-        AdminDTO adminDTO = new AdminDTO();
-        BeanUtils.copyProperties(admin, adminDTO);
-        return adminDTO;
+    @Transactional // Transaction for creating an admin
+    public String createAdmin(AdminDTO adminDTO) {
+        adminDTO.setLozinka(passwordEncoder.encode(adminDTO.getLozinka()));
+       if( adminDAO.save(adminDTO)!=null)
+        return "adminDTO";
+       else return "fuck";
     }
 
     @Override
-    @Transactional
-    public AdminDTO updateAdmin(int id, AdminDTO adminDTO) {
-        AdminDTO admin = adminDAO.getAdminById(id);
-        BeanUtils.copyProperties(adminDTO, admin);
-        adminDAO.updateAdmin(admin);
+    public AdminDTO updateAdmin(Integer id, AdminDTO adminDTO) {
+        adminDTO.setLozinka(passwordEncoder.encode(adminDTO.getLozinka()));
+        List<AdminDTO> adminDTOList = adminDAO.findAll();
+        adminDTOList.stream()
+                .filter(admin ->admin.getIdAdmin()==id)
+                .findFirst()
+                .ifPresent(admin -> {
+                    int index=adminDTOList.indexOf(admin);
+                    adminDTOList.set(index,adminDTO);
+                });
         return adminDTO;
     }
 
-    @Override
-    @Transactional
-    public void deleteAdmin(int id) {
-        AdminDTO adminDTO = adminDAO.getAdminById(id);
-        adminDAO.deleteAdmin(adminDTO);
-    }
 
 }

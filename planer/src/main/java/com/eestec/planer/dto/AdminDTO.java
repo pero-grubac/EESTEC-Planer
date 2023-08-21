@@ -11,13 +11,21 @@ public class AdminDTO {
     @Column(name = "IdAdmin")
     private int idAdmin;
 
-    @Column(name = "KorisnickoIme")
+    @Column(name = "KorisnickoIme", unique = true)
     private String korisnickoIme;
 
     @Column(name = "Lozinka")
     private String lozinka;
 
-    // Getters and setters
+    public AdminDTO(String korisnickoIme, String lozinka) {
+        this.korisnickoIme=korisnickoIme;
+        this.lozinka=lozinka;
+    }
+
+    public AdminDTO() {
+
+    }
+    private static transient String role="ROLE_ADMIN";
     public int getIdAdmin() {
         return idAdmin;
     }
@@ -40,6 +48,11 @@ public class AdminDTO {
 
     public void setLozinka(String lozinka) {
         this.lozinka = lozinka;
+    }
+
+
+    public String getRole() {
+        return role;
     }
 }
 
