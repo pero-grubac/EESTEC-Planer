@@ -22,7 +22,7 @@ public class AdminController {
     }
 
     @GetMapping()
-    public String hello (){
+    public String hello() {
         return "hello";
     }
 
@@ -32,39 +32,33 @@ public class AdminController {
         return ResponseEntity.ok(admins);
     }
 
-//    @GetMapping("/{id}")
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-//    public ResponseEntity<AdminDTO> getAdminById(@PathVariable int id) {
-//        AdminDTO admin = adminService.getAdminById(id);
-//        if (admin != null) {
-//            return ResponseEntity.ok(admin);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-
 
     @PostMapping("/new")
-    public String createAdmin(@RequestBody AdminDTO adminDTO) {
-        String message = adminService.createAdmin(adminDTO);
-        return message;
+    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<AdminDTO> createAdmin(@RequestBody AdminDTO adminDTO) {
+        AdminDTO admin = adminService.createAdmin(adminDTO);
+        if (admin != null)
+            return ResponseEntity.ok(admin);
+        else return ResponseEntity.notFound().build();
     }
 
-//    @PutMapping("/{id}")
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-//    public ResponseEntity<AdminDTO> updateAdmin(@PathVariable int id, @RequestBody AdminDTO adminDTO) {
-//        AdminDTO updatedAdmin = adminService.updateAdmin(id, adminDTO);
-//        if (updatedAdmin != null) {
-//            return ResponseEntity.ok(updatedAdmin);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
+    @PutMapping("/update")
+    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<AdminDTO> updateAdmin(@RequestBody AdminDTO adminDTO) {
+        AdminDTO updatedAdmin = adminService.updateAdmin(adminDTO);
+        if (updatedAdmin != null) {
+            return ResponseEntity.ok(updatedAdmin);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-//    @DeleteMapping("/{id}")
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-//    public ResponseEntity<Void> deleteAdmin(@PathVariable int id) {
-//        adminService.deleteAdmin(id);
-//        return ResponseEntity.noContent().build();
-//    }
+    @DeleteMapping("/delete/{korisnickoIme}")
+    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<Void> deleteAdmin(@PathVariable String korisnickoIme) {
+        int isOk = adminService.deleteAdmin(korisnickoIme);
+        if (isOk == 1)
+            return ResponseEntity.noContent().build();
+        else return ResponseEntity.notFound().build();
+    }
 }
