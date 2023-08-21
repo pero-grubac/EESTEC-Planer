@@ -7,8 +7,6 @@ import java.util.List;
 public interface AdminService {
     List<AdminDTO> getAllAdmins();
 
-    AdminDTO createAdmin(AdminDTO adminDTO);
-    AdminDTO getAdminById(int id);
-    AdminDTO updateAdmin(int id, AdminDTO adminDTO);
-    void deleteAdmin(int id);
+    String createAdmin(AdminDTO adminDTO);
+    AdminDTO updateAdmin(Integer id,AdminDTO adminDTO);
 }
