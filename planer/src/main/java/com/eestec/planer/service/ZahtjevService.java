@@ -8,13 +8,13 @@ import java.util.List;
 public interface ZahtjevService {
     public List<ZahtjevDTO> getAllZahtjevi();
 
-    public void deleteZahtjev(int IdZahtjev);
+    public boolean deleteZahtjev(Integer IdZahtjev);
 
     public ZahtjevDTO getZahtjevById(int id);
 
     public ZahtjevDTO addZahtjev(ZahtjevDTO zahtjev);
 
-    public void odobriZahtjev(int id);
+    public boolean odobriZahtjev(int id);
 }
 
 

@@ -1,76 +1,102 @@
 package com.eestec.planer.dto;
 
 import jakarta.persistence.*;
-import lombok.*;
+
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class KorisnikDTO{
+@Table(name = "korisnik")
+public class KorisnikDTO {
 
     @Column(name = "Ime")
-    String Ime;
+    private String ime;
     @Column(name = "Prezime")
-    String Prezime;
-    @Column(name = "KorisnickoIme")
-    String KorisnickoIme;
+    private String prezime;
+    @Column(name = "Korisnickoime",unique = true)
+    private String korisnickoime;
 
     @Column(name = "Lozinka")
-    String Lozinka;
+    private String lozinka;
 
-    @Column(name = "Email")
-    String Email;
+    @Column(name = "Email",unique = true)
+    private String email;
     @Id
-    @Column(name = "IdKorisnika")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer IdKorisnika;
+    @Column(name = "IdKorisnika")
+    private int idKorisnika;
+
+    public KorisnikDTO() {
+    }
+
+    public KorisnikDTO(String ime, String Prezime, String Korisnickoime, String Lozinka, String Email) {
+        this.ime = ime;
+        this.prezime = Prezime;
+        this.korisnickoime = Korisnickoime;
+        this.lozinka = Lozinka;
+        this.email = Email;
+    }
+
+    public KorisnikDTO(String ime, String prezime, String korisnickoime, String lozinka, String email, int idKorisnika) {
+        this.ime = ime;
+        this.prezime = prezime;
+        this.korisnickoime = korisnickoime;
+        this.lozinka = lozinka;
+        this.email = email;
+        this.idKorisnika = idKorisnika;
+    }
+
+    private static transient String role="ROLE_USER";
 
     public String getIme() {
-        return Ime;
+        return ime;
     }
 
     public void setIme(String ime) {
-        Ime = ime;
+        this.ime = ime;
     }
 
     public String getPrezime() {
-        return Prezime;
+        return prezime;
     }
 
     public void setPrezime(String prezime) {
-        Prezime = prezime;
+        this.prezime = prezime;
     }
 
     public String getKorisnickoIme() {
-        return KorisnickoIme;
+        return korisnickoime;
     }
 
-    public void setKorisnickoIme(String korisnickoIme) {
-        KorisnickoIme = korisnickoIme;
+    public void setKorisnickoIme(String korisnickoime) {
+        this.korisnickoime = korisnickoime;
     }
 
     public String getLozinka() {
-        return Lozinka;
+        return lozinka;
     }
 
     public void setLozinka(String lozinka) {
-        Lozinka = lozinka;
+        this.lozinka = lozinka;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
-    public Integer getIdKorisnika() {
-        return IdKorisnika;
+    public int getIdKorisnika() {
+        return idKorisnika;
     }
 
-    public void setIdKorisnika(Integer idKorisnika) {
-        IdKorisnika = idKorisnika;
+    public void setIdKorisnika(int idKorisnika) {
+        this.idKorisnika = idKorisnika;
     }
+
+    public static String getRole() {
+        return role;
+    }
+
+
 }

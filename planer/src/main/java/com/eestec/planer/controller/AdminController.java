@@ -27,6 +27,7 @@ public class AdminController {
     }
 
     @GetMapping("/getall")
+    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<AdminDTO>> getAllAdmins() {
         List<AdminDTO> admins = adminService.getAllAdmins();
         return ResponseEntity.ok(admins);
@@ -53,11 +54,11 @@ public class AdminController {
         }
     }
 
-    @DeleteMapping("/delete/{korisnickoIme}")
+    @DeleteMapping("/delete/{id}")
     //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<Void> deleteAdmin(@PathVariable String korisnickoIme) {
-        int isOk = adminService.deleteAdmin(korisnickoIme);
-        if (isOk == 1)
+    public ResponseEntity<Void> deleteAdmin(@PathVariable Integer id) {
+        boolean isOk = adminService.deleteAdmin(id);
+        if (isOk)
             return ResponseEntity.noContent().build();
         else return ResponseEntity.notFound().build();
     }

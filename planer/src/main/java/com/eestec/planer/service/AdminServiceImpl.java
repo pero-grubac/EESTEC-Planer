@@ -29,7 +29,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    @Transactional // Transaction for creating an admin
+    @Transactional
     public AdminDTO createAdmin(AdminDTO adminDTO) {
         adminDTO.setLozinka(passwordEncoder.encode(adminDTO.getLozinka()));
         if (adminDAO.save(adminDTO) != null)
@@ -43,10 +43,13 @@ public class AdminServiceImpl implements AdminService {
         if (adminDTO != null) {
             String hash = passwordEncoder.encode(adminDTO.getLozinka());
             adminDTO.setLozinka(hash);
-            AdminDTO admin = adminDAO.getAdminByKorisnickoIme(adminDTO.getKorisnickoIme()).get();
-            admin.setLozinka(hash);
-            adminDAO.save(admin);
-            return admin;
+            AdminDTO admin = adminDAO.findById(adminDTO.getIdAdmin()).orElse(null);
+            if (admin != null) {
+                admin.setLozinka(hash);
+                adminDAO.save(admin);
+                return admin;
+            }
+            return null;
         } else {
             return null;
         }
@@ -55,13 +58,13 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public int deleteAdmin(String korisnickoIme) {
-        AdminDTO adminDTO=adminDAO.getAdminByKorisnickoIme(korisnickoIme).get();
+    public boolean deleteAdmin(Integer id) {
+        AdminDTO adminDTO = adminDAO.findById(id).orElse(null);
         if (adminDTO != null) {
-                adminDAO.delete(adminDTO);
-                return 1;
+            adminDAO.delete(adminDTO);
+            return true;
         }
-        return 0;
+        return false;
     }
 
 

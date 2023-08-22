@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/question")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ZahtjevController {
     @Autowired
     ZahtjevService zahtjevService;
@@ -24,9 +25,10 @@ public class ZahtjevController {
 
     @GetMapping("/delete/{id}")
     public ResponseEntity<String> getDeleteZahtjev(@PathVariable int id) {
-
-        zahtjevService.deleteZahtjev(id);
-        return ResponseEntity.ok("Zahtjev s ID-om " + id + " je obrisan.");
+        boolean result = zahtjevService.deleteZahtjev(id);
+        if (result)
+            return ResponseEntity.ok("Zahtjev s ID-om " + id + " je obrisan.");
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/find/{id}")
@@ -42,8 +44,9 @@ public class ZahtjevController {
 
     @PostMapping("/approve/{id}")
     public ResponseEntity<String> approveRequest(@PathVariable int id) {
-        zahtjevService.odobriZahtjev(id);
-        return ResponseEntity.ok("Zahtjev s ID-om " + id + " je odobren.");
+        boolean result = zahtjevService.odobriZahtjev(id);
+        if (result) return ResponseEntity.ok("Zahtjev s ID-om " + id + " je odobren.");
+        else return ResponseEntity.notFound().build();
     }
 
 

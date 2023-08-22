@@ -19,7 +19,9 @@ import java.util.Optional;
 @Service
 public class ZahtjevServiceImpl implements ZahtjevService {
 
-
+// TO DO
+    // Nedostaje kreiranje zahtjeva
+    // sifrovanje vidi kako je u nekome servisu sto sam ja pravio sa password encoder
     @Autowired
     private ZahtjevDAO zahtjevDAO;
 
@@ -29,8 +31,13 @@ public class ZahtjevServiceImpl implements ZahtjevService {
     }
 
     @Override
-    public void deleteZahtjev(int IdZahtjev) {
-        zahtjevDAO.deleteById(IdZahtjev);
+    public boolean deleteZahtjev(Integer IdZahtjev) {
+        ZahtjevDTO zahtev = zahtjevDAO.findById(IdZahtjev).orElse(null);
+        if (zahtev != null) {
+            zahtjevDAO.deleteById(IdZahtjev);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -50,7 +57,7 @@ public class ZahtjevServiceImpl implements ZahtjevService {
 
     @Transactional
     @Override
-    public void odobriZahtjev(int id) {
+    public boolean odobriZahtjev(int id) {
         ZahtjevDTO zahtjev = zahtjevDAO.findById(id).orElse(null);
         if (zahtjev != null) {
             KorisnikDTO korisnik = new KorisnikDTO();
@@ -61,7 +68,9 @@ public class ZahtjevServiceImpl implements ZahtjevService {
             korisnik.setEmail(zahtjev.getEmail());
             korisnikDAO.save(korisnik);
             zahtjevDAO.delete(zahtjev);
+            return true;
         }
+        return false;
     }
 
     @Override

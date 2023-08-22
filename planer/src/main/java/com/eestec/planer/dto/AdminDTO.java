@@ -22,6 +22,12 @@ public class AdminDTO {
         this.lozinka=lozinka;
     }
 
+    public AdminDTO(int idAdmin, String korisnickoIme, String lozinka) {
+        this.idAdmin = idAdmin;
+        this.korisnickoIme = korisnickoIme;
+        this.lozinka = lozinka;
+    }
+
     public AdminDTO() {
 
     }

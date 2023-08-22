@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface AdminDAO extends JpaRepository<AdminDTO,Integer> {
     Optional<AdminDTO>  getAdminByKorisnickoIme(String korisnickoIme);
 
+    Optional<AdminDTO>  getAdminByIdAdmin(Integer idAdmin);
 
     @Modifying
     @Query("UPDATE AdminDTO a SET a.lozinka = :lozinka WHERE a.idAdmin = :id")

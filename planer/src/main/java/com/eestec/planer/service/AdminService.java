@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface AdminService {
     List<AdminDTO> getAllAdmins();
-
+    //umjesto get all get jednog tj. read
     AdminDTO createAdmin(AdminDTO adminDTO);
 
     AdminDTO updateAdmin(AdminDTO adminDTO);
 
-    int deleteAdmin(String korisnickoIme);
+    boolean deleteAdmin(Integer id);
 }
