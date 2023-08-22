@@ -28,7 +28,7 @@ CREATE TABLE `admin` (
   `Lozinka` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`IdAdmin`),
   UNIQUE KEY `KorisnickoIme` (`KorisnickoIme`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +37,7 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES (1,'admin','admin');
+INSERT INTO `admin` VALUES (1,'admin','$2a$10$K70lLpSEX2FoZd0.yIHnuu3nrG8BzhNVVmL520geSc4XgRek4Vt7a'),(3,'mirko','$2a$10$30mX6UiGoQUcd.RolGp11Ols.jotBtLEs3TzzR6E0K/zvNAuvjGdi');
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,7 +128,8 @@ CREATE TABLE `korisnik` (
   `Email` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
   `IdKorisnika` int NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`IdKorisnika`),
-  UNIQUE KEY `Ime_UNIQUE` (`Ime`)
+  UNIQUE KEY `KorisnickoIme_UNIQUE` (`KorisnickoIme`),
+  UNIQUE KEY `Email_UNIQUE` (`Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -314,7 +315,7 @@ CREATE TABLE `zahtjev` (
   `Lozinka` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
   `IdZahtjev` int NOT NULL AUTO_INCREMENT,
   `Prezime` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `DatumKreiranja` datetime NOT NULL,
+  `Email` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
   PRIMARY KEY (`IdZahtjev`),
   UNIQUE KEY `KorisničkoIme_UNIQUE` (`KorisničkoIme`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
@@ -338,4 +339,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-18  2:11:53
+-- Dump completed on 2023-08-22 19:39:32
