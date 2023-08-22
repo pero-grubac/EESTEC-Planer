@@ -1,5 +1,6 @@
 //import 'bootstrap/dist/css/bootstrap.css'
 import { DeleteConfirmation } from "./components/DeleteConfirmation.js";
+import RequestDetails from "./components/RequestDetails.js";
 import RequestsList from "./components/RequestsList.js";
 import UserDetails from "./components/UserDetails.js";
 import UserList from "./components/UserList";
@@ -35,14 +36,15 @@ export const Main = () => {
   const SelectedTab = () => {
     switch(currentTab){
         case 'requests':
-            return <RequestsList onFormSwitch={toggleTab} />
+          return <RequestsList requestClicked={toggleTab} onFormSwitch={toggleTab} />
         case 'users':
-            return <UserList userClicked={toggleTab} onFormSwitch={toggleTab} />
+          return <UserList userClicked={toggleTab} onFormSwitch={toggleTab} />
         case 'user':
-            return <UserDetails onFonFormSwitch={toggleTab} />
+          return <UserDetails onFonFormSwitch={toggleTab} />
         case 'user_del':
-            return <DeleteConfirmation objectName={"korisnika iz baze"}></DeleteConfirmation>
+          return <DeleteConfirmation objectName={"korisnika iz baze"}></DeleteConfirmation>
         case 'request':
+          return <RequestDetails onFormSwitch={toggleTab} />
         case 'request_del':
         default:
           return <div />
@@ -56,7 +58,7 @@ export const Main = () => {
           <h2 id="pregledi-label">Pregledi</h2>
           <ul className="my-list-group">
             {sidebarItems.map((option) => (
-              <li
+              <li key={option.id}
                 className={
                   selectedSidebarItem === option.id
                     ? "my-list-group-item-active"
@@ -72,11 +74,6 @@ export const Main = () => {
       </div>
       <div className="list-view">
         {SelectedTab()}
-        {/* {currentTab === "requests" ? (
-          <RequestsList onFormSwitch={toggleTab} />
-        ) : (
-          <UserDetails toggleTab={toggleTab} onFormSwitch={toggleTab} />
-        )} */}
       </div>
     </div>
   );

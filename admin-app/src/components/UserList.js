@@ -150,8 +150,7 @@ const UserList = ({userClicked}) => {
     const [search, setSearch] = useState('');
 
     const handleRowClick = (id) => {
-        console.log(id + " is clicked").
-        userClicked("user");
+        console.log(id + " is clicked").userClicked("user"); 
     }
 
     return (
@@ -165,7 +164,7 @@ const UserList = ({userClicked}) => {
 
             <h2>Korisnici</h2>
             <div className=' table-wrapper table-wrapper-users'>
-                <Table hover class="table table-borderless" className='my-table'>
+                <Table hover className="table table-bordered my-table">
                     <thead>
                         <tr>
                             <th className='table-header' scope="row"></th>

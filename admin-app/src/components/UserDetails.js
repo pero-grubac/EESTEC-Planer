@@ -43,7 +43,6 @@ function UserDetails({toggleList}) {
                 <button className="login-button">Nazad</button>
             </div>
         </form>
-
     )
 }
 

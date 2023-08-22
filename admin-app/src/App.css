@@ -184,3 +184,7 @@ button {
   justify-content: space-between;
   justify-content: space-evenly;
 }
+
+.info-text {
+  font-weight: 200;
+}
