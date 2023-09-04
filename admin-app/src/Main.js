@@ -44,12 +44,14 @@ export const Main = () => {
       case 'user':
         return <UserDetails onFormSwitch={toggleTab} switchTab={toggleTab} selectedUser={selectedUser} />
       case 'user_del':
-        return <DeleteConfirmation onFormSwitch={toggleTab} selectedRequest={null} selectedUser={selectedUser} objectName={"korisnika iz baze"}></DeleteConfirmation>
+        return <DeleteConfirmation onFormSwitch={toggleTab} switchTab={toggleTab} selectedRequest={null} selectedUser={selectedUser} objectName={"korisnika iz baze"}
+        ></DeleteConfirmation>
       case 'request':
         return <RequestDetails switchTab={toggleTab} selectedRequest={selectedRequest} />
       case 'request_del':
-        return <DeleteConfirmation onFormSwitch={toggleTab} switchTab={toggleTab} selectedRequest={selectedRequest} selectedUser={null}
-          objectName={"zahtjev iz baze"}></DeleteConfirmation>
+        return <DeleteConfirmation onFormSwitch={toggleTab} switchTab={toggleTab} objectName={"zahtjev iz baze"}
+          selectedUser={null} selectedRequest={selectedRequest}
+        ></DeleteConfirmation>
       default:
         return <div />
     }

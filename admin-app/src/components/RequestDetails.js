@@ -27,7 +27,7 @@ function RequestDetails ({switchTab, selectedRequest}) {
             <div className="user-details-buttons">
                 <button className="login-button">Prihvati</button>
                 <button className="login-button" onClick={() => switchTab("request_del")}>Odbij</button>
-                <button className="login-button">Nazad</button>
+                <button className="login-button" onClick={() => switchTab("requests")}>Nazad</button>
             </div>
         </div>
     )

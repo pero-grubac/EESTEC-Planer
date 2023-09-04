@@ -32,7 +32,7 @@ function UserDetails({switchTab, selectedUser}) {
             <div className="user-details-buttons">
                 <button className="login-button" type="submit">Sačuvaj</button>
                 <button className="login-button" onClick={() => switchTab("user_del")}>Obriši nalog</button>
-                <button className="login-button">Nazad</button>
+                <button className="login-button" onClick={() => switchTab("users")}>Nazad</button>
             </div>
         </form>
     )

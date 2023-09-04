@@ -13,11 +13,11 @@ export const DeleteConfirmation = ({ switchTab, objectName, selectedUser, select
 
     // takodje funkcija za odbijanje koja samo vraca na prethodnu formu
 
-    const handleCancel = () => {
+    const handleCancel = (selectedUser, selectedRequest) => {
         switchTab("request");
-        if (selectedRequest)
+        if (selectedRequest != null)
             switchTab("request");
-        else if (selectedUser)
+        else if (selectedUser != null)
             switchTab("user");
     };
 
@@ -26,7 +26,7 @@ export const DeleteConfirmation = ({ switchTab, objectName, selectedUser, select
             <text>Da li ste sigurni da želite obrisati {objectName}?</text>
             <div className="user-details-buttons">
                 <button className="login-button" onClick={() => handleConfirm}>Da</button>
-                <button className="login-button" onClick={() => handleCancel}>Ne</button>
+                <button className="login-button" onClick={() => handleCancel(selectedUser, selectedRequest)}>Ne</button>
             </div>
         </div>
     )
