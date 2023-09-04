@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import { Table } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css'
 
-const UserList = ({userClicked}) => {
+const UserList = ({ switchTab, selectUser }) => {
 
+    // testArray za testiranje funkcionalnosti, ovo treba fetchovati
     const testArray = [
         {
             id: 1,
             korisnickoIme: "korisnik1",
             ime: "ime1",
             prezime: "prezime1",
+            email: "imeprezime@email.com",
             uloga: "clan upravnog odbora"
         },
         {
@@ -17,6 +19,7 @@ const UserList = ({userClicked}) => {
             korisnickoIme: "korisnik2",
             ime: "ime2",
             prezime: "prezime2",
+            email: "imeprezime@email.com",
             uloga: "korisnik"
         },
         {
@@ -24,6 +27,7 @@ const UserList = ({userClicked}) => {
             korisnickoIme: "korisnik3",
             ime: "ime3",
             prezime: "prezime3",
+            email: "imeprezime@email.com",
             uloga: "koordinator"
         },
         {
@@ -31,6 +35,7 @@ const UserList = ({userClicked}) => {
             korisnickoIme: "korisnik1",
             ime: "ime1",
             prezime: "prezime1",
+            email: "imeprezime@email.com",
             uloga: "koordinator"
         },
         {
@@ -38,6 +43,7 @@ const UserList = ({userClicked}) => {
             korisnickoIme: "korisnik2",
             ime: "ime2",
             prezime: "prezime2",
+            email: "imeprezime@email.com",
             uloga: "koordinator"
         },
         {
@@ -45,6 +51,7 @@ const UserList = ({userClicked}) => {
             korisnickoIme: "korisnik3",
             ime: "ime3",
             prezime: "prezime3",
+            email: "imeprezime@email.com",
             uloga: "koordinator"
         },
         {
@@ -52,6 +59,7 @@ const UserList = ({userClicked}) => {
             korisnickoIme: "korisnik1",
             ime: "ime1",
             prezime: "prezime1",
+            email: "imeprezime@email.com",
             uloga: "koordinator"
         },
         {
@@ -59,6 +67,7 @@ const UserList = ({userClicked}) => {
             korisnickoIme: "korisnik2",
             ime: "ime2",
             prezime: "prezime2",
+            email: "imeprezime@email.com",
             uloga: "koordinator"
         },
         {
@@ -66,6 +75,7 @@ const UserList = ({userClicked}) => {
             korisnickoIme: "korisnik3",
             ime: "ime3",
             prezime: "prezime3",
+            email: "imeprezime@email.com",
             uloga: "koordinator"
         },
         {
@@ -73,6 +83,7 @@ const UserList = ({userClicked}) => {
             korisnickoIme: "korisnik1",
             ime: "ime1",
             prezime: "prezime1",
+            email: "imeprezime@email.com",
             uloga: "koordinator"
         },
         {
@@ -80,6 +91,7 @@ const UserList = ({userClicked}) => {
             korisnickoIme: "korisnik2",
             ime: "ime2",
             prezime: "prezime2",
+            email: "imeprezime@email.com",
             uloga: "koordinator"
         },
         {
@@ -87,6 +99,7 @@ const UserList = ({userClicked}) => {
             korisnickoIme: "korisnik3",
             ime: "ime3",
             prezime: "prezime3",
+            email: "imeprezime@email.com",
             uloga: "koordinator"
         },
         {
@@ -94,6 +107,7 @@ const UserList = ({userClicked}) => {
             korisnickoIme: "korisnik1",
             ime: "ime1",
             prezime: "prezime1",
+            email: "imeprezime@email.com",
             uloga: "koordinator"
         },
         {
@@ -101,6 +115,7 @@ const UserList = ({userClicked}) => {
             korisnickoIme: "korisnik2",
             ime: "ime2",
             prezime: "prezime2",
+            email: "imeprezime@email.com",
             uloga: "koordinator"
         },
         {
@@ -108,6 +123,7 @@ const UserList = ({userClicked}) => {
             korisnickoIme: "korisnik3",
             ime: "ime3",
             prezime: "prezime3",
+            email: "imeprezime@email.com",
             uloga: "koordinator"
         },
         {
@@ -115,6 +131,7 @@ const UserList = ({userClicked}) => {
             korisnickoIme: "korisnik1",
             ime: "ime1",
             prezime: "prezime1",
+            email: "imeprezime@email.com",
             uloga: "koordinator"
         },
         {
@@ -122,6 +139,7 @@ const UserList = ({userClicked}) => {
             korisnickoIme: "korisnik2",
             ime: "ime2",
             prezime: "prezime2",
+            email: "imeprezime@email.com",
             uloga: "koordinator"
         },
         {
@@ -129,6 +147,7 @@ const UserList = ({userClicked}) => {
             korisnickoIme: "korisnik3",
             ime: "ime3",
             prezime: "prezime3",
+            email: "imeprezime@email.com",
             uloga: "koordinator"
         },
         {
@@ -136,6 +155,7 @@ const UserList = ({userClicked}) => {
             korisnickoIme: "korisnik1",
             ime: "ime1",
             prezime: "prezime1",
+            email: "imeprezime@email.com",
             uloga: "koordinator"
         },
         {
@@ -143,6 +163,7 @@ const UserList = ({userClicked}) => {
             korisnickoIme: "korisnik2",
             ime: "ime2",
             prezime: "prezime2",
+            email: "imeprezime@email.com",
             uloga: "koordinator"
         }
     ]
@@ -150,8 +171,13 @@ const UserList = ({userClicked}) => {
     const [search, setSearch] = useState('');
 
     const handleRowClick = (id) => {
-        console.log(id + " is clicked").userClicked("user"); 
+        console.log(id + " is clicked").switchTab("user");
     }
+
+    const handleUserClick = (user) => {
+        switchTab("user");
+        selectUser(user);
+    };
 
     return (
         <div className='user-list'>
@@ -182,7 +208,7 @@ const UserList = ({userClicked}) => {
                                 || korisnik.prezime.toLowerCase().includes(search)
                                 || korisnik.uloga.toLowerCase().includes(search)
                             )
-                        }).map(korisnik => <tr key={korisnik.id} className='table-row' onClick={() => userClicked("user")}>
+                        }).map(korisnik => <tr key={korisnik.id} className='table-row' onClick={() => handleUserClick(korisnik)}>
                             <th>{korisnik.id}</th>
                             <td>{korisnik.korisnickoIme}</td>
                             <td>{korisnik.ime}</td>

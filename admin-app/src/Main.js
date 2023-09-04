@@ -21,6 +21,8 @@ export const Main = () => {
   ];
 
   const [currentTab, setCurrentTab] = useState("requests");
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedRequest, setSelectedRequest] = useState(null);
 
   const toggleTab = (tabName) => {
     setCurrentTab(tabName);
@@ -34,20 +36,22 @@ export const Main = () => {
   const [selectedSidebarItem, setSelectedSidebarItem] = useState(1);
 
   const SelectedTab = () => {
-    switch(currentTab){
-        case 'requests':
-          return <RequestsList requestClicked={toggleTab} onFormSwitch={toggleTab} />
-        case 'users':
-          return <UserList userClicked={toggleTab} onFormSwitch={toggleTab} />
-        case 'user':
-          return <UserDetails onFonFormSwitch={toggleTab} />
-        case 'user_del':
-          return <DeleteConfirmation objectName={"korisnika iz baze"}></DeleteConfirmation>
-        case 'request':
-          return <RequestDetails onFormSwitch={toggleTab} />
-        case 'request_del':
-        default:
-          return <div />
+    switch (currentTab) {
+      case 'requests':
+        return <RequestsList switchTab={toggleTab} selectRequest={setSelectedRequest} onFormSwitch={toggleTab} />
+      case 'users':
+        return <UserList switchTab={toggleTab} selectUser={setSelectedUser} onFormSwitch={toggleTab} />
+      case 'user':
+        return <UserDetails onFormSwitch={toggleTab} switchTab={toggleTab} selectedUser={selectedUser} />
+      case 'user_del':
+        return <DeleteConfirmation onFormSwitch={toggleTab} selectedRequest={null} selectedUser={selectedUser} objectName={"korisnika iz baze"}></DeleteConfirmation>
+      case 'request':
+        return <RequestDetails switchTab={toggleTab} selectedRequest={selectedRequest} />
+      case 'request_del':
+        return <DeleteConfirmation onFormSwitch={toggleTab} switchTab={toggleTab} selectedRequest={selectedRequest} selectedUser={null}
+          objectName={"zahtjev iz baze"}></DeleteConfirmation>
+      default:
+        return <div />
     }
   }
 
