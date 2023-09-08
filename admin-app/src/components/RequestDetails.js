@@ -1,13 +1,9 @@
 
-function RequestDetails () {
+function RequestDetails ({switchTab, selectedRequest}) {
 
-    const testRequest = {
-        korisnickoIme: "korisnik",
-        ime: "ime",
-        prezime: "prezime",
-        email: "imeprezime@email.com",
-        vrijeme: "14.08.2023 14:32:56"
-    }
+    const handleRejectRequest = () => {
+        switchTab("request_del");
+    };
 
      return (
         <div className="user-details-container">
@@ -21,17 +17,17 @@ function RequestDetails () {
                     <p htmlFor="vrijeme">Vrijeme slanja</p>
                 </div>
                 <div className="user-details-column ">
-                    <p className="info-text" id="ime">{testRequest.ime}</p>
-                    <p className="info-text" id="prezime">{testRequest.prezime}</p>
-                    <p className="info-text" id="korisnicko-ime">{testRequest.korisnickoIme}</p>
-                    <p className="info-text" id="email">{testRequest.email}</p>
-                    <p className="info-text" id="vrijeme">{testRequest.vrijeme}</p>
+                    <p className="info-text" id="ime">{selectedRequest.ime}</p>
+                    <p className="info-text" id="prezime">{selectedRequest.prezime}</p>
+                    <p className="info-text" id="korisnicko-ime">{selectedRequest.korisnickoIme}</p>
+                    <p className="info-text" id="email">{selectedRequest.email}</p>
+                    <p className="info-text" id="vrijeme">{selectedRequest.vrijemeKreiranja}</p>
                 </div>
             </div>
             <div className="user-details-buttons">
-                <button className="login-button" type="submit">Prihvati</button>
-                <button className="login-button" type="submit">Odbij</button>
-                <button className="login-button">Nazad</button>
+                <button className="login-button">Prihvati</button>
+                <button className="login-button" onClick={() => switchTab("request_del")}>Odbij</button>
+                <button className="login-button" onClick={() => switchTab("requests")}>Nazad</button>
             </div>
         </div>
     )

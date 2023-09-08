@@ -1,21 +1,13 @@
 import { useState } from "react";
 
-function UserDetails({toggleList}) {
+function UserDetails({switchTab, selectedUser}) {
 
-    const testUser = {
-        korisnickoIme: "korisnik",
-        ime: "ime",
-        prezime: "prezime",
-        email: "imeprezime@email.com",
-        role: "koordinator"
-    }
-
-    const [name, setName] = useState(testUser.ime);
-    const [surname, setSurname] = useState(testUser.prezime);
-    const [username, setUsername] = useState(testUser.korisnickoIme);
+    const [name, setName] = useState(selectedUser.ime);
+    const [surname, setSurname] = useState(selectedUser.prezime);
+    const [username, setUsername] = useState(selectedUser.korisnickoIme);
     const [password, setPassword] = useState('');
-    const [email, setEmail] = useState(testUser.email);
-    const [role, setRole] = useState(testUser.role);
+    const [email, setEmail] = useState(selectedUser.email);
+    const [role, setRole] = useState(selectedUser.uloga);
 
     return (
         <form className="user-details-container">
@@ -39,8 +31,8 @@ function UserDetails({toggleList}) {
             </div>
             <div className="user-details-buttons">
                 <button className="login-button" type="submit">Sačuvaj</button>
-                <button className="login-button" type="submit">Obriši nalog</button>
-                <button className="login-button">Nazad</button>
+                <button className="login-button" onClick={() => switchTab("user_del")}>Obriši nalog</button>
+                <button className="login-button" onClick={() => switchTab("users")}>Nazad</button>
             </div>
         </form>
     )
