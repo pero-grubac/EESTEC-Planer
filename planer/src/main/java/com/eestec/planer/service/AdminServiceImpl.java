@@ -1,5 +1,6 @@
 package com.eestec.planer.service;
 
+import com.eestec.planer.controller.util.LoginForm;
 import com.eestec.planer.dao.AdminDAO;
 import com.eestec.planer.dto.AdminDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,16 @@ public class AdminServiceImpl implements AdminService {
             return true;
         }
         return false;
+    }
+
+   @Override
+    public boolean login(LoginForm loginForm) {
+        Optional<AdminDTO> optionalAdminDTO = adminDAO.findBykorisnickoIme(loginForm.getUsername());
+        if(optionalAdminDTO.isPresent()){
+            AdminDTO admin = optionalAdminDTO.get();
+            return passwordEncoder.matches(loginForm.getLozinka(), admin.getLozinka());
+        }
+        return  false;
     }
 
 

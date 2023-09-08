@@ -19,7 +19,7 @@ public class AdminInfoService implements UserDetailsService {
     private AdminDAO adminDAO;
     @Override
     public UserDetails loadUserByUsername(String korisnickoIme) throws UsernameNotFoundException {
-       Optional<AdminDTO> adminDTO= adminDAO.getAdminByKorisnickoIme(korisnickoIme);
+       Optional<AdminDTO> adminDTO= adminDAO.findBykorisnickoIme(korisnickoIme);
         return adminDTO.map(AdminInfoDetails::new)
                 .orElseThrow(()->new UsernameNotFoundException("korisnik nije pronadjen "+korisnickoIme));
 

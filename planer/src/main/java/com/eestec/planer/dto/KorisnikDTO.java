@@ -1,7 +1,10 @@
 package com.eestec.planer.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "korisnik")
@@ -11,20 +14,37 @@ public class KorisnikDTO {
     private String ime;
     @Column(name = "Prezime")
     private String prezime;
-    @Column(name = "Korisnickoime",unique = true)
+    @Column(name = "Korisnickoime", unique = true)
     private String korisnickoime;
 
     @Column(name = "Lozinka")
     private String lozinka;
 
-    @Column(name = "Email",unique = true)
+    @Column(name = "Email", unique = true)
     private String email;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "IdKorisnika")
-    private int idKorisnika;
+    private int IdKorisnika;
+
+    @OneToOne(mappedBy = "korisnik", cascade = CascadeType.REMOVE)
+    private SuperUserDTO superUserDTO;
+
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "korisnik_pripada_timu",
+            joinColumns = @JoinColumn(name = "Korisnik_IdKorisnika", referencedColumnName = "IdKorisnika"),
+            inverseJoinColumns = @JoinColumn(name = "Tim_IdTim", referencedColumnName = "IdTim")
+    )
+    private Set<TimDTO> timovi = new HashSet<>();
 
     public KorisnikDTO() {
+    }
+
+    public KorisnikDTO(int id) {
+        IdKorisnika = id;
     }
 
     public KorisnikDTO(String ime, String Prezime, String Korisnickoime, String Lozinka, String Email) {
@@ -41,10 +61,12 @@ public class KorisnikDTO {
         this.korisnickoime = korisnickoime;
         this.lozinka = lozinka;
         this.email = email;
-        this.idKorisnika = idKorisnika;
+        this.IdKorisnika = idKorisnika;
     }
 
-    private static transient String role="ROLE_USER";
+
+
+    private static transient String role = "ROLE_USER";
 
     public String getIme() {
         return ime;
@@ -70,6 +92,7 @@ public class KorisnikDTO {
         this.korisnickoime = korisnickoime;
     }
 
+    @JsonIgnore
     public String getLozinka() {
         return lozinka;
     }
@@ -87,15 +110,33 @@ public class KorisnikDTO {
     }
 
     public int getIdKorisnika() {
-        return idKorisnika;
+        return IdKorisnika;
     }
 
     public void setIdKorisnika(int idKorisnika) {
-        this.idKorisnika = idKorisnika;
+        IdKorisnika = idKorisnika;
     }
-
     public static String getRole() {
         return role;
+    }
+
+
+    public Set<TimDTO> getTimovi() {
+        return timovi;
+    }
+
+    public void setTimovi(Set<TimDTO> timovi) {
+        this.timovi = timovi;
+    }
+
+    public void deleteTim(int id) {
+        TimDTO tim = timovi.stream()
+                .filter(timDTO -> timDTO.getIdTim() == id).findFirst().orElse(null);
+        if (tim != null) {
+            this.timovi.remove(tim);
+            tim.getKorisnici().remove(this);
+        }
+
     }
 
 

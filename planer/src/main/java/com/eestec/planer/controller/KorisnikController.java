@@ -1,8 +1,11 @@
 package com.eestec.planer.controller;
 
+import com.eestec.planer.controller.util.KorisnikTim;
+import com.eestec.planer.controller.util.LoginForm;
 import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.service.KorisnikServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,10 +49,48 @@ public class KorisnikController {
 
     @DeleteMapping("/delete/{id}")
     //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<KorisnikDTO> deleteKorisnik(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteKorisnik(@PathVariable Integer id) {
         boolean isOk = korisnikService.deleteKorisnik(id);
         if (isOk) return ResponseEntity.noContent().build();
         else return ResponseEntity.notFound().build();
     }
 
+    @PutMapping("/joinTeam")
+    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<String> joinTeam(@RequestBody KorisnikTim korisnikTim) {
+        if (korisnikTim != null && korisnikTim.getIdKorisnika() != null && korisnikTim.getIdTim() != null) {
+            boolean isOK = korisnikService.joinTim(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
+            if (isOK) {
+                return ResponseEntity.ok("Uspjesna prijava.");
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping("/leaveTeam")
+    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<String> leaveTeam(@RequestBody KorisnikTim korisnikTim) {
+        if (korisnikTim != null && korisnikTim.getIdKorisnika() != null && korisnikTim.getIdTim() != null) {
+            boolean isOK = korisnikService.leaveTim(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
+            if (isOK) {
+                return ResponseEntity.ok("Dovidjenja.");
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginForm loginForm) {
+        if (korisnikService.login(loginForm))
+            return ResponseEntity.ok().build();
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Admin" + loginForm.getUsername() + " not found");
+
+    }
 }

@@ -28,7 +28,7 @@ CREATE TABLE `admin` (
   `Lozinka` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`IdAdmin`),
   UNIQUE KEY `KorisnickoIme` (`KorisnickoIme`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +37,7 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES (1,'admin','$2a$10$K70lLpSEX2FoZd0.yIHnuu3nrG8BzhNVVmL520geSc4XgRek4Vt7a'),(3,'mirko','$2a$10$30mX6UiGoQUcd.RolGp11Ols.jotBtLEs3TzzR6E0K/zvNAuvjGdi');
+INSERT INTO `admin` VALUES (3,'mirko','$2a$10$GaOMAApvHuAp8hcTQCN1Be90YNAqH6vUfABt6OJISShoaHCGqp4/i'),(7,'admin','$2a$10$dZT4OxAIPsC92PZsgj.fMehPETcQaO/RAfL/vzC5MHrhTtsswOhZq');
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -61,6 +61,7 @@ CREATE TABLE `clanodbora` (
 
 LOCK TABLES `clanodbora` WRITE;
 /*!40000 ALTER TABLE `clanodbora` DISABLE KEYS */;
+INSERT INTO `clanodbora` VALUES (5);
 /*!40000 ALTER TABLE `clanodbora` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,8 +77,7 @@ CREATE TABLE `kategorija` (
   `Naziv` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
   `IdTim` int NOT NULL,
   PRIMARY KEY (`IdKategorija`),
-  KEY `fk_Kategorija_Tim1_idx` (`IdTim`),
-  CONSTRAINT `fk_Kategorija_Tim1` FOREIGN KEY (`IdTim`) REFERENCES `tim` (`IdTim`)
+  KEY `fk_Kategorija_Tim1_idx` (`IdTim`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -110,6 +110,7 @@ CREATE TABLE `koordinator` (
 
 LOCK TABLES `koordinator` WRITE;
 /*!40000 ALTER TABLE `koordinator` DISABLE KEYS */;
+INSERT INTO `koordinator` VALUES (6);
 /*!40000 ALTER TABLE `koordinator` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,7 +131,7 @@ CREATE TABLE `korisnik` (
   PRIMARY KEY (`IdKorisnika`),
   UNIQUE KEY `KorisnickoIme_UNIQUE` (`KorisnickoIme`),
   UNIQUE KEY `Email_UNIQUE` (`Email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,44 +140,18 @@ CREATE TABLE `korisnik` (
 
 LOCK TABLES `korisnik` WRITE;
 /*!40000 ALTER TABLE `korisnik` DISABLE KEYS */;
+INSERT INTO `korisnik` VALUES ('sofija','stankovic','kakoIdeRM','$2a$10$wJkVpVMuUWYpKI0KTbtpi.tw9HK7/XykvqxEE8qk/aBdUde0rw8sq','stana@example.com',2),('mirko','mirko','mirko','$2a$10$hrM8.BICruUGG9P7ooG.d.xhz93xSAb/gL4PGQ507sVFMk.1HjjW.','mirko@example.com',5),('pero','pero','pero','$2a$10$IANVup3/O6mbPkKBl8wrbeJqGAigUviRGOm85vAz/3PTWeV6mrj9e','pero@example.com',6);
 /*!40000 ALTER TABLE `korisnik` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `korisnik_has_zadatak`
+-- Table structure for table `korisnik_pripada_timu`
 --
 
-DROP TABLE IF EXISTS `korisnik_has_zadatak`;
+DROP TABLE IF EXISTS `korisnik_pripada_timu`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `korisnik_has_zadatak` (
-  `Korisnik_IdKorisnika` int NOT NULL,
-  `Zadatak_IdZadatak` int NOT NULL,
-  PRIMARY KEY (`Korisnik_IdKorisnika`,`Zadatak_IdZadatak`),
-  KEY `fk_Korisnik_has_Zadatak_Zadatak1_idx` (`Zadatak_IdZadatak`),
-  KEY `fk_Korisnik_has_Zadatak_Korisnik1_idx` (`Korisnik_IdKorisnika`),
-  CONSTRAINT `fk_Korisnik_has_Zadatak_Korisnik1` FOREIGN KEY (`Korisnik_IdKorisnika`) REFERENCES `korisnik` (`IdKorisnika`),
-  CONSTRAINT `fk_Korisnik_has_Zadatak_Zadatak1` FOREIGN KEY (`Zadatak_IdZadatak`) REFERENCES `zadatak` (`IdZadatak`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `korisnik_has_zadatak`
---
-
-LOCK TABLES `korisnik_has_zadatak` WRITE;
-/*!40000 ALTER TABLE `korisnik_has_zadatak` DISABLE KEYS */;
-/*!40000 ALTER TABLE `korisnik_has_zadatak` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `korisnikpripadatimu`
---
-
-DROP TABLE IF EXISTS `korisnikpripadatimu`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `korisnikpripadatimu` (
+CREATE TABLE `korisnik_pripada_timu` (
   `Korisnik_IdKorisnika` int NOT NULL,
   `Tim_IdTim` int NOT NULL,
   PRIMARY KEY (`Korisnik_IdKorisnika`,`Tim_IdTim`),
@@ -188,12 +163,40 @@ CREATE TABLE `korisnikpripadatimu` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `korisnikpripadatimu`
+-- Dumping data for table `korisnik_pripada_timu`
 --
 
-LOCK TABLES `korisnikpripadatimu` WRITE;
-/*!40000 ALTER TABLE `korisnikpripadatimu` DISABLE KEYS */;
-/*!40000 ALTER TABLE `korisnikpripadatimu` ENABLE KEYS */;
+LOCK TABLES `korisnik_pripada_timu` WRITE;
+/*!40000 ALTER TABLE `korisnik_pripada_timu` DISABLE KEYS */;
+INSERT INTO `korisnik_pripada_timu` VALUES (2,1),(5,1),(2,2);
+/*!40000 ALTER TABLE `korisnik_pripada_timu` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `korisnik_radi_zadatak`
+--
+
+DROP TABLE IF EXISTS `korisnik_radi_zadatak`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `korisnik_radi_zadatak` (
+  `Korisnik_IdKorisnika` int NOT NULL,
+  `Zadatak_IdZadatak` int NOT NULL,
+  PRIMARY KEY (`Korisnik_IdKorisnika`,`Zadatak_IdZadatak`),
+  KEY `fk_Korisnik_has_Zadatak_Zadatak1_idx` (`Zadatak_IdZadatak`),
+  KEY `fk_Korisnik_has_Zadatak_Korisnik1_idx` (`Korisnik_IdKorisnika`),
+  CONSTRAINT `fk_Korisnik_has_Zadatak_Korisnik1` FOREIGN KEY (`Korisnik_IdKorisnika`) REFERENCES `korisnik` (`IdKorisnika`),
+  CONSTRAINT `fk_Korisnik_has_Zadatak_Zadatak1` FOREIGN KEY (`Zadatak_IdZadatak`) REFERENCES `zadatak` (`IdZadatak`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `korisnik_radi_zadatak`
+--
+
+LOCK TABLES `korisnik_radi_zadatak` WRITE;
+/*!40000 ALTER TABLE `korisnik_radi_zadatak` DISABLE KEYS */;
+/*!40000 ALTER TABLE `korisnik_radi_zadatak` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -231,7 +234,7 @@ DROP TABLE IF EXISTS `superuser`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `superuser` (
-  `IdSuperuser` int NOT NULL,
+  `IdSuperuser` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`IdSuperuser`),
   CONSTRAINT `fk_Superuser_Korisnik1` FOREIGN KEY (`IdSuperuser`) REFERENCES `korisnik` (`IdKorisnika`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
@@ -243,6 +246,7 @@ CREATE TABLE `superuser` (
 
 LOCK TABLES `superuser` WRITE;
 /*!40000 ALTER TABLE `superuser` DISABLE KEYS */;
+INSERT INTO `superuser` VALUES (5),(6);
 /*!40000 ALTER TABLE `superuser` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -254,13 +258,13 @@ DROP TABLE IF EXISTS `tim`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tim` (
-  `IdTim` int NOT NULL,
+  `IdTim` int NOT NULL AUTO_INCREMENT,
   `Naziv` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
   `IdKoordinator` int NOT NULL,
   PRIMARY KEY (`IdTim`),
   KEY `fk_Tim_Kordinator1_idx` (`IdKoordinator`),
   CONSTRAINT `fk_Tim_Kordinator1` FOREIGN KEY (`IdKoordinator`) REFERENCES `koordinator` (`IdKoordinator`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -269,6 +273,7 @@ CREATE TABLE `tim` (
 
 LOCK TABLES `tim` WRITE;
 /*!40000 ALTER TABLE `tim` DISABLE KEYS */;
+INSERT INTO `tim` VALUES (1,'idioti',6),(2,'povratak_idiota',6);
 /*!40000 ALTER TABLE `tim` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -318,7 +323,7 @@ CREATE TABLE `zahtjev` (
   `Email` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
   PRIMARY KEY (`IdZahtjev`),
   UNIQUE KEY `KorisničkoIme_UNIQUE` (`KorisničkoIme`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -339,4 +344,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-22 19:39:32
+-- Dump completed on 2023-09-08 21:53:40

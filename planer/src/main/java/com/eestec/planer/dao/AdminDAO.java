@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AdminDAO extends JpaRepository<AdminDTO,Integer> {
-    Optional<AdminDTO>  getAdminByKorisnickoIme(String korisnickoIme);
+    @Query("SELECT a FROM AdminDTO a WHERE a.korisnickoIme = :korisnickoime")
+    Optional<AdminDTO>  findBykorisnickoIme(@Param("korisnickoime") String korisnickoIme);
 
     Optional<AdminDTO>  getAdminByIdAdmin(Integer idAdmin);
 

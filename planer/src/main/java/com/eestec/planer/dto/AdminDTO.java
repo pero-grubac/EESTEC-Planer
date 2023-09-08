@@ -1,5 +1,6 @@
 package com.eestec.planer.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -48,6 +49,7 @@ public class AdminDTO {
         this.korisnickoIme = korisnickoIme;
     }
 
+    @JsonIgnore
     public String getLozinka() {
         return lozinka;
     }
