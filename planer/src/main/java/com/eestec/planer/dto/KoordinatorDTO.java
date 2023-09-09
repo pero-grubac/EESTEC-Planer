@@ -1,6 +1,7 @@
 package com.eestec.planer.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,6 +15,8 @@ public class KoordinatorDTO {
     @OneToOne
     @JoinColumn(name = "IdKoordinator")
     private SuperUserDTO superuser;
+    private static transient String role = "ROLE_KOORDINATOR";
+    private transient String uloga = "Koordinator";
 
     /*   @OneToOne(mappedBy ="koordinator",cascade = CascadeType.REMOVE)
        private TimDTO tim;*/
@@ -28,6 +31,14 @@ public class KoordinatorDTO {
         idKoordinator = id;
     }
 
+    public static String getRole() {
+        return role;
+    }
+
+    public static void setRole(String role) {
+        KoordinatorDTO.role = role;
+    }
+
     public SuperUserDTO getSuperuser() {
         return superuser;
     }
@@ -40,5 +51,16 @@ public class KoordinatorDTO {
         this.idKoordinator = idKoordinator;
     }
 
+    @JsonIgnore
+    public int getIdKoordinator() {
+        return idKoordinator;
+    }
 
+    public String getUloga() {
+        return uloga;
+    }
+
+    public void setUloga(String uloga) {
+        this.uloga = uloga;
+    }
 }

@@ -2,7 +2,11 @@ package com.eestec.planer.controller;
 
 import com.eestec.planer.controller.util.KorisnikTim;
 import com.eestec.planer.controller.util.LoginForm;
+import com.eestec.planer.dto.ClanOdboraDTO;
+import com.eestec.planer.dto.KoordinatorDTO;
 import com.eestec.planer.dto.KorisnikDTO;
+import com.eestec.planer.service.ClanOdboraServiceImpl;
+import com.eestec.planer.service.KoordinatorServiceImpl;
 import com.eestec.planer.service.KorisnikServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,16 +20,32 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class KorisnikController {
     private final KorisnikServiceImpl korisnikService;
+    private final KoordinatorServiceImpl koordinatorService;
+    private final ClanOdboraServiceImpl clanOdboraService;
 
     @Autowired
-    public KorisnikController(KorisnikServiceImpl korisnikService) {
+    public KorisnikController(KorisnikServiceImpl korisnikService, KoordinatorServiceImpl koordinatorService, ClanOdboraServiceImpl clanOdboraService) {
         this.korisnikService = korisnikService;
+        this.koordinatorService = koordinatorService;
+        this.clanOdboraService = clanOdboraService;
     }
 
     @GetMapping("/getAll")
     //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<KorisnikDTO>> getAllUsers() {
         List<KorisnikDTO> korisnikDTOList = korisnikService.getAllKorisnici();
+        List<KoordinatorDTO> koordinatorDTOList = koordinatorService.getAllKoordinatori();
+        List<ClanOdboraDTO> clanOdboraDTOList = clanOdboraService.getAllClanOdbora();
+
+        for (KorisnikDTO korisnikDTO : korisnikDTOList) {
+            for (KoordinatorDTO koordinatorDTO : koordinatorDTOList)
+                if (korisnikDTO.getIdKorisnika() == koordinatorDTO.getIdKoordinator())
+                    korisnikDTO.setUloga("Koordinator");
+
+            for (ClanOdboraDTO clanOdboraDTO : clanOdboraDTOList)
+                if (korisnikDTO.getIdKorisnika() == clanOdboraDTO.getIdClana())
+                    korisnikDTO.setUloga("Clan odbora");
+        }
         return ResponseEntity.ok(korisnikDTOList);
     }
 

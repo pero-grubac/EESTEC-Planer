@@ -3,6 +3,8 @@ package com.eestec.planer.dto;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Data
 @Entity
 @AllArgsConstructor
@@ -27,6 +29,10 @@ public class ZahtjevDTO
 
     @Column(name = "Email")
     private String Email;
+
+    @Column(name = "DatumKreiranja")
+    private LocalDate datumKreiranja;
+
 
     public String getKorisnickoIme() {
         return KorisnickoIme;
@@ -74,5 +80,12 @@ public class ZahtjevDTO
 
     public void setEmail(String email) {
         Email = email;
+    }
+
+    public void setDatumKreiranja(LocalDate date){
+        datumKreiranja=date;
+    }
+    public LocalDate getDatumKreiranja(){
+        return  datumKreiranja;
     }
 }

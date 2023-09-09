@@ -1,5 +1,6 @@
 package com.eestec.planer.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -24,5 +25,12 @@ public class ClanOdboraDTO {
 
     public void setSuperuser(SuperUserDTO superuser) {
         this.superuser = superuser;
+    }
+    public void setIdClana(int id){
+        IdClana=id;
+    }
+    @JsonIgnore
+    public int getIdClana(){
+        return  IdClana;
     }
 }

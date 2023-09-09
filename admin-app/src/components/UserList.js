@@ -1,178 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/css/bootstrap.css';
+import axios from 'axios';
 
 const UserList = ({ switchTab, selectUser }) => {
-
-    // testArray za testiranje funkcionalnosti, ovo treba fetchovati
-    const testArray = [
-        {
-            id: 1,
-            korisnickoIme: "korisnik1",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            uloga: "clan upravnog odbora"
-        },
-        {
-            id: 2,
-            korisnickoIme: "korisnik2",
-            ime: "ime2",
-            prezime: "prezime2",
-            email: "imeprezime@email.com",
-            uloga: "korisnik"
-        },
-        {
-            id: 3,
-            korisnickoIme: "korisnik3",
-            ime: "ime3",
-            prezime: "prezime3",
-            email: "imeprezime@email.com",
-            uloga: "koordinator"
-        },
-        {
-            id: 4,
-            korisnickoIme: "korisnik1",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            uloga: "koordinator"
-        },
-        {
-            id: 5,
-            korisnickoIme: "korisnik2",
-            ime: "ime2",
-            prezime: "prezime2",
-            email: "imeprezime@email.com",
-            uloga: "koordinator"
-        },
-        {
-            id: 6,
-            korisnickoIme: "korisnik3",
-            ime: "ime3",
-            prezime: "prezime3",
-            email: "imeprezime@email.com",
-            uloga: "koordinator"
-        },
-        {
-            id: 7,
-            korisnickoIme: "korisnik1",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            uloga: "koordinator"
-        },
-        {
-            id: 8,
-            korisnickoIme: "korisnik2",
-            ime: "ime2",
-            prezime: "prezime2",
-            email: "imeprezime@email.com",
-            uloga: "koordinator"
-        },
-        {
-            id: 9,
-            korisnickoIme: "korisnik3",
-            ime: "ime3",
-            prezime: "prezime3",
-            email: "imeprezime@email.com",
-            uloga: "koordinator"
-        },
-        {
-            id: 10,
-            korisnickoIme: "korisnik1",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            uloga: "koordinator"
-        },
-        {
-            id: 11,
-            korisnickoIme: "korisnik2",
-            ime: "ime2",
-            prezime: "prezime2",
-            email: "imeprezime@email.com",
-            uloga: "koordinator"
-        },
-        {
-            id: 12,
-            korisnickoIme: "korisnik3",
-            ime: "ime3",
-            prezime: "prezime3",
-            email: "imeprezime@email.com",
-            uloga: "koordinator"
-        },
-        {
-            id: 13,
-            korisnickoIme: "korisnik1",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            uloga: "koordinator"
-        },
-        {
-            id: 14,
-            korisnickoIme: "korisnik2",
-            ime: "ime2",
-            prezime: "prezime2",
-            email: "imeprezime@email.com",
-            uloga: "koordinator"
-        },
-        {
-            id: 15,
-            korisnickoIme: "korisnik3",
-            ime: "ime3",
-            prezime: "prezime3",
-            email: "imeprezime@email.com",
-            uloga: "koordinator"
-        },
-        {
-            id: 16,
-            korisnickoIme: "korisnik1",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            uloga: "koordinator"
-        },
-        {
-            id: 17,
-            korisnickoIme: "korisnik2",
-            ime: "ime2",
-            prezime: "prezime2",
-            email: "imeprezime@email.com",
-            uloga: "koordinator"
-        },
-        {
-            id: 18,
-            korisnickoIme: "korisnik3",
-            ime: "ime3",
-            prezime: "prezime3",
-            email: "imeprezime@email.com",
-            uloga: "koordinator"
-        },
-        {
-            id: 19,
-            korisnickoIme: "korisnik1",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            uloga: "koordinator"
-        },
-        {
-            id: 20,
-            korisnickoIme: "korisnik2",
-            ime: "ime2",
-            prezime: "prezime2",
-            email: "imeprezime@email.com",
-            uloga: "koordinator"
-        }
-    ]
-
+    const [users, setUsers] = useState([]);
     const [search, setSearch] = useState('');
 
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+
+    const fetchUsers = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/user/getAll');
+            setUsers(response.data);
+        } catch (error) {
+            console.error('Error fetching users:', error);
+        }
+    };
+
     const handleRowClick = (id) => {
-        console.log(id + " is clicked").switchTab("user");
-    }
+        console.log(id + " is clicked");
+        switchTab("user");
+    };
 
     const handleUserClick = (user) => {
         switchTab("user");
@@ -197,30 +48,31 @@ const UserList = ({ switchTab, selectUser }) => {
                             <th className='table-header'>Korisničko ime</th>
                             <th className='table-header'>Ime</th>
                             <th className='table-header'>Prezime</th>
-                            <th className='table-header'>Uloga</th>
+                            {<th className='table-header'>Uloga</th>}
                         </tr>
                     </thead>
                     <tbody>
-                        {testArray.filter((korisnik) => {
+                        {users.filter((korisnik) => {
                             return search.toLowerCase() === '' ? korisnik : (
                                 korisnik.korisnickoIme.toLowerCase().includes(search)
                                 || korisnik.ime.toLowerCase().includes(search)
                                 || korisnik.prezime.toLowerCase().includes(search)
                                 || korisnik.uloga.toLowerCase().includes(search)
-                            )
-                        }).map(korisnik => <tr key={korisnik.id} className='table-row' onClick={() => handleUserClick(korisnik)}>
-                            <th>{korisnik.id}</th>
-                            <td>{korisnik.korisnickoIme}</td>
-                            <td>{korisnik.ime}</td>
-                            <td>{korisnik.prezime}</td>
-                            <td>{korisnik.uloga}</td>
-                        </tr>)}
+                            );
+                        }).map(korisnik =>
+                            <tr key={korisnik.idKorisnika} className='table-row' onClick={() => handleUserClick(korisnik)}>
+                                <th>{korisnik.idKorisnika}</th>
+                                <td>{korisnik.korisnickoIme}</td>
+                                <td>{korisnik.ime}</td>
+                                <td>{korisnik.prezime}</td>
+                                {<td>{korisnik.uloga}</td>}
+                            </tr>
+                        )}
                     </tbody>
                 </Table>
             </div>
-
         </div>
-    )
-}
+    );
+};
 
 export default UserList;

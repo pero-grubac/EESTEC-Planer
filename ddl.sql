@@ -131,7 +131,7 @@ CREATE TABLE `korisnik` (
   PRIMARY KEY (`IdKorisnika`),
   UNIQUE KEY `KorisnickoIme_UNIQUE` (`KorisnickoIme`),
   UNIQUE KEY `Email_UNIQUE` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -140,7 +140,7 @@ CREATE TABLE `korisnik` (
 
 LOCK TABLES `korisnik` WRITE;
 /*!40000 ALTER TABLE `korisnik` DISABLE KEYS */;
-INSERT INTO `korisnik` VALUES ('sofija','stankovic','kakoIdeRM','$2a$10$wJkVpVMuUWYpKI0KTbtpi.tw9HK7/XykvqxEE8qk/aBdUde0rw8sq','stana@example.com',2),('mirko','mirko','mirko','$2a$10$hrM8.BICruUGG9P7ooG.d.xhz93xSAb/gL4PGQ507sVFMk.1HjjW.','mirko@example.com',5),('pero','pero','pero','$2a$10$IANVup3/O6mbPkKBl8wrbeJqGAigUviRGOm85vAz/3PTWeV6mrj9e','pero@example.com',6);
+INSERT INTO `korisnik` VALUES ('sofija','stankovic','kakoIdeRM','$2a$10$wJkVpVMuUWYpKI0KTbtpi.tw9HK7/XykvqxEE8qk/aBdUde0rw8sq','stana@example.com',2),('mirko','mirko','mirko','$2a$10$hrM8.BICruUGG9P7ooG.d.xhz93xSAb/gL4PGQ507sVFMk.1HjjW.','mirko@example.com',5),('pero','pero','pero','$2a$10$IANVup3/O6mbPkKBl8wrbeJqGAigUviRGOm85vAz/3PTWeV6mrj9e','pero@example.com',6),('aleksandra','rodic','sandra','$2a$10$lKQTqhJrY7BGdvwnNeyzreLlY/T2NF762c1UgYmrSRU3b5TQIO9jC','nema@mail.com',7);
 /*!40000 ALTER TABLE `korisnik` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -320,10 +320,12 @@ CREATE TABLE `zahtjev` (
   `Lozinka` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
   `IdZahtjev` int NOT NULL AUTO_INCREMENT,
   `Prezime` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `DatumKreiranja` date DEFAULT NULL,
   `Email` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
   PRIMARY KEY (`IdZahtjev`),
-  UNIQUE KEY `KorisničkoIme_UNIQUE` (`KorisničkoIme`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+  UNIQUE KEY `KorisničkoIme_UNIQUE` (`KorisničkoIme`),
+  UNIQUE KEY `Email_UNIQUE` (`Email`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -344,4 +346,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-08 21:53:40
+-- Dump completed on 2023-09-09 22:42:31

@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,9 @@ public class ZahtjevServiceImpl implements ZahtjevService {
     // sifrovanje vidi kako je u nekome servisu sto sam ja pravio sa password encoder
     @Autowired
     private ZahtjevDAO zahtjevDAO;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<ZahtjevDTO> getAllZahtjevi() {
@@ -79,8 +83,11 @@ public class ZahtjevServiceImpl implements ZahtjevService {
             throw new IllegalArgumentException("Ime ne može biti prazno.");
         }
 
+        zahtjev.setLozinka(passwordEncoder.encode(zahtjev.getLozinka()));
         // Save the Zahtjev entity
-        return zahtjevDAO.save(zahtjev);
+        if( zahtjevDAO.save(zahtjev)!=null)
+            return  zahtjev;
+        else  return  null;
     }
 
 }

@@ -6,7 +6,7 @@ import AdminList from './AdminList';
 
 function App() {
 
-  const [currentForm, setCurrentForm] = useState('main');
+  const [currentForm, setCurrentForm] = useState('login');
 
   const toggleForm = (formName) => {
     setCurrentForm(formName);

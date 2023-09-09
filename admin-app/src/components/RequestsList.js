@@ -1,229 +1,26 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/css/bootstrap.css';
+import axios from 'axios';
 
 const UserList = ({ switchTab, selectRequest }) => {
 
+const [users, setUsers] = useState([]);
+const [search, setSearch] = useState('');
 
-    // testArray samo za svrhe testiranja, ovo treba fetchovati
-    const testArray = [
-        {
-            id: 1,
-            korisnickoIme: "korisnik1",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:01"
-        },
-        {
-            id: 2,
-            korisnickoIme: "korisnik2",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:02"
-        },
-        {
-            id: 3,
-            korisnickoIme: "korisnik3",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:03"
-        },
-        {
-            id: 4,
-            korisnickoIme: "korisnik1",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:01"
-        },
-        {
-            id: 5,
-            korisnickoIme: "korisnik2",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:02"
-        },
-        {
-            id: 6,
-            korisnickoIme: "korisnik3",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:03"
-        },
-        {
-            id: 7,
-            korisnickoIme: "korisnik1",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:01"
-        },
-        {
-            id: 8,
-            korisnickoIme: "korisnik2",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:02"
-        },
-        {
-            id: 9,
-            korisnickoIme: "korisnik3",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:03"
-        },
-        {
-            id: 10,
-            korisnickoIme: "korisnik1",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:01"
-        },
-        {
-            id: 11,
-            korisnickoIme: "korisnik2",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:02"
-        },
-        {
-            id: 12,
-            korisnickoIme: "korisnik3",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:03"
-        },
-        {
-            id: 13,
-            korisnickoIme: "korisnik1",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:01"
-        },
-        {
-            id: 14,
-            korisnickoIme: "korisnik2",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:02"
-        },
-        {
-            id: 15,
-            korisnickoIme: "korisnik3",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:03"
-        },
-        {
-            id: 16,
-            korisnickoIme: "korisnik1",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:01"
-        },
-        {
-            id: 17,
-            korisnickoIme: "korisnik2",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:02"
-        },
-        {
-            id: 18,
-            korisnickoIme: "korisnik3",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:03"
-        },
-        {
-            id: 19,
-            korisnickoIme: "korisnik1",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:01"
-        },
-        {
-            id: 20,
-            korisnickoIme: "korisnik2",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:02"
-        },
-        {
-            id: 21,
-            korisnickoIme: "korisnik3",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:03"
-        },
-        {
-            id: 22,
-            korisnickoIme: "korisnik1",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:01"
-        },
-        {
-            id: 23,
-            korisnickoIme: "korisnik2",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:02"
-        },
-        {
-            id: 24,
-            korisnickoIme: "korisnik3",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:03"
-        },
-        {
-            id: 25,
-            korisnickoIme: "korisnik1",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:01"
-        },
-        {
-            id: 26,
-            korisnickoIme: "korisnik2",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:02"
-        },
-        {
-            id: 27,
-            korisnickoIme: "korisnik3",
-            ime: "ime1",
-            prezime: "prezime1",
-            email: "imeprezime@email.com",
-            vrijemeKreiranja: "12.12.2023 14:13:03"
+    useEffect(() => {
+
+        fetchUsers();
+    }, []);
+
+const fetchUsers = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/question/all');
+            setUsers(response.data);
+        } catch (error) {
+            console.error('Error fetching users:', error);
         }
-    ]
+    };
 
     const handleRequestSelect = (request) => {
         switchTab("request");
@@ -245,12 +42,13 @@ const UserList = ({ switchTab, selectRequest }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {testArray.map(korisnik => <tr key={korisnik.id} className='table-row' onClick={() => handleRequestSelect(korisnik)}>
-                            <th scope="row">{korisnik.id}</th>
+                        {users.map(korisnik =>
+                         <tr key={korisnik.id} className='table-row' onClick={() => handleRequestSelect(korisnik)}>
+                            <th scope="row">{korisnik.idZahtjev}</th>
                             <td>{korisnik.korisnickoIme}</td>
                             <td>{korisnik.ime}</td>
                             <td>{korisnik.prezime}</td>
-                            <td>{korisnik.vrijemeKreiranja}</td>
+                            <td>{korisnik.datumKreiranja}</td>
                         </tr>)}
                     </tbody>
                 </Table>

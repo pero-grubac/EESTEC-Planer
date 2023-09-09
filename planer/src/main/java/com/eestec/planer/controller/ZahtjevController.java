@@ -23,7 +23,7 @@ public class ZahtjevController {
 
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public ResponseEntity<String> getDeleteZahtjev(@PathVariable int id) {
         boolean result = zahtjevService.deleteZahtjev(id);
         if (result)
@@ -38,8 +38,11 @@ public class ZahtjevController {
 
 
     @PostMapping("/add")
-    public ZahtjevDTO addZahtjev(@RequestBody ZahtjevDTO zahtjev) {
-        return zahtjevService.addZahtjev(zahtjev);
+    public ResponseEntity<?> addZahtjev(@RequestBody ZahtjevDTO zahtjev) {
+        ZahtjevDTO zahtjevDTO= zahtjevService.addZahtjev(zahtjev);
+        if(zahtjevDTO!=null)
+            return ResponseEntity.ok().build();
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/approve/{id}")
