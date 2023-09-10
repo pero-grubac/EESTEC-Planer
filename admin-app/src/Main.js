@@ -23,7 +23,8 @@ export const Main = () => {
   const [currentTab, setCurrentTab] = useState("requests");
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedRequest, setSelectedRequest] = useState(null);
-
+  const [selectedTeam, setSelectedTeam] = useState(null);
+  
   const toggleTab = (tabName) => {
     setCurrentTab(tabName);
   };
@@ -40,9 +41,9 @@ export const Main = () => {
       case 'requests':
         return <RequestsList switchTab={toggleTab} selectRequest={setSelectedRequest} onFormSwitch={toggleTab} />
       case 'users':
-        return <UserList switchTab={toggleTab} selectUser={setSelectedUser} onFormSwitch={toggleTab} />
+        return <UserList switchTab={toggleTab} selectUser={setSelectedUser} onFormSwitch={toggleTab} selectTeam={setSelectedTeam}/>
       case 'user':
-        return <UserDetails onFormSwitch={toggleTab} switchTab={toggleTab} selectedUser={selectedUser} />
+        return <UserDetails onFormSwitch={toggleTab} switchTab={toggleTab} selectedUser={selectedUser} team ={selectedTeam} />
       case 'user_del':
         return <DeleteConfirmation onFormSwitch={toggleTab} switchTab={toggleTab} selectedRequest={null} selectedUser={selectedUser} objectName={"korisnika iz baze"}
         ></DeleteConfirmation>

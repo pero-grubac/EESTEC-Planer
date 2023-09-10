@@ -169,7 +169,6 @@ CREATE TABLE `korisnik_pripada_timu` (
 
 LOCK TABLES `korisnik_pripada_timu` WRITE;
 /*!40000 ALTER TABLE `korisnik_pripada_timu` DISABLE KEYS */;
-INSERT INTO `korisnik_pripada_timu` VALUES (2,1),(5,1),(2,2);
 /*!40000 ALTER TABLE `korisnik_pripada_timu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -261,11 +260,11 @@ DROP TABLE IF EXISTS `tim`;
 CREATE TABLE `tim` (
   `IdTim` int NOT NULL AUTO_INCREMENT,
   `Naziv` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `IdKoordinator` int NOT NULL,
+  `IdKoordinator` int DEFAULT NULL,
   PRIMARY KEY (`IdTim`),
   KEY `fk_Tim_Kordinator1_idx` (`IdKoordinator`),
   CONSTRAINT `fk_Tim_Kordinator1` FOREIGN KEY (`IdKoordinator`) REFERENCES `koordinator` (`IdKoordinator`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -274,7 +273,7 @@ CREATE TABLE `tim` (
 
 LOCK TABLES `tim` WRITE;
 /*!40000 ALTER TABLE `tim` DISABLE KEYS */;
-INSERT INTO `tim` VALUES (1,'idioti',6),(2,'povratak_idiota',6);
+INSERT INTO `tim` VALUES (3,'IT',6),(4,'Design',NULL),(5,'HR',NULL),(6,'PR',NULL),(7,'FR',NULL);
 /*!40000 ALTER TABLE `tim` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -347,4 +346,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-10 14:01:09
+-- Dump completed on 2023-09-10 18:02:18

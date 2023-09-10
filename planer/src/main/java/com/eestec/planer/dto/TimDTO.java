@@ -1,4 +1,5 @@
 package com.eestec.planer.dto;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
@@ -17,28 +18,35 @@ public class TimDTO {
     @Column(name = "Naziv")
     private String naziv;
 
-    @OneToOne(optional = true)
-    @JoinColumn(name = "IdKoordinator")
-    private KoordinatorDTO koordinator;
 
-    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "timovi")
+    @JoinColumn(name = "IdKoordinator")
+    private Integer idKoordinator;
+
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "timovi")
     @JsonIgnore
     private Set<KorisnikDTO> korisnici = new HashSet<>();
-    public TimDTO(){}
 
-    public TimDTO(int idTim,String naziv,KoordinatorDTO koordinatorDTO){
-        this.IdTim=idTim;
-        this.naziv=naziv;
-        this.koordinator=koordinatorDTO;
+    public TimDTO() {
     }
-    public TimDTO(String naziv,KoordinatorDTO koordinatorDTO){
 
-        this.naziv=naziv;
-        this.koordinator=koordinatorDTO;
+    public TimDTO(int idTim, String naziv, Integer koordinatorDTO) {
+        this.IdTim = idTim;
+        this.naziv = naziv;
+        this.idKoordinator = koordinatorDTO;
     }
-    public TimDTO(int idTim){
-        this.IdTim=idTim;
+
+    public TimDTO(String naziv, Integer koordinatorDTO) {
+
+        this.naziv = naziv;
+        this.idKoordinator = koordinatorDTO;
+
     }
+
+    public TimDTO(int idTim) {
+        this.IdTim = idTim;
+    }
+
     public int getIdTim() {
         return IdTim;
     }
@@ -55,12 +63,13 @@ public class TimDTO {
         this.naziv = naziv;
     }
 
-    public KoordinatorDTO getKoordinator() {
-        return koordinator;
+
+    public Integer getIdKoordinator() {
+        return idKoordinator;
     }
 
-    public void setKoordinator(KoordinatorDTO koordinator) {
-        this.koordinator = koordinator;
+    public void setIdKoordinator(Integer idKoordinator) {
+        this.idKoordinator = idKoordinator;
     }
 
     public Set<KorisnikDTO> getKorisnici() {
@@ -70,4 +79,6 @@ public class TimDTO {
     public void setKorisnici(Set<KorisnikDTO> korisnici) {
         this.korisnici = korisnici;
     }
+
+
 }
