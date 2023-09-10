@@ -20,10 +20,24 @@ const UserList = ({ switchTab, selectUser }) => {
         }
     };
 
-    const handleRowClick = (id) => {
-        console.log(id + " is clicked");
-        switchTab("user");
-    };
+    // const users = [
+    //     {
+    //         id: 1,
+    //         korisnickoIme: "ki1",
+    //         ime: "ime1",
+    //         prezime: "prezime1",
+    //         email: "email",
+    //         uloga: "koordinator"
+    //     },
+    //     {
+    //         id: 2,
+    //         korisnickoIme: "ki2",
+    //         ime: "ime2",
+    //         prezime: "prezime2",
+    //         email: "email",
+    //         uloga: "koordinator"
+    //     },
+    // ];
 
     const handleUserClick = (user) => {
         switchTab("user");

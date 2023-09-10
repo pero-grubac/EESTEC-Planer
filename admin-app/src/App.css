@@ -173,7 +173,7 @@ button {
 }
 
 .user-input-column {
-  justify-content: space-between;
+  justify-content: space-evenly;
   margin-top: 20px;
 }
 
@@ -187,4 +187,16 @@ button {
 
 .info-text {
   font-weight: 200;
+}
+
+.checkbox {
+  margin-left: 2rem;
+  margin-right: 0.5rem;
+  margin-bottom: 3rem;
+}
+
+.user-details-container {
+  display: flex;
+  flex-direction: row;
+  top: 0;
 }
