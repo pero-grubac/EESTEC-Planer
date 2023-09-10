@@ -77,7 +77,8 @@ CREATE TABLE `kategorija` (
   `Naziv` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
   `IdTim` int NOT NULL,
   PRIMARY KEY (`IdKategorija`),
-  KEY `fk_Kategorija_Tim1_idx` (`IdTim`)
+  KEY `fk_Kategorija_Tim1_idx` (`IdTim`),
+  CONSTRAINT `IdTim` FOREIGN KEY (`IdTim`) REFERENCES `tim` (`IdTim`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -346,4 +347,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-09 22:42:31
+-- Dump completed on 2023-09-10 14:01:09
