@@ -1,8 +1,19 @@
 import { useState } from "react";
+import axios from "axios";
 
 function AdminConfig() {
   const [password, setPassword] = useState(null);
-
+  const handleChage = async () => {
+    const admin = await axios.post("http://localhost:8080/admins/update", {
+      ime: "",
+      prezime: "",
+      korisnickoime: "",
+      lozinka: password,
+      email: "",
+     // ovako trebas da adminov id ovdje stavis nekako ili da gore mi das njegoo korisnickoime jedno od to dvoje  ce posluziti idKorisnika: admin.idAdmin,
+    });
+    if (admin.status !== 200) console.error(admin);
+  };
   return (
     <form className="user-details-container">
       <div className="user-details-basic">

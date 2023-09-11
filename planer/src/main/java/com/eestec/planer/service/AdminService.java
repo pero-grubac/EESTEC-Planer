@@ -1,5 +1,6 @@
 package com.eestec.planer.service;
 
+import com.eestec.planer.controller.util.KorisnikRequest;
 import com.eestec.planer.controller.util.LoginForm;
 import com.eestec.planer.dto.AdminDTO;
 
@@ -10,7 +11,7 @@ public interface AdminService {
     //umjesto get all get jednog tj. read
     AdminDTO createAdmin(AdminDTO adminDTO);
 
-    AdminDTO updateAdmin(AdminDTO adminDTO);
+    AdminDTO updateAdmin(KorisnikRequest korisnikRequest);
 
     boolean deleteAdmin(Integer id);
     boolean login(LoginForm loginForm);

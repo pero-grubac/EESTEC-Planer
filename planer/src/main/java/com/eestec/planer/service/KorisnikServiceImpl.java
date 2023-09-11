@@ -1,5 +1,6 @@
 package com.eestec.planer.service;
 
+import com.eestec.planer.controller.util.KorisnikRequest;
 import com.eestec.planer.controller.util.LoginForm;
 import com.eestec.planer.dao.KorisnikDAO;
 import com.eestec.planer.dao.TimDAO;
@@ -19,6 +20,8 @@ public class KorisnikServiceImpl implements KorisnikService {
 
     private KorisnikDAO korisnikDAO;
     private TimDAO timDAO;
+
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -54,17 +57,23 @@ public class KorisnikServiceImpl implements KorisnikService {
 
     @Override
     @Transactional
-    public KorisnikDTO updateKorisnik(KorisnikDTO korisnikDTO) {
-        if (korisnikDTO != null) {
-            String hash = passwordEncoder.encode(korisnikDTO.getLozinka());
-            korisnikDTO.setLozinka(hash);
-            KorisnikDTO korisnik = korisnikDAO.findById(korisnikDTO.getIdKorisnika()).orElse(null);
+    public KorisnikDTO updateKorisnik(KorisnikRequest korisnikRequest) {
+        if (korisnikRequest != null) {
+            String hash;
+            KorisnikDTO korisnik = korisnikDAO.findById(korisnikRequest.getIdKorisnika()).orElse(null);
+            if (korisnikRequest.getLozinka() == null || korisnikRequest.getLozinka().isEmpty()) {
+                hash = korisnik.getLozinka();
+                korisnikRequest.setLozinka(hash);
+            } else {
+                hash = passwordEncoder.encode(korisnikRequest.getLozinka());
+                korisnikRequest.setLozinka(hash);
+            }
             if (korisnik != null) {
-                korisnik.setLozinka((hash));
-                korisnik.setIme(korisnikDTO.getIme());
-                korisnik.setEmail(korisnikDTO.getEmail());
-                korisnik.setPrezime(korisnikDTO.getPrezime());
-                korisnik.setKorisnickoIme(korisnikDTO.getKorisnickoIme());
+                korisnik.setLozinka(korisnikRequest.getLozinka());
+                korisnik.setIme(korisnikRequest.getIme());
+                korisnik.setEmail(korisnikRequest.getEmail());
+                korisnik.setPrezime(korisnikRequest.getPrezime());
+                korisnik.setKorisnickoIme(korisnikRequest.getKorisnickoime());
                 korisnikDAO.save(korisnik);
                 return korisnik;
             }
@@ -110,10 +119,10 @@ public class KorisnikServiceImpl implements KorisnikService {
 
     @Override
     public boolean login(LoginForm loginForm) {
-        Optional<KorisnikDTO> optionalKorisnikDTO=korisnikDAO.findBykorisnickoIme(loginForm.getUsername());
-        if(optionalKorisnikDTO.isPresent()){
+        Optional<KorisnikDTO> optionalKorisnikDTO = korisnikDAO.findBykorisnickoIme(loginForm.getUsername());
+        if (optionalKorisnikDTO.isPresent()) {
             KorisnikDTO korisnik = optionalKorisnikDTO.get();
-            return  passwordEncoder.matches(loginForm.getLozinka(),korisnik.getLozinka());
+            return passwordEncoder.matches(loginForm.getLozinka(), korisnik.getLozinka());
         }
         return false;
     }

@@ -3,10 +3,10 @@ import { Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 
-const UserList = ({ switchTab, selectUser, selectTeam }) => {
+const UserList = ({ switchTab, selectUser, selectTeam, setTeams }) => {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
-  const [teams, setTeams] = useState([]);
+  const [teams, setTimove] = useState([]);
 
   useEffect(() => {
     fetchUsers();
@@ -20,7 +20,7 @@ const UserList = ({ switchTab, selectUser, selectTeam }) => {
       const responseTeams = await axios.get(
         "http://localhost:8080/team/getAll"
       );
-      setTeams(responseTeams.data);
+      setTimove(responseTeams.data);
       console.error(teams);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -49,6 +49,7 @@ const UserList = ({ switchTab, selectUser, selectTeam }) => {
   const handleUserClick = (user) => {
     selectTeam(teams.find((t) => t.idKoordinator === user.idKorisnika));
     selectUser(user);
+    setTeams(teams);
     switchTab("user");
   };
 

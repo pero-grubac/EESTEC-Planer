@@ -10,6 +10,7 @@ public interface TimService {
     TimDTO getTim(Integer id);
     TimDTO createTim(TimDTO timDTO);
     TimDTO updateTim(TimDTO timDTO);
-    boolean deleteTime(Integer id);
-
+    boolean deleteTim(Integer id);
+    public TimDTO getTimByKoordinator(Integer idKoordinator);
+    public boolean removeIdKoordinator(Integer idKoordinator);
 }

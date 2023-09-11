@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 public interface TimDAO extends JpaRepository<TimDTO,Integer> {
 
-
+    TimDTO findFirstByIdKoordinator(Integer idKoordinator);
 
 
 }

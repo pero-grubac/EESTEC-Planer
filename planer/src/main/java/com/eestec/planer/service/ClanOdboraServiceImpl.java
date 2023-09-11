@@ -3,7 +3,6 @@ package com.eestec.planer.service;
 import com.eestec.planer.dao.ClanOdboraDAO;
 import com.eestec.planer.dao.KorisnikDAO;
 import com.eestec.planer.dto.ClanOdboraDTO;
-import com.eestec.planer.dto.KoordinatorDTO;
 import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.dto.SuperUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +16,17 @@ import java.util.Optional;
 public class ClanOdboraServiceImpl implements ClanOdboraService {
     private KorisnikDAO korisnikDAO;
     private ClanOdboraDAO clanOdboraDAO;
+    private SuperUserServiceImpl superUserService;
+
 
     @Autowired
-    public ClanOdboraServiceImpl(ClanOdboraDAO clanOdboraDAO, KorisnikDAO korisnikDAO) {
+    public ClanOdboraServiceImpl(ClanOdboraDAO clanOdboraDAO, KorisnikDAO korisnikDAO,
+                                 SuperUserServiceImpl superUserService) {
         this.clanOdboraDAO = clanOdboraDAO;
         this.korisnikDAO = korisnikDAO;
+
+        this.superUserService = superUserService;
+
     }
 
     @Override
@@ -54,7 +59,7 @@ public class ClanOdboraServiceImpl implements ClanOdboraService {
     @Override
     @Transactional
     public boolean deleteClanOdbora(Integer id) {
-        ClanOdboraDTO clanOdboraDTO = clanOdboraDAO.findById(id).orElse(null);
+        ClanOdboraDTO clanOdboraDTO =clanOdboraDAO.findById(id).orElse(null);
         if (clanOdboraDTO != null) {
             clanOdboraDAO.delete(clanOdboraDTO);
             return true;

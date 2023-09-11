@@ -2,7 +2,6 @@ package com.eestec.planer.service;
 
 import com.eestec.planer.dao.KoordinatorDAO;
 import com.eestec.planer.dao.KorisnikDAO;
-import com.eestec.planer.dao.SuperUserDAO;
 import com.eestec.planer.dao.TimDAO;
 import com.eestec.planer.dto.KoordinatorDTO;
 import com.eestec.planer.dto.KorisnikDTO;
@@ -13,19 +12,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class KoordinatorServiceImpl implements KoordinatorService {
     private KoordinatorDAO koordinatorDAO;
-    private KorisnikDAO korisnikDAO;
-    private TimDAO timDAO;
+
+    private KorisnikServiceImpl korisnikService;
+    private SuperUserServiceImpl superUserService;
+    private ClanOdboraServiceImpl clanOdboraService;
+    private TimServiceImpl timService;
 
     @Autowired
-    public KoordinatorServiceImpl(KoordinatorDAO koordinatorDAO, KorisnikDAO korisnikDAO, TimDAO timDAO) {
+    public KoordinatorServiceImpl(KoordinatorDAO koordinatorDAO,KorisnikServiceImpl korisnikService,
+                                  SuperUserServiceImpl superUserService, ClanOdboraServiceImpl clanOdboraService,
+                                  TimServiceImpl timService) {
         this.koordinatorDAO = koordinatorDAO;
-        this.korisnikDAO = korisnikDAO;
-        this.timDAO = timDAO;
+        this.korisnikService = korisnikService;
+
+        this.superUserService = superUserService;
+        this.clanOdboraService = clanOdboraService;
+        this.timService = timService;
     }
 
     @Override
@@ -43,9 +49,9 @@ public class KoordinatorServiceImpl implements KoordinatorService {
     @Override
     @Transactional
     public KoordinatorDTO createKoordinator(Integer id) {
-        Optional<KorisnikDTO> koordinatorDTOOptional = korisnikDAO.findById(id);
-        if (koordinatorDTOOptional.isPresent()) {
-            KorisnikDTO korisnik = koordinatorDTOOptional.get();
+        KorisnikDTO koordinatorDTO = korisnikService.getKorisnik(id);
+        if (koordinatorDTO != null ) {
+            KorisnikDTO korisnik = koordinatorDTO;
             KoordinatorDTO koordinator = new KoordinatorDTO();
             SuperUserDTO superuser = new SuperUserDTO();
             superuser.setKorisnik(korisnik);
@@ -69,7 +75,7 @@ public class KoordinatorServiceImpl implements KoordinatorService {
 
     @Override
     public boolean addToTeam(Integer idKoordinator, Integer idTim) {
-        TimDTO tim = timDAO.findById(idTim).orElse(null);
+        TimDTO tim = timService.getTim(idTim);
         KoordinatorDTO koordinator = koordinatorDAO.findById(idKoordinator).orElse(null);
         if (tim != null & koordinator != null) {
             koordinatorDAO.addKoordinatorToTeam(idKoordinator, idTim);

@@ -37,6 +37,7 @@ public class SuperUserController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<SuperUserDTO> deleteSuperUser(@PathVariable Integer id) {
+
         boolean isOK = superUserService.deleteSuperUser(id);
         if (isOK) return ResponseEntity.noContent().build();
         else return ResponseEntity.notFound().build();

@@ -1,5 +1,6 @@
 package com.eestec.planer.controller;
 
+import com.eestec.planer.controller.util.KorisnikRequest;
 import com.eestec.planer.controller.util.KorisnikTim;
 import com.eestec.planer.controller.util.LoginForm;
 import com.eestec.planer.dto.ClanOdboraDTO;
@@ -22,7 +23,6 @@ public class KorisnikController {
     private final KorisnikServiceImpl korisnikService;
     private final KoordinatorServiceImpl koordinatorService;
     private final ClanOdboraServiceImpl clanOdboraService;
-
     @Autowired
     public KorisnikController(KorisnikServiceImpl korisnikService, KoordinatorServiceImpl koordinatorService, ClanOdboraServiceImpl clanOdboraService) {
         this.korisnikService = korisnikService;
@@ -58,12 +58,14 @@ public class KorisnikController {
         } else return ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/update")
+    @PostMapping("/update")
     //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<KorisnikDTO> updateKorisnik(@RequestBody KorisnikDTO korisnikDTO) {
-        KorisnikDTO korisnik = korisnikService.updateKorisnik(korisnikDTO);
+    public ResponseEntity<?> updateKorisnik(@RequestBody KorisnikRequest korisnikRequest) {
+
+
+        KorisnikDTO korisnik = korisnikService.updateKorisnik(korisnikRequest);
         if (korisnik != null)
-            return ResponseEntity.ok(korisnik);
+            return ResponseEntity.ok().build();
         else return ResponseEntity.notFound().build();
     }
 
@@ -92,11 +94,11 @@ public class KorisnikController {
 
     @PutMapping("/leaveTeam")
     //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<String> leaveTeam(@RequestBody KorisnikTim korisnikTim) {
+    public ResponseEntity<?> leaveTeam(@RequestBody KorisnikTim korisnikTim) {
         if (korisnikTim != null && korisnikTim.getIdKorisnika() != null && korisnikTim.getIdTim() != null) {
             boolean isOK = korisnikService.leaveTim(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
             if (isOK) {
-                return ResponseEntity.ok("Dovidjenja.");
+                return ResponseEntity.ok().build();
             } else {
                 return ResponseEntity.notFound().build();
             }

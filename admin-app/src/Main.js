@@ -35,7 +35,9 @@ export const Main = (props) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [selectedTeam, setSelectedTeam] = useState(null);
-  
+  const [teams, setTeams] = useState(null);
+  // pokusao sam da posaljem admina ali nz odakle ali znam da treba u adminconfig
+  const [admin,setAdmin]=useState(null);
   const toggleTab = (tabName) => {
     setCurrentTab(tabName);
   };
@@ -52,9 +54,9 @@ export const Main = (props) => {
       case 'requests':
         return <RequestsList switchTab={toggleTab} selectRequest={setSelectedRequest} onFormSwitch={toggleTab} />
       case 'users':
-        return <UserList switchTab={toggleTab} selectUser={setSelectedUser} onFormSwitch={toggleTab} selectTeam={setSelectedTeam}/>
+        return <UserList switchTab={toggleTab} selectUser={setSelectedUser} onFormSwitch={toggleTab} selectTeam={setSelectedTeam} setTeams={setTeams}/>
       case 'user':
-        return <UserDetails onFormSwitch={toggleTab} switchTab={toggleTab} selectedUser={selectedUser} selectedTeam ={selectedTeam} />
+        return <UserDetails onFormSwitch={toggleTab} switchTab={toggleTab} selectedUser={selectedUser} selectedTeam ={selectedTeam} teams={teams}/>
       case 'user_del':
         return <DeleteConfirmation onFormSwitch={toggleTab} switchTab={toggleTab} selectedRequest={null} selectedUser={selectedUser} objectName={"korisnika iz baze"}
         ></DeleteConfirmation>

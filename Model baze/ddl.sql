@@ -61,7 +61,6 @@ CREATE TABLE `clanodbora` (
 
 LOCK TABLES `clanodbora` WRITE;
 /*!40000 ALTER TABLE `clanodbora` DISABLE KEYS */;
-INSERT INTO `clanodbora` VALUES (5);
 /*!40000 ALTER TABLE `clanodbora` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -111,7 +110,6 @@ CREATE TABLE `koordinator` (
 
 LOCK TABLES `koordinator` WRITE;
 /*!40000 ALTER TABLE `koordinator` DISABLE KEYS */;
-INSERT INTO `koordinator` VALUES (6);
 /*!40000 ALTER TABLE `koordinator` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -141,7 +139,7 @@ CREATE TABLE `korisnik` (
 
 LOCK TABLES `korisnik` WRITE;
 /*!40000 ALTER TABLE `korisnik` DISABLE KEYS */;
-INSERT INTO `korisnik` VALUES ('sofija','stankovic','kakoIdeRM','$2a$10$wJkVpVMuUWYpKI0KTbtpi.tw9HK7/XykvqxEE8qk/aBdUde0rw8sq','stana@example.com',2),('mirko','mirko','mirko','$2a$10$hrM8.BICruUGG9P7ooG.d.xhz93xSAb/gL4PGQ507sVFMk.1HjjW.','mirko@example.com',5),('pero','pero','pero','$2a$10$IANVup3/O6mbPkKBl8wrbeJqGAigUviRGOm85vAz/3PTWeV6mrj9e','pero@example.com',6),('aleksandra','rodic','sandra','$2a$10$lKQTqhJrY7BGdvwnNeyzreLlY/T2NF762c1UgYmrSRU3b5TQIO9jC','nema@mail.com',7);
+INSERT INTO `korisnik` VALUES ('Pero','Grubac','pero','$2a$10$23/HBjcqX5XtdrW/dRs8seyYeicgYC/sn45LfHAYWC2LoX42IfVDK','pero@example.com',6),('aleksandra','stankovic','stana','$2a$10$lKQTqhJrY7BGdvwnNeyzreLlY/T2NF762c1UgYmrSRU3b5TQIO9jC','nema@mail.com',7);
 /*!40000 ALTER TABLE `korisnik` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -246,7 +244,6 @@ CREATE TABLE `superuser` (
 
 LOCK TABLES `superuser` WRITE;
 /*!40000 ALTER TABLE `superuser` DISABLE KEYS */;
-INSERT INTO `superuser` VALUES (5),(6);
 /*!40000 ALTER TABLE `superuser` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -273,7 +270,7 @@ CREATE TABLE `tim` (
 
 LOCK TABLES `tim` WRITE;
 /*!40000 ALTER TABLE `tim` DISABLE KEYS */;
-INSERT INTO `tim` VALUES (3,'IT',6),(4,'Design',NULL),(5,'HR',NULL),(6,'PR',NULL),(7,'FR',NULL);
+INSERT INTO `tim` VALUES (3,'IT',NULL),(4,'Design',NULL),(5,'HR',NULL),(6,'PR',NULL),(7,'FR',NULL);
 /*!40000 ALTER TABLE `tim` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -346,4 +343,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-10 18:02:18
+-- Dump completed on 2023-09-12  0:58:30

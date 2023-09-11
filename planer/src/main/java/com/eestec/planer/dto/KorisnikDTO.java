@@ -17,6 +17,7 @@ public class KorisnikDTO {
     @Column(name = "Korisnickoime", unique = true)
     private String korisnickoime;
 
+    @JsonIgnore
     @Column(name = "Lozinka")
     private String lozinka;
 
@@ -91,7 +92,7 @@ public class KorisnikDTO {
         this.korisnickoime = korisnickoime;
     }
 
-    @JsonIgnore
+
     public String getLozinka() {
         return lozinka;
     }

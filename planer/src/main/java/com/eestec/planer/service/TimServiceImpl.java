@@ -52,7 +52,7 @@ public class TimServiceImpl implements TimService {
 
     @Override
     @Transactional
-    public boolean deleteTime(Integer id) {
+    public boolean deleteTim(Integer id) {
         TimDTO tim = timDAO.findById(id).orElse(null);
         if (tim != null) {
             timDAO.delete(tim);
@@ -63,4 +63,21 @@ public class TimServiceImpl implements TimService {
     public  List<KorisnikDTO> getAllByIdTim(Integer idTim){
         return korisnikDAO.getAllByIdTim(idTim);
     }
+    @Override
+    @Transactional
+    public TimDTO getTimByKoordinator(Integer idKoordinator) {
+        return timDAO.findFirstByIdKoordinator(idKoordinator);
+    }
+    @Override
+    @Transactional
+    public boolean removeIdKoordinator(Integer idKoordinator) {
+        TimDTO tim = timDAO.findFirstByIdKoordinator(idKoordinator);
+        if(tim != null){
+            tim.setIdKoordinator(null);
+            timDAO.save(tim);
+            return  true;
+        }
+        return  false;
+    }
+
 }

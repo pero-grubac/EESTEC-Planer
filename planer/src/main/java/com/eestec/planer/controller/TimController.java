@@ -45,7 +45,7 @@ public class TimController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<TimDTO> deleteTim(@PathVariable Integer id){
-        if(timService.deleteTime(id))
+        if(timService.deleteTim(id))
             return ResponseEntity.noContent().build();
         else return ResponseEntity.notFound().build();
     }

@@ -1,5 +1,6 @@
 package com.eestec.planer.service;
 
+import com.eestec.planer.controller.util.KorisnikRequest;
 import com.eestec.planer.controller.util.LoginForm;
 import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.dto.TimDTO;
@@ -14,7 +15,7 @@ public interface KorisnikService {
 
     KorisnikDTO createKorisnik(KorisnikDTO korisnikDTO);
 
-    KorisnikDTO updateKorisnik(KorisnikDTO korisnikDTO);
+    KorisnikDTO updateKorisnik(KorisnikRequest korisnikRequest);
 
     boolean deleteKorisnik(Integer id);
 

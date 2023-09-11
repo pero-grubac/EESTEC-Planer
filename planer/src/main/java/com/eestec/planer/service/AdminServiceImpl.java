@@ -1,5 +1,6 @@
 package com.eestec.planer.service;
 
+import com.eestec.planer.controller.util.KorisnikRequest;
 import com.eestec.planer.controller.util.LoginForm;
 import com.eestec.planer.dao.AdminDAO;
 import com.eestec.planer.dto.AdminDTO;
@@ -40,11 +41,11 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public AdminDTO updateAdmin(AdminDTO adminDTO) {
-        if (adminDTO != null) {
-            String hash = passwordEncoder.encode(adminDTO.getLozinka());
-            adminDTO.setLozinka(hash);
-            AdminDTO admin = adminDAO.findById(adminDTO.getIdAdmin()).orElse(null);
+    public AdminDTO updateAdmin(KorisnikRequest korisnikRequest) {
+        if (korisnikRequest != null && !korisnikRequest.getLozinka().isEmpty()) {
+            String hash = passwordEncoder.encode(korisnikRequest.getLozinka());
+            korisnikRequest.setLozinka(hash);
+            AdminDTO admin = adminDAO.findById(korisnikRequest.getIdKorisnika()).orElse(null);
             if (admin != null) {
                 admin.setLozinka(hash);
                 adminDAO.save(admin);

@@ -33,14 +33,17 @@ public class SuperUserServiceImpl implements SuperUserService {
     @Transactional
     public SuperUserDTO getSuperUser(Integer id) {
         Optional<SuperUserDTO> superUserDTO = superUserDAO.findById(id);
-        return superUserDTO.get();
+        if(superUserDTO.isPresent())
+            return superUserDTO.get();
+        return null;
     }
 
     @Override
     @Transactional
     public SuperUserDTO createSuperUser(Integer id) {
         Optional<KorisnikDTO> korisnikDTOOptional = korisnikDAO.findById(id);
-        if (korisnikDTOOptional.isPresent()) {
+       // Optional<SuperUserDTO> superUserDTOOptional = superUserDAO.findById(id);
+        if (korisnikDTOOptional.isPresent() ) {
             KorisnikDTO korisnik = korisnikDTOOptional.get();
             SuperUserDTO superuser = new SuperUserDTO();
             superuser.setKorisnik(korisnik);

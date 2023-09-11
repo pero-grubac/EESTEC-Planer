@@ -1,5 +1,6 @@
 package com.eestec.planer.controller;
 
+import com.eestec.planer.controller.util.KorisnikRequest;
 import com.eestec.planer.controller.util.LoginForm;
 import com.eestec.planer.dto.AdminDTO;
 import com.eestec.planer.service.AdminServiceImpl;
@@ -45,10 +46,10 @@ public class AdminController {
         else return ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/update")
+    @PostMapping("/update")
     //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<Void> updateAdmin(@RequestBody AdminDTO adminDTO) {
-        AdminDTO updatedAdmin = adminService.updateAdmin(adminDTO);
+    public ResponseEntity<Void> updateAdmin(@RequestBody KorisnikRequest admin) {
+        AdminDTO updatedAdmin = adminService.updateAdmin(admin);
         if (updatedAdmin != null) {
             return ResponseEntity.ok().build();
         } else {
