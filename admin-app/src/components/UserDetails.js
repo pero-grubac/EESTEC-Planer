@@ -1,17 +1,28 @@
 import { useState } from "react";
 import CoordinatorTeams from "./CoordinatorTeams";
 
-function UserDetails({ switchTab, selectedUser, team }) {
+function UserDetails({ switchTab, selectedUser, selectedTeam }) {
   const [name, setName] = useState(selectedUser.ime);
   const [surname, setSurname] = useState(selectedUser.prezime);
   const [username, setUsername] = useState(selectedUser.korisnickoIme);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState(selectedUser.email);
   const [role, setRole] = useState(selectedUser.uloga);
-  const [ddteam,setTeam] =useState(null);
+  const [team, setTeam] = useState(selectedTeam ? selectedTeam.naziv : null);
+
+  const [confirmation, setConfirmation] = useState(false);
+  const [error, setError] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    console.log(name, surname, username, password, email, role, team);
+    setConfirmation(true);
+    setError(false);
+  }
 
   return (
-    <form className="user-details-container">
+    <form className="user-details-container" onSubmit={handleSubmit}>
       <div className="user-details-basic">
         <h3>Detalji o korisniku</h3>
         <div className="user-details-edit">
@@ -74,12 +85,12 @@ function UserDetails({ switchTab, selectedUser, team }) {
             type="checkbox"
             id="clan-upravnog-odbora"
             name="uloga"
-            value="clan_upravnog_odbora"
-            checked={role === "clan_upravnog_odbora"}
+            value="Clan odbora"
+            checked={role === "Clan odbora"}
             onChange={() =>
-              role === "clan_upravnog_odbora"
+              role === "Clan odbora"
                 ? setRole(null)
-                : setRole("clan_upravnog_odbora")
+                : setRole("Clan odbora")
             }
           />
           <label htmlFor="clan-upravnog-odbora">Član upravnog odbora</label>
@@ -99,9 +110,15 @@ function UserDetails({ switchTab, selectedUser, team }) {
             Nazad
           </button>
         </div>
+        {
+          confirmation ? <text>Podaci su uspješno ažurirani.</text> : <text></text>
+        }
+        {
+          error ? <text>Desila se greška u ažuriranju podataka</text> : <text></text>
+        }
       </div>
       <div className="user-details-coordinator">
-        {role === "Koordinator" ? <CoordinatorTeams team={team} setTeam= {setTeam} /> : <div />}
+        {role === "Koordinator" ? <CoordinatorTeams team={team} setTeam={setTeam} /> : <div />}
       </div>
     </form>
   );

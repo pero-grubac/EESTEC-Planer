@@ -4,20 +4,31 @@ import RequestDetails from "./components/RequestDetails.js";
 import RequestsList from "./components/RequestsList.js";
 import UserDetails from "./components/UserDetails.js";
 import UserList from "./components/UserList";
+import AdminConfig from "./components/AdminConfig.js";
 import { useState } from "react";
 
-export const Main = () => {
+export const Main = (props) => {
   const sidebarItems = [
     {
       id: 1,
       name: "requests",
-      text: "Zahtjevi za naloge",
+      text: "Pregled zahtjeva za naloge",
     },
     {
       id: 2,
       name: "users",
-      text: "Korisnici",
+      text: "Pregled korisnika",
     },
+    {
+      id: 3,
+      name: "admin-config",
+      text: "Podešavanje admin naloga",
+    },
+    {
+      id: 4,
+      name: "logout",
+      text: "Odjava",
+    }
   ];
 
   const [currentTab, setCurrentTab] = useState("requests");
@@ -43,7 +54,7 @@ export const Main = () => {
       case 'users':
         return <UserList switchTab={toggleTab} selectUser={setSelectedUser} onFormSwitch={toggleTab} selectTeam={setSelectedTeam}/>
       case 'user':
-        return <UserDetails onFormSwitch={toggleTab} switchTab={toggleTab} selectedUser={selectedUser} team ={selectedTeam} />
+        return <UserDetails onFormSwitch={toggleTab} switchTab={toggleTab} selectedUser={selectedUser} selectedTeam ={selectedTeam} />
       case 'user_del':
         return <DeleteConfirmation onFormSwitch={toggleTab} switchTab={toggleTab} selectedRequest={null} selectedUser={selectedUser} objectName={"korisnika iz baze"}
         ></DeleteConfirmation>
@@ -53,6 +64,10 @@ export const Main = () => {
         return <DeleteConfirmation onFormSwitch={toggleTab} switchTab={toggleTab} objectName={"zahtjev iz baze"}
           selectedUser={null} selectedRequest={selectedRequest}
         ></DeleteConfirmation>
+      case 'admin-config':
+        return <AdminConfig></AdminConfig>
+      case 'logout':
+        props.onFormSwitch('login');
       default:
         return <div />
     }
@@ -62,7 +77,7 @@ export const Main = () => {
     <div className="main">
       <div className="sidebar">
         <div>
-          <h2 id="pregledi-label">Pregledi</h2>
+          <h2 id="pregledi-label">Opcije</h2>
           <ul className="my-list-group">
             {sidebarItems.map((option) => (
               <li key={option.id}
