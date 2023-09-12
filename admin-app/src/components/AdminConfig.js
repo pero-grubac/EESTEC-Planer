@@ -1,21 +1,27 @@
 import { useState } from "react";
 import axios from "axios";
 
-function AdminConfig() {
+function AdminConfig({currentAdmin}) {
   const [password, setPassword] = useState(null);
-  const handleChage = async () => {
+  const [confirmation, setConfirmation] = useState(false);
+  const [error, setError] = useState(false);
+
+  const handleChange = async (e) => {
+    e.preventDefault();
+    //console.log(currentAdmin);
     const admin = await axios.post("http://localhost:8080/admins/update", {
       ime: "",
       prezime: "",
       korisnickoime: "",
       lozinka: password,
       email: "",
-     // ovako trebas da adminov id ovdje stavis nekako ili da gore mi das njegoo korisnickoime jedno od to dvoje  ce posluziti idKorisnika: admin.idAdmin,
-    });
+      idKorisnika: currentAdmin.id
+      });
     if (admin.status !== 200) console.error(admin);
+    // podesi opet confirmation i error da bi se mogla prikazati poruka
   };
   return (
-    <form className="user-details-container">
+    <form className="user-details-container" onSubmit={handleChange}>
       <div className="user-details-basic">
         <h3>Podešavanja</h3>
         <div className="user-details-edit">
@@ -27,7 +33,7 @@ function AdminConfig() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               id="password"
-              type="text"
+              type="password"
             ></input>
           </div>
         </div>
@@ -37,6 +43,16 @@ function AdminConfig() {
             Sačuvaj
           </button>
         </div>
+        {confirmation ? (
+          <text>Podaci su uspješno ažurirani.</text>
+        ) : (
+          <text></text>
+        )}
+        {error ? (
+          <text>Desila se greška u ažuriranju podataka</text>
+        ) : (
+          <text></text>
+        )}
       </div>
     </form>
   );

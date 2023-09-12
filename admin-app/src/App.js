@@ -6,7 +6,8 @@ import AdminList from './AdminList';
 
 function App() {
 
-  const [currentForm, setCurrentForm] = useState('main');
+  const [currentForm, setCurrentForm] = useState('login');
+  const [admin, setAdmin] = useState(null);
 
   const toggleForm = (formName) => {
     setCurrentForm(formName);
@@ -14,10 +15,10 @@ function App() {
 
   return (
     <div className="App">
-      <AdminList></AdminList>
+      <AdminList setAdmin={setAdmin}></AdminList>
       
       {
-        currentForm === "login" ? <Login onFormSwitch={toggleForm}/> : <Main onFormSwitch={toggleForm}/>
+        currentForm === "login" ? <Login setAdmin={setAdmin} onFormSwitch={toggleForm}/> : <Main admin={admin} onFormSwitch={toggleForm}/>
       }
     </div>
   );

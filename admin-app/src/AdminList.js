@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
-function App() {
-  const [admins, setAdmins] = useState([]);
+function App({setAdmin}) {
+  //const [admins, setAdmins] = useState([]);
 
   useEffect(() => {
     fetch('http://localhost:8080/admins') // Assuming your Spring Boot app is running on the same host
       .then(response => response.json())
-      .then(data => setAdmins(data))
+      .then(data => setAdmin(data))
       .catch(error => console.error('Error fetching admins:', error));
   }, []);
 

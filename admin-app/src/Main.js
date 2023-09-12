@@ -67,7 +67,7 @@ export const Main = (props) => {
           selectedUser={null} selectedRequest={selectedRequest}
         ></DeleteConfirmation>
       case 'admin-config':
-        return <AdminConfig></AdminConfig>
+        return <AdminConfig switchTab={toggleTab} currentAdmin={props.admin}></AdminConfig>
       case 'logout':
         props.onFormSwitch('login');
       default:
