@@ -1,6 +1,7 @@
 package com.eestec.planer.dao;
 
 import com.eestec.planer.dto.AdminDTO;
+import com.eestec.planer.dto.KorisnikDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

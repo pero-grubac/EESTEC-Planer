@@ -17,12 +17,13 @@ export const Login = (props) => {
             lozinka: password
         }
 
-
+    
         axios.put('http://localhost:8080/admins/login', loginForm)
             .then(response => {
                 if (response.status === 200) {
                     // Authentication successful
                     console.log('Login successful');
+                    
                     // Store authentication data (e.g., token) and redirect
                     // You can use a state management library like Redux for this
                     props.onFormSwitch('main');
@@ -38,7 +39,7 @@ export const Login = (props) => {
                 // Update the UI to indicate the login failed
             });
         // ovdje kad dohvatis admina stavi props.setAdmin(admin), ja cu za test:
-        props.setAdmin('hohohoho');
+        props.setAdmin(loginForm);
     }
 
     return (

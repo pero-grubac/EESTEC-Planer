@@ -45,7 +45,7 @@ public class AdminServiceImpl implements AdminService {
         if (korisnikRequest != null && !korisnikRequest.getLozinka().isEmpty()) {
             String hash = passwordEncoder.encode(korisnikRequest.getLozinka());
             korisnikRequest.setLozinka(hash);
-            AdminDTO admin = adminDAO.findById(korisnikRequest.getIdKorisnika()).orElse(null);
+            AdminDTO admin = adminDAO.findBykorisnickoIme(korisnikRequest.getKorisnickoime()).orElse(null);
             if (admin != null) {
                 admin.setLozinka(hash);
                 adminDAO.save(admin);

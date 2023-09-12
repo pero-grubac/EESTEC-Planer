@@ -8,16 +8,17 @@ function AdminConfig({currentAdmin}) {
 
   const handleChange = async (e) => {
     e.preventDefault();
-    //console.log(currentAdmin);
+
     const admin = await axios.post("http://localhost:8080/admins/update", {
       ime: "",
       prezime: "",
-      korisnickoime: "",
+      korisnickoime: currentAdmin.username,
       lozinka: password,
       email: "",
-      idKorisnika: currentAdmin.id
+      idKorisnika: 0
       });
     if (admin.status !== 200) console.error(admin);
+    
     // podesi opet confirmation i error da bi se mogla prikazati poruka
   };
   return (
