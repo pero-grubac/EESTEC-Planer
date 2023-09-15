@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import logo from '../images/LC_Banja_Luka_red.png';
 import { useNavigate } from "react-router-dom";
 import '../index.css'; 
-// import axios
+// import axios from 'axios';
 
 //const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,20}$/;
 //const PWD_REGEX = /^[a-zA-Z0-9!@#$%^&*]{8,20}$/;
