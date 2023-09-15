@@ -17,7 +17,6 @@
   .login-form-container {
     max-width: min-content;
     min-width: 15%;
-    max-width: 20%;
     padding: 5rem;
     padding-bottom: 3rem;
     padding-top: 3rem;
@@ -48,6 +47,7 @@
     background-color: #ffd6d6;
     padding: 8px;
     border-radius: 7px;
+    font-size: 20px;
     cursor: pointer;
     color: #ffffff;
   }
@@ -71,7 +71,7 @@
   }
   
   .logo {
-    max-width: 100%;
+    max-width: 15rem;
     height: auto;
     margin: auto;
     margin-bottom: 1rem;
