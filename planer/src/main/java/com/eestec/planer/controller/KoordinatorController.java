@@ -57,7 +57,7 @@ public class KoordinatorController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteKoordinator(@RequestBody KorisnikTim korisnikTim) {
-        timService.removeIdKoordinator(korisnikTim.getIdKorisnika());
+       // timService.removeIdKoordinator(korisnikTim.getIdKorisnika());
         boolean isOK = superUserService.deleteSuperUser(korisnikTim.getIdKorisnika());
         if (isOK) return ResponseEntity.noContent().build();
         else return ResponseEntity.notFound().build();

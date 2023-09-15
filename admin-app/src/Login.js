@@ -23,10 +23,12 @@ export const Login = (props) => {
         if (response.status === 200) {
           //  console.log('Login successful');
           props.onFormSwitch("main");
+          props.setAdmin(loginForm);
         }
+      }).catch((error) => {
+        // NAPISI KAO POGRESNO KORISNICKO IME/LOZINKA ILI TAKO NESTO
       });
-    // ovdje kad dohvatis admina stavi props.setAdmin(admin), ja cu za test:
-    props.setAdmin(loginForm);
+    
   };
 
   return (
