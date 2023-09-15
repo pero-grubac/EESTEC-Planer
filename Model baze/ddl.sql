@@ -61,6 +61,7 @@ CREATE TABLE `clanodbora` (
 
 LOCK TABLES `clanodbora` WRITE;
 /*!40000 ALTER TABLE `clanodbora` DISABLE KEYS */;
+INSERT INTO `clanodbora` VALUES (33);
 /*!40000 ALTER TABLE `clanodbora` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,7 +111,6 @@ CREATE TABLE `koordinator` (
 
 LOCK TABLES `koordinator` WRITE;
 /*!40000 ALTER TABLE `koordinator` DISABLE KEYS */;
-INSERT INTO `koordinator` VALUES (28);
 /*!40000 ALTER TABLE `koordinator` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,7 +131,7 @@ CREATE TABLE `korisnik` (
   PRIMARY KEY (`IdKorisnika`),
   UNIQUE KEY `KorisnickoIme_UNIQUE` (`KorisnickoIme`),
   UNIQUE KEY `Email_UNIQUE` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -140,7 +140,7 @@ CREATE TABLE `korisnik` (
 
 LOCK TABLES `korisnik` WRITE;
 /*!40000 ALTER TABLE `korisnik` DISABLE KEYS */;
-INSERT INTO `korisnik` VALUES ('Pero','Grubac','pero','$2a$10$23/HBjcqX5XtdrW/dRs8seyYeicgYC/sn45LfHAYWC2LoX42IfVDK','pero@example.com',6),('aleksandra','stankovic','stana','$2a$10$lKQTqhJrY7BGdvwnNeyzreLlY/T2NF762c1UgYmrSRU3b5TQIO9jC','nema@mail.com',7),('zarko','zvjezdovic','zarko','$2a$10$DK3Km/YiQUcwYJ3FGNX4Wuu0V9butpW2LaWWn8NnhfgGus5ua2T4u','zarko@mail.com',28);
+INSERT INTO `korisnik` VALUES ('Pero','Grubac','pero','$2a$10$23/HBjcqX5XtdrW/dRs8seyYeicgYC/sn45LfHAYWC2LoX42IfVDK','pero@example.com',6),('aleksandra','stankovic','stana','$2a$10$lKQTqhJrY7BGdvwnNeyzreLlY/T2NF762c1UgYmrSRU3b5TQIO9jC','nema@mail.com',7),('dipsy','dipsy','dipsy','$2a$10$foxeNtksDkLOFFZNNSOfxeo/gyfPhc/AvMlgvE8bPmGcT/aaQ3rjK','dipsy@mail.com',33),('po','po','po','$2a$10$dvsvZsgDU5TO1D54/0D9tuawCPQupZ/U4zVqcuVXCgli6sRJiwqSy','po@mail.com',34),('raphael','tmnt','raphael','$2a$10$bnw/ZUHPdnwZKjCSGASLJObVWWmD1sKOpb1ls78iijunpuR6HDFEi','raphael@mail.com',35),('leonardo','tmnt','leonardo','$2a$10$qF1D8G68Z0y3omdO.uYlAuOsoVuq5.V0H.SXmjd.UyB8M5LsABtAe','leonardo@mail.com',36),('donatello','tmnt','donatello','$2a$10$KiewjE5QY4q95nf7QSR27OtIwJAIPuZZYZFBE68Da.ZVidYbd4Vka','donatello@mail.com',37),('michelangelo','tmnt','mike ','$2a$10$l5iKhgjwrfBBshsF14lyL.8aaTDGUmcQKEWccVTXUD4fERMU5NHbi','michelangelo@mail.com',38);
 /*!40000 ALTER TABLE `korisnik` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -245,7 +245,7 @@ CREATE TABLE `superuser` (
 
 LOCK TABLES `superuser` WRITE;
 /*!40000 ALTER TABLE `superuser` DISABLE KEYS */;
-INSERT INTO `superuser` VALUES (28);
+INSERT INTO `superuser` VALUES (33);
 /*!40000 ALTER TABLE `superuser` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -261,9 +261,9 @@ CREATE TABLE `tim` (
   `Naziv` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
   `IdKoordinator` int DEFAULT NULL,
   PRIMARY KEY (`IdTim`),
-  KEY `fk_Tim_Kordinator1_idx` (`IdKoordinator`),
-  CONSTRAINT `fk_Tim_Kordinator1` FOREIGN KEY (`IdKoordinator`) REFERENCES `koordinator` (`IdKoordinator`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+  KEY `IdKoordinator` (`IdKoordinator`),
+  CONSTRAINT `tim_ibfk_1` FOREIGN KEY (`IdKoordinator`) REFERENCES `koordinator` (`IdKoordinator`) ON DELETE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -272,7 +272,7 @@ CREATE TABLE `tim` (
 
 LOCK TABLES `tim` WRITE;
 /*!40000 ALTER TABLE `tim` DISABLE KEYS */;
-INSERT INTO `tim` VALUES (3,'IT',28),(4,'Design',NULL),(5,'HR',NULL),(6,'PR',NULL),(7,'FR',NULL);
+INSERT INTO `tim` VALUES (4,'Design',NULL),(5,'HR',NULL),(6,'PR',NULL),(7,'FR',NULL),(8,'IT',NULL);
 /*!40000 ALTER TABLE `tim` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -333,7 +333,7 @@ CREATE TABLE `zahtjev` (
 
 LOCK TABLES `zahtjev` WRITE;
 /*!40000 ALTER TABLE `zahtjev` DISABLE KEYS */;
-INSERT INTO `zahtjev` VALUES ('tinky-winky','tinky','$2a$10$XaHeFjO9yjtUHy7U2wq9Sevx70GPVKydosVTOYqA2We.DfP/YioKG',10,'winky','2023-02-02','tinky@mail.com'),('laa-laa','laa','$2a$10$UsfOFb2rx.5ylcXa2EokH.v4tYB3nzB1dLUmBC.oSKeB0jKIITXIC',11,'laa','2023-02-02','laa@mail.com'),('dipsy','dipsy','$2a$10$foxeNtksDkLOFFZNNSOfxeo/gyfPhc/AvMlgvE8bPmGcT/aaQ3rjK',12,'dipsy','2023-02-02','dipsy@mail.com'),('po','po','$2a$10$dvsvZsgDU5TO1D54/0D9tuawCPQupZ/U4zVqcuVXCgli6sRJiwqSy',13,'po','2023-02-02','po@mail.com'),('raphael','raphael','$2a$10$bnw/ZUHPdnwZKjCSGASLJObVWWmD1sKOpb1ls78iijunpuR6HDFEi',17,'tmnt','2023-02-02','raphael@mail.com'),('leonardo','leonardo','$2a$10$qF1D8G68Z0y3omdO.uYlAuOsoVuq5.V0H.SXmjd.UyB8M5LsABtAe',18,'tmnt','2023-02-02','leonardo@mail.com'),('donatello','donatello','$2a$10$KiewjE5QY4q95nf7QSR27OtIwJAIPuZZYZFBE68Da.ZVidYbd4Vka',19,'tmnt','2023-02-02','donatello@mail.com'),('mike ','michelangelo','$2a$10$l5iKhgjwrfBBshsF14lyL.8aaTDGUmcQKEWccVTXUD4fERMU5NHbi',20,'tmnt','2023-02-02','michelangelo@mail.com'),('dora ','dora','$2a$10$Fvacjbf5vHhq2oeX7W0Ok.oRVYHu3VLNgkNL8oV9fM2sPwo1mhSo.',21,'marquez','2023-02-02','stfu@mail.com');
+INSERT INTO `zahtjev` VALUES ('dora ','dora','$2a$10$Fvacjbf5vHhq2oeX7W0Ok.oRVYHu3VLNgkNL8oV9fM2sPwo1mhSo.',21,'marquez','2023-02-02','stfu@mail.com');
 /*!40000 ALTER TABLE `zahtjev` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -346,4 +346,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-15 22:52:20
+-- Dump completed on 2023-09-16  0:07:36

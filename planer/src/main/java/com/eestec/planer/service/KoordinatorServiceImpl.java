@@ -49,12 +49,11 @@ public class KoordinatorServiceImpl implements KoordinatorService {
     @Override
     @Transactional
     public KoordinatorDTO createKoordinator(Integer id) {
-        KorisnikDTO koordinatorDTO = korisnikService.getKorisnik(id);
-        if (koordinatorDTO != null ) {
-            KorisnikDTO korisnik = koordinatorDTO;
+        KorisnikDTO korisnikDTO = korisnikService.getKorisnik(id);
+        if (korisnikDTO != null ) {
             KoordinatorDTO koordinator = new KoordinatorDTO();
             SuperUserDTO superuser = new SuperUserDTO();
-            superuser.setKorisnik(korisnik);
+            superuser.setKorisnik(korisnikDTO);
             koordinator.setSuperuser(superuser);
             koordinatorDAO.saveWithIdKoordinator(id);
             return koordinator;
@@ -78,7 +77,8 @@ public class KoordinatorServiceImpl implements KoordinatorService {
         TimDTO tim = timService.getTim(idTim);
         KoordinatorDTO koordinator = koordinatorDAO.findById(idKoordinator).orElse(null);
         if (tim != null & koordinator != null) {
-            koordinatorDAO.addKoordinatorToTeam(idKoordinator, idTim);
+            tim.setIdKoordinator(koordinator.getIdKoordinator());
+          if(  timService.updateTim(tim)!=null)
             return true;
         }
         return false;

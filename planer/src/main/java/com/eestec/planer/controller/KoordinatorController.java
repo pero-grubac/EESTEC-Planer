@@ -70,7 +70,7 @@ public class KoordinatorController {
     public ResponseEntity<?> addToTeam(@RequestBody KorisnikTim korisnikTim) {
         if (korisnikTim != null && korisnikTim.getIdKorisnika() != null && korisnikTim.getIdTim() != null) {
             timService.removeIdKoordinator(korisnikTim.getIdKorisnika());
-            boolean isOK = koordinatorService.addToTeam(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
+            boolean isOK =  koordinatorService.addToTeam(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
             if (isOK) {
                 return ResponseEntity.ok().build();
             } else {

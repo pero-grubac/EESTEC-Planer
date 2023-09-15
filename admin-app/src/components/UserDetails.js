@@ -48,30 +48,34 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
           // ako prije nisi bio koordinator
           if (role !== selectedUser.uloga) {
             const idNewTeam = findIdTimByNaziv(teams, team);
-            const koordinator = await axios.post(
+            console.log(selectedUser.idKorisnika );
+            console.log(idNewTeam);
+            const createKoordinator = await axios.post(
               "http://localhost:8080/koordinator/new",
               {
                 idKorisnika: selectedUser.idKorisnika,
                 idTim: idNewTeam,
               }
             );
-            if (koordinator.status !== 200) newKoordinator = false;
+            
+            if (createKoordinator.status !== 200) newKoordinator = false;
           }
           // ako jesi koordinator a mijenjas tim
           if (role === selectedUser.uloga && team !== oldTeam) {
             const idNewTeam = findIdTimByNaziv(teams, team);
-
-            const koordinator = await axios.post(
+            console.log(selectedUser.idKorisnika );
+            console.log(idNewTeam);
+            const changeKoordinator = await axios.post(
               "http://localhost:8080/koordinator/addToTeam",
               {
                 idKorisnika: selectedUser.idKorisnika,
                 idTim: idNewTeam,
               }
             );
-            if (koordinator.status !== 200) newKoordinator = false;
+            if (changeKoordinator.status !== 200) newKoordinator = false;
           }
         } else if (role === "Clan odbora" && role !== selectedUser.uloga) {
-          const clanOdbora = await axios.post(
+          const createClanOdbora = await axios.post(
             "http://localhost:8080/clanodbora/new",
             null,
             {
@@ -80,27 +84,27 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
               },
             }
           );
-          if (clanOdbora.status !== 200) newClanOdbora = false;
+          if (createClanOdbora.status !== 200) newClanOdbora = false;
         } // obrisi da vise nije koordinator ili clan odbora
         else if (role === null) {
           if (selectedUser.uloga === "Clan odbora") {
-            const clanOdbora = await axios.delete(
+            const deleteClanOdbora = await axios.delete(
               `http://localhost:8080/clanodbora/delete/${selectedUser.idKorisnika}`
             );
 
-            if (clanOdbora.status !== 204) newClanOdbora = false;
+            if (deleteClanOdbora.status !== 204) newClanOdbora = false;
           } else if (selectedUser.uloga === "Koordinator") {
             const KorisnikTim = {
               idKorisnika: selectedUser.idKorisnika,
               idTim: oldIdTeam,
             };
-            const koordinator = await axios.delete(
+            const deleteKoordinator = await axios.delete(
               `http://localhost:8080/koordinator/delete`,
               {
                 data: KorisnikTim,
               }
             );
-            if (koordinator.status !== 204) newKoordinator = false;
+            if (deleteKoordinator.status !== 204) newKoordinator = false;
           }
         }
 
