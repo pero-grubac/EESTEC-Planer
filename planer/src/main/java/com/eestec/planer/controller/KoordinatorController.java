@@ -14,12 +14,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @RestController
 @RequestMapping("/koordinator")
 @CrossOrigin(origins = "http://localhost:3000")
 public class KoordinatorController {
 
+    private final Logger logger = LoggerFactory.getLogger(KoordinatorController.class);
     private final KoordinatorServiceImpl koordinatorService;
     private final SuperUserServiceImpl superUserService;
     private final TimServiceImpl timService;
@@ -57,7 +59,8 @@ public class KoordinatorController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteKoordinator(@RequestBody KorisnikTim korisnikTim) {
-       // timService.removeIdKoordinator(korisnikTim.getIdKorisnika());
+
+        timService.removeIdKoordinator(korisnikTim.getIdKorisnika());
         boolean isOK = superUserService.deleteSuperUser(korisnikTim.getIdKorisnika());
         if (isOK) return ResponseEntity.noContent().build();
         else return ResponseEntity.notFound().build();
