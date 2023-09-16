@@ -21,5 +21,5 @@ public interface KorisnikService {
 
     boolean joinTim(int idKorisnik,int idTim);
     boolean leaveTim(int idKorisnik,int idTim);
-    boolean login(LoginForm loginForm);
+    KorisnikDTO login(LoginForm loginForm);
 }

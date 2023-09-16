@@ -118,12 +118,15 @@ public class KorisnikServiceImpl implements KorisnikService {
     }
 
     @Override
-    public boolean login(LoginForm loginForm) {
+    public KorisnikDTO login(LoginForm loginForm) {
         Optional<KorisnikDTO> optionalKorisnikDTO = korisnikDAO.findBykorisnickoIme(loginForm.getUsername());
         if (optionalKorisnikDTO.isPresent()) {
             KorisnikDTO korisnik = optionalKorisnikDTO.get();
-            return passwordEncoder.matches(loginForm.getLozinka(), korisnik.getLozinka());
+            if( passwordEncoder.matches(loginForm.getLozinka(), korisnik.getLozinka()))
+                return  korisnik;
         }
-        return false;
+        return  null;
     }
+
+
 }

@@ -23,6 +23,7 @@ public class KorisnikController {
     private final KorisnikServiceImpl korisnikService;
     private final KoordinatorServiceImpl koordinatorService;
     private final ClanOdboraServiceImpl clanOdboraService;
+
     @Autowired
     public KorisnikController(KorisnikServiceImpl korisnikService, KoordinatorServiceImpl koordinatorService, ClanOdboraServiceImpl clanOdboraService) {
         this.korisnikService = korisnikService;
@@ -109,8 +110,17 @@ public class KorisnikController {
 
     @PutMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginForm loginForm) {
-        if (korisnikService.login(loginForm))
-            return ResponseEntity.ok().build();
+        KorisnikDTO korisnik = korisnikService.login(loginForm);
+        List<KoordinatorDTO> koordinatorDTOList = koordinatorService.getAllKoordinatori();
+        List<ClanOdboraDTO> clanOdboraDTOList = clanOdboraService.getAllClanOdbora();
+        for (KoordinatorDTO koordinator : koordinatorDTOList)
+            if (koordinator.getIdKoordinator() == korisnik.getIdKorisnika())
+                korisnik.setUloga("Koordinator");
+        for (ClanOdboraDTO clanOdboraDTO : clanOdboraDTOList)
+            if (clanOdboraDTO.getIdClana() == clanOdboraDTO.getIdClana())
+                korisnik.setUloga("Clan odbora");
+        if (korisnik != null)
+            return ResponseEntity.ok(korisnik);
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Admin" + loginForm.getUsername() + " not found");
 
