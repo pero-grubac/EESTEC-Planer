@@ -36,7 +36,6 @@ export const Main = (props) => {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [teams, setTeams] = useState(null);
-  // pokusao sam da posaljem admina ali nz odakle ali znam da treba u adminconfig
   const [admin,setAdmin]=useState(null);
   const toggleTab = (tabName) => {
     setCurrentTab(tabName);
