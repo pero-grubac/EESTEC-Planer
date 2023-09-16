@@ -111,18 +111,18 @@ public class KorisnikController {
     @PutMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginForm loginForm) {
         KorisnikDTO korisnik = korisnikService.login(loginForm);
-        List<KoordinatorDTO> koordinatorDTOList = koordinatorService.getAllKoordinatori();
-        List<ClanOdboraDTO> clanOdboraDTOList = clanOdboraService.getAllClanOdbora();
-        for (KoordinatorDTO koordinator : koordinatorDTOList)
-            if (koordinator.getIdKoordinator() == korisnik.getIdKorisnika())
-                korisnik.setUloga("Koordinator");
-        for (ClanOdboraDTO clanOdboraDTO : clanOdboraDTOList)
-            if (clanOdboraDTO.getIdClana() == clanOdboraDTO.getIdClana())
-                korisnik.setUloga("Clan odbora");
-        if (korisnik != null)
+        if (korisnik != null) {
+            List<KoordinatorDTO> koordinatorDTOList = koordinatorService.getAllKoordinatori();
+            List<ClanOdboraDTO> clanOdboraDTOList = clanOdboraService.getAllClanOdbora();
+            for (KoordinatorDTO koordinator : koordinatorDTOList)
+                if (koordinator.getIdKoordinator() == korisnik.getIdKorisnika())
+                    korisnik.setUloga("Koordinator");
+            for (ClanOdboraDTO clanOdboraDTO : clanOdboraDTOList)
+                if (clanOdboraDTO.getIdClana() == korisnik.getIdKorisnika())
+                    korisnik.setUloga("Clan odbora");
             return ResponseEntity.ok(korisnik);
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Admin" + loginForm.getUsername() + " not found");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
 
     }
 }
