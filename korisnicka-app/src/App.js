@@ -1,10 +1,11 @@
 import './App.css';
 import React from 'react';
 import KanbanBoard from './components/KanbanBoard.js';
+import { TeamsMenu } from './components/TeamsMenu';
 import { Login } from './components/Login.js';
 import { useState } from 'react';
 import { Routes, Route } from "react-router-dom";
-import './index.css'; 
+import './index.css';
 
 
 
@@ -12,10 +13,13 @@ import './index.css';
 function App() {
 
   return (
-    <Routes>
-      <Route path="/" element={<div className='background'><Login></Login></div>} />
-      <Route path="design" element={<KanbanBoard></KanbanBoard>} />
-    </Routes>
+    <div className='background'>
+      <Routes>
+        <Route path="/" element={<Login></Login>} />
+        <Route path="/teams" element={<TeamsMenu/>} />
+        <Route path="design" element={<KanbanBoard></KanbanBoard>} />
+      </Routes>
+    </div>
   )
 
   // return(

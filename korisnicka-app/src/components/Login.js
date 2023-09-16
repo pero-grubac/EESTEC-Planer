@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import logo from '../images/LC_Banja_Luka_red.png';
 import { useNavigate } from "react-router-dom";
-import '../index.css'; 
-// import axios from 'axios';
+import '../index.css';
+import axios from 'axios';
 
-//const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,20}$/;
-//const PWD_REGEX = /^[a-zA-Z0-9!@#$%^&*]{8,20}$/;
+const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,20}$/;
+const PWD_REGEX = /^[a-zA-Z0-9!@#$%^&*]{8,20}$/;
 
 export const Login = (props) => {
+    //const [loggedUser, setLoggedUser] = useState(null);
     const navigate = useNavigate();
 
     const [username, setUsername] = useState('');
@@ -21,40 +22,40 @@ export const Login = (props) => {
 
     const [isLogin, setIsLogin] = useState(true);
 
-    const handleLoginSubmit = (e) => {
+    const handleLoginSubmit = async (e) => {
         e.preventDefault();
 
         const loginForm = {
             username: username,
             lozinka: password
+        };
+
+        try {
+            const response = await axios.put('http://localhost:8080/user/login', loginForm);
+
+            if (response.status === 200) {
+                // Authentication successful
+                console.log('Login successful');
+                const loggedUser = response.data;
+                console.log(loggedUser.uloga); // Now you can access loggedUser.uloga
+
+                // Store authentication data (e.g., token) and redirect
+                // You can use a state management library like Redux for this
+
+                setTimeout(() => {
+                    navigate('/design', { replace: true });
+                }, 3000);
+            } else {
+                // Handle other successful responses or unexpected data
+                console.log('Unexpected response:', response.data);
+            }
+        } catch (error) {
+            // Handle errors (e.g., authentication failure)
+            console.error('Login error:', error.response.data);
+            // Display an error message to the user
+            // Update the UI to indicate the login failed
         }
-
-
-        // axios.put('http://localhost:8080/admins/login', loginForm)
-        //     .then(response => {
-        //         if (response.status === 200) {
-        //             // Authentication successful
-        //             console.log('Login successful');
-        //             // Store authentication data (e.g., token) and redirect
-        //             // You can use a state management library like Redux for this
-        //             props.onFormSwitch('main');
-        //         } else {
-        //             // Handle other successful responses or unexpected data
-        //             console.log('Unexpected response:', response.data);
-        //         }
-        //     })
-        //     .catch(error => {
-        //         // Handle errors (e.g., authentication failure)
-        //         console.error('Login error:', error.response.data);
-        //         // Display an error message to the user
-        //         // Update the UI to indicate the login failed
-        //     });
-
-            //ako je uspjesno:
-            setTimeout(() => {
-                navigate('/design', { replace: true });
-              }, 3000);
-    }
+    };
 
     const handleRegistrationSubmit = (e) => {
         e.preventDefault();
@@ -71,10 +72,23 @@ export const Login = (props) => {
                         <h2 className="heading">Prijava</h2>
                         <form className="login-form" onSubmit={handleLoginSubmit}>
                             <label htmlFor="username">Korisničko ime:</label>
-                            <input value={username} onChange={(e) => setUsername(e.target.value)} type="username" placeholder="marko.markovic" id="username" name="username" required></input>
+                            <input value={username} onChange={(e) => setUsername(e.target.value)}
+                                type="username"
+                                placeholder="marko.markovic"
+                                pattern={USER_REGEX}
+                                id="username"
+                                name="username"
+                                required></input>
 
                             <label htmlFor="password">Lozinka:</label>
-                            <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="********" id="password" name="password" required></input>
+                            <input value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                type="password"
+                                placeholder="********"
+                                pattern={PWD_REGEX}
+                                id="password"
+                                name="password"
+                                required></input>
 
                             <button type="submit" className="login-button">Prijavi se</button>
                         </form>
@@ -88,7 +102,7 @@ export const Login = (props) => {
                             <div className="registration-attributes">
                                 <div className="registration-labels">
                                     <label className="registration-label" htmlFor="username">Korisničko ime:</label>
-                                    <label className="registration-label" htmlFor="name">Ime:</label>                                   
+                                    <label className="registration-label" htmlFor="name">Ime:</label>
                                     <label className="registration-label" htmlFor="surname">Prezime:</label>
                                     <label className="registration-label" htmlFor="email">email:</label>
                                     <label className="registration-label" htmlFor="password">Lozinka:</label>
