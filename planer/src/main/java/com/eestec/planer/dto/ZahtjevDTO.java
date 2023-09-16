@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -31,7 +32,7 @@ public class ZahtjevDTO
     private String Email;
 
     @Column(name = "DatumKreiranja")
-    private LocalDate datumKreiranja;
+    private LocalDateTime datumKreiranja;
 
 
     public String getKorisnickoIme() {
@@ -82,10 +83,10 @@ public class ZahtjevDTO
         Email = email;
     }
 
-    public void setDatumKreiranja(LocalDate date){
+    public void setDatumKreiranja(LocalDateTime date){
         datumKreiranja=date;
     }
-    public LocalDate getDatumKreiranja(){
+    public LocalDateTime getDatumKreiranja(){
         return  datumKreiranja;
     }
 }

@@ -319,12 +319,12 @@ CREATE TABLE `zahtjev` (
   `Lozinka` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
   `IdZahtjev` int NOT NULL AUTO_INCREMENT,
   `Prezime` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `DatumKreiranja` date DEFAULT NULL,
+  `DatumKreiranja` datetime DEFAULT NULL,
   `Email` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
   PRIMARY KEY (`IdZahtjev`),
   UNIQUE KEY `KorisničkoIme_UNIQUE` (`KorisničkoIme`),
   UNIQUE KEY `Email_UNIQUE` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -333,7 +333,7 @@ CREATE TABLE `zahtjev` (
 
 LOCK TABLES `zahtjev` WRITE;
 /*!40000 ALTER TABLE `zahtjev` DISABLE KEYS */;
-INSERT INTO `zahtjev` VALUES ('dora ','dora','$2a$10$Fvacjbf5vHhq2oeX7W0Ok.oRVYHu3VLNgkNL8oV9fM2sPwo1mhSo.',21,'marquez','2023-02-02','stfu@mail.com');
+INSERT INTO `zahtjev` VALUES ('dora ','dora','$2a$10$Fvacjbf5vHhq2oeX7W0Ok.oRVYHu3VLNgkNL8oV9fM2sPwo1mhSo.',21,'marquez','2023-02-02 00:00:00','stfu@mail.com'),('sandraPhoenix','aleksandra','$2a$10$stRJNurDfI6N6bwIv1M1KelzQd52zPFIJQLVQZcQNW73BcC.KhtOO',22,'rodic','2023-02-02 00:00:00','nemamejlaidalje@mail.com'),('sandra','sandra','$2a$10$SMECEK1Yt7RuHaZLqN0.muPBz6cfPProJOx0EgBBjbUQieJKDBxsW',23,'obrascic','2023-02-02 00:00:00','sandi@mail.com');
 /*!40000 ALTER TABLE `zahtjev` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -346,4 +346,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-16  0:07:36
+-- Dump completed on 2023-09-16 12:53:27
