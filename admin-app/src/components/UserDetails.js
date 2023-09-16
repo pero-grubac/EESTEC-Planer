@@ -48,7 +48,7 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
       )
     ) {
       try {
-        if (role === "Koordinator" && team !== null) {
+        if  (role === "Koordinator" && team !== null) {
           // ako prije nisi bio koordinator
           if (role !== selectedUser.uloga) {
             const idNewTeam = findIdTimByNaziv(teams, team);
