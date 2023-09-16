@@ -12,12 +12,14 @@ import './index.css';
 
 function App() {
 
+  const[loggedUser, setLoggedUser] = useState(null);
+
   return (
     <div className='background'>
       <Routes>
-        <Route path="/" element={<Login></Login>} />
-        <Route path="/teams" element={<TeamsMenu/>} />
-        <Route path="design" element={<KanbanBoard></KanbanBoard>} />
+        <Route path="/" element={<Login setLoggedUser={setLoggedUser}></Login>} />
+        <Route path="/teams" element={<TeamsMenu loggedUser={loggedUser}/>} />
+        <Route path="design" element={<KanbanBoard loggedUser={loggedUser}></KanbanBoard>} />
       </Routes>
     </div>
   )

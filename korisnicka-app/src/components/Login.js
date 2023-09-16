@@ -37,13 +37,14 @@ export const Login = (props) => {
                 // Authentication successful
                 console.log('Login successful');
                 const loggedUser = response.data;
+                props.setLoggedUser(loggedUser);
                 console.log(loggedUser.uloga); // Now you can access loggedUser.uloga
 
                 // Store authentication data (e.g., token) and redirect
                 // You can use a state management library like Redux for this
 
                 setTimeout(() => {
-                    navigate('/design', { replace: true });
+                    navigate('/teams', { replace: true });
                 }, 3000);
             } else {
                 // Handle other successful responses or unexpected data
@@ -57,10 +58,46 @@ export const Login = (props) => {
         }
     };
 
-    const handleRegistrationSubmit = (e) => {
+    const handleRegistrationSubmit = async (e) => {
         e.preventDefault();
 
-        console.log(regUsername, regName, regSurname, regEmail, regPassword);
+        const date = new Date();
+
+        let currentDay = String(date.getDate()).padStart(2, '0');
+        let currentMonth = String(date.getMonth() + 1).padStart(2, "0");
+        let currentYear = date.getFullYear();
+        let currentTime = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+        let currentDate = `${currentYear}-${currentMonth}-${currentDay}T${currentTime}`;
+
+        try {
+            const response = await axios.post('http://localhost:8080/question/add',
+                {
+                    korisnickoIme: regUsername,
+                    ime: regName,
+                    lozinka: regPassword,
+                    prezime: regSurname,
+                    email: regEmail,
+                    datumKreiranja: currentDate
+                });
+
+            if (response.status === 200) {
+                // Authentication successful
+                console.log('Registration successful');
+
+                setTimeout(3000);
+                setIsLogin(true);
+                // Store authentication data (e.g., token) and redirect
+                // You can use a state management library like Redux for this
+
+            } else {
+                // Handle other successful responses or unexpected data
+                console.log('Unexpected response:', response.data);
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -75,7 +112,7 @@ export const Login = (props) => {
                             <input value={username} onChange={(e) => setUsername(e.target.value)}
                                 type="username"
                                 placeholder="marko.markovic"
-                                pattern={USER_REGEX}
+                                // pattern={USER_REGEX}
                                 id="username"
                                 name="username"
                                 required></input>
@@ -85,7 +122,7 @@ export const Login = (props) => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 type="password"
                                 placeholder="********"
-                                pattern={PWD_REGEX}
+                                // pattern={PWD_REGEX}
                                 id="password"
                                 name="password"
                                 required></input>

@@ -44,7 +44,7 @@
   button {
     margin: 0.75rem 0;
     border: #d71c1c;
-    background-color: #ffd6d6;
+    background-color: #e52a30;
     padding: 8px;
     border-radius: 7px;
     font-size: 20px;
@@ -129,7 +129,7 @@
     flex-direction: column;
     max-width: 12rem;
     justify-content: space-between;
-    margin-top: 0.7rem;
+    margin-top: 0.25rem;
     margin-left: 1rem;
   }
   
@@ -167,11 +167,17 @@
 
   .team-rectangle {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #820000;
+    font-size: 30px;
+    font-weight: 600;
+    display: flex;
     width: 10rem;
     height: 8rem;
     padding: 5rem;
     border-radius: 7px;
-    background-color: #600000;
+    background-color: #b19a9a;
     margin: 0.5rem;
   }
 
