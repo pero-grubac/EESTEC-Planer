@@ -23,6 +23,10 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
   var newClanOdbora = true;
   var newUser = true;
 
+  function timeout(delay) {
+    return new Promise( res => setTimeout(res, delay) );
+}
+
   function findIdTimByNaziv(teams, naziv) {
     for (let i = 0; i < teams.length; i++) {
       if (teams[i].naziv === naziv) return teams[i].idTim;
@@ -131,6 +135,9 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
         console.error(error);
       }
     }
+
+    await timeout(1000);
+    switchTab("users");
   };
 
   return (

@@ -20,7 +20,7 @@ useEffect(() => {
     };
 
      return (
-        <div className="user-details-container">
+        <div className="request-details-container">
             <h3>Zahtjev</h3>
             <div className="user-details-edit">
                 <div className="user-details-column">

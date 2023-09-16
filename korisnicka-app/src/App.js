@@ -13,7 +13,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<div className='test'><Login></Login></div>} />
+      <Route path="/" element={<div className='background'><Login></Login></div>} />
       <Route path="design" element={<KanbanBoard></KanbanBoard>} />
     </Routes>
   )

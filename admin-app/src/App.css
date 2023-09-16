@@ -51,6 +51,8 @@ button {
   margin-top: 1rem;
   background-color: #e52a30;
   border-radius: 7px;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
   min-width: 6rem;
 }
 
@@ -200,4 +202,15 @@ button {
   display: flex;
   flex-direction: row;
   top: 0;
+}
+
+.request-details-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #600000;
+  padding: 4rem;
+  margin: 3rem;
+  border-radius: 10px;
 }
