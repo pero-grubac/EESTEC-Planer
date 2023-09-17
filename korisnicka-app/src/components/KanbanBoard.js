@@ -93,11 +93,13 @@ export default function KanbanBoard() {
                         ref={provided.innerRef}
                         style={{
                           background: snapshot.isDraggingOver
-                            ? "lightblue"
-                            : "lightgrey",
-                          padding: 4,
+                            ? "rgba(227, 158, 158, 0.5)"
+                            : "rgba(255, 214, 214, 0.5)",
                           width: 250,
-                          minHeight: 500
+                          minHeight: 500,
+                          justifyContent: "left",
+                          padding: "0.5rem",
+                          borderRadius: "3px"
                         }}
                       >
                         {column.items.map((item, index) => {
@@ -118,10 +120,11 @@ export default function KanbanBoard() {
                                       padding: 16,
                                       margin: "0 0 8px 0",
                                       minHeight: "50px",
+                                      borderRadius: "5px",
                                       backgroundColor: snapshot.isDragging
-                                        ? "#263B4A"
-                                        : "#456C86",
-                                      color: "white",
+                                        ? "#f2c9c9"
+                                        : "white",
+                                      color: "black",
                                       ...provided.draggableProps.style
                                     }}
                                   >
@@ -145,4 +148,4 @@ export default function KanbanBoard() {
     </div>
   );
 
-}//ok, ovako ovo definitinvo funkcionise kad se eksportuje
+}

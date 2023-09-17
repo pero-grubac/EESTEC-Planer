@@ -3,9 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Teams } from "./Teams";
 
-export const TeamsMenu = ({loggedUser, teams}) => {
+export const TeamsMenu = ({ loggedUser, teams }) => {
     //console.log(loggedUser);
+
     const navigate = useNavigate();
+    function delay(time) {
+        return new Promise(resolve => setTimeout(resolve, time));
+      }
 
     const [seed, setSeed] = useState(1);
     const reset = () => {
@@ -13,13 +17,10 @@ export const TeamsMenu = ({loggedUser, teams}) => {
     }
 
     console.log(loggedUser);
-    useEffect(() => {
-        if (loggedUser === null) {
-            setTimeout(() => {
-                navigate('/', { replace: true });
-            }, 3000);
-        }
-    }, []);
+    if (loggedUser === null) {
+        console.log("aaaaaaaaaaaaa");
+        navigate('/', { replace: true }); // ovo i dalje ne radi, ne znam zasto
+    }
 
     if (loggedUser.timovi.length !== 0) {
         teams.forEach((team, id) => {
@@ -42,18 +43,22 @@ export const TeamsMenu = ({loggedUser, teams}) => {
         })
     })
 
-    const handleJoinClick = async (tim) => {
-        // dodaj u tim
+    
+    const handleTeamClick = async (team) => {
+        if(team.aktivan)
+            navigate('/teams/' + team.naziv, { replace: true });
+    }
 
-        teams[tim.id].aktivan = true;
-        console.log("tim: " + teams[tim.id].naziv + teams[tim.id].aktivan);
-        //window.location.reload(false);
-        console.log(teams);
-        reset();
+    const handleJoinClick = async (team) => {
+        // dodaj u tim
+        await delay(1000);
+        if(!team.aktivan){
+            teams[team.id].aktivan = true;
+            reset();
+        }
     }
 
     return (
-        <Teams key={seed} teams={teams} teamClasses={teamClasses} handleJoinClick={handleJoinClick} />
-
+        <Teams key={seed} teams={teams} teamClasses={teamClasses} handleJoinClick={handleJoinClick} handleTeamClick={handleTeamClick}/>
     )
 }
