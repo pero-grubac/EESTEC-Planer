@@ -12,7 +12,13 @@ export const DeleteConfirmation = ({
       try {
         await axios.delete(
           `http://localhost:8080/user/delete/${selectedUser.idKorisnika}`
-        );
+          ,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          });
         switchTab("users");
       } catch (error) {
         console.error("Error accepting request:", error);
@@ -21,7 +27,13 @@ export const DeleteConfirmation = ({
       try {
         await axios.post(
           `http://localhost:8080/question/delete/${selectedRequest.idZahtjev}`
-        );
+          ,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          });
         switchTab("requests");
       } catch (error) {
         console.error("Error accepting request:", error);

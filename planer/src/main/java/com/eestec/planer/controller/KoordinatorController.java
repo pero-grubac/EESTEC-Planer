@@ -11,6 +11,7 @@ import com.eestec.planer.service.SuperUserServiceImpl;
 import com.eestec.planer.service.TimServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 @RestController
 @RequestMapping("/koordinator")
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class KoordinatorController {
 
     private final Logger logger = LoggerFactory.getLogger(KoordinatorController.class);
@@ -44,6 +45,7 @@ public class KoordinatorController {
     }
 
     @PostMapping("/new")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> createKoordinator(@RequestBody KorisnikTim korisnikTim) {
 
         clanOdboraService.deleteClanOdbora(korisnikTim.getIdKorisnika());
@@ -58,6 +60,7 @@ public class KoordinatorController {
     }
 
     @DeleteMapping("/delete")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteKoordinator(@RequestBody KorisnikTim korisnikTim) {
 
         timService.removeIdKoordinator(korisnikTim.getIdKorisnika());
@@ -67,6 +70,7 @@ public class KoordinatorController {
     }
 
     @PostMapping("/addToTeam")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> addToTeam(@RequestBody KorisnikTim korisnikTim) {
         if (korisnikTim != null && korisnikTim.getIdKorisnika() != null && korisnikTim.getIdTim() != null) {
             timService.removeIdKoordinator(korisnikTim.getIdKorisnika());

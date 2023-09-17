@@ -14,18 +14,15 @@ import java.util.Optional;
 
 @Service
 public class ClanOdboraServiceImpl implements ClanOdboraService {
-    private KorisnikDAO korisnikDAO;
-    private ClanOdboraDAO clanOdboraDAO;
-    private SuperUserServiceImpl superUserService;
+    private final KorisnikDAO korisnikDAO;
+    private final ClanOdboraDAO clanOdboraDAO;
 
 
     @Autowired
-    public ClanOdboraServiceImpl(ClanOdboraDAO clanOdboraDAO, KorisnikDAO korisnikDAO,
-                                 SuperUserServiceImpl superUserService) {
+    public ClanOdboraServiceImpl(ClanOdboraDAO clanOdboraDAO, KorisnikDAO korisnikDAO) {
         this.clanOdboraDAO = clanOdboraDAO;
         this.korisnikDAO = korisnikDAO;
 
-        this.superUserService = superUserService;
 
     }
 
@@ -59,7 +56,7 @@ public class ClanOdboraServiceImpl implements ClanOdboraService {
     @Override
     @Transactional
     public boolean deleteClanOdbora(Integer id) {
-        ClanOdboraDTO clanOdboraDTO =clanOdboraDAO.findById(id).orElse(null);
+        ClanOdboraDTO clanOdboraDTO = clanOdboraDAO.findById(id).orElse(null);
         if (clanOdboraDTO != null) {
             clanOdboraDAO.delete(clanOdboraDTO);
             return true;

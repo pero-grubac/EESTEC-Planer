@@ -24,8 +24,8 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
   var newUser = true;
 
   function timeout(delay) {
-    return new Promise( res => setTimeout(res, delay) );
-}
+    return new Promise((res) => setTimeout(res, delay));
+  }
 
   function findIdTimByNaziv(teams, naziv) {
     for (let i = 0; i < teams.length; i++) {
@@ -48,17 +48,22 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
       )
     ) {
       try {
-        if  (role === "Koordinator" && team !== null) {
+        if (role === "Koordinator" && team !== null) {
           // ako prije nisi bio koordinator
           if (role !== selectedUser.uloga) {
             const idNewTeam = findIdTimByNaziv(teams, team);
-            console.log(selectedUser.idKorisnika );
-            console.log(idNewTeam);
+            
             const createKoordinator = await axios.post(
               "http://localhost:8080/koordinator/new",
               {
                 idKorisnika: selectedUser.idKorisnika,
                 idTim: idNewTeam,
+              },
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + localStorage.getItem("token"),
+                },
               }
             );
             
@@ -67,34 +72,52 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
           // ako jesi koordinator a mijenjas tim
           if (role === selectedUser.uloga && team !== oldTeam) {
             const idNewTeam = findIdTimByNaziv(teams, team);
-            console.log(selectedUser.idKorisnika );
+            console.log(selectedUser.idKorisnika);
             console.log(idNewTeam);
             const changeKoordinator = await axios.post(
               "http://localhost:8080/koordinator/addToTeam",
               {
                 idKorisnika: selectedUser.idKorisnika,
                 idTim: idNewTeam,
+              },
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + localStorage.getItem("token"),
+                },
               }
             );
+            
             if (changeKoordinator.status !== 200) newKoordinator = false;
           }
         } else if (role === "Clan odbora" && role !== selectedUser.uloga) {
           const createClanOdbora = await axios.post(
             "http://localhost:8080/clanodbora/new",
-            null,
+            {},
             {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
               params: {
                 id: selectedUser.idKorisnika,
               },
             }
           );
+          
           if (createClanOdbora.status !== 200) newClanOdbora = false;
         } // obrisi da vise nije koordinator ili clan odbora
         else if (role === null) {
           if (selectedUser.uloga === "Clan odbora") {
             const deleteClanOdbora = await axios.delete(
-              `http://localhost:8080/clanodbora/delete/${selectedUser.idKorisnika}`
+              `http://localhost:8080/clanodbora/delete/${selectedUser.idKorisnika}`,
+              {
+                headers: {
+                  Authorization: "Bearer " + localStorage.getItem("token"),
+                },
+              }
             );
+            
 
             if (deleteClanOdbora.status !== 204) newClanOdbora = false;
           } else if (selectedUser.uloga === "Koordinator") {
@@ -106,22 +129,35 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
               `http://localhost:8080/koordinator/delete`,
               {
                 data: KorisnikTim,
+              },
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + localStorage.getItem("token"),
+                },
               }
             );
             if (deleteKoordinator.status !== 204) newKoordinator = false;
           }
         }
 
-
-        const korisnik = await axios.post("http://localhost:8080/user/update", {
-          ime: name,
-          prezime: surname,
-          korisnickoime: username,
-          lozinka: password,
-          email: email,
-          idKorisnika: selectedUser.idKorisnika,
-        });
-
+        const korisnik = await axios.post(
+          "http://localhost:8080/user/update",
+          {
+            ime: name,
+            prezime: surname,
+            korisnickoime: username,
+            lozinka: password,
+            email: email,
+            idKorisnika: selectedUser.idKorisnika,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        );
 
         if (korisnik.status !== 200) newUser = false;
         if (newKoordinator && newClanOdbora && newUser) {

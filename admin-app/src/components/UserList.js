@@ -14,14 +14,26 @@ const UserList = ({ switchTab, selectUser, selectTeam, setTeams }) => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/user/getAll");
+      
+      const response = await axios.get("http://localhost:8080/user/getAll", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+
       setUsers(response.data);
 
       const responseTeams = await axios.get(
-        "http://localhost:8080/team/getAll"
+        "http://localhost:8080/team/getAll",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
       );
       setTimove(responseTeams.data);
-      console.error(teams);
     } catch (error) {
       console.error("Error fetching users:", error);
     }

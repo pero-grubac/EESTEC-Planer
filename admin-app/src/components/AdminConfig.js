@@ -10,6 +10,10 @@ function AdminConfig({currentAdmin}) {
     e.preventDefault();
 
     const admin = await axios.post("http://localhost:8080/admins/update", {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
       ime: "",
       prezime: "",
       korisnickoime: currentAdmin.username,

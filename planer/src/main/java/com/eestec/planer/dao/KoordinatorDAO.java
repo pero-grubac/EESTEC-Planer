@@ -9,9 +9,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Repository
-public interface KoordinatorDAO  extends JpaRepository<KoordinatorDTO, Integer>
-{
+public interface KoordinatorDAO extends JpaRepository<KoordinatorDTO, Integer> {
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO koordinator (IdKoordinator) VALUES (:idkoordinator)", nativeQuery = true)
@@ -24,5 +25,11 @@ public interface KoordinatorDAO  extends JpaRepository<KoordinatorDTO, Integer>
             "WHERE IdTim = :idTim", nativeQuery = true)
     @Transactional
     void addKoordinatorToTeam(@Param("idKoordinator") Integer idKoordinator, @Param("idTim") Integer idTim);
+
+
+    @Query(value = "SELECT * FROM koordinator " +
+            " INNER JOIN korisnik ON korisnik.IdKorisnika = koordinator.IdKoordinator " +
+            "WHERE KorisnickoIme = :korisnickoIme", nativeQuery = true)
+    Optional<KoordinatorDTO> findBykorisnickoIme(@Param("korisnickoIme") String korisnickoIme);
 
 }

@@ -5,7 +5,13 @@ function RequestDetails ({switchTab, selectedRequest}) {
 
     const handleAccept  = async() =>{
         try{
-            await axios.post(`http://localhost:8080/question/approve/${selectedRequest.idZahtjev}`);
+            await axios.post(`http://localhost:8080/question/approve/${selectedRequest.idZahtjev}`,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            });
             switchTab("requests")
         }catch(error){
             console.error('Error accepting request:', error);

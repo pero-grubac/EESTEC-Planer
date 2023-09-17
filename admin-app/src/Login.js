@@ -21,7 +21,9 @@ export const Login = (props) => {
       .put("http://localhost:8080/admins/login", loginForm)
       .then((response) => {
         if (response.status === 200) {
-          //  console.log('Login successful');
+          localStorage.setItem('token',response.data)
+          
+
           props.onFormSwitch("main");
           props.setAdmin(loginForm);
         }

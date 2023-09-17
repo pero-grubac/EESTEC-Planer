@@ -8,13 +8,14 @@ import com.eestec.planer.service.SuperUserServiceImpl;
 import com.eestec.planer.service.TimServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/clanodbora")
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class ClanOdboraController {
     private final ClanOdboraServiceImpl clanOdboraService;
     private final SuperUserServiceImpl superUserService;
@@ -37,6 +38,7 @@ public class ClanOdboraController {
     }
 
     @PostMapping("/new")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<ClanOdboraDTO> createClanOdbora(@RequestParam Integer id) {
         timService.removeIdKoordinator(id);
         koordinatorService.deleteKoordinator(id);
@@ -50,6 +52,7 @@ public class ClanOdboraController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> deleteClanOdbora(@PathVariable Integer id) {
         boolean isOK = superUserService.deleteSuperUser(id);
         if (isOK) {

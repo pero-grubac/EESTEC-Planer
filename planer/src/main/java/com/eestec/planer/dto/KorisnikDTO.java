@@ -66,8 +66,8 @@ public class KorisnikDTO {
     }
 
 
-    private transient String role = "ROLE_USER";
-    private transient String uloga = "Korisnik";
+    private transient String role = "Korisnik";
+
     public String getIme() {
         return ime;
     }
@@ -118,11 +118,11 @@ public class KorisnikDTO {
     }
 
     public String getUloga() {
-        return uloga;
+        return role;
     }
 
     public void setUloga(String role) {
-        this.uloga = role;
+        this.role = role;
     }
 
     public Set<TimDTO> getTimovi() {
@@ -144,4 +144,7 @@ public class KorisnikDTO {
     }
 
 
+    public String getRole() {
+        return role;
+    }
 }

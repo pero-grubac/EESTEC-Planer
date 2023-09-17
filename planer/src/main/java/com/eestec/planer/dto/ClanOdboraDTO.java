@@ -17,7 +17,10 @@ public class ClanOdboraDTO {
 
     public ClanOdboraDTO(){}
 
+    private transient String role = "Clan odbora";
     public ClanOdboraDTO(SuperUserDTO superUserDTO){this.superuser=superUserDTO;}
+
+
 
     public SuperUserDTO getSuperuser() {
         return superuser;
@@ -32,5 +35,10 @@ public class ClanOdboraDTO {
     @JsonIgnore
     public int getIdClana(){
         return  IdClana;
+    }
+
+
+    public String getRole() {
+        return role;
     }
 }

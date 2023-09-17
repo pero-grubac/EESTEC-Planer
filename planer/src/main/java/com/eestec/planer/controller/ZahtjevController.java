@@ -5,6 +5,7 @@ import com.eestec.planer.dto.ZahtjevDTO;
 import com.eestec.planer.service.ZahtjevService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,12 +13,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 @RestController
 @RequestMapping("/question")
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class ZahtjevController {
     @Autowired
     ZahtjevService zahtjevService;
     private final Logger logger = LoggerFactory.getLogger(ZahtjevController.class);
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<ZahtjevDTO> getAllQuestions() {
 
         return zahtjevService.getAllZahtjevi();
@@ -25,6 +27,7 @@ public class ZahtjevController {
     }
 
     @PostMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<String> getDeleteZahtjev(@PathVariable int id) {
         boolean result = zahtjevService.deleteZahtjev(id);
         if (result)
@@ -33,6 +36,7 @@ public class ZahtjevController {
     }
 
     @GetMapping("/find/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ZahtjevDTO getZahtjevById(@PathVariable int id) {
         return zahtjevService.getZahtjevById(id);
     }
@@ -48,6 +52,7 @@ public class ZahtjevController {
     }
 
     @PostMapping("/approve/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<String> approveRequest(@PathVariable int id) {
         boolean result = zahtjevService.odobriZahtjev(id);
         if (result) return ResponseEntity.ok("Zahtjev s ID-om " + id + " je odobren.");

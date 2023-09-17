@@ -12,14 +12,17 @@ import com.eestec.planer.service.KorisnikServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class KorisnikController {
+    private final Logger logger = LoggerFactory.getLogger(KorisnikController.class);
     private final KorisnikServiceImpl korisnikService;
     private final KoordinatorServiceImpl koordinatorService;
     private final ClanOdboraServiceImpl clanOdboraService;
@@ -32,7 +35,7 @@ public class KorisnikController {
     }
 
     @GetMapping("/getAll")
-    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<KorisnikDTO>> getAllUsers() {
         List<KorisnikDTO> korisnikDTOList = korisnikService.getAllKorisnici();
         List<KoordinatorDTO> koordinatorDTOList = koordinatorService.getAllKoordinatori();
@@ -41,17 +44,17 @@ public class KorisnikController {
         for (KorisnikDTO korisnikDTO : korisnikDTOList) {
             for (KoordinatorDTO koordinatorDTO : koordinatorDTOList)
                 if (korisnikDTO.getIdKorisnika() == koordinatorDTO.getIdKoordinator())
-                    korisnikDTO.setUloga("Koordinator");
+                    korisnikDTO.setUloga(korisnikDTO.getUloga());
 
             for (ClanOdboraDTO clanOdboraDTO : clanOdboraDTOList)
                 if (korisnikDTO.getIdKorisnika() == clanOdboraDTO.getIdClana())
-                    korisnikDTO.setUloga("Clan odbora");
+                    korisnikDTO.setUloga(clanOdboraDTO.getRole());
         }
         return ResponseEntity.ok(korisnikDTOList);
     }
 
     @PostMapping("/new")
-    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<KorisnikDTO> createKorisnik(@RequestBody KorisnikDTO korisnikDTO) {
         KorisnikDTO korisnik = korisnikService.createKorisnik(korisnikDTO);
         if (korisnik != null) {
@@ -60,7 +63,7 @@ public class KorisnikController {
     }
 
     @PostMapping("/update")
-    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> updateKorisnik(@RequestBody KorisnikRequest korisnikRequest) {
 
 
@@ -71,7 +74,7 @@ public class KorisnikController {
     }
 
     @DeleteMapping("/delete/{id}")
-    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteKorisnik(@PathVariable Integer id) {
         boolean isOk = korisnikService.deleteKorisnik(id);
         if (isOk) return ResponseEntity.noContent().build();
@@ -79,7 +82,7 @@ public class KorisnikController {
     }
 
     @PutMapping("/joinTeam")
-    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('Korisnik')")
     public ResponseEntity<String> joinTeam(@RequestBody KorisnikTim korisnikTim) {
         if (korisnikTim != null && korisnikTim.getIdKorisnika() != null && korisnikTim.getIdTim() != null) {
             boolean isOK = korisnikService.joinTim(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
@@ -94,7 +97,7 @@ public class KorisnikController {
     }
 
     @PutMapping("/leaveTeam")
-    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('Korisnik')")
     public ResponseEntity<?> leaveTeam(@RequestBody KorisnikTim korisnikTim) {
         if (korisnikTim != null && korisnikTim.getIdKorisnika() != null && korisnikTim.getIdTim() != null) {
             boolean isOK = korisnikService.leaveTim(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
