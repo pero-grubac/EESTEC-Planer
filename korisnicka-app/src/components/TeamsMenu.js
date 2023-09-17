@@ -9,7 +9,7 @@ export const TeamsMenu = ({ loggedUser, teams }) => {
     const navigate = useNavigate();
     function delay(time) {
         return new Promise(resolve => setTimeout(resolve, time));
-      }
+    }
 
     const [seed, setSeed] = useState(1);
     const reset = () => {
@@ -43,22 +43,25 @@ export const TeamsMenu = ({ loggedUser, teams }) => {
         })
     })
 
-    
+
     const handleTeamClick = async (team) => {
-        if(team.aktivan)
+        if (team.aktivan)
             navigate('/teams/' + team.naziv, { replace: true });
     }
 
     const handleJoinClick = async (team) => {
         // dodaj u tim
         await delay(1000);
-        if(!team.aktivan){
+        if (!team.aktivan) {
             teams[team.id].aktivan = true;
             reset();
         }
     }
 
     return (
-        <Teams key={seed} teams={teams} teamClasses={teamClasses} handleJoinClick={handleJoinClick} handleTeamClick={handleTeamClick}/>
+        <div>
+            <Teams key={seed} teams={teams} teamClasses={teamClasses} handleJoinClick={handleJoinClick} handleTeamClick={handleTeamClick} />
+            <button className="logout-button">Odjavi se</button>
+        </div>
     )
 }

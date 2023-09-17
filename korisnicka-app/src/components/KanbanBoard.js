@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import uuid from "uuid/v4";
+import NewTaskForm from "./NewTaskForm";
+import TaskDetails from "./TaskDetails";
 
 const itemsFromBackend = [
   { id: uuid(), content: "First task" },
@@ -68,6 +70,13 @@ const onDragEnd = (result, columns, setColumns) => {
 
 export default function KanbanBoard() {
   const [columns, setColumns] = useState(columnsFromBackend);
+  const [showNewTaskForm, setShowNewTaskForm] = useState(false);
+  const [showTaskDetails, setShowTaskDetails] = useState(false);
+
+  const handleNewTaskClick = async (columnId, column) => {
+    setShowNewTaskForm(true);
+  }
+
   return (
     <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
       <DragDropContext
@@ -136,6 +145,7 @@ export default function KanbanBoard() {
                           );
                         })}
                         {provided.placeholder}
+                        <button onClick={() => handleNewTaskClick(columnId, column)}>+ Dodaj novi zadatak</button>
                       </div>
                     );
                   }}
@@ -145,6 +155,17 @@ export default function KanbanBoard() {
           );
         })}
       </DragDropContext>
+
+      <button className="logout-button back-button">&lt;&lt; Timovi</button> 
+      <button className="logout-button">Odjavi se</button>
+      
+      {
+        showNewTaskForm ? <NewTaskForm setShowNewTaskForm={setShowNewTaskForm}></NewTaskForm> : <></>
+      }
+      {
+        showTaskDetails ? <TaskDetails></TaskDetails> : <></>
+      }
+
     </div>
   );
 
