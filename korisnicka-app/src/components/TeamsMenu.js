@@ -22,16 +22,16 @@ export const TeamsMenu = ({ loggedUser, teams }) => {
         navigate('/', { replace: true }); // ovo i dalje ne radi, ne znam zasto
     }
 
-    if (loggedUser.timovi.length !== 0) {
-        teams.forEach((team, id) => {
-            //console.log(loggedUser.timovi)
-            const matchingTeam = loggedUser.timovi.find((tim) => team.naziv === tim.naziv);
-            if (matchingTeam) {
-                teams[id].aktivan = true;
-            }
-            //console.log(teams[id]);
-        })
-    }
+    // if (loggedUser.timovi.length !== 0) {
+    //     teams.forEach((team, id) => {
+    //         //console.log(loggedUser.timovi)
+    //         const matchingTeam = loggedUser.timovi.find((tim) => team.naziv === tim.naziv);
+    //         if (matchingTeam) {
+    //             teams[id].aktivan = true;
+    //         }
+    //         //console.log(teams[id]);
+    //     })
+    // }
 
     let teamClasses = [];
 

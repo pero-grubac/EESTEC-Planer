@@ -3,13 +3,16 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import uuid from "uuid/v4";
 import NewTaskForm from "./NewTaskForm";
 import TaskDetails from "./TaskDetails";
+import EditableTaskDetails from "./EditableTaskDetails";
+
+const isKoordinator = true;
 
 const itemsFromBackend = [
-  { id: uuid(), content: "First task" },
-  { id: uuid(), content: "Second task" },
-  { id: uuid(), content: "Third task" },
-  { id: uuid(), content: "Fourth task" },
-  { id: uuid(), content: "Fifth task" }
+  { id: uuid(), naziv: "First task", tekst: "aaaaaa", rok: null },
+  { id: uuid(), naziv: "Second task", tekst: "bbbbbb", rok: null },
+  { id: uuid(), naziv: "Third task", tekst: "cccccc", rok: null },
+  { id: uuid(), naziv: "Fourth task", teskt: "dddddd", rok: null },
+  { id: uuid(), naziv: "Fifth task", tekst: "eeeeee", rok: null }
 ];
 
 const columnsFromBackend = {
@@ -30,6 +33,10 @@ const columnsFromBackend = {
     items: []
   }
 };
+
+function delay(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
+}
 
 const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
@@ -73,8 +80,18 @@ export default function KanbanBoard() {
   const [showNewTaskForm, setShowNewTaskForm] = useState(false);
   const [showTaskDetails, setShowTaskDetails] = useState(false);
 
+  const [selectedTask, setSelectedTask] = useState(null);
+
   const handleNewTaskClick = async (columnId, column) => {
     setShowNewTaskForm(true);
+  }
+
+  const handleTaskClick = async (index) => {
+    await delay(10);
+    setSelectedTask(itemsFromBackend[index]);
+    setShowTaskDetails(true);
+    // postaviti trenutni zadatak na osnovu taskId setSelectedTask(...);
+    // postaviti prikaz zadatka setShowTaskDetails(true);
   }
 
   return (
@@ -121,6 +138,7 @@ export default function KanbanBoard() {
                               {(provided, snapshot) => {
                                 return (
                                   <div
+                                    className="task"
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
@@ -137,15 +155,19 @@ export default function KanbanBoard() {
                                       ...provided.draggableProps.style
                                     }}
                                   >
-                                    {item.content}
+                                    {item.naziv}
+                                    <button className="task-button"
+                                      onClick={() => handleTaskClick(index)}
+                                    >Detalji</button>
                                   </div>
                                 );
                               }}
+
                             </Draggable>
                           );
                         })}
                         {provided.placeholder}
-                        <button onClick={() => handleNewTaskClick(columnId, column)}>+ Dodaj novi zadatak</button>
+                        <button className="plus-button" onClick={() => handleNewTaskClick(columnId, column)}>+</button>
                       </div>
                     );
                   }}
@@ -156,14 +178,23 @@ export default function KanbanBoard() {
         })}
       </DragDropContext>
 
-      <button className="logout-button back-button">&lt;&lt; Timovi</button> 
+      <button className="logout-button back-button">Timovi</button>
       <button className="logout-button">Odjavi se</button>
-      
+
       {
         showNewTaskForm ? <NewTaskForm setShowNewTaskForm={setShowNewTaskForm}></NewTaskForm> : <></>
       }
       {
-        showTaskDetails ? <TaskDetails></TaskDetails> : <></>
+        showTaskDetails ?
+          (
+            isKoordinator ? <EditableTaskDetails setShowTaskDetails={setShowTaskDetails}
+                selectedTask={selectedTask}
+              ></EditableTaskDetails> :
+              <TaskDetails setShowTaskDetails={setShowTaskDetails}
+                selectedTask={selectedTask}
+              ></TaskDetails>
+          )
+          : <></>
       }
 
     </div>

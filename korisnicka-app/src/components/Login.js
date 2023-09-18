@@ -11,6 +11,8 @@ export const Login = (props) => {
     //const [loggedUser, setLoggedUser] = useState(null);
     const navigate = useNavigate();
 
+    const [loginFailMessage, setLoginFailMessage] = useState(false);
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -53,6 +55,7 @@ export const Login = (props) => {
         } catch (error) {
             // Handle errors (e.g., authentication failure)
             console.error('Login error:', error.response.data);
+            setLoginFailMessage(true);
             // Display an error message to the user
             // Update the UI to indicate the login failed
         }
@@ -126,6 +129,9 @@ export const Login = (props) => {
                                 id="password"
                                 name="password"
                                 required></input>
+                            {
+                                loginFailMessage ? <p className="registration-info">Pogrešni pristupni podaci!</p> : <></>
+                            }
 
                             <button type="submit" className="login-button">Prijavi se</button>
                         </form>

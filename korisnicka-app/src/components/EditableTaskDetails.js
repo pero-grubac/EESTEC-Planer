@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useState } from "react"
 
-export default function NewTaskForm({setShowNewTaskForm}) {
-    const [taskTitle, setTaskTitle] = useState("");
-    const [taskText, setTaskText] = useState("");
-    const [taskDeadline, setTaskDeadline] = useState("");
+
+export default function EditableTaskDetails({setShowTaskDetails, selectedTask}) {
+    const [taskTitle, setTaskTitle] = useState(selectedTask.naziv);
+    const [taskText, setTaskText] = useState(selectedTask.tekst);
+    const [taskDeadline, setTaskDeadline] = useState(selectedTask.rok);
 
     return(
         <div className="new-task-form-container">
-             <button className="x-button" onClick={() => setShowNewTaskForm(false)}>X</button>
-            <h2>Novi zadatak:</h2>
+            <button className="x-button" onClick={() => setShowTaskDetails(false)}>X</button>
+            <h2>Izmijeni zadatak:</h2>
             <input className="new-task-input" placeholder="Naslov"
                 value={taskTitle}
                 onChange={(e) => setTaskTitle(e.target.value)}
@@ -21,7 +22,7 @@ export default function NewTaskForm({setShowNewTaskForm}) {
                 value={taskText}
                 onChange={(e) => setTaskText(e.target.value)}
             ></textarea>
-            <button>Dodaj zadatak</button>
+            <button>Ažuriraj zadatak</button>
         </div>
     )
 }

@@ -178,8 +178,11 @@ button {
   height: 8rem;
   padding: 5rem;
   border-radius: 7px;
-  background-color: #d5a3a3;
+  background-color: rgba(213, 163, 163, 0.3);
   margin: 0.5rem;
+
+  background-image: url(./images/pozadina.png);
+  background-size: cover;
 }
 
 .teams-container {
@@ -199,7 +202,7 @@ button {
 }
 
 .team-inactive {
-  background-color: #d5a3a3;
+  background-color: rgba(213, 163, 163, 0.3);
 }
 
 .new-task-form-container {
@@ -244,13 +247,35 @@ button {
 .logout-button {
   position: absolute;
   bottom: 5%;
-  left: 2%;
+  left: 0%;
   background-color: #ffd6d6;
   color: #820000;
   border: 3px solid white;
-  border-radius: 20px;
+  border-radius: 0px 20px 20px 0px;
+  min-width: 10rem;
+  background-image: url(./images/team-view-black.png) no-repeat;
+  background-size: 3rem ;
+  background-position: center;
 }
 
 .back-button {
   bottom: 12%;
+}
+
+.plus-button {
+  min-width: 6rem;
+  border: 1px solid white;
+}
+
+.task {
+  display: flex;
+  flex-direction: column;
+}
+
+.task-button {
+  font-size: 12px;
+  max-width: 50%;
+  background-color: #ffd6d6;
+  color: #820000;
+  border: 1px solid #e52a30;
 }

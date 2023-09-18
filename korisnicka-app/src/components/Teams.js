@@ -3,7 +3,8 @@ export const Teams = ({teams, teamClasses, handleJoinClick, handleTeamClick}) =>
     return (
         <div className="teams-container">
             <div className="teams-row">
-                <div className={teamClasses[0]} onClick={() => handleTeamClick(teams[0])}>Dizajn
+                <div className={teamClasses[0]} onClick={() => handleTeamClick(teams[0])}
+                style={{backgroundImage: 'url(./images/team-design.jpg)', backgroundSize: 'cover'}}>Dizajn
                     {!teams[0].aktivan ? <button onClick={() => handleJoinClick(teams[0])}>Pridruži se</button> : <></>}
                 </div>
                 <div className={teamClasses[1]} onClick={() => handleTeamClick(teams[1])}>IT
