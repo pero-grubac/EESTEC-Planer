@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Teams } from "./Teams";
+import { TeamImages } from "./TeamImages";
 
 export const TeamsMenu = ({ loggedUser, teams }) => {
     //console.log(loggedUser);
@@ -58,10 +59,15 @@ export const TeamsMenu = ({ loggedUser, teams }) => {
         }
     }
 
+    const handleLogoutClick = () => {
+        navigate('/', { replace: true }); 
+      }
+
     return (
         <div>
+            <TeamImages></TeamImages>
             <Teams key={seed} teams={teams} teamClasses={teamClasses} handleJoinClick={handleJoinClick} handleTeamClick={handleTeamClick} />
-            <button className="logout-button">Odjavi se</button>
+            <button className="logout-button" onClick={handleLogoutClick}>Odjavi se</button>
         </div>
     )
 }

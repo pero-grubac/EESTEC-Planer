@@ -4,8 +4,10 @@ import uuid from "uuid/v4";
 import NewTaskForm from "./NewTaskForm";
 import TaskDetails from "./TaskDetails";
 import EditableTaskDetails from "./EditableTaskDetails";
+import { useNavigate } from "react-router-dom";
 
 const isKoordinator = true;
+const isClanOdbora = false;
 
 const itemsFromBackend = [
   { id: uuid(), naziv: "First task", tekst: "aaaaaa", rok: null },
@@ -82,6 +84,8 @@ export default function KanbanBoard() {
 
   const [selectedTask, setSelectedTask] = useState(null);
 
+  const navigate = useNavigate();
+
   const handleNewTaskClick = async (columnId, column) => {
     setShowNewTaskForm(true);
   }
@@ -92,6 +96,14 @@ export default function KanbanBoard() {
     setShowTaskDetails(true);
     // postaviti trenutni zadatak na osnovu taskId setSelectedTask(...);
     // postaviti prikaz zadatka setShowTaskDetails(true);
+  }
+
+  const handleLogoutClick = () => {
+    navigate('/', { replace: true });
+  }
+
+  const handleTeamViewClick = () => {
+    navigate('/teams', { replace: true });
   }
 
   return (
@@ -144,10 +156,10 @@ export default function KanbanBoard() {
                                     {...provided.dragHandleProps}
                                     style={{
                                       userSelect: "none",
-                                      padding: 16,
+                                      padding: 10,
                                       margin: "0 0 8px 0",
                                       minHeight: "50px",
-                                      borderRadius: "5px",
+                                      borderRadius: "15px",
                                       backgroundColor: snapshot.isDragging
                                         ? "#f2c9c9"
                                         : "white",
@@ -156,9 +168,13 @@ export default function KanbanBoard() {
                                     }}
                                   >
                                     {item.naziv}
-                                    <button className="task-button"
-                                      onClick={() => handleTaskClick(index)}
-                                    >Detalji</button>
+                                    <div className="task-info-line">
+                                      <button className="task-button"
+                                        onClick={() => handleTaskClick(index)}
+                                      >Detalji</button>
+                                      <p className="task-countdown">6d 5h</p>
+                                    </div>
+
                                   </div>
                                 );
                               }}
@@ -167,7 +183,20 @@ export default function KanbanBoard() {
                           );
                         })}
                         {provided.placeholder}
-                        <button className="plus-button" onClick={() => handleNewTaskClick(columnId, column)}>+</button>
+                        {
+                          isKoordinator ? <button className="plus-button" onClick={() => handleNewTaskClick(columnId, column)}>+</button>
+                            :
+                            (
+                              isClanOdbora ? (
+                                column.name === "Requested" ? <button className="plus-button" onClick={() => handleNewTaskClick(columnId, column)}>+</button>
+                                  :
+                                  <></>
+                              )
+                                :
+                                <></>
+                            )
+                        }
+
                       </div>
                     );
                   }}
@@ -178,8 +207,8 @@ export default function KanbanBoard() {
         })}
       </DragDropContext>
 
-      <button className="logout-button back-button">Timovi</button>
-      <button className="logout-button">Odjavi se</button>
+      <button className="logout-button back-button" onClick={handleTeamViewClick}>Timovi</button>
+      <button className="logout-button" onClick={handleLogoutClick}>Odjavi se</button>
 
       {
         showNewTaskForm ? <NewTaskForm setShowNewTaskForm={setShowNewTaskForm}></NewTaskForm> : <></>
@@ -188,8 +217,8 @@ export default function KanbanBoard() {
         showTaskDetails ?
           (
             isKoordinator ? <EditableTaskDetails setShowTaskDetails={setShowTaskDetails}
-                selectedTask={selectedTask}
-              ></EditableTaskDetails> :
+              selectedTask={selectedTask}
+            ></EditableTaskDetails> :
               <TaskDetails setShowTaskDetails={setShowTaskDetails}
                 selectedTask={selectedTask}
               ></TaskDetails>

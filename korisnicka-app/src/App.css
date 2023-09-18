@@ -178,16 +178,20 @@ button {
   height: 8rem;
   padding: 5rem;
   border-radius: 7px;
-  background-color: rgba(213, 163, 163, 0.3);
+  overflow: hidden;
+  background-color: rgba(213, 163, 163, 0.8);
+  background-blend-mode: multiply;
   margin: 0.5rem;
-
-  background-image: url(./images/pozadina.png);
-  background-size: cover;
 }
 
 .teams-container {
   display: flex;
   flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index:999;
 }
 
 .teams-row {
@@ -198,11 +202,13 @@ button {
 
 .team-active {
   cursor: pointer;
-  background-color: #ff7268;
+  background-color: rgba(255, 114, 104, 0.8);
 }
 
 .team-inactive {
-  background-color: rgba(213, 163, 163, 0.3);
+  overflow: hidden;
+  background-color: rgba(213, 163, 163, 0.8);
+  background-blend-mode: multiply;
 }
 
 .new-task-form-container {
@@ -236,6 +242,7 @@ button {
 
 .x-button {
   position: absolute;
+  padding-top: 5px;
   top: 5%;
   right: 5%;
   min-height: 2rem;
@@ -247,7 +254,7 @@ button {
 .logout-button {
   position: absolute;
   bottom: 5%;
-  left: 0%;
+  left: -1%;
   background-color: #ffd6d6;
   color: #820000;
   border: 3px solid white;
@@ -275,7 +282,52 @@ button {
 .task-button {
   font-size: 12px;
   max-width: 50%;
-  background-color: #ffd6d6;
+  min-width: 50%;
+  background-color: #ffffff;
   color: #820000;
   border: 1px solid #e52a30;
+}
+
+.teams-images-container {
+  position: absolute;
+  z-index:10;
+}
+
+.team-image-design {
+  background-image: url(./images/team-design.jpg);
+  background-size: cover;
+}
+
+.team-image-it {
+  background-image: url(./images/team-it.jpg);
+  background-size: cover;
+}
+
+.team-image-hr {
+  background-image: url(./images/team-hr.jpg);
+  background-size: cover;
+}
+
+.team-image-pr {
+  background-image: url(./images/team-pr.jpg);
+  background-size: cover;
+}
+
+.team-image-fr {
+  background-image: url(./images/team-fr.jpg);
+  background-size: cover;
+}
+
+.task-info-line {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.task-countdown {
+  background-color: #9a0000;
+  color: white;
+  font-size: 12px;
+  padding: 7px;
+  border-radius: 20px;
 }
