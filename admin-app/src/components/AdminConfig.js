@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-function AdminConfig({currentAdmin}) {
+function AdminConfig({currentAdmin, switchTab}) {
   const [password, setPassword] = useState(null);
   const [confirmation, setConfirmation] = useState(false);
   const [error, setError] = useState(false);
@@ -22,6 +22,11 @@ function AdminConfig({currentAdmin}) {
       idKorisnika: 0
       });
     if (admin.status !== 200) console.error(admin);
+
+    if (admin.status === 403) {
+      localStorage.clear();
+      switchTab("login");
+    }
     
     // podesi opet confirmation i error da bi se mogla prikazati poruka
   };

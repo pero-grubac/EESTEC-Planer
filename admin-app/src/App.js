@@ -2,7 +2,6 @@ import './App.css';
 import { Login } from './Login';
 import { Main } from './Main';
 import { useState } from 'react';
-import AdminList from './AdminList';
 
 function App() {
 
@@ -15,8 +14,6 @@ function App() {
 
   return (
     <div className="App">
-      <AdminList setAdmin={setAdmin}></AdminList>
-      
       {
         currentForm === "login" ? <Login setAdmin={setAdmin} onFormSwitch={toggleForm}/> : <Main admin={admin} onFormSwitch={toggleForm}/>
       }

@@ -10,7 +10,7 @@ export const DeleteConfirmation = ({
   const handleConfirm = async () => {
     if (selectedUser != null) {
       try {
-        await axios.delete(
+        const response = await axios.delete(
           `http://localhost:8080/user/delete/${selectedUser.idKorisnika}`
           ,
           {
@@ -19,13 +19,19 @@ export const DeleteConfirmation = ({
               Authorization: "Bearer " + localStorage.getItem("token"),
             },
           });
+
+        if (response.status === 403) {
+          localStorage.clear();
+          switchTab("login");
+        }
+
         switchTab("users");
       } catch (error) {
         console.error("Error accepting request:", error);
       }
     } else if (selectedRequest != null) {
       try {
-        await axios.post(
+        const response = await axios.post(
           `http://localhost:8080/question/delete/${selectedRequest.idZahtjev}`
           ,
           {
@@ -34,6 +40,12 @@ export const DeleteConfirmation = ({
               Authorization: "Bearer " + localStorage.getItem("token"),
             },
           });
+
+        if (response.status === 403) {
+          localStorage.clear();
+          switchTab("login");
+        }
+
         switchTab("requests");
       } catch (error) {
         console.error("Error accepting request:", error);
@@ -41,7 +53,7 @@ export const DeleteConfirmation = ({
     }
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
   // takodje funkcija za odbijanje koja samo vraca na prethodnu formu
 
   const handleCancel = (selectedUser, selectedRequest) => {

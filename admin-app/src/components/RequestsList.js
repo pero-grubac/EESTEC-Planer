@@ -30,6 +30,12 @@ const UserList = ({ switchTab, selectRequest }) => {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
+
+      if(response.status === 403){
+        localStorage.clear();
+        switchTab("login");
+      }
+
       setUsers(response.data);
     } catch (error) {
       console.error("Error fetching requests:", error);

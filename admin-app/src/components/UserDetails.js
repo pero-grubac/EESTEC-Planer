@@ -67,6 +67,11 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
               }
             );
             
+            if (createKoordinator.status === 403) {
+              localStorage.clear();
+              switchTab("login");
+            }
+
             if (createKoordinator.status !== 200) newKoordinator = false;
           }
           // ako jesi koordinator a mijenjas tim
@@ -88,6 +93,11 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
               }
             );
             
+            if (changeKoordinator.status === 403) {
+              localStorage.clear();
+              switchTab("login");
+            }
+
             if (changeKoordinator.status !== 200) newKoordinator = false;
           }
         } else if (role === "Clan odbora" && role !== selectedUser.uloga) {
@@ -105,6 +115,11 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
             }
           );
           
+          if (createClanOdbora.status === 403) {
+            localStorage.clear();
+            switchTab("login");
+          }
+
           if (createClanOdbora.status !== 200) newClanOdbora = false;
         } // obrisi da vise nije koordinator ili clan odbora
         else if (role === null) {
@@ -118,6 +133,10 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
               }
             );
             
+            if (deleteClanOdbora.status === 403) {
+              localStorage.clear();
+              switchTab("login");
+            }
 
             if (deleteClanOdbora.status !== 204) newClanOdbora = false;
           } else if (selectedUser.uloga === "Koordinator") {
@@ -137,6 +156,12 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
                 },
               }
             );
+
+            if (deleteKoordinator.status === 403) {
+              localStorage.clear();
+              switchTab("login");
+            }
+
             if (deleteKoordinator.status !== 204) newKoordinator = false;
           }
         }
@@ -158,6 +183,11 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
             },
           }
         );
+
+        if (korisnik.status === 403) {
+          localStorage.clear();
+          switchTab("login");
+        }
 
         if (korisnik.status !== 200) newUser = false;
         if (newKoordinator && newClanOdbora && newUser) {

@@ -214,3 +214,8 @@ button {
   margin: 3rem;
   border-radius: 10px;
 }
+
+.info-text {
+  color: #e52a30;
+  margin: 0.5rem;
+}

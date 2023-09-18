@@ -8,6 +8,7 @@ import axios from "axios";
 export const Login = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loginFailMessage, setLoginFailMessage] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,16 +22,17 @@ export const Login = (props) => {
       .put("http://localhost:8080/admins/login", loginForm)
       .then((response) => {
         if (response.status === 200) {
-          localStorage.setItem('token',response.data)
-          
+          localStorage.setItem('token', response.data)
+
 
           props.onFormSwitch("main");
           props.setAdmin(loginForm);
         }
+
       }).catch((error) => {
-        // NAPISI KAO POGRESNO KORISNICKO IME/LOZINKA ILI TAKO NESTO
+        setLoginFailMessage(true);
       });
-    
+
   };
 
   return (
@@ -59,6 +61,10 @@ export const Login = (props) => {
           name="password"
           required
         ></input>
+
+        {
+          loginFailMessage ? <p className="info-text" >Pogrešni pristupni podaci.</p> : <></>
+        }
 
         <button type="submit" className="login-button">
           Prijavi se

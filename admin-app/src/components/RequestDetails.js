@@ -1,31 +1,30 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 
-function RequestDetails ({switchTab, selectedRequest}) {
+function RequestDetails({ switchTab, selectedRequest }) {
 
-    const handleAccept  = async() =>{
-        try{
-            await axios.post(`http://localhost:8080/question/approve/${selectedRequest.idZahtjev}`,
-            {
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: "Bearer " + localStorage.getItem("token"),
-              },
-            });
+    const handleAccept = async () => {
+        try {
+            const response = await axios.post(`http://localhost:8080/question/approve/${selectedRequest.idZahtjev}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: "Bearer " + localStorage.getItem("token"),
+                    },
+                });
+
+            if (response.status === 403) {
+                localStorage.clear();
+                switchTab("login");
+            }
+
             switchTab("requests")
-        }catch(error){
+        } catch (error) {
             console.error('Error accepting request:', error);
         }
     }
 
-useEffect(() => {
-
-  }, []);
-    const handleRejectRequest = () => {
-        switchTab("request_del");
-    };
-
-     return (
+    return (
         <div className="request-details-container">
             <h3>Zahtjev</h3>
             <div className="user-details-edit">
@@ -45,7 +44,7 @@ useEffect(() => {
                 </div>
             </div>
             <div className="user-details-buttons">
-                <button className="login-button" onClick={() => handleAccept() }>Prihvati</button>
+                <button className="login-button" onClick={() => handleAccept()}>Prihvati</button>
                 <button className="login-button" onClick={() => switchTab("request_del")}>Odbij</button>
                 <button className="login-button" onClick={() => switchTab("requests")}>Nazad</button>
             </div>

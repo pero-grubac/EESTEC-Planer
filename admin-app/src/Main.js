@@ -43,6 +43,8 @@ export const Main = (props) => {
 
   const handleSidebarClick = (sidebarItem) => {
     setSelectedSidebarItem(sidebarItem.id);
+    if(sidebarItem.id === 4)
+      localStorage.clear();
     toggleTab(sidebarItem.name);
   };
 
