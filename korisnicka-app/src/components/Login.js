@@ -7,11 +7,16 @@ import axios from 'axios';
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,20}$/;
 const PWD_REGEX = /^[a-zA-Z0-9!@#$%^&*]{8,20}$/;
 
+function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+  }
+
 export const Login = (props) => {
     //const [loggedUser, setLoggedUser] = useState(null);
     const navigate = useNavigate();
 
     const [loginFailMessage, setLoginFailMessage] = useState(false);
+    const [successfulRegistrationMessage, setShowSuccessfulRegistrationMessage] = useState(false);
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -88,7 +93,8 @@ export const Login = (props) => {
                 // Authentication successful
                 console.log('Registration successful');
 
-                setTimeout(3000);
+                setShowSuccessfulRegistrationMessage(true);
+                await delay(3000);
                 setIsLogin(true);
                 // Store authentication data (e.g., token) and redirect
                 // You can use a state management library like Redux for this
@@ -133,10 +139,10 @@ export const Login = (props) => {
                                 loginFailMessage ? <p className="registration-info">Pogrešni pristupni podaci!</p> : <></>
                             }
 
-                            <button type="submit" className="login-button">Prijavi se</button>
+                            <button type="submit" className="login-button">Prijavite se</button>
                         </form>
                         <u className="link" onClick={() => setIsLogin(false)}>Nemate nalog? Registrujte se!</u>
-                        <p className="registration-info">Ako ste zaboravili pristupne podatke, javite se administratoru.</p>
+                        <p className="registration-info">U slučaju zaboravljenih pristupnih podataka, javite se administratoru.</p>
                     </div> :
                     <div>
                         <h2 className="heading">Registracija</h2>
@@ -160,7 +166,11 @@ export const Login = (props) => {
                                 </div>
                             </div>
 
-                            <button type="submit" className="login-button registration-button">Registruj se</button>
+                            {
+                                successfulRegistrationMessage ? <p className="registration-info">Registracija uspješna!</p> : <></>
+                            }
+
+                            <button type="submit" className="login-button registration-button">Registrujte se</button>
                         </form>
                         <u className="link" onClick={() => setIsLogin(true)}>Već imate nalog? Prijavite se!</u>
                     </div>

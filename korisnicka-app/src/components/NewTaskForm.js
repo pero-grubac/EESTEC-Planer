@@ -7,7 +7,9 @@ export default function NewTaskForm({setShowNewTaskForm}) {
 
     return(
         <div className="new-task-form-container">
-             <button className="x-button" onClick={() => setShowNewTaskForm(false)}>X</button>
+             <button className="x-button" onClick={() => setShowNewTaskForm(false)}>
+             <div className="x-button-x"></div>
+             </button>
             <h2>Novi zadatak:</h2>
             <input className="new-task-input" placeholder="Naslov"
                 value={taskTitle}
@@ -21,7 +23,7 @@ export default function NewTaskForm({setShowNewTaskForm}) {
                 value={taskText}
                 onChange={(e) => setTaskText(e.target.value)}
             ></textarea>
-            <button>Dodaj zadatak</button>
+            <button>Dodajte zadatak</button>
         </div>
     )
 }

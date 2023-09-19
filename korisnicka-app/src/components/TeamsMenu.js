@@ -17,11 +17,11 @@ export const TeamsMenu = ({ loggedUser, teams }) => {
         setSeed(Math.random());
     }
 
-    console.log(loggedUser);
-    if (loggedUser === null) {
-        console.log("aaaaaaaaaaaaa");
-        navigate('/', { replace: true }); // ovo i dalje ne radi, ne znam zasto
-    }
+    // console.log(loggedUser);
+    // if (loggedUser === null) {
+    //     console.log("aaaaaaaaaaaaa");
+    //     navigate('/', { replace: true }); // ovo i dalje ne radi, ne znam zasto
+    // }
 
     // if (loggedUser.timovi.length !== 0) {
     //     teams.forEach((team, id) => {
@@ -52,7 +52,7 @@ export const TeamsMenu = ({ loggedUser, teams }) => {
 
     const handleJoinClick = async (team) => {
         // dodaj u tim
-        await delay(1000);
+        await delay(10);
         if (!team.aktivan) {
             teams[team.id].aktivan = true;
             reset();
@@ -60,14 +60,25 @@ export const TeamsMenu = ({ loggedUser, teams }) => {
     }
 
     const handleLogoutClick = () => {
-        navigate('/', { replace: true }); 
-      }
+        navigate('/', { replace: true });
+    }
+
+    const handleSettingsClick = () => {
+        navigate('/settings', { replace: true });
+    }
 
     return (
         <div>
             <TeamImages></TeamImages>
             <Teams key={seed} teams={teams} teamClasses={teamClasses} handleJoinClick={handleJoinClick} handleTeamClick={handleTeamClick} />
-            <button className="logout-button" onClick={handleLogoutClick}>Odjavi se</button>
+            <div className="menu-buttons">
+                <button className="logout-button settings-button" onClick={handleSettingsClick}>
+                    <div className="settings-button-icon"></div>
+                </button>
+                <button className="logout-button" onClick={handleLogoutClick}>
+                    <div className="logout-button-icon"></div>
+                </button>
+            </div>
         </div>
     )
 }

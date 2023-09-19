@@ -3,6 +3,8 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import uuid from "uuid/v4";
 import NewTaskForm from "./NewTaskForm";
 import TaskDetails from "./TaskDetails";
+import NewCategoryForm from "./NewCategoryForm";
+import LeaveTeamConfirmation from "./LeaveTeamConfirmation";
 import EditableTaskDetails from "./EditableTaskDetails";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +12,7 @@ const isKoordinator = true;
 const isClanOdbora = false;
 
 const itemsFromBackend = [
-  { id: uuid(), naziv: "First task", tekst: "aaaaaa", rok: null },
+  { id: uuid(), naziv: "First task", tekst: "aaaaaa", rok: null }, // uuid() automatski dodjeljuje neki random id kako bi i trebalo na FE, ali moze i sa id iz baze, nije bitno
   { id: uuid(), naziv: "Second task", tekst: "bbbbbb", rok: null },
   { id: uuid(), naziv: "Third task", tekst: "cccccc", rok: null },
   { id: uuid(), naziv: "Fourth task", teskt: "dddddd", rok: null },
@@ -81,6 +83,8 @@ export default function KanbanBoard() {
   const [columns, setColumns] = useState(columnsFromBackend);
   const [showNewTaskForm, setShowNewTaskForm] = useState(false);
   const [showTaskDetails, setShowTaskDetails] = useState(false);
+  const [showNewCategory, setShowNewCategory] = useState(false);
+  const [leaveTeamConfirmation, setLeaveTeamConfirmation] = useState(false);
 
   const [selectedTask, setSelectedTask] = useState(null);
 
@@ -90,12 +94,10 @@ export default function KanbanBoard() {
     setShowNewTaskForm(true);
   }
 
-  const handleTaskClick = async (index) => {
+  const handleTaskClick = async (item) => {
     await delay(10);
-    setSelectedTask(itemsFromBackend[index]);
+    setSelectedTask(item);
     setShowTaskDetails(true);
-    // postaviti trenutni zadatak na osnovu taskId setSelectedTask(...);
-    // postaviti prikaz zadatka setShowTaskDetails(true);
   }
 
   const handleLogoutClick = () => {
@@ -106,10 +108,28 @@ export default function KanbanBoard() {
     navigate('/teams', { replace: true });
   }
 
+  const handleAddCategoryClick = async () => {
+    await delay(10);
+    setShowNewCategory(true);
+  }
+
+  const handleLeaveTeamClick = async () => {
+    await delay(10);
+    setLeaveTeamConfirmation(true);
+  }
+
+  const handleSettingsClick = () => {
+    navigate('/settings', { replace: true });
+  }
+
   return (
     <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
+      <div className="team-title-container">
+        <h1>Naziv tima</h1>
+      </div>
+
       <DragDropContext
-        onDragEnd={result => onDragEnd(result, columns, setColumns)}
+        onDragEnd={isClanOdbora ? () => { } : (result => onDragEnd(result, columns, setColumns))}
       >
         {Object.entries(columns).map(([columnId, column], index) => {
           return (
@@ -137,7 +157,7 @@ export default function KanbanBoard() {
                           minHeight: 500,
                           justifyContent: "left",
                           padding: "0.5rem",
-                          borderRadius: "3px"
+                          borderRadius: "15px"
                         }}
                       >
                         {column.items.map((item, index) => {
@@ -170,7 +190,7 @@ export default function KanbanBoard() {
                                     {item.naziv}
                                     <div className="task-info-line">
                                       <button className="task-button"
-                                        onClick={() => handleTaskClick(index)}
+                                        onClick={() => handleTaskClick(item)}
                                       >Detalji</button>
                                       <p className="task-countdown">6d 5h</p>
                                     </div>
@@ -207,8 +227,25 @@ export default function KanbanBoard() {
         })}
       </DragDropContext>
 
-      <button className="logout-button back-button" onClick={handleTeamViewClick}>Timovi</button>
-      <button className="logout-button" onClick={handleLogoutClick}>Odjavi se</button>
+      <div className="menu-buttons">
+        <button className="logout-button back-button" onClick={handleTeamViewClick}>
+          <div className="back-button-icon"></div>
+        </button>
+        <button className="logout-button leave-team-button" onClick={handleLeaveTeamClick}>
+          <div className="leave-team-button-icon"></div>
+        </button>
+        <button className="logout-button settings-button" onClick={handleSettingsClick}>
+          <div className="settings-button-icon"></div>
+        </button>
+        <button className="logout-button" onClick={handleLogoutClick}>
+          <div className="logout-button-icon"></div>
+        </button>
+      </div>
+
+
+      {
+        isKoordinator ? <button className="plus-button add-category-button" onClick={handleAddCategoryClick}>+</button> : <></>
+      }
 
       {
         showNewTaskForm ? <NewTaskForm setShowNewTaskForm={setShowNewTaskForm}></NewTaskForm> : <></>
@@ -224,6 +261,12 @@ export default function KanbanBoard() {
               ></TaskDetails>
           )
           : <></>
+      }
+      {
+        showNewCategory ? <NewCategoryForm setShowNewCategory={setShowNewCategory}></NewCategoryForm> : <></>
+      }
+      {
+        leaveTeamConfirmation ? <LeaveTeamConfirmation setLeaveTeamConfirmation={setLeaveTeamConfirmation}></LeaveTeamConfirmation> : <></>
       }
 
     </div>

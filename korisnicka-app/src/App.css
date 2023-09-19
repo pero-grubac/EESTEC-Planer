@@ -43,6 +43,7 @@ input {
 }
 
 button {
+  min-width: 5rem;
   margin: 0.75rem 0;
   border: #d71c1c;
   background-color: #e52a30;
@@ -215,6 +216,7 @@ button {
   position: absolute;
   top: 50%;
   left: 50%;
+  min-width: 20rem;
   transform: translate(-50%, -50%);
   background-color: rgba(255, 214, 214, 0.9);
   color: #820000;
@@ -242,36 +244,36 @@ button {
 
 .x-button {
   position: absolute;
-  padding-top: 5px;
+  z-index: 10;
   top: 5%;
   right: 5%;
   min-height: 2rem;
   min-width: 2rem;
   max-width: 2rem;
   max-height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .logout-button {
-  position: absolute;
-  bottom: 5%;
-  left: -1%;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  align-items: center;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
   background-color: #ffd6d6;
   color: #820000;
   border: 3px solid white;
   border-radius: 0px 20px 20px 0px;
-  min-width: 10rem;
-  background-image: url(./images/team-view-black.png) no-repeat;
-  background-size: 3rem ;
-  background-position: center;
-}
-
-.back-button {
-  bottom: 12%;
+  min-width: 5rem;
+  height: 3rem;
 }
 
 .plus-button {
-  min-width: 6rem;
-  border: 1px solid white;
+  min-width: 2.5rem;
+  border-radius: 30px;
 }
 
 .task {
@@ -330,4 +332,108 @@ button {
   font-size: 12px;
   padding: 7px;
   border-radius: 20px;
+}
+
+.x-button-x {
+  position: absolute;
+  min-width: 60%;
+  min-height: 60%;
+  z-index: 999;
+  background-image: url(./images/x-white.png);
+  background-repeat: no-repeat;
+  background-size:contain;
+}
+
+.back-button-icon {
+  margin-right: 0.25rem;
+  min-height: 2rem;
+  width: 2rem;
+  background-image: url(./images/team-view-black-inverted.png);
+  background-repeat: no-repeat;
+  background-size:contain;
+}
+
+.logout-button-icon {
+  margin-right: 0.25rem;
+  min-height: 1.8rem;
+  width: 1.8rem;
+  z-index: 999;
+  background-image: url(./images/logout.png);
+  background-repeat: no-repeat;
+  background-size:contain;
+}
+
+.leave-team-button-icon {
+  margin-right: 0.25rem;
+  min-height: 2rem;
+  width: 2rem;
+  z-index: 999;
+  background-image: url(./images/leave-team-black-inverted.png);
+  background-repeat: no-repeat;
+  background-size:contain;
+}
+
+.settings-button-icon {
+  margin-right: 0.25rem;
+  min-height: 1.8rem;
+  width: 1.8rem;
+  z-index: 999;
+  background-image: url(./images/settings-black.png);
+  background-repeat: no-repeat;
+  background-size:contain;
+}
+
+.add-category-button {
+  position: absolute;
+  right: 5%;
+  top: 40%;
+  background-color: white;
+  color:#e52a30;
+}
+
+.team-title-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #600000;
+  padding: 1rem;
+  min-width: 8rem;
+  max-height: 4rem;
+  padding-top: 0;
+  padding-bottom: 0;
+  position: absolute;
+  border-radius: 0px 20px 20px 0px;
+  top: 8%;
+  left: 0%;
+}
+
+.button-line {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.long-button {
+  min-width: 13rem;
+  margin: 0.25rem;
+  margin-top: 1rem;
+}
+
+.menu-buttons {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  bottom: 5rem;
+  left: -10px;
+}
+
+.label-and-edit-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+label {
+  margin-right: 0.25rem;
 }

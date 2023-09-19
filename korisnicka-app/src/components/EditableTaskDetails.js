@@ -1,15 +1,20 @@
 import { useState } from "react"
+import DeleteTaskConfirmation from "./DeleteTaskConfirmation";
 
 
-export default function EditableTaskDetails({setShowTaskDetails, selectedTask}) {
+export default function EditableTaskDetails({ setShowTaskDetails, selectedTask }) {
     const [taskTitle, setTaskTitle] = useState(selectedTask.naziv);
     const [taskText, setTaskText] = useState(selectedTask.tekst);
     const [taskDeadline, setTaskDeadline] = useState(selectedTask.rok);
 
-    return(
+    const [deleteTaskConfirmation, setDeleteTaskConfirmation] = useState(false);
+
+    return (
         <div className="new-task-form-container">
-            <button className="x-button" onClick={() => setShowTaskDetails(false)}>X</button>
-            <h2>Izmijeni zadatak:</h2>
+            <button className="x-button" onClick={() => setShowTaskDetails(false)}>
+                <div className="x-button-x"></div>
+            </button>
+            <h2>Izmijenite zadatak:</h2>
             <input className="new-task-input" placeholder="Naslov"
                 value={taskTitle}
                 onChange={(e) => setTaskTitle(e.target.value)}
@@ -22,7 +27,16 @@ export default function EditableTaskDetails({setShowTaskDetails, selectedTask}) 
                 value={taskText}
                 onChange={(e) => setTaskText(e.target.value)}
             ></textarea>
-            <button>Ažuriraj zadatak</button>
+            <div className="button-line">
+                <button className="long-button">Prijavite se</button>
+                <button className="long-button">Ažurirajte zadatak</button>
+                <button className="long-button" onClick={() => setDeleteTaskConfirmation(true)}>Obrišite zadatak</button>
+            </div>
+
+            {
+                deleteTaskConfirmation ? <DeleteTaskConfirmation taskTitle={selectedTask.naziv}
+                setDeleteTaskConfirmation={setDeleteTaskConfirmation}></DeleteTaskConfirmation> : <></>
+            }
         </div>
     )
 }

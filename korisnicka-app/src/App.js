@@ -3,6 +3,7 @@ import React from 'react';
 import KanbanBoard from './components/KanbanBoard.js';
 import { TeamsMenu } from './components/TeamsMenu';
 import { Login } from './components/Login.js';
+import Settings from './components/Settings';
 import { useState } from 'react';
 import { Routes, Route, useNavigate } from "react-router-dom";
 import './index.css';
@@ -52,6 +53,7 @@ function App() {
         <Route path="/teams/HR" element={<KanbanBoard loggedUser={loggedUser}></KanbanBoard>} />
         <Route path="/teams/PR" element={<KanbanBoard loggedUser={loggedUser}></KanbanBoard>} />
         <Route path="/teams/FR" element={<KanbanBoard loggedUser={loggedUser}></KanbanBoard>} />
+        <Route path="/settings" element={<Settings></Settings>} />
       </Routes>
     </div>
   )
