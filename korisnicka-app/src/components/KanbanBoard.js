@@ -16,7 +16,7 @@ const itemsFromBackend = [
   { id: uuid(), naziv: "Second task", tekst: "bbbbbb", rok: null },
   { id: uuid(), naziv: "Third task", tekst: "cccccc", rok: null },
   { id: uuid(), naziv: "Fourth task", teskt: "dddddd", rok: null },
-  { id: uuid(), naziv: "Fifth task", tekst: "eeeeee", rok: null }
+  { id: uuid(), naziv: "Fifth task", tekst: "1. uraditi nesto\n2. uraditi nesto drugo\n3. uraditi jos nesto\nneke napomene...", rok: null }
 ];
 
 const columnsFromBackend = {
@@ -85,6 +85,7 @@ export default function KanbanBoard() {
   const [showTaskDetails, setShowTaskDetails] = useState(false);
   const [showNewCategory, setShowNewCategory] = useState(false);
   const [leaveTeamConfirmation, setLeaveTeamConfirmation] = useState(false);
+  const [editableTaskDetails, setEditableTaskDetails] = useState(false);
 
   const [selectedTask, setSelectedTask] = useState(null);
 
@@ -127,9 +128,12 @@ export default function KanbanBoard() {
       <div className="team-title-container">
         <h1>Naziv tima</h1>
       </div>
+      <div className="team-num-members-container">
+        <h3>Broj članova: 23</h3>
+      </div>
 
       <DragDropContext
-        onDragEnd={isClanOdbora ? () => { } : (result => onDragEnd(result, columns, setColumns))}
+        onDragEnd={isClanOdbora && !isKoordinator ? () => { } : (result => onDragEnd(result, columns, setColumns))}
       >
         {Object.entries(columns).map(([columnId, column], index) => {
           return (
@@ -190,9 +194,12 @@ export default function KanbanBoard() {
                                     {item.naziv}
                                     <div className="task-info-line">
                                       <button className="task-button"
-                                        onClick={() => handleTaskClick(item)}
-                                      >Detalji</button>
-                                      <p className="task-countdown">6d 5h</p>
+                                        onClick={() => handleTaskClick(item)}>
+                                        <div className="task-button-icon"></div>
+                                      </button>
+                                      <p className="task-countdown">
+                                        <div className="countdown-icon"></div>
+                                        6d 5h</p>
                                     </div>
 
                                   </div>
@@ -252,14 +259,13 @@ export default function KanbanBoard() {
       }
       {
         showTaskDetails ?
-          (
-            isKoordinator ? <EditableTaskDetails setShowTaskDetails={setShowTaskDetails}
-              selectedTask={selectedTask}
-            ></EditableTaskDetails> :
-              <TaskDetails setShowTaskDetails={setShowTaskDetails}
-                selectedTask={selectedTask}
-              ></TaskDetails>
-          )
+          <TaskDetails setShowTaskDetails={setShowTaskDetails} setEditableTaskDetails={setEditableTaskDetails}
+          selectedTask={selectedTask} isKoordinator={isKoordinator}>
+          </TaskDetails>
+          : <></>
+      }
+      {
+        editableTaskDetails ? <EditableTaskDetails selectedTask={selectedTask} setShowTaskDetails={setEditableTaskDetails}></EditableTaskDetails>
           : <></>
       }
       {

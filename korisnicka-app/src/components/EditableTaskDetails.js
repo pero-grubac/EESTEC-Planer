@@ -23,12 +23,11 @@ export default function EditableTaskDetails({ setShowTaskDetails, selectedTask }
                 value={taskDeadline}
                 onChange={(e) => setTaskDeadline(e.target.value)}
             ></input>
-            <textarea className="input-area" placeholder="Opis zadatka"
+            <textarea className="text-area input-area" placeholder="Opis zadatka"
                 value={taskText}
                 onChange={(e) => setTaskText(e.target.value)}
             ></textarea>
             <div className="button-line">
-                <button className="long-button">Prijavite se</button>
                 <button className="long-button">Ažurirajte zadatak</button>
                 <button className="long-button" onClick={() => setDeleteTaskConfirmation(true)}>Obrišite zadatak</button>
             </div>
