@@ -42,22 +42,6 @@ public class AdminController {
     }
 
 
-    //    @GetMapping("/welcome")
-//    public String welcome() {
-//        return "Welcome this endpoint is for everyone";
-//    }
-//
-//    @GetMapping("/fy")
-//    @PreAuthorize("hasAuthority('Koordinator')")
-//    public String fy() {
-//        return "FY this endpoint is only for admin";
-//    }
-//
-    @GetMapping("/stfu")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public String stfu() {
-        return "Stfu this endpoint is only for user";
-    }
 
     @GetMapping("/getall")
     //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -107,14 +91,14 @@ public class AdminController {
         else return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/authenticate")
-    public String authenticateAndGetToken(@RequestBody LoginForm loginForm) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginForm.getLozinka(), loginForm.getUsername()));
-        if (authentication.isAuthenticated())
-            return jwtService.generateToken(loginForm.getUsername());
-        else
-            throw new UsernameNotFoundException("invalid user request !");
-
-    }
+//    @PostMapping("/authenticate")
+//    public String authenticateAndGetToken(@RequestBody LoginForm loginForm) {
+//        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginForm.getLozinka(), loginForm.getUsername()));
+//        if (authentication.isAuthenticated())
+//            return jwtService.generateToken(loginForm.getUsername());
+//        else
+//            throw new UsernameNotFoundException("invalid user request !");
+//
+//    }
 
 }

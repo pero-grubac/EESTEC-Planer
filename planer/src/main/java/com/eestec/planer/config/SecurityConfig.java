@@ -48,7 +48,7 @@ public class SecurityConfig {
 
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/admins/login", "/admins/authenticate", "/user/login", "/team/getAll", "question/add").permitAll()
+                    auth.requestMatchers("/admins/login", "/user/login", "/team/getAll", "question/add").permitAll()
                             .requestMatchers("/admins/**", "/user/**", "/superuser/**", "/question/**", "/clanodbora/**", "/team/**").authenticated();
 
 
