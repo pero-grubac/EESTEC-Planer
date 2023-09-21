@@ -9,7 +9,7 @@ import EditableTaskDetails from "./EditableTaskDetails";
 import { useNavigate } from "react-router-dom";
 
 const isKoordinator = true;
-const isClanOdbora = false;
+const isClanOdbora = true;
 
 const itemsFromBackend = [
   { id: uuid(), naziv: "Uraditi fetch broja clanova", tekst: "aaaaaa", rok: null, taskIsAssigned: true }, // uuid() automatski dodjeljuje neki random id kako bi i trebalo na FE, ali moze i sa id iz baze, nije bitno
@@ -126,7 +126,7 @@ export default function KanbanBoard() {
   return (
     <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
       <div className="team-title-container">
-        <h1>Naziv tima</h1>
+        <h1>Dizajn</h1>
       </div>
       <div className="team-num-members-container">
         <h3>Broj članova: 23</h3>
@@ -148,7 +148,9 @@ export default function KanbanBoard() {
               <h2>{column.name}</h2>
               <div style={{ margin: 8 }}>
                 {
-                  isKoordinator ? <button className="remove-category-button"></button> : <></>
+                  isKoordinator ? <button className="remove-category-button">
+                    <div className="remove-category-icon"></div>
+                  </button> : <></>
                 }
                 <Droppable droppableId={columnId} key={columnId}>
                   {(provided, snapshot) => {

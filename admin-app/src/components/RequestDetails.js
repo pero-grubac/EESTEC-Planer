@@ -1,6 +1,17 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 
+function formatDateTime(isoDate) {
+    const date = new Date(isoDate);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is zero-based
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
+}
+
 function RequestDetails({ switchTab, selectedRequest }) {
 
     const handleAccept = async () => {
@@ -36,11 +47,11 @@ function RequestDetails({ switchTab, selectedRequest }) {
                     <p htmlFor="vrijeme">Vrijeme slanja</p>
                 </div>
                 <div className="user-details-column ">
-                    <p className="info-text" id="ime">{selectedRequest.ime}</p>
-                    <p className="info-text" id="prezime">{selectedRequest.prezime}</p>
-                    <p className="info-text" id="korisnicko-ime">{selectedRequest.korisnickoIme}</p>
-                    <p className="info-text" id="email">{selectedRequest.email}</p>
-                    <p className="info-text" id="vrijeme">{selectedRequest.datumKreiranja}</p>
+                    <p className="info-text-request" id="ime">{selectedRequest.ime}</p>
+                    <p className="info-text-request" id="prezime">{selectedRequest.prezime}</p>
+                    <p className="info-text-request" id="korisnicko-ime">{selectedRequest.korisnickoIme}</p>
+                    <p className="info-text-request" id="email">{selectedRequest.email}</p>
+                    <p className="info-text-request" id="vrijeme">{formatDateTime(selectedRequest.datumKreiranja)}</p>
                 </div>
             </div>
             <div className="user-details-buttons">

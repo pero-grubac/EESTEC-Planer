@@ -18,6 +18,8 @@ export const Login = (props) => {
       lozinka: password,
     };
 
+    console.log(loginForm);
+
     axios
       .put("http://localhost:8080/admins/login", loginForm)
       .then((response) => {
@@ -38,14 +40,14 @@ export const Login = (props) => {
   return (
     <div className="login-form-container">
       <img src={logo} alt="" className="logo" />
-      <h2 className="heading">Prijava</h2>
+      <h2 className="heading">Admin</h2>
       <form className="login-form" onSubmit={handleSubmit}>
         <label htmlFor="username">Korisničko ime:</label>
         <input
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           type="username"
-          placeholder="marko.markovic"
+          placeholder="admin"
           id="username"
           name="username"
           required
