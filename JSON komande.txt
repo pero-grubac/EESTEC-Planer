@@ -1,0 +1,24 @@
+kreiranje zadatka
+{
+    "tekst": "Sample task",
+    "rok": "2023-12-02T00:00:00",
+    "idAutora": 37,
+    "naslov": "Sample Title",
+    "kategorija": {
+        "idKategorija": 1
+    }
+}
+
+update zadatka
+{
+    "tekst": "Sample task update 2",
+    "rok": "2023-12-02T00:00:00",
+    "naslov": "Sample Title update 2",
+    "idZadatak": 4,
+    "kategorija": {
+        "idKategorija": 2
+    }
+}
+prijava/odjava na zadatak
+
+INSERT INTO `eestecplaner`.`korisnik_radi_zadatak` (`Korisnik_IdKorisnika`, `Zadatak_IdZadatak`) VALUES ('1', '2');

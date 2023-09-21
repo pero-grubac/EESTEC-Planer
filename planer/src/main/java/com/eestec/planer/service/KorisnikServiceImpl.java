@@ -128,5 +128,10 @@ public class KorisnikServiceImpl implements KorisnikService {
         return  null;
     }
 
+    @Override
+    public boolean assignTask(Integer idKorisnik, Integer idZadatak) {
+        return false;
+    }
+
 
 }

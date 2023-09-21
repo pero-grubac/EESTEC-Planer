@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import uuid from "uuid/v4";
 import NewTaskForm from "./NewTaskForm";
@@ -10,34 +10,42 @@ import { useNavigate } from "react-router-dom";
 import DeleteCategoryConfirmation from "./DeleteCategoryConfirmation";
 import axios from "axios";
 
-const getCategoriesAndTasks = async (team, navigate) =>  {
+const getCategoriesAndTasks = async (team, navigate) => {
   try {
-    const response = await axios.get(`http://localhost:8080/zadatak/byTim/${team}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    })
+    const response = await axios.get(
+      `http://localhost:8080/zadatak/byTim/${team}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
 
-    console.log(response.data);
+    console.log("fecovanje ", response.data);
 
     if (response.status === 403) {
       localStorage.clear();
       navigate("/", { replace: true });
     }
 
-    let tasks = response.data.zadaci.map(zadatak => ({ ...zadatak, id: uuid() }));
-    let categories = response.data.kategorije.map(kategorija => ({
-      ...kategorija, id: uuid(), items: tasks.filter(
-        task => { return task.kategorija.idKategorija === kategorija.idKategorija }
-      )
-    }))
+    let tasks = response.data.zadaci.map((zadatak) => ({
+      ...zadatak,
+      id: uuid(),
+    }));
+    let categories = response.data.kategorije.map((kategorija) => ({
+      ...kategorija,
+      id: uuid(),
+      items: tasks.filter((task) => {
+        return task.kategorija.idKategorija === kategorija.idKategorija;
+      }),
+    }));
 
-    return {tasks, categories};
-
+    return { tasks, categories };
   } catch (error) {
+    return { tasks: [], categories: [] };
   }
-}
+};
 
 // const itemsFromBackend = [
 //   { id: uuid(), naziv: "Uraditi fetch broja clanova", tekst: "aaaaaa", rok: null, taskIsAssigned: true }, // uuid() automatski dodjeljuje neki random id kako bi i trebalo na FE, ali moze i sa id iz baze, nije bitno
@@ -67,11 +75,11 @@ const getCategoriesAndTasks = async (team, navigate) =>  {
 // };
 
 function delay(time) {
-  return new Promise(resolve => setTimeout(resolve, time));
+  return new Promise((resolve) => setTimeout(resolve, time));
 }
 
 const onDragEnd = (result, columns, setColumns) => {
-  console.log("result: ", result);
+  console.log("on drag end result: ", result);
 
   if (!result.destination) return;
   const { source, destination } = result;
@@ -87,12 +95,12 @@ const onDragEnd = (result, columns, setColumns) => {
       ...columns,
       [source.droppableId]: {
         ...sourceColumn,
-        items: sourceItems
+        items: sourceItems,
       },
       [destination.droppableId]: {
         ...destColumn,
-        items: destItems
-      }
+        items: destItems,
+      },
     });
   } else {
     const column = columns[source.droppableId];
@@ -103,26 +111,42 @@ const onDragEnd = (result, columns, setColumns) => {
       ...columns,
       [source.droppableId]: {
         ...column,
-        items: copiedItems
-      }
+        items: copiedItems,
+      },
     });
   }
 };
 
 export default function KanbanBoard({ loggedUser, team, teams }) {
-
   const navigate = useNavigate();
 
-  let result = getCategoriesAndTasks(team, navigate);
+  const [itemsFromBackend, setItemsFromBackend] = useState([]);
+  const [columnsFromBackend, setColumnsFromBackend] = useState([]);
+  const [result, setResult] = useState(null);
 
-  const itemsFromBackend = result.tasks;
-  const columnsFromBackend = result.categories;
+  useEffect(() => {
+    const fetchCategoriesAndTasks = async () => {
+      try {
+        const result = await getCategoriesAndTasks(team, navigate);
 
-  console.log("result", result, "items: ", itemsFromBackend);
+        setItemsFromBackend(result.tasks);
+        setColumnsFromBackend(result.categories);
+        setResult(result);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  const currentTeam = loggedUser.timovi.filter(tim => {
-    return tim.idTim === team
-  })
+    fetchCategoriesAndTasks();
+  }, [team, navigate]);
+
+  console.log("res ", result);
+  console.log("items: ", itemsFromBackend);
+  console.log("col ", columnsFromBackend);
+
+  const currentTeam = loggedUser.timovi.filter((tim) => {
+    return tim.idTim === team;
+  });
 
   const isKoordinator = loggedUser.idKorisnika === currentTeam[0].idKoordinator;
   const isClanOdbora = loggedUser.role === "Clan odbora";
@@ -135,46 +159,47 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
   const [showNewCategory, setShowNewCategory] = useState(false);
   const [leaveTeamConfirmation, setLeaveTeamConfirmation] = useState(false);
   const [editableTaskDetails, setEditableTaskDetails] = useState(false);
-  const [deleteCategoryConfirmation, setDeleteCategoryConfirmation] = useState(false);
+  const [deleteCategoryConfirmation, setDeleteCategoryConfirmation] =
+    useState(false);
 
   const [selectedTask, setSelectedTask] = useState(null);
 
   const handleNewTaskClick = async (columnId, column) => {
     setShowNewTaskForm(true);
-  }
+  };
 
   const handleTaskClick = async (item) => {
     await delay(10);
     setSelectedTask(item);
     setShowTaskDetails(true);
-  }
+  };
 
   const handleLogoutClick = () => {
     localStorage.clear();
-    navigate('/', { replace: true });
-  }
+    navigate("/", { replace: true });
+  };
 
   const handleTeamViewClick = () => {
-    navigate('/teams', { replace: true });
-  }
+    navigate("/teams", { replace: true });
+  };
 
   const handleAddCategoryClick = async () => {
     await delay(10);
     setShowNewCategory(true);
-  }
+  };
 
   const handleLeaveTeamClick = async () => {
     await delay(10);
     setLeaveTeamConfirmation(true);
-  }
+  };
 
   const handleSettingsClick = () => {
-    navigate('/settings', { replace: true });
-  }
+    navigate("/settings", { replace: true });
+  };
 
   const handleDeleteCategory = () => {
     setDeleteCategoryConfirmation(true);
-  }
+  };
 
   return (
     <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
@@ -186,7 +211,11 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
       </div>
 
       <DragDropContext
-        onDragEnd={isClanOdbora && !isKoordinator ? () => { } : (result => onDragEnd(result, columns, setColumns))}
+        onDragEnd={
+          isClanOdbora && !isKoordinator
+            ? () => {}
+            : (result) => onDragEnd(result, columns, setColumns)
+        }
       >
         {Object.entries(columns).map(([columnId, column], index) => {
           return (
@@ -194,17 +223,22 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center"
+                alignItems: "center",
               }}
               key={columnId}
             >
               <h2>{column.naziv}</h2>
               <div style={{ margin: 8 }}>
-                {
-                  isKoordinator ? <button className="remove-category-button" onClick={handleDeleteCategory}>
+                {isKoordinator ? (
+                  <button
+                    className="remove-category-button"
+                    onClick={handleDeleteCategory}
+                  >
                     <div className="remove-category-icon"></div>
-                  </button> : <></>
-                }
+                  </button>
+                ) : (
+                  <></>
+                )}
                 <Droppable droppableId={columnId} key={columnId}>
                   {(provided, snapshot) => {
                     return (
@@ -219,7 +253,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
                           minHeight: 500,
                           justifyContent: "left",
                           padding: "0.5rem",
-                          borderRadius: "15px"
+                          borderRadius: "15px",
                         }}
                       >
                         {column.items.map((item, index) => {
@@ -247,42 +281,52 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
                                         ? "#f2c9c9"
                                         : "white",
                                       color: "black",
-                                      ...provided.draggableProps.style
+                                      ...provided.draggableProps.style,
                                     }}
                                   >
                                     {item.naziv}
                                     <div className="task-info-line">
-                                      <button className="task-button"
-                                        onClick={() => handleTaskClick(item)}>
+                                      <button
+                                        className="task-button"
+                                        onClick={() => handleTaskClick(item)}
+                                      >
                                         <div className="task-button-icon"></div>
                                       </button>
                                       <p className="task-countdown">
                                         <div className="countdown-icon"></div>
-                                        6d 5h</p>
+                                        6d 5h
+                                      </p>
                                     </div>
-
                                   </div>
                                 );
                               }}
-
                             </Draggable>
                           );
                         })}
                         {provided.placeholder}
-                        {
-                          isKoordinator ? <button className="plus-button" onClick={() => handleNewTaskClick(columnId, column)}>+</button>
-                            :
-                            (
-                              isClanOdbora ? (
-                                column.naziv === "Zadati" ? <button className="plus-button" onClick={() => handleNewTaskClick(columnId, column)}>+</button>
-                                  :
-                                  <></>
-                              )
-                                :
-                                <></>
-                            )
-                        }
-
+                        {isKoordinator ? (
+                          <button
+                            className="plus-button"
+                            onClick={() => handleNewTaskClick(columnId, column)}
+                          >
+                            +
+                          </button>
+                        ) : isClanOdbora ? (
+                          column.naziv === "Zadati" ? (
+                            <button
+                              className="plus-button"
+                              onClick={() =>
+                                handleNewTaskClick(columnId, column)
+                              }
+                            >
+                              +
+                            </button>
+                          ) : (
+                            <></>
+                          )
+                        ) : (
+                          <></>
+                        )}
                       </div>
                     );
                   }}
@@ -294,13 +338,22 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
       </DragDropContext>
 
       <div className="menu-buttons">
-        <button className="logout-button back-button" onClick={handleTeamViewClick}>
+        <button
+          className="logout-button back-button"
+          onClick={handleTeamViewClick}
+        >
           <div className="back-button-icon"></div>
         </button>
-        <button className="logout-button leave-team-button" onClick={handleLeaveTeamClick}>
+        <button
+          className="logout-button leave-team-button"
+          onClick={handleLeaveTeamClick}
+        >
           <div className="leave-team-button-icon"></div>
         </button>
-        <button className="logout-button settings-button" onClick={handleSettingsClick}>
+        <button
+          className="logout-button settings-button"
+          onClick={handleSettingsClick}
+        >
           <div className="settings-button-icon"></div>
         </button>
         <button className="logout-button" onClick={handleLogoutClick}>
@@ -308,38 +361,62 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
         </button>
       </div>
 
+      {isKoordinator ? (
+        <button
+          className="plus-button add-category-button"
+          onClick={handleAddCategoryClick}
+        >
+          +
+        </button>
+      ) : (
+        <></>
+      )}
 
-      {
-        isKoordinator ? <button className="plus-button add-category-button" onClick={handleAddCategoryClick}>+</button> : <></>
-      }
-
-      {
-        showNewTaskForm ? <NewTaskForm setShowNewTaskForm={setShowNewTaskForm}></NewTaskForm> : <></>
-      }
-      {
-        showTaskDetails ?
-          <TaskDetails setShowTaskDetails={setShowTaskDetails} setEditableTaskDetails={setEditableTaskDetails}
-            selectedTask={selectedTask} isKoordinator={isKoordinator}>
-          </TaskDetails>
-          : <></>
-      }
-      {
-        editableTaskDetails ? <EditableTaskDetails selectedTask={selectedTask} setShowTaskDetails={setEditableTaskDetails}></EditableTaskDetails>
-          : <></>
-      }
-      {
-        showNewCategory ? <NewCategoryForm setShowNewCategory={setShowNewCategory}></NewCategoryForm> : <></>
-      }
-      {
-        leaveTeamConfirmation ? <LeaveTeamConfirmation setLeaveTeamConfirmation={setLeaveTeamConfirmation}></LeaveTeamConfirmation> : <></>
-      }
-      {
-        deleteCategoryConfirmation ? <DeleteCategoryConfirmation setDeleteCategoryConfirmation={setDeleteCategoryConfirmation}
+      {showNewTaskForm ? (
+        <NewTaskForm setShowNewTaskForm={setShowNewTaskForm}></NewTaskForm>
+      ) : (
+        <></>
+      )}
+      {showTaskDetails ? (
+        <TaskDetails
+          setShowTaskDetails={setShowTaskDetails}
+          setEditableTaskDetails={setEditableTaskDetails}
+          selectedTask={selectedTask}
+          isKoordinator={isKoordinator}
+        ></TaskDetails>
+      ) : (
+        <></>
+      )}
+      {editableTaskDetails ? (
+        <EditableTaskDetails
+          selectedTask={selectedTask}
+          setShowTaskDetails={setEditableTaskDetails}
+        ></EditableTaskDetails>
+      ) : (
+        <></>
+      )}
+      {showNewCategory ? (
+        <NewCategoryForm
+          setShowNewCategory={setShowNewCategory}
+        ></NewCategoryForm>
+      ) : (
+        <></>
+      )}
+      {leaveTeamConfirmation ? (
+        <LeaveTeamConfirmation
+          setLeaveTeamConfirmation={setLeaveTeamConfirmation}
+        ></LeaveTeamConfirmation>
+      ) : (
+        <></>
+      )}
+      {deleteCategoryConfirmation ? (
+        <DeleteCategoryConfirmation
+          setDeleteCategoryConfirmation={setDeleteCategoryConfirmation}
           categoryTitle
-        ></DeleteCategoryConfirmation> : <></>
-      }
-
+        ></DeleteCategoryConfirmation>
+      ) : (
+        <></>
+      )}
     </div>
   );
-
 }
