@@ -21,8 +21,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 @RestController
 @RequestMapping("/user")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -35,6 +37,7 @@ public class KorisnikController {
     private JwtService jwtService;
     @Autowired
     private AuthenticationManager authenticationManager;
+
     @Autowired
     public KorisnikController(KorisnikServiceImpl korisnikService, KoordinatorServiceImpl koordinatorService, ClanOdboraServiceImpl clanOdboraService) {
         this.korisnikService = korisnikService;
@@ -59,6 +62,15 @@ public class KorisnikController {
                     korisnikDTO.setUloga(clanOdboraDTO.getRole());
         }
         return ResponseEntity.ok(korisnikDTOList);
+    }
+
+    @GetMapping("/getById/{id}")
+    @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
+    public ResponseEntity<KorisnikDTO> getKorisnik(@PathVariable Integer id) {
+        KorisnikDTO korisnik = korisnikService.getKorisnik(id);
+        if (korisnik!=null)
+            return ResponseEntity.ok(korisnik);
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/new")

@@ -12,7 +12,7 @@ public class KategorijaDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "IdKategorija")
-    private int idKategorija;
+    private Integer idKategorija;
 
     @Column(name = "Naziv")
     private String naziv;
@@ -23,7 +23,7 @@ public class KategorijaDTO {
 
 
 
-    public int getIdKategorija() {
+    public Integer getIdKategorija() {
         return idKategorija;
     }
 
