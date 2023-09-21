@@ -67,7 +67,10 @@ public class KorisnikController {
     @GetMapping("/getById/{id}")
     @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public ResponseEntity<KorisnikDTO> getKorisnik(@PathVariable Integer id) {
-        return null;
+        KorisnikDTO korisnik = korisnikService.getKorisnik(id);
+        if (korisnik!=null)
+            return ResponseEntity.ok(korisnik);
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/new")
