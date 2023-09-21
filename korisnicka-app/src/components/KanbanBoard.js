@@ -7,9 +7,7 @@ import NewCategoryForm from "./NewCategoryForm";
 import LeaveTeamConfirmation from "./LeaveTeamConfirmation";
 import EditableTaskDetails from "./EditableTaskDetails";
 import { useNavigate } from "react-router-dom";
-
-const isKoordinator = true;
-const isClanOdbora = true;
+import DeleteCategoryConfirmation from "./DeleteCategoryConfirmation";
 
 const itemsFromBackend = [
   { id: uuid(), naziv: "Uraditi fetch broja clanova", tekst: "aaaaaa", rok: null, taskIsAssigned: true }, // uuid() automatski dodjeljuje neki random id kako bi i trebalo na FE, ali moze i sa id iz baze, nije bitno
@@ -43,6 +41,8 @@ function delay(time) {
 }
 
 const onDragEnd = (result, columns, setColumns) => {
+  console.log("result: ", result);
+  
   if (!result.destination) return;
   const { source, destination } = result;
 
@@ -79,13 +79,23 @@ const onDragEnd = (result, columns, setColumns) => {
   }
 };
 
-export default function KanbanBoard() {
+export default function KanbanBoard({loggedUser}) {
+
+  // const isKoordinator = loggedUser.idKorisnika === loggedUser.timovi.filter(tim => {
+  //   return tim.idTim === 0 // ovdje treba ici id trenutnog tima ali toga jos nemam
+  // })
+  // const isClanOdbora = loggedUser.role === "Clan odbora";
+  
+  const isKoordinator = true;
+  const isClanOdbora = false;
+
   const [columns, setColumns] = useState(columnsFromBackend);
   const [showNewTaskForm, setShowNewTaskForm] = useState(false);
   const [showTaskDetails, setShowTaskDetails] = useState(false);
   const [showNewCategory, setShowNewCategory] = useState(false);
   const [leaveTeamConfirmation, setLeaveTeamConfirmation] = useState(false);
   const [editableTaskDetails, setEditableTaskDetails] = useState(false);
+  const [deleteCategoryConfirmation, setDeleteCategoryConfirmation] = useState(false);
 
   const [selectedTask, setSelectedTask] = useState(null);
 
@@ -123,10 +133,14 @@ export default function KanbanBoard() {
     navigate('/settings', { replace: true });
   }
 
+  const handleDeleteCategory = () => {
+    setDeleteCategoryConfirmation(true);
+  }
+
   return (
     <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
       <div className="team-title-container">
-        <h1>Dizajn</h1>
+        <h1>IT</h1>
       </div>
       <div className="team-num-members-container">
         <h3>Broj članova: 23</h3>
@@ -148,7 +162,7 @@ export default function KanbanBoard() {
               <h2>{column.name}</h2>
               <div style={{ margin: 8 }}>
                 {
-                  isKoordinator ? <button className="remove-category-button">
+                  isKoordinator ? <button className="remove-category-button" onClick={handleDeleteCategory}>
                     <div className="remove-category-icon"></div>
                   </button> : <></>
                 }
@@ -192,7 +206,7 @@ export default function KanbanBoard() {
                                       borderRadius: "15px",
                                       backgroundColor: snapshot.isDragging
                                         ? "#f2c9c9"
-                                        : (item.taskIsAssigned ? "#ffd6d6" : "white"),
+                                        : "white",
                                       color: "black",
                                       ...provided.draggableProps.style
                                     }}
@@ -279,6 +293,11 @@ export default function KanbanBoard() {
       }
       {
         leaveTeamConfirmation ? <LeaveTeamConfirmation setLeaveTeamConfirmation={setLeaveTeamConfirmation}></LeaveTeamConfirmation> : <></>
+      }
+      {
+        deleteCategoryConfirmation ? <DeleteCategoryConfirmation setDeleteCategoryConfirmation={setDeleteCategoryConfirmation}
+        categoryTitle
+        ></DeleteCategoryConfirmation> : <></>
       }
 
     </div>

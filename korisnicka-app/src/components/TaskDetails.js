@@ -15,6 +15,7 @@ export default function TaskDetails({ selectedTask, setShowTaskDetails, setEdita
             <h4>{selectedTask.naziv}</h4>
             <h4>Do: {selectedTask.rok}</h4>
             <h4 className="text-area text-output">{selectedTask.tekst}</h4>
+            <h4>Vrijeme kreiranja: {selectedTask.rok}</h4>
             <h4>Rade: </h4>
             <div className="button-line">
                 <button className="long-button">Prijavite se</button>

@@ -3,11 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Teams } from "./Teams";
 import { TeamImages } from "./TeamImages";
+import axios from "axios";
 
 export const TeamsMenu = ({ loggedUser, teams }) => {
     //console.log(loggedUser);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if(loggedUser === null){
+            navigate('/', { replace: true });
+        }
+      }, []);
+
     function delay(time) {
         return new Promise(resolve => setTimeout(resolve, time));
     }
@@ -15,24 +23,22 @@ export const TeamsMenu = ({ loggedUser, teams }) => {
     const [seed, setSeed] = useState(1);
     const reset = () => {
         setSeed(Math.random());
-    }
+    }   
 
-    console.log(loggedUser);
-    if (loggedUser === null) {
-        console.log("aaaaaaaaaaaaa");
-        navigate('/', { replace: true }); // ovo i dalje ne radi, ne znam zasto
+    try{
+        if (loggedUser.timovi.length !== 0) {
+            teams.forEach((team, id) => {
+                //console.log(loggedUser.timovi)
+                const matchingTeam = loggedUser.timovi.find((tim) => team.naziv === tim.naziv);
+                if (matchingTeam) {
+                    teams[id].aktivan = true;
+                }
+                //console.log(teams[id]);
+            })
+        }
+    } catch(error){
     }
-
-    if (loggedUser.timovi.length !== 0) {
-        teams.forEach((team, id) => {
-            //console.log(loggedUser.timovi)
-            const matchingTeam = loggedUser.timovi.find((tim) => team.naziv === tim.naziv);
-            if (matchingTeam) {
-                teams[id].aktivan = true;
-            }
-            //console.log(teams[id]);
-        })
-    }
+    
 
     let teamClasses = [];
 
@@ -52,6 +58,22 @@ export const TeamsMenu = ({ loggedUser, teams }) => {
 
     const handleJoinClick = async (team) => {
         // dodaj u tim
+
+        try {
+            const response = await axios.put("http://localhost:8080/user/joinTeam",
+                { idKorisnika: loggedUser.idKorisnika, idTim: teams[team.id].idTim },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + localStorage.getItem("token"),
+                    },
+                },
+            )
+
+        } catch(error) {
+            console.error(error);
+        }
+
         await delay(10);
         if (!team.aktivan) {
             teams[team.id].aktivan = true;

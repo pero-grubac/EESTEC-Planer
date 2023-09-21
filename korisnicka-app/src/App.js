@@ -18,26 +18,31 @@ function App() {
   let teams = [
     {
         id: 0,
+        idTim: 4,
         naziv: "Design",
         aktivan: false
     },
     {
         id: 1,
+        idTim: 8,
         naziv: "IT",
         aktivan: false
     },
     {
         id: 2,
+        idTim: 5,
         naziv: "HR",
         aktivan: false
     },
     {
         id: 3,
+        idTim: 6,
         naziv: "PR",
         aktivan: false
     },
     {
         id: 4,
+        idTim: 7,
         naziv: "FR",
         aktivan: false
     }
