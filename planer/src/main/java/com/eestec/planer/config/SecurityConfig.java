@@ -46,9 +46,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
+        //, "/team/getAll", "question/add"
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/admins/login", "/user/login", "/team/getAll", "question/add").permitAll()
+                    auth.requestMatchers("/admins/login", "/user/login").permitAll()
                             .requestMatchers("/admins/**", "/user/**", "/superuser/**", "/question/**", "/clanodbora/**", "/team/**").authenticated();
 
 

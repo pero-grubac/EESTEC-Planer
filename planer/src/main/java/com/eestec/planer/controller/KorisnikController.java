@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 @RestController
 @RequestMapping("/user")
-//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 public class KorisnikController {
     private final Logger logger = LoggerFactory.getLogger(KorisnikController.class);
     private final KorisnikServiceImpl korisnikService;
