@@ -204,7 +204,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
   return (
     <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
       <div className="team-title-container">
-        <h1>IT</h1>
+        <h1>{teams.find(obj => {return obj.idTim === team}).naziv}</h1>
       </div>
       <div className="team-num-members-container">
         <h3>Broj članova: 23</h3>

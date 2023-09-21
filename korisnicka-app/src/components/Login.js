@@ -102,7 +102,7 @@ export const Login = (props) => {
         console.log("Registration successful");
 
         setShowSuccessfulRegistrationMessage(true);
-        await delay(3000);
+        await delay(1000);
         setIsLogin(true);
         // Store authentication data (e.g., token) and redirect
         // You can use a state management library like Redux for this
