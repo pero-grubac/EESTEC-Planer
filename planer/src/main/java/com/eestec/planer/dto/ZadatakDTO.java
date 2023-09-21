@@ -30,7 +30,7 @@ public class ZadatakDTO {
 
     @ManyToOne
     @JoinColumn(name = "IdKategorija")
-    private KategorijaDTO kategorija; // Promenjeno u KategorijaDTO
+    private KategorijaDTO kategorija;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "zadaci")
     @JsonIgnore

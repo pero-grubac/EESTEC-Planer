@@ -1,6 +1,7 @@
 package com.eestec.planer.controller;
 
 
+import com.eestec.planer.controller.util.KategorijeZadaci;
 import com.eestec.planer.controller.util.KorisnikZadatak;
 import com.eestec.planer.dao.KategorijaDAO;
 import com.eestec.planer.dto.KategorijaDTO;
@@ -59,22 +60,26 @@ public class ZadatakController {
 
     @GetMapping("/byTim/{idTim}")
     @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
-    public ResponseEntity<Map<String, List<ZadatakDTO>>> getZadaciByTimId(@PathVariable int idTim) {
-        Map<String, List<ZadatakDTO>> groupedZadaci = new HashMap<>();
+    public ResponseEntity<KategorijeZadaci> getZadaciByTimId(@PathVariable int idTim) {
+        List<ZadatakDTO> zadaci = new ArrayList<>();
         List<KategorijaDTO> kategorije = kategorijaDAO.findByTimDTO_IdTim(idTim);
-
         for (KategorijaDTO kategorija : kategorije) {
-            String nazivKategorije = kategorija.getNaziv();
-            List<ZadatakDTO> zadaci = zadatakService.getZadaciByKategorijaId(kategorija.getIdKategorija());
-
-            if (groupedZadaci.containsKey(nazivKategorije)) {
-                groupedZadaci.get(nazivKategorije).addAll(zadaci);
-            } else {
-                groupedZadaci.put(nazivKategorije, new ArrayList<>(zadaci));
-            }
+            List<ZadatakDTO> temp = zadatakService.getZadaciByKategorijaId(kategorija.getIdKategorija());
+            zadaci.addAll(temp);
         }
+        KategorijeZadaci kategorijeZadaci = new KategorijeZadaci();
+        kategorijeZadaci.setKategorije(kategorije);
+        kategorijeZadaci.setZadaci(zadaci);
+        return ResponseEntity.ok(kategorijeZadaci);
+    }
 
-        return ResponseEntity.ok(groupedZadaci);
+    @PostMapping("/update")
+    @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
+    public ResponseEntity<ZadatakDTO> update(@RequestBody ZadatakDTO zadatak) {
+        ZadatakDTO zadatakDTO = zadatakService.updateZadatak(zadatak);
+        if (zadatakDTO != null)
+            return ResponseEntity.ok().build();
+        else return ResponseEntity.notFound().build();
     }
 
 }

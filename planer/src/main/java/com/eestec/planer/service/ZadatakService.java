@@ -14,4 +14,6 @@ public interface ZadatakService {
     ZadatakDTO createZadatak(ZadatakDTO zadatakDTO);
 
     public List<ZadatakDTO> getZadaciByKategorijaId(int idKategorije);
+
+    ZadatakDTO updateZadatak(ZadatakDTO zadatakDTO);
 }

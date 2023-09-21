@@ -14,17 +14,18 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class ZadatakServiceImpl  implements ZadatakService
-{
+public class ZadatakServiceImpl implements ZadatakService {
 
     @Autowired
     private ZadatakDAO zadatakDAO;
     private KorisnikDAO korisnikDAO;
     private KategorijaDAO kategorijaDAO;
+
     @Override
     public List<ZadatakDTO> getAllZadaci() {
         return zadatakDAO.findAll();
     }
+
     @Override
     @Transactional
     public ZadatakDTO getZadatak(Integer id) {
@@ -69,6 +70,28 @@ public class ZadatakServiceImpl  implements ZadatakService
 
     public List<ZadatakDTO> getZadaciByKategorijaId(int idKategorije) {
         return zadatakDAO.findByKategorija_IdKategorija(idKategorije);
+    }
+
+    @Override
+    @Transactional
+    public ZadatakDTO updateZadatak(ZadatakDTO zadatakDTO) {
+        ZadatakDTO zadatak = zadatakDAO.findById(zadatakDTO.getIdZadatak()).orElse(null);
+        if (zadatak != null) {
+            if (zadatakDTO.getNaslov() != null || !zadatakDTO.getNaslov().isEmpty())
+                zadatak.setNaslov(zadatakDTO.getNaslov());
+
+            if (zadatakDTO.getTekst() != null || !zadatakDTO.getTekst().isEmpty())
+                zadatak.setTekst(zadatakDTO.getTekst());
+
+            if (zadatakDTO.getRok() != null)
+                zadatak.setRok(zadatakDTO.getRok());
+
+            if (zadatakDTO.getKategorija() != null) {
+                    zadatak.setKategorija(zadatakDTO.getKategorija());
+            }
+            return zadatak;
+        }
+        return null;
     }
 
 

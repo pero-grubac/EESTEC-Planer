@@ -16,6 +16,6 @@ public interface ZadatakDAO extends JpaRepository<ZadatakDTO, Integer> {
     List<ZadatakDTO> findByKategorija_IdKategorija(int idKategorije);
 
     @Modifying
-    @Query(value = "UPDATE ZadatakDTO z SET z.tekst = :tekst, z.rok = :rok, z.naslov = :naslov WHERE z.idZadatak = :id")
-    void updateZadatak(@Param("tekst") String tekst, @Param("rok") LocalDateTime rok, @Param("naslov") String naslov);
+    @Query(value = "UPDATE zadatak z SET z.Tekst = :tekst, z.Rok = :rok, z.Naslov = :naslov, z.IdKategorija = :idKategorija WHERE z.IdZadatak = :id", nativeQuery = true)
+    void updateZadatak(@Param("tekst") String tekst, @Param("rok") LocalDateTime rok, @Param("naslov") String naslov, @Param("idKategorija") Integer idKategorija, @Param("id") Integer id);
 }
