@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import DeleteCategoryConfirmation from "./DeleteCategoryConfirmation";
 import axios from "axios";
 
-const getTasks = async (team, navigate) => {
+const getCategoriesAndTasks = async (team, navigate) =>  {
   try {
     const response = await axios.get(`http://localhost:8080/zadatak/byTim/${team}`, {
       headers: {
@@ -21,43 +21,50 @@ const getTasks = async (team, navigate) => {
 
     console.log(response.data);
 
-    if( response.status === 403){
+    if (response.status === 403) {
       localStorage.clear();
-      navigate("/", {replace: true});
+      navigate("/", { replace: true });
     }
 
-    return response.data;
+    let tasks = response.data.zadaci.map(zadatak => ({ ...zadatak, id: uuid() }));
+    let categories = response.data.kategorije.map(kategorija => ({
+      ...kategorija, id: uuid(), items: tasks.filter(
+        task => { return task.kategorija.idKategorija === kategorija.idKategorija }
+      )
+    }))
+
+    return {tasks, categories};
 
   } catch (error) {
   }
 }
 
-const itemsFromBackend = [
-  { id: uuid(), naziv: "Uraditi fetch broja clanova", tekst: "aaaaaa", rok: null, taskIsAssigned: true }, // uuid() automatski dodjeljuje neki random id kako bi i trebalo na FE, ali moze i sa id iz baze, nije bitno
-  { id: uuid(), naziv: "Ne zaboraviti time remaining polje", tekst: "bbbbbb", rok: null, taskIsAssigned: false },
-  { id: uuid(), naziv: "Treba prikazati ime i prezime onoga ko radi zadatak", tekst: "cccccc", rok: null, taskIsAssigned: false },
-  { id: uuid(), naziv: "(Mozda) Promijeniti boju zadatka ako je zaduzen", teskt: "dddddd", rok: null, taskIsAssigned: true },
-  { id: uuid(), naziv: "Uljepsati prikaz zadatka", tekst: "1. uraditi nesto\n2. uraditi nesto drugo\n3. uraditi jos nesto\nneke napomene...", rok: null, taskIsAssigned: false }
-];
+// const itemsFromBackend = [
+//   { id: uuid(), naziv: "Uraditi fetch broja clanova", tekst: "aaaaaa", rok: null, taskIsAssigned: true }, // uuid() automatski dodjeljuje neki random id kako bi i trebalo na FE, ali moze i sa id iz baze, nije bitno
+//   { id: uuid(), naziv: "Ne zaboraviti time remaining polje", tekst: "bbbbbb", rok: null, taskIsAssigned: false },
+//   { id: uuid(), naziv: "Treba prikazati ime i prezime onoga ko radi zadatak", tekst: "cccccc", rok: null, taskIsAssigned: false },
+//   { id: uuid(), naziv: "(Mozda) Promijeniti boju zadatka ako je zaduzen", teskt: "dddddd", rok: null, taskIsAssigned: true },
+//   { id: uuid(), naziv: "Uljepsati prikaz zadatka", tekst: "1. uraditi nesto\n2. uraditi nesto drugo\n3. uraditi jos nesto\nneke napomene...", rok: null, taskIsAssigned: false }
+// ];
 
-const columnsFromBackend = {
-  [uuid()]: {
-    name: "Requested",
-    items: itemsFromBackend
-  },
-  [uuid()]: {
-    name: "To do",
-    items: []
-  },
-  [uuid()]: {
-    name: "In Progress",
-    items: []
-  },
-  [uuid()]: {
-    name: "Done",
-    items: []
-  }
-};
+// const columnsFromBackend = {
+//   [uuid()]: {
+//     name: "Requested",
+//     items: itemsFromBackend
+//   },
+//   [uuid()]: {
+//     name: "To do",
+//     items: []
+//   },
+//   [uuid()]: {
+//     name: "In Progress",
+//     items: []
+//   },
+//   [uuid()]: {
+//     name: "Done",
+//     items: []
+//   }
+// };
 
 function delay(time) {
   return new Promise(resolve => setTimeout(resolve, time));
@@ -104,14 +111,19 @@ const onDragEnd = (result, columns, setColumns) => {
 
 export default function KanbanBoard({ loggedUser, team, teams }) {
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
-  let tasksByCategory = getTasks(team, navigate);
+  let result = getCategoriesAndTasks(team, navigate);
+
+  const itemsFromBackend = result.tasks;
+  const columnsFromBackend = result.categories;
+
+  console.log("result", result, "items: ", itemsFromBackend);
 
   const currentTeam = loggedUser.timovi.filter(tim => {
-    return tim.idTim === team 
+    return tim.idTim === team
   })
-  
+
   const isKoordinator = loggedUser.idKorisnika === currentTeam[0].idKoordinator;
   const isClanOdbora = loggedUser.role === "Clan odbora";
 
@@ -186,7 +198,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
               }}
               key={columnId}
             >
-              <h2>{column.name}</h2>
+              <h2>{column.naziv}</h2>
               <div style={{ margin: 8 }}>
                 {
                   isKoordinator ? <button className="remove-category-button" onClick={handleDeleteCategory}>
@@ -262,7 +274,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
                             :
                             (
                               isClanOdbora ? (
-                                column.name === "Requested" ? <button className="plus-button" onClick={() => handleNewTaskClick(columnId, column)}>+</button>
+                                column.naziv === "Zadati" ? <button className="plus-button" onClick={() => handleNewTaskClick(columnId, column)}>+</button>
                                   :
                                   <></>
                               )
