@@ -295,6 +295,7 @@ button {
 .task {
   display: flex;
   flex-direction: column;
+  align-items: start;
 }
 
 .task-button {
@@ -350,7 +351,9 @@ button {
 .task-info-line {
   display: flex;
   flex-direction: row;
+  width: 100%;
   justify-content: space-evenly;
+  justify-content: space-between;
 }
 
 .task-countdown {

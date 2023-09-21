@@ -12,11 +12,11 @@ const isKoordinator = true;
 const isClanOdbora = false;
 
 const itemsFromBackend = [
-  { id: uuid(), naziv: "First task", tekst: "aaaaaa", rok: null }, // uuid() automatski dodjeljuje neki random id kako bi i trebalo na FE, ali moze i sa id iz baze, nije bitno
-  { id: uuid(), naziv: "Second task", tekst: "bbbbbb", rok: null },
-  { id: uuid(), naziv: "Third task", tekst: "cccccc", rok: null },
-  { id: uuid(), naziv: "Fourth task", teskt: "dddddd", rok: null },
-  { id: uuid(), naziv: "Fifth task", tekst: "1. uraditi nesto\n2. uraditi nesto drugo\n3. uraditi jos nesto\nneke napomene...", rok: null }
+  { id: uuid(), naziv: "Uraditi fetch broja clanova", tekst: "aaaaaa", rok: null, taskIsAssigned: true }, // uuid() automatski dodjeljuje neki random id kako bi i trebalo na FE, ali moze i sa id iz baze, nije bitno
+  { id: uuid(), naziv: "Ne zaboraviti time remaining polje", tekst: "bbbbbb", rok: null, taskIsAssigned: false },
+  { id: uuid(), naziv: "Treba prikazati ime i prezime onoga ko radi zadatak", tekst: "cccccc", rok: null, taskIsAssigned: false },
+  { id: uuid(), naziv: "(Mozda) Promijeniti boju zadatka ako je zaduzen", teskt: "dddddd", rok: null, taskIsAssigned: true },
+  { id: uuid(), naziv: "Uljepsati prikaz zadatka", tekst: "1. uraditi nesto\n2. uraditi nesto drugo\n3. uraditi jos nesto\nneke napomene...", rok: null, taskIsAssigned: false }
 ];
 
 const columnsFromBackend = {
@@ -181,12 +181,13 @@ export default function KanbanBoard() {
                                     style={{
                                       userSelect: "none",
                                       padding: 10,
+                                      paddingBottom: "0.25rem",
                                       margin: "0 0 8px 0",
                                       minHeight: "50px",
                                       borderRadius: "15px",
                                       backgroundColor: snapshot.isDragging
                                         ? "#f2c9c9"
-                                        : "white",
+                                        : (item.taskIsAssigned ? "#ffd6d6" : "white"),
                                       color: "black",
                                       ...provided.draggableProps.style
                                     }}
