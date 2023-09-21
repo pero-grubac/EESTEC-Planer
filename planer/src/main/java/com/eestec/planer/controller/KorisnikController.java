@@ -1,5 +1,6 @@
 package com.eestec.planer.controller;
 
+import com.eestec.planer.controller.util.AuthResponse;
 import com.eestec.planer.controller.util.KorisnikRequest;
 import com.eestec.planer.controller.util.KorisnikTim;
 import com.eestec.planer.controller.util.LoginForm;
@@ -132,7 +133,10 @@ public class KorisnikController {
             for (ClanOdboraDTO clanOdboraDTO : clanOdboraDTOList)
                 if (clanOdboraDTO.getIdClana() == korisnik.getIdKorisnika())
                     korisnik.setUloga("Clan odbora");
-            return ResponseEntity.ok(jwtService.generateToken(loginForm.getUsername()));
+            AuthResponse response = new AuthResponse();
+            response.setKorisnikDTO(korisnik);
+            response.setToken(jwtService.generateToken(loginForm.getUsername()));
+            return ResponseEntity.ok(response);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
 
