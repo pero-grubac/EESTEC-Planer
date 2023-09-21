@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/superuser")
-//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 public class SuperUserController {
 
     private final SuperUserServiceImpl superUserService;
