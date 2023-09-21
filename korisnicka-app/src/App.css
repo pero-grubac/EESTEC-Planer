@@ -510,3 +510,9 @@ label {
   margin: 0;
   background-color: #600000;
 }
+
+.remove-category-icon {
+  background-image: url(./images/x-white.png);
+  background-repeat: no-repeat;
+  background-size:contain;
+}
