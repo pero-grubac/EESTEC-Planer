@@ -35,7 +35,7 @@ public class ZadatakController {
 
     //  @PreAuthorize("hasAuthority('ROLE_SUPERUSER')")
     @PostMapping("/create")
-    @PreAuthorize(" hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
+    @PreAuthorize("hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public ResponseEntity<?> kreirajZadatak(@RequestBody ZadatakDTO zadatakDTO) {
         ZadatakDTO kreiraniZadatak = zadatakService.createZadatak(zadatakDTO);
 
