@@ -5,11 +5,11 @@ import com.eestec.planer.dto.KorisnikDTO;
 public class AuthResponse {
 
     private String token;
-    private KorisnikDTO korisnikDTO;
+    private KorisnikDTO korisnik;
 
     public AuthResponse(String token, KorisnikDTO korisnikDTO) {
         this.token = token;
-        this.korisnikDTO = korisnikDTO;
+        this.korisnik = korisnikDTO;
     }
 
     public AuthResponse() {
@@ -24,11 +24,11 @@ public class AuthResponse {
         this.token = token;
     }
 
-    public KorisnikDTO getKorisnikDTO() {
-        return korisnikDTO;
+    public KorisnikDTO getKorisnik() {
+        return korisnik;
     }
 
-    public void setKorisnikDTO(KorisnikDTO korisnikDTO) {
-        this.korisnikDTO = korisnikDTO;
+    public void setKorisnik(KorisnikDTO korisnik) {
+        this.korisnik = korisnik;
     }
 }

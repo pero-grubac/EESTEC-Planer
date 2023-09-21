@@ -134,7 +134,7 @@ public class KorisnikController {
                 if (clanOdboraDTO.getIdClana() == korisnik.getIdKorisnika())
                     korisnik.setUloga("Clan odbora");
             AuthResponse response = new AuthResponse();
-            response.setKorisnikDTO(korisnik);
+            response.setKorisnik(korisnik);
             response.setToken(jwtService.generateToken(loginForm.getUsername()));
             return ResponseEntity.ok(response);
         }
