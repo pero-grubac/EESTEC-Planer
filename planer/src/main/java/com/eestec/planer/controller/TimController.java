@@ -6,6 +6,7 @@ import com.eestec.planer.dto.TimDTO;
 import com.eestec.planer.service.TimServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class TimController {
     }
 
     @GetMapping("/getAll")
+    @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public ResponseEntity<List<TimDTO>> getAllTeams() {
         return ResponseEntity.ok(timService.getAllTeams());
     }
@@ -44,15 +46,15 @@ public class TimController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<TimDTO> deleteTim(@PathVariable Integer id){
-        if(timService.deleteTim(id))
+    public ResponseEntity<TimDTO> deleteTim(@PathVariable Integer id) {
+        if (timService.deleteTim(id))
             return ResponseEntity.noContent().build();
         else return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/members/{id}")
-    public ResponseEntity<List<KorisnikDTO>> getAllByIdTim(@PathVariable Integer id){
-        List<KorisnikDTO> korisnici= timService.getAllByIdTim(id);
-        return  ResponseEntity.ok(korisnici);
+    public ResponseEntity<List<KorisnikDTO>> getAllByIdTim(@PathVariable Integer id) {
+        List<KorisnikDTO> korisnici = timService.getAllByIdTim(id);
+        return ResponseEntity.ok(korisnici);
     }
 }

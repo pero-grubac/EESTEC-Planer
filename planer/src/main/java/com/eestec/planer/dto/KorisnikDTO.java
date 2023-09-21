@@ -41,6 +41,14 @@ public class KorisnikDTO {
     )
     private Set<TimDTO> timovi = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "korisnik_radi_zadatak",
+            joinColumns = @JoinColumn(name = "Korisnik_IdKorisnika", referencedColumnName = "IdKorisnika"),
+            inverseJoinColumns = @JoinColumn(name = "Zadatak_IdZadatak", referencedColumnName = "IdZadatak")
+    )
+    private Set<ZadatakDTO> zadaci = new HashSet<>();
     public KorisnikDTO() {
     }
 
@@ -145,5 +153,13 @@ public class KorisnikDTO {
 
     public String getRole() {
         return role;
+    }
+
+    public Set<ZadatakDTO> getZadaci() {
+        return zadaci;
+    }
+
+    public void setZadaci(Set<ZadatakDTO> zadaci) {
+        this.zadaci = zadaci;
     }
 }

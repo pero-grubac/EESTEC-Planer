@@ -50,7 +50,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/admins/login", "/user/login").permitAll()
-                            .requestMatchers("/admins/**", "/user/**", "/superuser/**", "/question/**", "/clanodbora/**", "/team/**").authenticated();
+                            .requestMatchers("/admins/**", "/user/**", "/superuser/**", "/question/**", "/clanodbora/**", "/team/**","/zadatak/**","/notifications/**","/category/**").authenticated();
 
 
                 })

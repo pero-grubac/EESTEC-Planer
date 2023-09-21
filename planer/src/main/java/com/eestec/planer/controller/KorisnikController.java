@@ -73,8 +73,6 @@ public class KorisnikController {
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> updateKorisnik(@RequestBody KorisnikRequest korisnikRequest) {
-
-
         KorisnikDTO korisnik = korisnikService.updateKorisnik(korisnikRequest);
         if (korisnik != null)
             return ResponseEntity.ok().build();
@@ -90,7 +88,7 @@ public class KorisnikController {
     }
 
     @PutMapping("/joinTeam")
-    @PreAuthorize("hasAuthority('KORISNIK')")
+    @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public ResponseEntity<String> joinTeam(@RequestBody KorisnikTim korisnikTim) {
         if (korisnikTim != null && korisnikTim.getIdKorisnika() != null && korisnikTim.getIdTim() != null) {
             boolean isOK = korisnikService.joinTim(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
@@ -105,7 +103,7 @@ public class KorisnikController {
     }
 
     @PutMapping("/leaveTeam")
-    @PreAuthorize("hasAuthority('KORISNIK')")
+    @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public ResponseEntity<?> leaveTeam(@RequestBody KorisnikTim korisnikTim) {
         if (korisnikTim != null && korisnikTim.getIdKorisnika() != null && korisnikTim.getIdTim() != null) {
             boolean isOK = korisnikService.leaveTim(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());

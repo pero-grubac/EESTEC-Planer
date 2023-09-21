@@ -24,7 +24,7 @@ public interface KorisnikDAO extends JpaRepository<KorisnikDTO, Integer> {
     @Modifying
     @Query(value = "INSERT INTO korisnik_pripada_timu (Korisnik_IdKorisnika, Tim_IdTim) " +
             "SELECT :idKorisnika AS Korisnik_IdKorisnika, :idTim AS Tim_IdTim " +
-            "FROM dual " + // Only required for some database systems like Oracle
+            "FROM dual " +
             "WHERE NOT EXISTS (" +
             "    SELECT 1 FROM korisnik_pripada_timu " +
             "    WHERE Korisnik_IdKorisnika = :idKorisnika AND Tim_IdTim = :idTim" +
