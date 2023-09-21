@@ -7,12 +7,16 @@ import com.eestec.planer.dto.ClanOdboraDTO;
 import com.eestec.planer.dto.KoordinatorDTO;
 import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.service.ClanOdboraServiceImpl;
+import com.eestec.planer.service.JwtService;
 import com.eestec.planer.service.KoordinatorServiceImpl;
 import com.eestec.planer.service.KorisnikServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +30,10 @@ public class KorisnikController {
     private final KorisnikServiceImpl korisnikService;
     private final KoordinatorServiceImpl koordinatorService;
     private final ClanOdboraServiceImpl clanOdboraService;
-
+    @Autowired
+    private JwtService jwtService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
     @Autowired
     public KorisnikController(KorisnikServiceImpl korisnikService, KoordinatorServiceImpl koordinatorService, ClanOdboraServiceImpl clanOdboraService) {
         this.korisnikService = korisnikService;
@@ -82,7 +89,7 @@ public class KorisnikController {
     }
 
     @PutMapping("/joinTeam")
-    @PreAuthorize("hasAuthority('Korisnik')")
+    @PreAuthorize("hasAuthority('KORISNIK')")
     public ResponseEntity<String> joinTeam(@RequestBody KorisnikTim korisnikTim) {
         if (korisnikTim != null && korisnikTim.getIdKorisnika() != null && korisnikTim.getIdTim() != null) {
             boolean isOK = korisnikService.joinTim(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
@@ -97,7 +104,7 @@ public class KorisnikController {
     }
 
     @PutMapping("/leaveTeam")
-    @PreAuthorize("hasAuthority('Korisnik')")
+    @PreAuthorize("hasAuthority('KORISNIK')")
     public ResponseEntity<?> leaveTeam(@RequestBody KorisnikTim korisnikTim) {
         if (korisnikTim != null && korisnikTim.getIdKorisnika() != null && korisnikTim.getIdTim() != null) {
             boolean isOK = korisnikService.leaveTim(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
@@ -113,8 +120,10 @@ public class KorisnikController {
 
     @PutMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginForm loginForm) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginForm.getLozinka(), loginForm.getUsername()));
+
         KorisnikDTO korisnik = korisnikService.login(loginForm);
-        if (korisnik != null) {
+        if (authentication.isAuthenticated()) {
             List<KoordinatorDTO> koordinatorDTOList = koordinatorService.getAllKoordinatori();
             List<ClanOdboraDTO> clanOdboraDTOList = clanOdboraService.getAllClanOdbora();
             for (KoordinatorDTO koordinator : koordinatorDTOList)
@@ -123,7 +132,7 @@ public class KorisnikController {
             for (ClanOdboraDTO clanOdboraDTO : clanOdboraDTOList)
                 if (clanOdboraDTO.getIdClana() == korisnik.getIdKorisnika())
                     korisnik.setUloga("Clan odbora");
-            return ResponseEntity.ok(korisnik);
+            return ResponseEntity.ok(jwtService.generateToken(loginForm.getUsername()));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
 

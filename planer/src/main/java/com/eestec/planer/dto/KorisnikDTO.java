@@ -66,8 +66,7 @@ public class KorisnikDTO {
     }
 
 
-    private transient String role = "Korisnik";
-
+    private static transient String role="KORISNIK";
     public String getIme() {
         return ime;
     }
