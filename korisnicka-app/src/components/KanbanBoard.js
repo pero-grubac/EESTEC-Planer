@@ -126,7 +126,7 @@ export default function KanbanBoard() {
   return (
     <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
       <div className="team-title-container">
-        <h1>Naziv tima</h1>
+        <h1>Dizajn</h1>
       </div>
       <div className="team-num-members-container">
         <h3>Broj članova: 23</h3>

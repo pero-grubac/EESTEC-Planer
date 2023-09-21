@@ -501,18 +501,27 @@ label {
 }
 
 .remove-category-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: center;
-  min-width: 1rem;
-  min-height: 1rem;
-  max-width: 1rem;
-  max-height: 1rem;
+  border-radius: 50px;
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  max-width: 1.5rem;
+  max-height: 1.5rem;
   z-index: 1001;
   margin: 0;
   background-color: #600000;
 }
 
 .remove-category-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-image: url(./images/x-white.png);
   background-repeat: no-repeat;
   background-size:contain;
+  min-height: 0.5rem;
+  width: 0.5rem;
 }
