@@ -9,7 +9,7 @@ import EditableTaskDetails from "./EditableTaskDetails";
 import { useNavigate } from "react-router-dom";
 
 const isKoordinator = true;
-const isClanOdbora = false;
+const isClanOdbora = true;
 
 const itemsFromBackend = [
   { id: uuid(), naziv: "Uraditi fetch broja clanova", tekst: "aaaaaa", rok: null, taskIsAssigned: true }, // uuid() automatski dodjeljuje neki random id kako bi i trebalo na FE, ali moze i sa id iz baze, nije bitno
