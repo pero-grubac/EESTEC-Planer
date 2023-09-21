@@ -214,10 +214,10 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
         onDragEnd={
           isClanOdbora && !isKoordinator
             ? () => {}
-            : (result) => onDragEnd(result, columns, setColumns)
+            : (result) => onDragEnd(result, columnsFromBackend, setColumnsFromBackend)
         }
       >
-        {Object.entries(columns).map(([columnId, column], index) => {
+        {Object.entries(columnsFromBackend).map(([columnId, column], index) => {
           return (
             <div
               style={{
@@ -284,7 +284,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
                                       ...provided.draggableProps.style,
                                     }}
                                   >
-                                    {item.naziv}
+                                    {item.naslov}
                                     <div className="task-info-line">
                                       <button
                                         className="task-button"
