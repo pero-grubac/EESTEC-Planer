@@ -499,3 +499,14 @@ label {
   background-repeat: no-repeat;
   background-size:contain;
 }
+
+.remove-category-button {
+  justify-content: center;
+  min-width: 1rem;
+  min-height: 1rem;
+  max-width: 1rem;
+  max-height: 1rem;
+  z-index: 1001;
+  margin: 0;
+  background-color: #600000;
+}

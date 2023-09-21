@@ -37,18 +37,18 @@ export const Login = (props) => {
             lozinka: password
         };
 
+        console.log(loginForm);
+
         try {
             const response = await axios.put('http://localhost:8080/user/login', loginForm);
 
             if (response.status === 200) {
                 // Authentication successful
                 console.log('Login successful');
-                const loggedUser = response.data;
+                localStorage.setItem('token', response.data.token)
+                const loggedUser = response.data.korisnik;
                 props.setLoggedUser(loggedUser);
-                console.log(loggedUser.uloga); // Now you can access loggedUser.uloga
-
-                // Store authentication data (e.g., token) and redirect
-                // You can use a state management library like Redux for this
+                console.log(loggedUser.uloga); 
 
                 setTimeout(() => {
                     navigate('/teams', { replace: true });

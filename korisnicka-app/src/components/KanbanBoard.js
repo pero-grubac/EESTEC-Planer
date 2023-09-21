@@ -147,6 +147,9 @@ export default function KanbanBoard() {
             >
               <h2>{column.name}</h2>
               <div style={{ margin: 8 }}>
+                {
+                  isKoordinator ? <button className="remove-category-button"></button> : <></>
+                }
                 <Droppable droppableId={columnId} key={columnId}>
                   {(provided, snapshot) => {
                     return (
@@ -261,7 +264,7 @@ export default function KanbanBoard() {
       {
         showTaskDetails ?
           <TaskDetails setShowTaskDetails={setShowTaskDetails} setEditableTaskDetails={setEditableTaskDetails}
-          selectedTask={selectedTask} isKoordinator={isKoordinator}>
+            selectedTask={selectedTask} isKoordinator={isKoordinator}>
           </TaskDetails>
           : <></>
       }
