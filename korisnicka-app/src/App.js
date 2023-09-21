@@ -14,6 +14,7 @@ import './index.css';
 function App() {
 
   const[loggedUser, setLoggedUser] = useState(null);
+  const [isAuthenticated, setUserIsAuthenticated] = useState(false);
 
   let teams = [
     {
@@ -51,13 +52,19 @@ function App() {
   return (
     <div className='background'>
       <Routes>
-        <Route path="/" element={<Login setLoggedUser={setLoggedUser}></Login>} />
-        <Route path="/teams" element={<TeamsMenu loggedUser={loggedUser} teams={teams}/>} />
-        <Route path="/teams/Design" element={<KanbanBoard loggedUser={loggedUser}></KanbanBoard>} />
-        <Route path="/teams/IT" element={<KanbanBoard loggedUser={loggedUser}></KanbanBoard>} />
-        <Route path="/teams/HR" element={<KanbanBoard loggedUser={loggedUser}></KanbanBoard>} />
-        <Route path="/teams/PR" element={<KanbanBoard loggedUser={loggedUser}></KanbanBoard>} />
-        <Route path="/teams/FR" element={<KanbanBoard loggedUser={loggedUser}></KanbanBoard>} />
+        <Route path="/" element={<Login setLoggedUser={setLoggedUser} setUserIsAuthenticated={setUserIsAuthenticated}></Login>} />
+        <Route path="/teams" element={<TeamsMenu loggedUser={loggedUser} teams={teams}/>} 
+        appProps={{ isAuthenticated }}/>
+        <Route path="/teams/Design" element={<KanbanBoard loggedUser={loggedUser} team={4}></KanbanBoard>} 
+        appProps={{ isAuthenticated }}/>
+        <Route path="/teams/IT" element={<KanbanBoard loggedUser={loggedUser} team={8}></KanbanBoard>} 
+        appProps={{ isAuthenticated }}/>
+        <Route path="/teams/HR" element={<KanbanBoard loggedUser={loggedUser} team={5}></KanbanBoard>} 
+        appProps={{ isAuthenticated }}/>
+        <Route path="/teams/PR" element={<KanbanBoard loggedUser={loggedUser} team={6}></KanbanBoard>} 
+        appProps={{ isAuthenticated }}/>
+        <Route path="/teams/FR" element={<KanbanBoard loggedUser={loggedUser} team={7}></KanbanBoard>} 
+        appProps={{ isAuthenticated }}/>
         <Route path="/settings" element={<Settings></Settings>} />
       </Routes>
     </div>

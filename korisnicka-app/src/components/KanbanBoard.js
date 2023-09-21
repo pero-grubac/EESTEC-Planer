@@ -8,6 +8,29 @@ import LeaveTeamConfirmation from "./LeaveTeamConfirmation";
 import EditableTaskDetails from "./EditableTaskDetails";
 import { useNavigate } from "react-router-dom";
 import DeleteCategoryConfirmation from "./DeleteCategoryConfirmation";
+import axios from "axios";
+
+const getTasks = async (team, navigate) => {
+  try {
+    const response = await axios.get(`http://localhost:8080/zadatak/byTim/${team}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+
+    console.log(response.data);
+
+    if( response.status === 403){
+      localStorage.clear();
+      navigate("/", {replace: true});
+    }
+
+    return response.data;
+
+  } catch (error) {
+  }
+}
 
 const itemsFromBackend = [
   { id: uuid(), naziv: "Uraditi fetch broja clanova", tekst: "aaaaaa", rok: null, taskIsAssigned: true }, // uuid() automatski dodjeljuje neki random id kako bi i trebalo na FE, ali moze i sa id iz baze, nije bitno
@@ -42,7 +65,7 @@ function delay(time) {
 
 const onDragEnd = (result, columns, setColumns) => {
   console.log("result: ", result);
-  
+
   if (!result.destination) return;
   const { source, destination } = result;
 
@@ -79,15 +102,20 @@ const onDragEnd = (result, columns, setColumns) => {
   }
 };
 
-export default function KanbanBoard({loggedUser}) {
+export default function KanbanBoard({ loggedUser, team, teams }) {
 
-  // const isKoordinator = loggedUser.idKorisnika === loggedUser.timovi.filter(tim => {
-  //   return tim.idTim === 0 // ovdje treba ici id trenutnog tima ali toga jos nemam
-  // })
-  // const isClanOdbora = loggedUser.role === "Clan odbora";
+  const navigate = useNavigate(); 
+
+  let tasksByCategory = getTasks(team, navigate);
+
+  const currentTeam = loggedUser.timovi.filter(tim => {
+    return tim.idTim === team 
+  })
   
-  const isKoordinator = true;
-  const isClanOdbora = false;
+  const isKoordinator = loggedUser.idKorisnika === currentTeam[0].idKoordinator;
+  const isClanOdbora = loggedUser.role === "Clan odbora";
+
+  // console.log("Kooridnator: ", isKoordinator, "Clan odbora: ", isClanOdbora);
 
   const [columns, setColumns] = useState(columnsFromBackend);
   const [showNewTaskForm, setShowNewTaskForm] = useState(false);
@@ -98,8 +126,6 @@ export default function KanbanBoard({loggedUser}) {
   const [deleteCategoryConfirmation, setDeleteCategoryConfirmation] = useState(false);
 
   const [selectedTask, setSelectedTask] = useState(null);
-
-  const navigate = useNavigate();
 
   const handleNewTaskClick = async (columnId, column) => {
     setShowNewTaskForm(true);
@@ -112,6 +138,7 @@ export default function KanbanBoard({loggedUser}) {
   }
 
   const handleLogoutClick = () => {
+    localStorage.clear();
     navigate('/', { replace: true });
   }
 
@@ -296,7 +323,7 @@ export default function KanbanBoard({loggedUser}) {
       }
       {
         deleteCategoryConfirmation ? <DeleteCategoryConfirmation setDeleteCategoryConfirmation={setDeleteCategoryConfirmation}
-        categoryTitle
+          categoryTitle
         ></DeleteCategoryConfirmation> : <></>
       }
 

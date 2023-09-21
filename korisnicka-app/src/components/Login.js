@@ -63,6 +63,8 @@ export const Login = (props) => {
         // Handle other successful responses or unexpected data
         console.log("Unexpected response:", response.data);
       }
+
+      props.setUserIsAuthenticated(true);
     } catch (error) {
       // Handle errors (e.g., authentication failure)
       console.error("Login error:", error.response.data);

@@ -11,10 +11,10 @@ export const TeamsMenu = ({ loggedUser, teams }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(loggedUser === null){
+        if (loggedUser === null) {
             navigate('/', { replace: true });
         }
-      }, []);
+    }, []);
 
     function delay(time) {
         return new Promise(resolve => setTimeout(resolve, time));
@@ -23,9 +23,9 @@ export const TeamsMenu = ({ loggedUser, teams }) => {
     const [seed, setSeed] = useState(1);
     const reset = () => {
         setSeed(Math.random());
-    }   
+    }
 
-    try{
+    try {
         if (loggedUser.timovi.length !== 0) {
             teams.forEach((team, id) => {
                 //console.log(loggedUser.timovi)
@@ -36,9 +36,8 @@ export const TeamsMenu = ({ loggedUser, teams }) => {
                 //console.log(teams[id]);
             })
         }
-    } catch(error){
+    } catch (error) {
     }
-    
 
     let teamClasses = [];
 
@@ -70,7 +69,7 @@ export const TeamsMenu = ({ loggedUser, teams }) => {
                 },
             )
 
-        } catch(error) {
+        } catch (error) {
             console.error(error);
         }
 
@@ -82,6 +81,7 @@ export const TeamsMenu = ({ loggedUser, teams }) => {
     }
 
     const handleLogoutClick = () => {
+        localStorage.clear();
         navigate('/', { replace: true });
     }
 
