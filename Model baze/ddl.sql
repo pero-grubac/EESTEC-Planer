@@ -306,7 +306,7 @@ CREATE TABLE `zadatak` (
 
 LOCK TABLES `zadatak` WRITE;
 /*!40000 ALTER TABLE `zadatak` DISABLE KEYS */;
-INSERT INTO `zadatak` VALUES (1,'Help me',1,'2023-12-02 00:00:00',7,'2023-02-02 00:00:00','FML'),(2,'Radi',2,'2023-12-02 00:00:00',7,'2023-02-02 00:00:00','PLZ'),(3,'test',1,'2023-12-02 00:00:00',7,'2023-02-02 00:00:00','plz'),(4,'Sample task',1,'2023-12-02 00:00:00',37,'2023-09-21 19:45:41','Sample Title'),(5,'Sample task',1,'2023-12-02 00:00:00',37,'2023-09-21 19:46:11','Sample Title'),(6,'Sample task',1,'2023-12-02 00:00:00',37,'2023-09-21 19:46:24','Sample Title'),(7,'Sample task',1,'2023-12-02 00:00:00',37,'2023-09-21 19:46:47','Sample Title');
+INSERT INTO `zadatak` VALUES (1,'Help me',1,'2023-12-02 00:00:00',37,'2023-02-02 00:00:00','FML'),(2,'Radi',2,'2023-12-02 00:00:00',37,'2023-02-02 00:00:00','PLZ'),(3,'test',1,'2023-12-02 00:00:00',37,'2023-02-02 00:00:00','plz'),(4,'Sample task',1,'2023-12-02 00:00:00',37,'2023-09-21 19:45:41','Sample Title'),(5,'Sample task',1,'2023-12-02 00:00:00',37,'2023-09-21 19:46:11','Sample Title'),(6,'Sample task',1,'2023-12-02 00:00:00',37,'2023-09-21 19:46:24','Sample Title'),(7,'Sample task',1,'2023-12-02 00:00:00',37,'2023-09-21 19:46:47','Sample Title');
 /*!40000 ALTER TABLE `zadatak` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -350,4 +350,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-21 19:54:13
+-- Dump completed on 2023-09-21 19:55:50
