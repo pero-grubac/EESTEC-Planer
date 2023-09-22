@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: eestecplaner
+-- Host: localhost    Database: eestecplaner
 -- ------------------------------------------------------
 -- Server version	8.0.32
 
@@ -24,8 +24,8 @@ DROP TABLE IF EXISTS `admin`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `admin` (
   `IdAdmin` int NOT NULL AUTO_INCREMENT,
-  `KorisnickoIme` varchar(45) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `Lozinka` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `KorisnickoIme` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `Lozinka` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`IdAdmin`),
   UNIQUE KEY `KorisnickoIme` (`KorisnickoIme`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
@@ -74,12 +74,12 @@ DROP TABLE IF EXISTS `kategorija`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `kategorija` (
   `IdKategorija` int NOT NULL AUTO_INCREMENT,
-  `Naziv` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `Naziv` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `IdTim` int NOT NULL,
   PRIMARY KEY (`IdKategorija`),
   KEY `fk_Kategorija_Tim1_idx` (`IdTim`),
   CONSTRAINT `IdTim` FOREIGN KEY (`IdTim`) REFERENCES `tim` (`IdTim`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,7 +100,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`pero`@`localhost`*/ /*!50003 TRIGGER `kategorija_delete_trigger` BEFORE DELETE ON `kategorija` FOR EACH ROW BEGIN
+/*!50003 CREATE*/ /*!50017 DEFINER=`korisnik`@`localhost`*/ /*!50003 TRIGGER `kategorija_delete_trigger` BEFORE DELETE ON `kategorija` FOR EACH ROW BEGIN
     DELETE FROM Zadatak WHERE IdKategorija = OLD.IdKategorija;
 END */;;
 DELIMITER ;
@@ -141,11 +141,11 @@ DROP TABLE IF EXISTS `korisnik`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `korisnik` (
-  `Ime` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `Prezime` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `KorisnickoIme` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `Lozinka` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `Email` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `Ime` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `Prezime` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `KorisnickoIme` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `Lozinka` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `Email` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `IdKorisnika` int NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`IdKorisnika`),
   UNIQUE KEY `KorisnickoIme_UNIQUE` (`KorisnickoIme`),
@@ -232,7 +232,7 @@ CREATE TABLE `korisnik_radi_zadatak` (
 
 LOCK TABLES `korisnik_radi_zadatak` WRITE;
 /*!40000 ALTER TABLE `korisnik_radi_zadatak` DISABLE KEYS */;
-INSERT INTO `korisnik_radi_zadatak` VALUES (6,3),(6,4),(6,8);
+INSERT INTO `korisnik_radi_zadatak` VALUES (6,3),(37,3),(6,4),(37,4),(6,8);
 /*!40000 ALTER TABLE `korisnik_radi_zadatak` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -245,7 +245,7 @@ DROP TABLE IF EXISTS `notifikacija`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `notifikacija` (
   `IdObjava` int NOT NULL AUTO_INCREMENT,
-  `Sadržaj` varchar(450) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `Sadržaj` varchar(450) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   `VrijemeKreiranja` datetime NOT NULL,
   `IdSuperuser` int NOT NULL,
   PRIMARY KEY (`IdObjava`),
@@ -296,7 +296,7 @@ DROP TABLE IF EXISTS `tim`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tim` (
   `IdTim` int NOT NULL AUTO_INCREMENT,
-  `Naziv` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `Naziv` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `IdKoordinator` int DEFAULT NULL,
   PRIMARY KEY (`IdTim`),
   KEY `IdKoordinator` (`IdKoordinator`),
@@ -341,12 +341,12 @@ DROP TABLE IF EXISTS `zadatak`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `zadatak` (
   `IdZadatak` int NOT NULL AUTO_INCREMENT,
-  `Tekst` varchar(450) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `Tekst` varchar(450) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `IdKategorija` int NOT NULL,
   `Rok` datetime NOT NULL,
   `IdAutora` int NOT NULL,
   `DatumKreiranja` datetime NOT NULL,
-  `Naslov` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `Naslov` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   PRIMARY KEY (`IdZadatak`),
   KEY `fk_Zadatak_Kategorija1_idx` (`IdKategorija`),
   CONSTRAINT `fk_Zadatak_Kategorija1` FOREIGN KEY (`IdKategorija`) REFERENCES `kategorija` (`IdKategorija`)
@@ -359,7 +359,7 @@ CREATE TABLE `zadatak` (
 
 LOCK TABLES `zadatak` WRITE;
 /*!40000 ALTER TABLE `zadatak` DISABLE KEYS */;
-INSERT INTO `zadatak` VALUES (3,'Sample task update',1,'2023-12-02 00:00:00',37,'2023-02-02 00:00:00','Sample Title update'),(4,'Sample task update 2',2,'2023-12-02 00:00:00',37,'2023-09-21 19:45:41','Sample Title update 2'),(5,'Sample task',1,'2023-12-02 00:00:00',37,'2023-09-21 19:46:11','Sample Title'),(7,'Sample task',1,'2023-12-02 00:00:00',37,'2023-09-21 19:46:47','Sample Title'),(8,'drugi tim',13,'2023-12-02 00:00:00',33,'2023-09-21 19:46:47','Sample Title');
+INSERT INTO `zadatak` VALUES (3,'Sample task update',3,'2023-12-02 00:00:00',37,'2023-02-02 00:00:00','Sample Title update'),(4,'Sample task update 2',3,'2023-12-02 00:00:00',37,'2023-09-21 19:45:41','Sample Title update 2'),(5,'Sample task',1,'2023-12-02 00:00:00',37,'2023-09-21 19:46:11','Sample Title'),(7,'Sample task',1,'2023-12-02 00:00:00',37,'2023-09-21 19:46:47','Sample Title'),(8,'drugi tim',13,'2023-12-02 00:00:00',33,'2023-09-21 19:46:47','Sample Title');
 /*!40000 ALTER TABLE `zadatak` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -371,13 +371,13 @@ DROP TABLE IF EXISTS `zahtjev`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `zahtjev` (
-  `KorisničkoIme` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `Ime` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `Lozinka` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `KorisničkoIme` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `Ime` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `Lozinka` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `IdZahtjev` int NOT NULL AUTO_INCREMENT,
-  `Prezime` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `Prezime` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `DatumKreiranja` datetime DEFAULT NULL,
-  `Email` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `Email` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   PRIMARY KEY (`IdZahtjev`),
   UNIQUE KEY `KorisničkoIme_UNIQUE` (`KorisničkoIme`),
   UNIQUE KEY `Email_UNIQUE` (`Email`)
@@ -411,7 +411,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`pero`@`localhost` PROCEDURE `DeleteKorisnikFromKorisnikRadiZadatak`(IN korisnikId INT, IN timId INT)
+CREATE DEFINER=`korisnik`@`localhost` PROCEDURE `DeleteKorisnikFromKorisnikRadiZadatak`(IN korisnikId INT, IN timId INT)
 BEGIN
   -- Delete korisnik from korisnik_radi_zadatak for zadataks associated with categories of the team
   DELETE krz
@@ -439,4 +439,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-22 21:40:42
+-- Dump completed on 2023-09-23  0:21:07
