@@ -46,11 +46,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        //, "/team/getAll", "question/add"
+        //, "/team/getAll", "question/add" .requestMatchers("/admins/login").permitAll()
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/admins/login", "/user/login","/question/add").permitAll()
-                            .requestMatchers("/admins/**", "/user/**", "/superuser/**", "/question/**", "/clanodbora/**", "/team/**","/zadatak/**","/notifications/**","/category/**").authenticated();
+                    auth.requestMatchers( "/admins/**","/user/login").permitAll()
+                            .requestMatchers( "/user/**", "/superuser/**", "/question/**", "/clanodbora/**", "/team/**","/zadatak/**","/category/**").authenticated();
 
 
                 })

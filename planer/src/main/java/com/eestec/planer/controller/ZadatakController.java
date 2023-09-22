@@ -82,4 +82,14 @@ public class ZadatakController {
         else return ResponseEntity.notFound().build();
     }
 
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
+        if (zadatakService.deleteZadtak(id)) {
+            return ResponseEntity.ok("Zahtjev s ID-om " + id + " je obrisan.");
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+
 }

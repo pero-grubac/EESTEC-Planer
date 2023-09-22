@@ -16,4 +16,7 @@ public interface ZadatakService {
     public List<ZadatakDTO> getZadaciByKategorijaId(int idKategorije);
 
     ZadatakDTO updateZadatak(ZadatakDTO zadatakDTO);
+
+    boolean deleteZadtak(Integer id);
+
 }
