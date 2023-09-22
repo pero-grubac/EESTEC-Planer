@@ -6,6 +6,8 @@ import com.eestec.planer.dto.AdminDTO;
 import com.eestec.planer.service.AdminServiceImpl;
 import com.eestec.planer.service.JwtService;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,7 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:3000")
 public class AdminController {
     private final AdminServiceImpl adminService; // Use AdminServiceImpl
+    private final Logger logger = LoggerFactory.getLogger(KorisnikController.class);
 
 
     @Autowired
@@ -43,25 +46,25 @@ public class AdminController {
 
 
 
-    @GetMapping("/getall")
-    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<List<AdminDTO>> getAllAdmins() {
-        List<AdminDTO> admins = adminService.getAllAdmins();
-        return ResponseEntity.ok(admins);
-    }
+//    @GetMapping("/getall")
+//    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    public ResponseEntity<List<AdminDTO>> getAllAdmins() {
+//        List<AdminDTO> admins = adminService.getAllAdmins();
+//        return ResponseEntity.ok(admins);
+//    }
 
 
-    @PostMapping("/new")
-    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<Void> createAdmin(@RequestBody AdminDTO adminDTO) {
-        AdminDTO admin = adminService.createAdmin(adminDTO);
-        if (admin != null)
-            return ResponseEntity.ok().build();
-        else return ResponseEntity.notFound().build();
-    }
+//    @PostMapping("/new")
+//    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    public ResponseEntity<Void> createAdmin(@RequestBody AdminDTO adminDTO) {
+//        AdminDTO admin = adminService.createAdmin(adminDTO);
+//        if (admin != null)
+//            return ResponseEntity.ok().build();
+//        else return ResponseEntity.notFound().build();
+//    }
 
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> updateAdmin(@RequestBody KorisnikRequest admin) {
         AdminDTO updatedAdmin = adminService.updateAdmin(admin);
         if (updatedAdmin != null) {
@@ -75,6 +78,8 @@ public class AdminController {
     @PutMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginForm loginForm) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginForm.getLozinka(), loginForm.getUsername()));
+        logger.info(loginForm.toString());
+        logger.info(authentication.getCredentials().toString()+" "+authentication.getAuthorities());
         if (authentication.isAuthenticated())
             return ResponseEntity.ok(jwtService.generateToken(loginForm.getUsername()));
         else
@@ -82,14 +87,14 @@ public class AdminController {
     }
 
 
-    @DeleteMapping("/delete/{id}")
-    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<Void> deleteAdmin(@PathVariable Integer id) {
-        boolean isOk = adminService.deleteAdmin(id);
-        if (isOk)
-            return ResponseEntity.noContent().build();
-        else return ResponseEntity.notFound().build();
-    }
+//    @DeleteMapping("/delete/{id}")
+//    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    public ResponseEntity<Void> deleteAdmin(@PathVariable Integer id) {
+//        boolean isOk = adminService.deleteAdmin(id);
+//        if (isOk)
+//            return ResponseEntity.noContent().build();
+//        else return ResponseEntity.notFound().build();
+//    }
 
 //    @PostMapping("/authenticate")
 //    public String authenticateAndGetToken(@RequestBody LoginForm loginForm) {

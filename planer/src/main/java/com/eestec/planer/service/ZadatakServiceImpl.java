@@ -94,5 +94,15 @@ public class ZadatakServiceImpl implements ZadatakService {
         return null;
     }
 
+    @Override
+    public boolean deleteZadtak(Integer id) {
+       ZadatakDTO zadatak = zadatakDAO.findById(id).orElse(null);
+       if(zadatak!=null){
+           zadatakDAO.delete(zadatak);
+           return true;
+       }
+       return false;
+    }
+
 
 }
