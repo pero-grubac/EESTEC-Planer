@@ -130,7 +130,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
     }
   }
 
-  const onDragEnd = async (result, columns, setColumns, items, team, navigate, setItemsFromBackend, setColumnsFromBackend, setResult) => {
+  const onDragEnd = async (result, columns, setColumns, items) => {
     // console.log("on drag end result: ", result);
     // console.log("columns: ", columns);
     // console.log("new category id: ", columns[result.destination.droppableId].idKategorija);

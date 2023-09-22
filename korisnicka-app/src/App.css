@@ -498,7 +498,6 @@ label {
   margin-right: 0.25rem;
   min-height: 1rem;
   width: 1rem;
-  z-index: 999;
   background-image: url(./images/clock-white.png);
   background-repeat: no-repeat;
   background-size:contain;
@@ -528,4 +527,12 @@ label {
   background-size:contain;
   min-height: 0.5rem;
   width: 0.5rem;
+}
+
+.text-background {
+  padding: 0.25rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-color: white;
+  border-radius: 20px;
 }
