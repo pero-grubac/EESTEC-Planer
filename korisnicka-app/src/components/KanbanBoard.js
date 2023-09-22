@@ -47,6 +47,29 @@ const getCategoriesAndTasks = async (team, navigate) => {
   }
 };
 
+
+// function formatDateTime(isoDate) {
+//   const date = new Date(isoDate);
+//   const year = date.getFullYear();
+//   const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is zero-based
+//   const day = String(date.getDate()).padStart(2, '0');
+//   const hours = String(date.getHours()).padStart(2, '0');
+//   const minutes = String(date.getMinutes()).padStart(2, '0');
+//   const seconds = String(date.getSeconds()).padStart(2, '0');
+//   return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
+// }
+
+
+const getTimeRemaining = (timeFromBackend) => {
+  const date = new Date(timeFromBackend);
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const currentDate = new Date();
+  const currentDay = String(currentDate.getDate()).padStart(2, '0');
+  const currentHours = String(currentDate.getHours()).padStart(2, '0');
+  return `${day-currentDay}d ${hours-currentHours}h`;
+}
+
 // const itemsFromBackend = [
 //   { id: uuid(), naziv: "Uraditi fetch broja clanova", tekst: "aaaaaa", rok: null, taskIsAssigned: true }, // uuid() automatski dodjeljuje neki random id kako bi i trebalo na FE, ali moze i sa id iz baze, nije bitno
 //   { id: uuid(), naziv: "Ne zaboraviti time remaining polje", tekst: "bbbbbb", rok: null, taskIsAssigned: false },
@@ -118,11 +141,13 @@ const onDragEnd = (result, columns, setColumns) => {
 };
 
 export default function KanbanBoard({ loggedUser, team, teams }) {
+
   const navigate = useNavigate();
 
   const [itemsFromBackend, setItemsFromBackend] = useState([]);
   const [columnsFromBackend, setColumnsFromBackend] = useState([]);
   const [result, setResult] = useState(null);
+  const [currentCategory, setCurrentCategory] = useState(null);
 
   useEffect(() => {
     const fetchCategoriesAndTasks = async () => {
@@ -164,7 +189,8 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
 
   const [selectedTask, setSelectedTask] = useState(null);
 
-  const handleNewTaskClick = async (columnId, column) => {
+  const handleNewTaskClick = async (column) => {
+    setCurrentCategory(column.idKategorija);
     setShowNewTaskForm(true);
   };
 
@@ -202,7 +228,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
+    <div key={new Date().getTime()} style={{ display: "flex", justifyContent: "center", height: "100%" }}>
       <div className="team-title-container">
         <h1>{teams.find(obj => {return obj.idTim === team}).naziv}</h1>
       </div>
@@ -294,7 +320,9 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
                                       </button>
                                       <p className="task-countdown">
                                         <div className="countdown-icon"></div>
-                                        6d 5h
+                                        {
+                                          getTimeRemaining(item.rok)
+                                        }
                                       </p>
                                     </div>
                                   </div>
@@ -307,7 +335,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
                         {isKoordinator ? (
                           <button
                             className="plus-button"
-                            onClick={() => handleNewTaskClick(columnId, column)}
+                            onClick={() => handleNewTaskClick(column)}
                           >
                             +
                           </button>
@@ -316,7 +344,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
                             <button
                               className="plus-button"
                               onClick={() =>
-                                handleNewTaskClick(columnId, column)
+                                handleNewTaskClick(columnId)
                               }
                             >
                               +
@@ -373,7 +401,15 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
       )}
 
       {showNewTaskForm ? (
-        <NewTaskForm setShowNewTaskForm={setShowNewTaskForm}></NewTaskForm>
+        <NewTaskForm setShowNewTaskForm={setShowNewTaskForm} loggedUserId={loggedUser.idKorisnika} 
+        categoryId={currentCategory} loggedUser={loggedUser.idKorisnika} 
+        setCategories={setColumnsFromBackend}
+        setItems={setItemsFromBackend}
+        setResult={setResult}
+        getCategoriesAndItems={getCategoriesAndTasks}
+        team={team}
+        navigate={navigate}
+        ></NewTaskForm>
       ) : (
         <></>
       )}

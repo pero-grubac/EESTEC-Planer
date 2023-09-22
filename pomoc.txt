@@ -33,4 +33,9 @@ zahtjev
     "email": "nemamejlaidalje@mail.com",
     "datumKreiranja": "2023-02-02"
 }
+
+korisnik 
+`http://localhost:8080/user/getById/${id}`
+
+
 usmjesto refresha reset <--- za sofiju

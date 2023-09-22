@@ -5,7 +5,7 @@ import { Teams } from "./Teams";
 import { TeamImages } from "./TeamImages";
 import axios from "axios";
 
-export const TeamsMenu = ({ loggedUser, teams }) => {
+export const TeamsMenu = ({ loggedUser, teams, setLoggedUser }) => {
     //console.log(loggedUser);
 
     const navigate = useNavigate();
@@ -77,6 +77,30 @@ export const TeamsMenu = ({ loggedUser, teams }) => {
         if (!team.aktivan) {
             teams[team.id].aktivan = true;
             reset();
+        }
+
+        try {
+            const response = await axios.get(
+                `http://localhost:8080/user/getById/${loggedUser.idKorisnika}`,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + localStorage.getItem("token"),
+                },
+              }
+            );
+        
+            console.log("fecovanje ", response.data);
+        
+            if (response.status === 403) {
+              localStorage.clear();
+              navigate("/", { replace: true });
+            }
+
+            setLoggedUser(response.data);
+
+        } catch(error) {
+            console.error(error);
         }
     }
 
