@@ -1,15 +1,60 @@
 import { useState } from "react";
+import axios from "axios";
 
-export default function NewTaskForm({setShowNewTaskForm}) {
+function delay(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+export default function NewTaskForm({ setShowNewTaskForm, categoryId, loggedUserId,
+    setItems, setCategories, setResult, getCategoriesAndItems, team, navigate }) {
     const [taskTitle, setTaskTitle] = useState("");
     const [taskText, setTaskText] = useState("");
     const [taskDeadline, setTaskDeadline] = useState("");
 
-    return(
+    const handleSubmitNewTask = async () => {
+        console.log("deadline: ", taskDeadline);
+        try {
+            const createTask = await axios.post(
+                "http://localhost:8080/zadatak/create",
+                {
+                    tekst: taskText,
+                    rok: taskDeadline,
+                    idAutora: loggedUserId,
+                    naslov: taskTitle,
+                    kategorija: {
+                        idKategorija: categoryId
+                    }
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + localStorage.getItem("token"),
+                    },
+                }
+            );
+
+            setShowNewTaskForm(false);
+
+            try {
+                const result = await getCategoriesAndItems(team, navigate);
+
+                setItems(result.tasks);
+                setCategories(result.categories);
+                setResult(result);
+            } catch (error) {
+                console.error(error);
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    return (
         <div className="new-task-form-container">
-             <button className="x-button" onClick={() => setShowNewTaskForm(false)}>
-             <div className="x-button-x"></div>
-             </button>
+            <button className="x-button" onClick={() => setShowNewTaskForm(false)}>
+                <div className="x-button-x"></div>
+            </button>
             <h2>Novi zadatak:</h2>
             <input className="new-task-input" placeholder="Naslov"
                 value={taskTitle}
@@ -23,7 +68,7 @@ export default function NewTaskForm({setShowNewTaskForm}) {
                 value={taskText}
                 onChange={(e) => setTaskText(e.target.value)}
             ></textarea>
-            <button>Dodajte zadatak</button>
+            <button onClick={handleSubmitNewTask}>Dodajte zadatak</button>
         </div>
     )
 }
