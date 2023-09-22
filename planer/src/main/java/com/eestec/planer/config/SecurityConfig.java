@@ -49,8 +49,8 @@ public class SecurityConfig {
         //, "/team/getAll", "question/add" .requestMatchers("/admins/login").permitAll()
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers( "/admins/**").permitAll()
-                            .requestMatchers( "/user/**", "/superuser/**", "/question/**", "/clanodbora/**", "/team/**","/zadatak/**","/notifications/**","/category/**").authenticated();
+                    auth.requestMatchers( "/admins/**","/user/login").permitAll()
+                            .requestMatchers( "/user/**", "/superuser/**", "/question/**", "/clanodbora/**", "/team/**","/zadatak/**","/category/**").authenticated();
 
 
                 })
