@@ -474,6 +474,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
           setShowTaskDetails={setShowTaskDetails}
           setEditableTaskDetails={setEditableTaskDetails}
           selectedTask={selectedTask}
+          users={usersFromBackend}
           isKoordinator={isKoordinator}
           formatDate={formatDateTime}
         ></TaskDetails>

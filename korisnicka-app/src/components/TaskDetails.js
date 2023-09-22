@@ -6,11 +6,22 @@ function delay(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
 }
 
-export default function TaskDetails({ selectedTask, setShowTaskDetails, setEditableTaskDetails, isKoordinator, formatDate }) {
+export default function TaskDetails({ selectedTask, users, setShowTaskDetails, setEditableTaskDetails, isKoordinator, formatDate }) {
 
     const [assignTaskConfirmation, setAssignTaskConfirmation] = useState(false);
     const [dropTaskConfirmation, setDropTaskConfirmation] = useState(false);
     const [isAssignedByUser, setIsAssignedByUser] = useState(false);
+
+    let usersOnTask = [];
+
+    users.forEach(user => user.zadaci.forEach(zadatak => zadatak.idZadatak === selectedTask.idZadatak ? usersOnTask.push(user) : {} ));
+
+    // let usersOnTask = users.filter(user => {return selectedTask.idZadatak === user.zadaci.filter(
+    //     zadatak => { return zadatak.idZadatak === selectedTask.idZadatak }
+    // )});
+    console.log("usersOnTask: ", usersOnTask);
+    let workingOnTask = "";
+    usersOnTask.forEach(user => workingOnTask += user.ime + " " + user.prezime + " ");
 
     const handleEditTaskClick = () => {
         setEditableTaskDetails(true);
@@ -52,7 +63,7 @@ export default function TaskDetails({ selectedTask, setShowTaskDetails, setEdita
             <h4>Do: {formatDate(selectedTask.rok)}</h4>
             <h4 className="text-area text-output">{selectedTask.tekst}</h4>
             <h4>Vrijeme kreiranja: {formatDate(selectedTask.rok)}</h4>
-            <h4>Rade: </h4>
+            <h4>Rade: { workingOnTask }</h4>
             <div className="button-line">
                 {
                     isAssignedByUser ? <button className="long-button" onClick={handleDropTaskClick}>Odjavite se</button> :
