@@ -15,7 +15,7 @@ public class KoordinatorDTO {
     @OneToOne
     @JoinColumn(name = "IdKoordinator")
     private SuperUserDTO superuser;
-    private static transient String role = "ROLE_KOORDINATOR";
+
     private transient String uloga = "Koordinator";
 
     /*   @OneToOne(mappedBy ="koordinator",cascade = CascadeType.REMOVE)
@@ -31,13 +31,7 @@ public class KoordinatorDTO {
         idKoordinator = id;
     }
 
-    public static String getRole() {
-        return role;
-    }
 
-    public static void setRole(String role) {
-        KoordinatorDTO.role = role;
-    }
 
     public SuperUserDTO getSuperuser() {
         return superuser;

@@ -49,6 +49,7 @@ public class KorisnikDTO {
             inverseJoinColumns = @JoinColumn(name = "Zadatak_IdZadatak", referencedColumnName = "IdZadatak")
     )
     private Set<ZadatakDTO> zadaci = new HashSet<>();
+
     public KorisnikDTO() {
     }
 
@@ -74,7 +75,8 @@ public class KorisnikDTO {
     }
 
 
-    private static transient String role="KORISNIK";
+    private static transient String role = "KORISNIK";
+    private transient String uloga = "Korisnik";
     public String getIme() {
         return ime;
     }
@@ -125,11 +127,11 @@ public class KorisnikDTO {
     }
 
     public String getUloga() {
-        return role;
+        return uloga;
     }
 
-    public void setUloga(String role) {
-        this.role = role;
+    public void setUloga(String uloga) {
+        this.uloga = uloga;
     }
 
     public Set<TimDTO> getTimovi() {
@@ -151,10 +153,12 @@ public class KorisnikDTO {
     }
 
 
+    @JsonIgnore
     public String getRole() {
         return role;
     }
 
+    @JsonIgnore
     public Set<ZadatakDTO> getZadaci() {
         return zadaci;
     }

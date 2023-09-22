@@ -33,10 +33,10 @@ public class UserInfoUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        Optional<AdminDTO> admin = adminDAO.findBykorisnickoIme(username);
-//        if (admin.isPresent())
-//            return admin.map(AdminInfoDetails::new)
-//                    .orElseThrow(() -> new UsernameNotFoundException("user not found " + username));
+        Optional<AdminDTO> admin = adminDAO.findBykorisnickoIme(username);
+        if (admin.isPresent())
+            return admin.map(AdminInfoDetails::new)
+                    .orElseThrow(() -> new UsernameNotFoundException("user not found " + username));
 
         Optional<KorisnikDTO> korisnik = korisnikDAO.findBykorisnickoIme(username);
         // provjera da li je koordinator ili clanodbora ili superuser sta li vec

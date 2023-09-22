@@ -56,6 +56,7 @@ public class KoordinatorServiceImpl implements KoordinatorService {
             superuser.setKorisnik(korisnikDTO);
             koordinator.setSuperuser(superuser);
             koordinatorDAO.saveWithIdKoordinator(id);
+
             return koordinator;
         }
         return null;

@@ -9,7 +9,7 @@ import java.util.List;
 public interface AdminService {
     List<AdminDTO> getAllAdmins();
     //umjesto get all get jednog tj. read
-    AdminDTO createAdmin(AdminDTO adminDTO);
+    AdminDTO createAdmin(LoginForm admin);
 
     AdminDTO updateAdmin(KorisnikRequest korisnikRequest);
 
