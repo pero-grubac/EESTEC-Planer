@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-function AdminConfig({currentAdmin, switchTab}) {
+function AdminConfig({ currentAdmin, switchTab }) {
   const [password, setPassword] = useState(null);
   const [confirmation, setConfirmation] = useState(false);
   const [error, setError] = useState(false);
@@ -9,25 +9,30 @@ function AdminConfig({currentAdmin, switchTab}) {
   const handleChange = async (e) => {
     e.preventDefault();
 
-    const admin = await axios.post("http://localhost:8080/admins/update", {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: "Bearer " + localStorage.getItem("token"),
+    const admin = await axios.post(
+      "http://localhost:8080/admins/update",
+      {
+        ime: "",
+        prezime: "",
+        korisnickoime: currentAdmin.username,
+        lozinka: password,
+        email: "",
+        idKorisnika: 0,
       },
-      ime: "",
-      prezime: "",
-      korisnickoime: currentAdmin.username,
-      lozinka: password,
-      email: "",
-      idKorisnika: 0
-      });
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
     if (admin.status !== 200) console.error(admin);
 
     if (admin.status === 403) {
       localStorage.clear();
       switchTab("login");
     }
-    
+
     // podesi opet confirmation i error da bi se mogla prikazati poruka
   };
   return (

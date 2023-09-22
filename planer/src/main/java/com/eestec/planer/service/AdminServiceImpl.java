@@ -32,11 +32,17 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public AdminDTO createAdmin(AdminDTO adminDTO) {
-        adminDTO.setLozinka(passwordEncoder.encode(adminDTO.getLozinka()));
-        if (adminDAO.save(adminDTO) != null)
+    public AdminDTO createAdmin(LoginForm admin) {
+        String hash = passwordEncoder.encode(admin.getLozinka());
+        admin.setLozinka(hash);
+        AdminDTO adminDTO = new AdminDTO();
+        adminDTO.setLozinka(hash);
+        adminDTO.setKorisnickoIme(admin.getUsername());
+
+        if (adminDTO != null) {
+            adminDAO.save(adminDTO);
             return adminDTO;
-        else return null;
+        } else return null;
     }
 
     @Override
@@ -69,14 +75,14 @@ public class AdminServiceImpl implements AdminService {
         return false;
     }
 
-   @Override
+    @Override
     public boolean login(LoginForm loginForm) {
         Optional<AdminDTO> optionalAdminDTO = adminDAO.findBykorisnickoIme(loginForm.getUsername());
-        if(optionalAdminDTO.isPresent()){
+        if (optionalAdminDTO.isPresent()) {
             AdminDTO admin = optionalAdminDTO.get();
             return passwordEncoder.matches(loginForm.getLozinka(), admin.getLozinka());
         }
-        return  false;
+        return false;
     }
 
 

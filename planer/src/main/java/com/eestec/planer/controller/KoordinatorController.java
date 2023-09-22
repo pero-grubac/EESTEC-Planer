@@ -1,22 +1,19 @@
 package com.eestec.planer.controller;
 
 import com.eestec.planer.controller.util.KorisnikTim;
-import com.eestec.planer.dto.ClanOdboraDTO;
 import com.eestec.planer.dto.KoordinatorDTO;
 import com.eestec.planer.dto.SuperUserDTO;
-import com.eestec.planer.dto.TimDTO;
-import com.eestec.planer.service.ClanOdboraServiceImpl;
-import com.eestec.planer.service.KoordinatorServiceImpl;
-import com.eestec.planer.service.SuperUserServiceImpl;
-import com.eestec.planer.service.TimServiceImpl;
+import com.eestec.planer.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 @RestController
 @RequestMapping("/koordinator")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -27,15 +24,18 @@ public class KoordinatorController {
     private final SuperUserServiceImpl superUserService;
     private final TimServiceImpl timService;
     private final ClanOdboraServiceImpl clanOdboraService;
+    private final KorisnikServiceImpl korisnikService;
 
     @Autowired
     public KoordinatorController(KoordinatorServiceImpl koordinatorService,
                                  SuperUserServiceImpl superUserService,
-                                 TimServiceImpl timService, ClanOdboraServiceImpl clanOdboraService) {
+                                 TimServiceImpl timService, ClanOdboraServiceImpl clanOdboraService,
+                                 KorisnikServiceImpl korisnikService) {
         this.koordinatorService = koordinatorService;
         this.superUserService = superUserService;
         this.timService = timService;
         this.clanOdboraService = clanOdboraService;
+        this.korisnikService = korisnikService;
     }
 
     @GetMapping("/getAll")
@@ -52,8 +52,10 @@ public class KoordinatorController {
         SuperUserDTO superUserDTO = superUserService.getSuperUser(korisnikTim.getIdKorisnika());
         if (superUserDTO == null)
             superUserService.createSuperUser(korisnikTim.getIdKorisnika());
+
         KoordinatorDTO koordinatorDTO = koordinatorService.createKoordinator(korisnikTim.getIdKorisnika());
         boolean isOK = koordinatorService.addToTeam(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
+        korisnikService.joinTim(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
         if (koordinatorDTO != null && isOK)
             return ResponseEntity.ok().build();
         return ResponseEntity.notFound().build();
@@ -62,7 +64,7 @@ public class KoordinatorController {
     @DeleteMapping("/delete")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteKoordinator(@RequestBody KorisnikTim korisnikTim) {
-
+        logger.info(korisnikTim.getIdKorisnika()+" "+ korisnikTim.getIdTim());
         timService.removeIdKoordinator(korisnikTim.getIdKorisnika());
         boolean isOK = superUserService.deleteSuperUser(korisnikTim.getIdKorisnika());
         if (isOK) return ResponseEntity.noContent().build();
@@ -74,7 +76,7 @@ public class KoordinatorController {
     public ResponseEntity<?> addToTeam(@RequestBody KorisnikTim korisnikTim) {
         if (korisnikTim != null && korisnikTim.getIdKorisnika() != null && korisnikTim.getIdTim() != null) {
             timService.removeIdKoordinator(korisnikTim.getIdKorisnika());
-            boolean isOK =  koordinatorService.addToTeam(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
+            boolean isOK = koordinatorService.addToTeam(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
             if (isOK) {
                 return ResponseEntity.ok().build();
             } else {

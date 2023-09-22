@@ -1,5 +1,6 @@
 package com.eestec.planer.controller;
 
+import com.eestec.planer.controller.util.AuthResponse;
 import com.eestec.planer.controller.util.KorisnikRequest;
 import com.eestec.planer.controller.util.LoginForm;
 import com.eestec.planer.dto.AdminDTO;
@@ -56,15 +57,16 @@ public class AdminController {
 
 //    @PostMapping("/new")
 //    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-//    public ResponseEntity<Void> createAdmin(@RequestBody AdminDTO adminDTO) {
-//        AdminDTO admin = adminService.createAdmin(adminDTO);
+//    public ResponseEntity<Void> createAdmin(@RequestBody LoginForm loginForm) {
+//        logger.info(loginForm.getUsername());
+//        AdminDTO admin = adminService.createAdmin(loginForm);
 //        if (admin != null)
 //            return ResponseEntity.ok().build();
 //        else return ResponseEntity.notFound().build();
 //    }
 
     @PostMapping("/update")
-    //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> updateAdmin(@RequestBody KorisnikRequest admin) {
         AdminDTO updatedAdmin = adminService.updateAdmin(admin);
         if (updatedAdmin != null) {
@@ -76,16 +78,12 @@ public class AdminController {
 
 
     @PutMapping("/login")
-    //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<String> login(@RequestBody LoginForm loginForm) {
-        logger.info(loginForm.toString());
-      //  Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginForm.getLozinka(), loginForm.getUsername()));
-
-      //  logger.info(authentication.getCredentials().toString()+" "+authentication.getAuthorities());
-        if (true)
+    public ResponseEntity<?> login(@RequestBody LoginForm loginForm) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginForm.getLozinka(), loginForm.getUsername()));
+        if (authentication.isAuthenticated())
             return ResponseEntity.ok(jwtService.generateToken(loginForm.getUsername()));
         else
-            throw new UsernameNotFoundException("invalid user request !");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
     }
 
 

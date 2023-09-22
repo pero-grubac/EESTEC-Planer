@@ -2,10 +2,8 @@ package com.eestec.planer.controller;
 
 import com.eestec.planer.dto.ClanOdboraDTO;
 import com.eestec.planer.dto.SuperUserDTO;
-import com.eestec.planer.service.ClanOdboraServiceImpl;
-import com.eestec.planer.service.KoordinatorServiceImpl;
-import com.eestec.planer.service.SuperUserServiceImpl;
-import com.eestec.planer.service.TimServiceImpl;
+import com.eestec.planer.dto.TimDTO;
+import com.eestec.planer.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,13 +19,15 @@ public class ClanOdboraController {
     private final SuperUserServiceImpl superUserService;
     private final TimServiceImpl timService;
     private final KoordinatorServiceImpl koordinatorService;
+    private final KorisnikServiceImpl korisnikService;
 
     @Autowired
-    public ClanOdboraController(ClanOdboraServiceImpl clanOdboraService, SuperUserServiceImpl superUserService, TimServiceImpl timService, KoordinatorServiceImpl koordinatorService) {
+    public ClanOdboraController(ClanOdboraServiceImpl clanOdboraService, SuperUserServiceImpl superUserService, TimServiceImpl timService, KoordinatorServiceImpl koordinatorService, KorisnikServiceImpl korisnikService) {
         this.clanOdboraService = clanOdboraService;
         this.superUserService = superUserService;
         this.timService = timService;
         this.koordinatorService = koordinatorService;
+        this.korisnikService = korisnikService;
     }
 
     @GetMapping("/getAll")
@@ -46,6 +46,9 @@ public class ClanOdboraController {
         if (superUserDTO == null)
             superUserService.createSuperUser(id);
         ClanOdboraDTO clanOdboraDTO = clanOdboraService.createClanOdbora(id);
+        List<TimDTO> timovi = timService.getAllTeams();
+        for(TimDTO tim : timovi)
+            korisnikService.joinTim(id, tim.getIdTim());
         if (clanOdboraDTO != null)
             return ResponseEntity.ok(clanOdboraDTO);
         return ResponseEntity.notFound().build();

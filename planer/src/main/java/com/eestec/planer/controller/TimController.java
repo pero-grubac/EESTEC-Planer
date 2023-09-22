@@ -24,7 +24,7 @@ public class TimController {
     }
 
     @GetMapping("/getAll")
-    @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') || hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public ResponseEntity<List<TimDTO>> getAllTeams() {
         return ResponseEntity.ok(timService.getAllTeams());
     }

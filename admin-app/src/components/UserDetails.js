@@ -52,7 +52,7 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
           // ako prije nisi bio koordinator
           if (role !== selectedUser.uloga) {
             const idNewTeam = findIdTimByNaziv(teams, team);
-            
+
             const createKoordinator = await axios.post(
               "http://localhost:8080/koordinator/new",
               {
@@ -66,7 +66,7 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
                 },
               }
             );
-            
+
             if (createKoordinator.status === 403) {
               localStorage.clear();
               switchTab("login");
@@ -92,7 +92,7 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
                 },
               }
             );
-            
+
             if (changeKoordinator.status === 403) {
               localStorage.clear();
               switchTab("login");
@@ -114,7 +114,7 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
               },
             }
           );
-          
+
           if (createClanOdbora.status === 403) {
             localStorage.clear();
             switchTab("login");
@@ -132,7 +132,7 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
                 },
               }
             );
-            
+
             if (deleteClanOdbora.status === 403) {
               localStorage.clear();
               switchTab("login");
@@ -144,12 +144,11 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
               idKorisnika: selectedUser.idKorisnika,
               idTim: oldIdTeam,
             };
+
             const deleteKoordinator = await axios.delete(
               `http://localhost:8080/koordinator/delete`,
               {
                 data: KorisnikTim,
-              },
-              {
                 headers: {
                   "Content-Type": "application/json",
                   Authorization: "Bearer " + localStorage.getItem("token"),

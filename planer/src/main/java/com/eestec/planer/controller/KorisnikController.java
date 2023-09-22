@@ -50,10 +50,12 @@ public class KorisnikController {
         List<ClanOdboraDTO> clanOdboraDTOList = clanOdboraService.getAllClanOdbora();
 
         for (KorisnikDTO korisnikDTO : korisnikDTOList) {
-            for (KoordinatorDTO koordinatorDTO : koordinatorDTOList)
-                if (korisnikDTO.getIdKorisnika() == koordinatorDTO.getIdKoordinator())
-                    korisnikDTO.setUloga(korisnikDTO.getUloga());
+            for (KoordinatorDTO koordinatorDTO : koordinatorDTOList) {
+                if (korisnikDTO.getIdKorisnika() == koordinatorDTO.getIdKoordinator()) {
 
+                    korisnikDTO.setUloga(koordinatorDTO.getUloga());
+                }
+            }
             for (ClanOdboraDTO clanOdboraDTO : clanOdboraDTOList)
                 if (korisnikDTO.getIdKorisnika() == clanOdboraDTO.getIdClana())
                     korisnikDTO.setUloga(clanOdboraDTO.getRole());
@@ -163,6 +165,7 @@ public class KorisnikController {
             return ResponseEntity.badRequest().build();
         }
     }
+
     @PutMapping("/drop")
     @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public ResponseEntity<String> drop(@RequestBody KorisnikZadatak korisnikZadatak) {
