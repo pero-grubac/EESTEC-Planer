@@ -19,7 +19,7 @@ export const TeamsMenu = ({ loggedUser, teams, setLoggedUser }) => {
     function delay(time) {
         return new Promise(resolve => setTimeout(resolve, time));
     }
-
+    
     const [seed, setSeed] = useState(1);
     const reset = () => {
         setSeed(Math.random());

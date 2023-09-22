@@ -44,8 +44,6 @@ export default function NewTaskForm({ setShowNewTaskForm, categoryId, loggedUser
             } catch (error) {
                 console.error(error);
             }
-            // await delay(3000);
-            // refreshBoard();
 
         } catch (error) {
             console.error(error);

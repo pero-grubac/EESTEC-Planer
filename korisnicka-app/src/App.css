@@ -250,6 +250,9 @@ button {
 .text-output {
   min-width: 15rem;
   max-width: 20rem;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 20px;
 }
 
 .new-task-input {

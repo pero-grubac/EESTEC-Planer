@@ -48,16 +48,16 @@ const getCategoriesAndTasks = async (team, navigate) => {
 };
 
 
-// function formatDateTime(isoDate) {
-//   const date = new Date(isoDate);
-//   const year = date.getFullYear();
-//   const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is zero-based
-//   const day = String(date.getDate()).padStart(2, '0');
-//   const hours = String(date.getHours()).padStart(2, '0');
-//   const minutes = String(date.getMinutes()).padStart(2, '0');
-//   const seconds = String(date.getSeconds()).padStart(2, '0');
-//   return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
-// }
+function formatDateTime(isoDate) {
+  const date = new Date(isoDate);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is zero-based
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+  return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
+}
 
 
 const getTimeRemaining = (timeFromBackend) => {
@@ -67,7 +67,7 @@ const getTimeRemaining = (timeFromBackend) => {
   const currentDate = new Date();
   const currentDay = String(currentDate.getDate()).padStart(2, '0');
   const currentHours = String(currentDate.getHours()).padStart(2, '0');
-  return `${day-currentDay}d ${hours-currentHours}h`;
+  return `${day - currentDay}d ${hours - currentHours}h`;
 }
 
 // const itemsFromBackend = [
@@ -230,7 +230,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
   return (
     <div key={new Date().getTime()} style={{ display: "flex", justifyContent: "center", height: "100%" }}>
       <div className="team-title-container">
-        <h1>{teams.find(obj => {return obj.idTim === team}).naziv}</h1>
+        <h1>{teams.find(obj => { return obj.idTim === team }).naziv}</h1>
       </div>
       <div className="team-num-members-container">
         <h3>Broj članova: 23</h3>
@@ -239,7 +239,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
       <DragDropContext
         onDragEnd={
           isClanOdbora && !isKoordinator
-            ? () => {}
+            ? () => { }
             : (result) => onDragEnd(result, columnsFromBackend, setColumnsFromBackend)
         }
       >
@@ -401,14 +401,14 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
       )}
 
       {showNewTaskForm ? (
-        <NewTaskForm setShowNewTaskForm={setShowNewTaskForm} loggedUserId={loggedUser.idKorisnika} 
-        categoryId={currentCategory} loggedUser={loggedUser.idKorisnika} 
-        setCategories={setColumnsFromBackend}
-        setItems={setItemsFromBackend}
-        setResult={setResult}
-        getCategoriesAndItems={getCategoriesAndTasks}
-        team={team}
-        navigate={navigate}
+        <NewTaskForm setShowNewTaskForm={setShowNewTaskForm} loggedUserId={loggedUser.idKorisnika}
+          categoryId={currentCategory} loggedUser={loggedUser.idKorisnika}
+          setCategories={setColumnsFromBackend}
+          setItems={setItemsFromBackend}
+          setResult={setResult}
+          getCategoriesAndItems={getCategoriesAndTasks}
+          team={team}
+          navigate={navigate}
         ></NewTaskForm>
       ) : (
         <></>
@@ -419,6 +419,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
           setEditableTaskDetails={setEditableTaskDetails}
           selectedTask={selectedTask}
           isKoordinator={isKoordinator}
+          formatDate={formatDateTime}
         ></TaskDetails>
       ) : (
         <></>
@@ -426,7 +427,14 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
       {editableTaskDetails ? (
         <EditableTaskDetails
           selectedTask={selectedTask}
-          setShowTaskDetails={setEditableTaskDetails}
+          setShowEditableTaskDetails={setEditableTaskDetails}
+          setShowTaskDetails={setShowTaskDetails}
+          setCategories={setColumnsFromBackend}
+          setItems={setItemsFromBackend}
+          setResult={setResult}
+          getCategoriesAndItems={getCategoriesAndTasks}
+          team={team}
+          navigate={navigate}
         ></EditableTaskDetails>
       ) : (
         <></>
