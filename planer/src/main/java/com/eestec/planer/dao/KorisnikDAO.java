@@ -43,7 +43,11 @@ public interface KorisnikDAO extends JpaRepository<KorisnikDTO, Integer> {
     @Transactional
     void leaveTeam(@Param("idKorisnika") Integer idKorisnika, @Param("idTim") Integer idTim);
 
-    //void dropTask();
+    @Modifying
+    @Query(value = "DELETE FROM korisnik_radi_zadatak " +
+            "WHERE Korisnik_IdKorisnika = :idKorisnika AND Zadatak_IdZadatak = :idZadatak", nativeQuery = true)
+    @Transactional
+    void dropTask(@Param("idKorisnika")Integer idKorisnika,@Param("idZadatak") Integer idZadatak);
 
     @Query("SELECT k FROM KorisnikDTO k WHERE k.korisnickoime = :korisnickoime")
     Optional<KorisnikDTO> findBykorisnickoIme(@Param("korisnickoime") String korisnickoIme);

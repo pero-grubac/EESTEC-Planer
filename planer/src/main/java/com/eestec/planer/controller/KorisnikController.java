@@ -1,9 +1,6 @@
 package com.eestec.planer.controller;
 
-import com.eestec.planer.controller.util.AuthResponse;
-import com.eestec.planer.controller.util.KorisnikRequest;
-import com.eestec.planer.controller.util.KorisnikTim;
-import com.eestec.planer.controller.util.LoginForm;
+import com.eestec.planer.controller.util.*;
 import com.eestec.planer.dto.ClanOdboraDTO;
 import com.eestec.planer.dto.KoordinatorDTO;
 import com.eestec.planer.dto.KorisnikDTO;
@@ -68,7 +65,7 @@ public class KorisnikController {
     @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public ResponseEntity<KorisnikDTO> getKorisnik(@PathVariable Integer id) {
         KorisnikDTO korisnik = korisnikService.getKorisnik(id);
-        if (korisnik!=null)
+        if (korisnik != null)
             return ResponseEntity.ok(korisnik);
         return ResponseEntity.notFound().build();
     }
@@ -151,4 +148,34 @@ public class KorisnikController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
 
     }
+
+    @PutMapping("/assign")
+    @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
+    public ResponseEntity<String> assign(@RequestBody KorisnikZadatak korisnikZadatak) {
+        if (korisnikZadatak != null && korisnikZadatak.getIdKorisnika() != null && korisnikZadatak.getIdZadatak() != null) {
+            boolean isOK = korisnikService.assignTask(korisnikZadatak.getIdKorisnika(), korisnikZadatak.getIdZadatak());
+            if (isOK) {
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+    @PutMapping("/drop")
+    @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
+    public ResponseEntity<String> drop(@RequestBody KorisnikZadatak korisnikZadatak) {
+        if (korisnikZadatak != null && korisnikZadatak.getIdKorisnika() != null && korisnikZadatak.getIdZadatak() != null) {
+            boolean isOK = korisnikService.dropTask(korisnikZadatak.getIdKorisnika(), korisnikZadatak.getIdZadatak());
+            if (isOK) {
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 }

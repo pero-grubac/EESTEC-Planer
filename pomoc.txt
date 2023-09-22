@@ -20,5 +20,17 @@ update zadatka
     }
 }
 prijava/odjava na zadatak
-
-INSERT INTO `eestecplaner`.`korisnik_radi_zadatak` (`Korisnik_IdKorisnika`, `Zadatak_IdZadatak`) VALUES ('1', '2');
+{
+    "idKorisnika":34,
+    "idZadatak":1
+}
+zahtjev
+{ 
+    "korisnickoIme": "sandraPhoenix",
+    "ime": "aleksandra",
+    "lozinka": "sandra",
+    "prezime": "rodic",
+    "email": "nemamejlaidalje@mail.com",
+    "datumKreiranja": "2023-02-02"
+}
+usmjesto refresha reset <--- za sofiju

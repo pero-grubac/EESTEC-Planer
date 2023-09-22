@@ -4,8 +4,10 @@ import com.eestec.planer.controller.util.KorisnikRequest;
 import com.eestec.planer.controller.util.LoginForm;
 import com.eestec.planer.dao.KorisnikDAO;
 import com.eestec.planer.dao.TimDAO;
+import com.eestec.planer.dao.ZadatakDAO;
 import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.dto.TimDTO;
+import com.eestec.planer.dto.ZadatakDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,14 +23,15 @@ public class KorisnikServiceImpl implements KorisnikService {
     private KorisnikDAO korisnikDAO;
     private TimDAO timDAO;
 
-
+private ZadatakDAO zadatakDAO;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public KorisnikServiceImpl(KorisnikDAO korisnikDAO, TimDAO timDAO) {
+    public KorisnikServiceImpl(KorisnikDAO korisnikDAO, TimDAO timDAO, ZadatakDAO zadatakDAO) {
         this.korisnikDAO = korisnikDAO;
         this.timDAO = timDAO;
+        this.zadatakDAO = zadatakDAO;
     }
 
     @Override
@@ -130,6 +133,23 @@ public class KorisnikServiceImpl implements KorisnikService {
 
     @Override
     public boolean assignTask(Integer idKorisnik, Integer idZadatak) {
+        KorisnikDTO korisnik =korisnikDAO.findById(idKorisnik).orElse(null);
+        ZadatakDTO zadatak = zadatakDAO.findById(idZadatak).orElse(null);
+        if(korisnik!=null && zadatak!= null){
+            korisnikDAO.assignTask(idKorisnik,idZadatak);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean dropTask(Integer idKorisnik, Integer idZadatak) {
+        KorisnikDTO korisnik =korisnikDAO.findById(idKorisnik).orElse(null);
+        ZadatakDTO zadatak = zadatakDAO.findById(idZadatak).orElse(null);
+        if(korisnik!=null && zadatak!= null){
+            korisnikDAO.dropTask(idKorisnik,idZadatak);
+            return true;
+        }
         return false;
     }
 
