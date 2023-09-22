@@ -49,7 +49,7 @@ public class SecurityConfig {
         //, "/team/getAll", "question/add"
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/admins/login", "/user/login").permitAll()
+                    auth.requestMatchers("/admins/login", "/user/login","/question/add").permitAll()
                             .requestMatchers("/admins/**", "/user/**", "/superuser/**", "/question/**", "/clanodbora/**", "/team/**","/zadatak/**","/notifications/**","/category/**").authenticated();
 
 
