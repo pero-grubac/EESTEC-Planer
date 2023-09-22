@@ -204,7 +204,7 @@ CREATE TABLE `korisnik_pripada_timu` (
 
 LOCK TABLES `korisnik_pripada_timu` WRITE;
 /*!40000 ALTER TABLE `korisnik_pripada_timu` DISABLE KEYS */;
-INSERT INTO `korisnik_pripada_timu` VALUES (6,4),(34,4),(37,4),(6,5),(7,5),(6,6),(6,7),(6,8),(35,8);
+INSERT INTO `korisnik_pripada_timu` VALUES (6,4),(34,4),(37,4),(6,5),(7,5),(6,6),(36,6),(6,7),(33,7),(6,8),(35,8);
 /*!40000 ALTER TABLE `korisnik_pripada_timu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -439,4 +439,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-23  0:21:07
+-- Dump completed on 2023-09-23  0:36:38

@@ -80,33 +80,6 @@ const getTimeRemaining = (timeFromBackend) => {
   return `${daysRemaining}d ${hoursRemaining}h`;
 }
 
-// const itemsFromBackend = [
-//   { id: uuid(), naziv: "Uraditi fetch broja clanova", tekst: "aaaaaa", rok: null, taskIsAssigned: true }, // uuid() automatski dodjeljuje neki random id kako bi i trebalo na FE, ali moze i sa id iz baze, nije bitno
-//   { id: uuid(), naziv: "Ne zaboraviti time remaining polje", tekst: "bbbbbb", rok: null, taskIsAssigned: false },
-//   { id: uuid(), naziv: "Treba prikazati ime i prezime onoga ko radi zadatak", tekst: "cccccc", rok: null, taskIsAssigned: false },
-//   { id: uuid(), naziv: "(Mozda) Promijeniti boju zadatka ako je zaduzen", teskt: "dddddd", rok: null, taskIsAssigned: true },
-//   { id: uuid(), naziv: "Uljepsati prikaz zadatka", tekst: "1. uraditi nesto\n2. uraditi nesto drugo\n3. uraditi jos nesto\nneke napomene...", rok: null, taskIsAssigned: false }
-// ];
-
-// const columnsFromBackend = {
-//   [uuid()]: {
-//     name: "Requested",
-//     items: itemsFromBackend
-//   },
-//   [uuid()]: {
-//     name: "To do",
-//     items: []
-//   },
-//   [uuid()]: {
-//     name: "In Progress",
-//     items: []
-//   },
-//   [uuid()]: {
-//     name: "Done",
-//     items: []
-//   }
-// };
-
 function delay(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
@@ -227,9 +200,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
   });
 
   const isKoordinator = loggedUser.idKorisnika === currentTeam[0].idKoordinator;
-  const isClanOdbora = loggedUser.role === "Clan odbora";
-
-  // console.log("Kooridnator: ", isKoordinator, "Clan odbora: ", isClanOdbora);
+  const isClanOdbora = loggedUser.uloga === "Clan odbora";
 
   const [columns, setColumns] = useState(columnsFromBackend);
   const [showNewTaskForm, setShowNewTaskForm] = useState(false);
