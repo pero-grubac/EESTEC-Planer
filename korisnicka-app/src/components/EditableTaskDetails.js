@@ -33,6 +33,11 @@ export default function EditableTaskDetails({ setShowEditableTaskDetails, setSho
                 },
             )
 
+            if (response.status === 403) {
+                localStorage.clear();
+                navigate("/", { replace: true });
+            }
+
             setShowTaskDetails(false);
             setShowEditableTaskDetails(false);
 

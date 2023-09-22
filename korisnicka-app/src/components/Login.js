@@ -58,7 +58,7 @@ export const Login = (props) => {
 
              setTimeout(() => {
                 navigate('/teams', { replace: true });
-        }, 3000);
+        }, 1000);
       } else {
         // Handle other successful responses or unexpected data
         console.log("Unexpected response:", response.data);

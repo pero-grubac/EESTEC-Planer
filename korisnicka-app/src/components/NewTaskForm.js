@@ -33,6 +33,11 @@ export default function NewTaskForm({ setShowNewTaskForm, categoryId, loggedUser
                 }
             );
 
+            if (createTask.status === 403) {
+                localStorage.clear();
+                navigate("/", { replace: true });
+            }
+
             setShowNewTaskForm(false);
 
             try {

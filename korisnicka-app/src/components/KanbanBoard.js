@@ -139,10 +139,6 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
   }
 
   const onDragEnd = async (result, columns, setColumns, items) => {
-    // console.log("on drag end result: ", result);
-    // console.log("columns: ", columns);
-    // console.log("new category id: ", columns[result.destination.droppableId].idKategorija);
-    // console.log("task id: ", items.find(item => {return result.draggableId === item.id}).idZadatak);
 
     const newCategoryId = columns[result.destination.droppableId].idKategorija;
     const task = items.find(item => { return result.draggableId === item.id });
@@ -202,7 +198,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
         },
       )
 
-      refreshBoard(team, navigate, setItemsFromBackend, setColumnsFromBackend, setResult);
+      refreshBoard();
     } catch (error) {
       console.error(error);
     }
@@ -244,6 +240,8 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
   const [deleteCategoryConfirmation, setDeleteCategoryConfirmation] = useState(false);
 
   const [selectedTask, setSelectedTask] = useState(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const [selectedCategoryTitle, setSelectedCategoryTitle] = useState("");
 
   const handleNewTaskClick = async (column) => {
     setCurrentCategory(column.idKategorija);
@@ -279,7 +277,11 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
     navigate("/settings", { replace: true });
   };
 
-  const handleDeleteCategory = () => {
+  const handleDeleteCategory = (column) => {
+    const newCategoryId = column.idKategorija;
+    setSelectedCategoryId(newCategoryId);
+    setSelectedCategoryTitle(column.naziv);
+
     setDeleteCategoryConfirmation(true);
   };
 
@@ -314,7 +316,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
                 {isKoordinator ? (
                   <button
                     className="remove-category-button"
-                    onClick={handleDeleteCategory}
+                    onClick={() => handleDeleteCategory(column)}
                   >
                     <div className="remove-category-icon"></div>
                   </button>
@@ -471,8 +473,11 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
       )}
       {showTaskDetails ? (
         <TaskDetails
+          navigate={navigate}
+          refreshBoard={refreshBoard}
           setShowTaskDetails={setShowTaskDetails}
           setEditableTaskDetails={setEditableTaskDetails}
+          loggedUser={loggedUser}
           selectedTask={selectedTask}
           users={usersFromBackend}
           isKoordinator={isKoordinator}
@@ -499,6 +504,9 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
       {showNewCategory ? (
         <NewCategoryForm
           setShowNewCategory={setShowNewCategory}
+          navigate={navigate}
+          refreshBoard={refreshBoard}
+          team={team}
         ></NewCategoryForm>
       ) : (
         <></>
@@ -513,7 +521,10 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
       {deleteCategoryConfirmation ? (
         <DeleteCategoryConfirmation
           setDeleteCategoryConfirmation={setDeleteCategoryConfirmation}
-          categoryTitle
+          selectedCategoryId={selectedCategoryId}
+          selectedCategoryTitle={selectedCategoryTitle}
+          navigate={navigate}
+          refreshBoard={refreshBoard}
         ></DeleteCategoryConfirmation>
       ) : (
         <></>

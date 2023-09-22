@@ -1,25 +1,25 @@
 import { useState } from "react";
 import AssignTaskStatusChangeMessage from "./AssignTaskStatusChangeMessage";
+import axios from "axios";
 
 
 function delay(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
 }
 
-export default function TaskDetails({ selectedTask, users, setShowTaskDetails, setEditableTaskDetails, isKoordinator, formatDate }) {
+export default function TaskDetails({ loggedUser, selectedTask, users, setShowTaskDetails, setEditableTaskDetails, isKoordinator, formatDate,
+    refreshBoard, navigate }) {
 
     const [assignTaskConfirmation, setAssignTaskConfirmation] = useState(false);
     const [dropTaskConfirmation, setDropTaskConfirmation] = useState(false);
-    const [isAssignedByUser, setIsAssignedByUser] = useState(false);
+    let isAssignedByUser = false;
 
     let usersOnTask = [];
 
-    users.forEach(user => user.zadaci.forEach(zadatak => zadatak.idZadatak === selectedTask.idZadatak ? usersOnTask.push(user) : {} ));
+    users.forEach(user => user.zadaci.forEach(zadatak => zadatak.idZadatak === selectedTask.idZadatak ? usersOnTask.push(user) : {}));
 
-    // let usersOnTask = users.filter(user => {return selectedTask.idZadatak === user.zadaci.filter(
-    //     zadatak => { return zadatak.idZadatak === selectedTask.idZadatak }
-    // )});
-    console.log("usersOnTask: ", usersOnTask);
+    usersOnTask.forEach(user => user.idKorisnika === loggedUser.idKorisnika ? (isAssignedByUser = true) : {});
+
     let workingOnTask = "";
     usersOnTask.forEach(user => workingOnTask += user.ime + " " + user.prezime + " ");
 
@@ -29,12 +29,29 @@ export default function TaskDetails({ selectedTask, users, setShowTaskDetails, s
 
     const handleAssignTaskClick = async () => {
         try {
-            // update u bazi
+            const response = await axios.put("http://localhost:8080/user/assign",
+                {
+                    idKorisnika: loggedUser.idKorisnika,
+                    idZadatak: selectedTask.idZadatak
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + localStorage.getItem("token"),
+                    },
+                },
+            )
+
+            if (response.status === 403) {
+                localStorage.clear();
+                navigate("/", { replace: true });
+            }
 
             setAssignTaskConfirmation(true);
             delay(2000);
             setAssignTaskConfirmation(false);
             setShowTaskDetails(false);
+            refreshBoard();
         } catch (error) {
             console.error(error);
         }
@@ -42,12 +59,29 @@ export default function TaskDetails({ selectedTask, users, setShowTaskDetails, s
 
     const handleDropTaskClick = async () => {
         try {
-            // update u bazi
+            const response = await axios.put("http://localhost:8080/user/drop",
+                {
+                    idKorisnika: loggedUser.idKorisnika,
+                    idZadatak: selectedTask.idZadatak
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + localStorage.getItem("token"),
+                    },
+                },
+            )
+
+            if (response.status === 403) {
+                localStorage.clear();
+                navigate("/", { replace: true });
+            }
 
             setDropTaskConfirmation(true);
             delay(2000);
             setDropTaskConfirmation(false);
             setShowTaskDetails(false);
+            refreshBoard();
         } catch (error) {
             console.error(error);
         }
@@ -63,7 +97,7 @@ export default function TaskDetails({ selectedTask, users, setShowTaskDetails, s
             <h4>Do: {formatDate(selectedTask.rok)}</h4>
             <h4 className="text-area text-output">{selectedTask.tekst}</h4>
             <h4>Vrijeme kreiranja: {formatDate(selectedTask.rok)}</h4>
-            <h4>Rade: { workingOnTask }</h4>
+            <h4>Rade: {workingOnTask}</h4>
             <div className="button-line">
                 {
                     isAssignedByUser ? <button className="long-button" onClick={handleDropTaskClick}>Odjavite se</button> :

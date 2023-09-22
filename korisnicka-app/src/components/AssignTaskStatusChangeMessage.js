@@ -1,6 +1,6 @@
 
 
-export default function AssignTaskConfirmation(message) {
+export default function AssignTaskStatusChangeMessage(message) {
 
     return (
         <div className="new-task-form-container">
