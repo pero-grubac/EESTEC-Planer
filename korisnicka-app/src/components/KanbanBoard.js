@@ -29,6 +29,9 @@ const getCategoriesAndTasks = async (team, navigate) => {
       navigate("/", { replace: true });
     }
 
+    let users = response.data.korisnici;
+    let numUsers = response.data.brojKorisnika;
+
     let tasks = response.data.zadaci.map((zadatak) => ({
       ...zadatak,
       id: uuid(),
@@ -41,9 +44,10 @@ const getCategoriesAndTasks = async (team, navigate) => {
       }),
     }));
 
-    return { tasks, categories };
+    return { tasks, categories, users, numUsers };
   } catch (error) {
-    return { tasks: [], categories: [] };
+    console.error(error);
+    return { tasks: [], categories: [], users: [], numUsers: 0 };
   }
 };
 
@@ -69,10 +73,10 @@ const getTimeRemaining = (timeFromBackend) => {
   const currentHours = String(currentDate.getHours()).padStart(2, '0');
   let daysRemaining = (day - currentDay) < 0 ? 0 : day - currentDay;
   let hoursRemaining = hours - currentHours;
-  if(hoursRemaining < 0){
+  if (hoursRemaining < 0) {
     daysRemaining -= 1;
     hoursRemaining = 24 + hoursRemaining;
-  } 
+  }
   return `${daysRemaining}d ${hoursRemaining}h`;
 }
 
@@ -115,15 +119,19 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
 
   const [itemsFromBackend, setItemsFromBackend] = useState([]);
   const [columnsFromBackend, setColumnsFromBackend] = useState([]);
+  const [usersFromBackend, setUsersFromBackend] = useState([]);
+  const [numUsersFromBackend, setNumUsersFromBackend] = useState(0);
   const [result, setResult] = useState(null);
   const [currentCategory, setCurrentCategory] = useState(null);
 
   async function refreshBoard() {
     try {
-      const result = await getCategoriesAndTasks(team, navigate, setItemsFromBackend, setColumnsFromBackend, setResult);
+      const result = await getCategoriesAndTasks(team, navigate);
 
       setItemsFromBackend(result.tasks);
       setColumnsFromBackend(result.categories);
+      setUsersFromBackend(result.users);
+      setNumUsersFromBackend(result.numUsers);
       setResult(result);
     } catch (error) {
       console.error(error);
@@ -207,6 +215,8 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
 
         setItemsFromBackend(result.tasks);
         setColumnsFromBackend(result.categories);
+        setUsersFromBackend(result.users);
+        setNumUsersFromBackend(result.numUsers);
         setResult(result);
       } catch (error) {
         console.error(error);
@@ -273,15 +283,13 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
     setDeleteCategoryConfirmation(true);
   };
 
-  console.log(itemsFromBackend);
-
   return (
     <div key={new Date().getTime()} style={{ display: "flex", justifyContent: "center", height: "100%" }}>
       <div className="team-title-container">
         <h1>{teams.find(obj => { return obj.idTim === team }).naziv}</h1>
       </div>
       <div className="team-num-members-container">
-        <h3>Broj članova: 23</h3>
+        <h3>Broj članova: {numUsersFromBackend}</h3>
       </div>
 
       <DragDropContext
