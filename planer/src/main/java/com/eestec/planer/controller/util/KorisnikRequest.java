@@ -4,18 +4,6 @@ public class KorisnikRequest {
 
     private String ime;
 
-    @Override
-    public String toString() {
-        return "KorisnikRequest{" +
-                "ime='" + ime + '\'' +
-                ", prezime='" + prezime + '\'' +
-                ", korisnickoime='" + korisnickoime + '\'' +
-                ", lozinka='" + lozinka + '\'' +
-                ", email='" + email + '\'' +
-                ", IdKorisnika=" + IdKorisnika +
-                '}';
-    }
-
     private String prezime;
 
     private String korisnickoime;
@@ -82,4 +70,6 @@ public class KorisnikRequest {
     public void setIdKorisnika(int idKorisnika) {
         IdKorisnika = idKorisnika;
     }
+
+
 }

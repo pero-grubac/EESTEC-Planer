@@ -82,8 +82,9 @@ public class KorisnikController {
     }
 
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') || hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public ResponseEntity<?> updateKorisnik(@RequestBody KorisnikRequest korisnikRequest) {
+        logger.info(korisnikRequest.toString());
         KorisnikDTO korisnik = korisnikService.updateKorisnik(korisnikRequest);
         if (korisnik != null)
             return ResponseEntity.ok().build();

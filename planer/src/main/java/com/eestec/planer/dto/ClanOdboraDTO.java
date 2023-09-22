@@ -18,6 +18,7 @@ public class ClanOdboraDTO {
     public ClanOdboraDTO(){}
 
     private transient String role = "Clan odbora";
+    private transient String uloga = "Clan odbora";
     public ClanOdboraDTO(SuperUserDTO superUserDTO){this.superuser=superUserDTO;}
 
 
@@ -37,6 +38,17 @@ public class ClanOdboraDTO {
         return  IdClana;
     }
 
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getUloga() {
+        return uloga;
+    }
+
+    public void setUloga(String uloga) {
+        this.uloga = uloga;
+    }
 
     public String getRole() {
         return role;

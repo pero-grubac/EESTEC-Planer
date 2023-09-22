@@ -17,6 +17,7 @@ public class KoordinatorDTO {
     private SuperUserDTO superuser;
 
     private transient String uloga = "Koordinator";
+    private transient String role = "Koordinator";
 
     /*   @OneToOne(mappedBy ="koordinator",cascade = CascadeType.REMOVE)
        private TimDTO tim;*/
@@ -56,5 +57,14 @@ public class KoordinatorDTO {
 
     public void setUloga(String uloga) {
         this.uloga = uloga;
+    }
+
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

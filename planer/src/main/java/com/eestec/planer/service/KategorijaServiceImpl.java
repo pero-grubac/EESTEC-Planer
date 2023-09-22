@@ -87,8 +87,10 @@ public class KategorijaServiceImpl implements KategorijaService {
         return kategorijaDAO.findByIdKategorija(idKategorija);
     }
 
-    public KategorijaDTO createCategory(KategorijaDTO kategorija) {
-        return kategorijaDAO.save(kategorija);
+    @Override
+    @Transactional
+    public void createCategory(KategorijaDTO kategorija) {
+         kategorijaDAO.create(kategorija.getNaziv(),kategorija.getTimDTO().getIdTim());
     }
 
     public List<KategorijaDTO> getAllByIdTim(Integer idTim) {

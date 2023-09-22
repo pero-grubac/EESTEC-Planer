@@ -152,13 +152,16 @@ public class KorisnikDTO {
 
     }
 
+    public static void setRole(String role) {
+        KorisnikDTO.role = role;
+    }
 
     @JsonIgnore
     public String getRole() {
         return role;
     }
 
-    @JsonIgnore
+
     public Set<ZadatakDTO> getZadaci() {
         return zadaci;
     }

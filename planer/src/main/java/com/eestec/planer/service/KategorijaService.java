@@ -8,7 +8,7 @@ import java.util.List;
 public interface KategorijaService
 {
     public List<KategorijaDTO> getAllKategorije();
-    public KategorijaDTO createCategory(KategorijaDTO kategorijaDTO);
+    public void createCategory(KategorijaDTO kategorijaDTO);
 
     public boolean deleteKategorija(Integer idKategorije);
     public KategorijaDTO getKategoriju(int idKategorija);

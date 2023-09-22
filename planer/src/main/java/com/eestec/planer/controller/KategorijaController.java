@@ -43,16 +43,19 @@ public class KategorijaController {
   }*/
 
     @PostMapping("/create")
-    public ResponseEntity<KategorijaDTO> createCategory(@RequestBody KategorijaDTO kategorija) {
-        KategorijaDTO novaKategorija = kategorijaService.createCategory(kategorija);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novaKategorija);
+    @PreAuthorize("hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
+    public ResponseEntity<?> createCategory(@RequestBody KategorijaDTO kategorija) {
+
+        kategorijaService.createCategory(kategorija);
+        return ResponseEntity.ok().build();
+
     }
 
     @DeleteMapping("/delete/{id}")
-    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public ResponseEntity<Void> deleteKategorija(@PathVariable Integer id) {
         boolean isOk = kategorijaService.deleteKategorija(id);
-        if (isOk) return ResponseEntity.noContent().build();
+        if (isOk) return ResponseEntity.ok().build();
         else return ResponseEntity.notFound().build();
     }
 

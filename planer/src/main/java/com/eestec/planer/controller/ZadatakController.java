@@ -1,12 +1,11 @@
 package com.eestec.planer.controller;
 
 
-import com.eestec.planer.controller.util.KategorijeZadaci;
-import com.eestec.planer.controller.util.KorisnikZadatak;
+import com.eestec.planer.controller.util.ElementiTima;
 import com.eestec.planer.dao.KategorijaDAO;
-import com.eestec.planer.dto.KategorijaDTO;
-import com.eestec.planer.dto.ZadatakDTO;
-import com.eestec.planer.dto.ZahtjevDTO;
+import com.eestec.planer.dao.ZadatakDAO;
+import com.eestec.planer.dto.*;
+import com.eestec.planer.service.KorisnikServiceImpl;
 import com.eestec.planer.service.ZadatakService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @RestController
 @RequestMapping("/zadatak")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -24,9 +26,14 @@ public class ZadatakController {
     ZadatakService zadatakService;
     @Autowired
     private KategorijaDAO kategorijaDAO;
+    @Autowired
+    private ZadatakDAO zadatakDAO;
+    @Autowired
+    private KorisnikServiceImpl korisnikService;
+    private final Logger logger = LoggerFactory.getLogger(ZadatakController.class);
 
     @GetMapping("/all")
-    @PreAuthorize("hasAuthority('KORISNIK')")
+    @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public List<ZadatakDTO> getAllZadaci() {
 
         return zadatakService.getAllZadaci();
@@ -60,18 +67,56 @@ public class ZadatakController {
 
     @GetMapping("/byTim/{idTim}")
     @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
-    public ResponseEntity<KategorijeZadaci> getZadaciByTimId(@PathVariable int idTim) {
+    public ResponseEntity<ElementiTima> getZadaciByTimId(@PathVariable int idTim) {
         List<ZadatakDTO> zadaci = new ArrayList<>();
         List<KategorijaDTO> kategorije = kategorijaDAO.findByTimDTO_IdTim(idTim);
         for (KategorijaDTO kategorija : kategorije) {
             List<ZadatakDTO> temp = zadatakService.getZadaciByKategorijaId(kategorija.getIdKategorija());
             zadaci.addAll(temp);
         }
-        KategorijeZadaci kategorijeZadaci = new KategorijeZadaci();
-        kategorijeZadaci.setKategorije(kategorije);
-        kategorijeZadaci.setZadaci(zadaci);
-        return ResponseEntity.ok(kategorijeZadaci);
+        List<KorisnikDTO> sviKorisnici = korisnikService.getAllKorisnici();
+        List<KorisnikDTO> korisniciTima = new ArrayList<>();
+        int brojKorisnika = 0;
+        for (KorisnikDTO korisnikDTO : sviKorisnici) {
+            KorisnikDTO tempKorisnik = new KorisnikDTO();
+
+            tempKorisnik.setUloga(korisnikDTO.getUloga());
+            tempKorisnik.setKorisnickoIme(korisnikDTO.getKorisnickoIme());
+            tempKorisnik.setIme(korisnikDTO.getIme());
+            tempKorisnik.setPrezime(korisnikDTO.getPrezime());
+            tempKorisnik.setEmail(korisnikDTO.getEmail());
+            tempKorisnik.setTimovi(korisnikDTO.getTimovi());
+            tempKorisnik.setIdKorisnika(korisnikDTO.getIdKorisnika());
+            tempKorisnik.setZadaci(new HashSet<>());
+
+
+            for (ZadatakDTO zadatak : korisnikDTO.getZadaci()) {
+                for (ZadatakDTO zadatakDTO : zadaci) {
+                    if (zadatak.getIdZadatak() == zadatakDTO.getIdZadatak()) {
+                        tempKorisnik.getZadaci().add(zadatak);
+                    }
+                }
+            }
+            if (!tempKorisnik.getZadaci().isEmpty()) {
+                korisniciTima.add(tempKorisnik);
+            }
+
+            for (TimDTO timDTO : korisnikDTO.getTimovi()) {
+                if (timDTO.getIdTim() == idTim) {
+                    ++brojKorisnika;
+                }
+            }
+        }
+
+        ElementiTima elementiTima = new ElementiTima();
+        elementiTima.setKategorije(kategorije);
+        elementiTima.setZadaci(zadaci);
+        elementiTima.setKorisnici(korisniciTima);
+        elementiTima.setBrojKorisnika(brojKorisnika);
+
+        return ResponseEntity.ok(elementiTima);
     }
+
 
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")

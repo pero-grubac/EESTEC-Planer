@@ -39,3 +39,28 @@ korisnik
 
 
 usmjesto refresha reset <--- za sofiju
+
+
+kreiranje kategorije
+{
+    "naziv": "Category Name",
+    "timDTO": {
+        "idTim": 4
+    }
+}
+brisanje kategorije
+http://localhost:8080/category/delete/24
+promjena sifre korisnika
+{
+    "ime": "",
+    "prezime": "",
+    "korisnickoime": "",
+    "lozinka": "pero",
+    "email": "",
+    "idKorisnika": 6
+}
+odjava iz tima
+{
+    "idKorisnika": 6,
+    "idTim": "4"
+}

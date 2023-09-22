@@ -43,11 +43,11 @@ public class UserInfoUserDetailsService implements UserDetailsService {
         if (korisnik.isPresent()) {
             Optional<KoordinatorDTO> koordinator = koordinatorDAO.findBykorisnickoIme(username);
             if(koordinator.isPresent()) {
-                korisnik.get().setUloga(koordinator.get().getUloga());
+                korisnik.get().setRole(koordinator.get().getUloga());
             }
             Optional<ClanOdboraDTO> clanOdbora = clanOdboraDAO.findBykorisnickoIme(username);
             if(clanOdbora.isPresent()) {
-                korisnik.get().setUloga(clanOdbora.get().getRole());
+                korisnik.get().setRole(clanOdbora.get().getUloga());
 
             }
             return korisnik.map(KorisnikInfoDetails::new)

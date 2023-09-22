@@ -9,6 +9,7 @@ import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.dto.TimDTO;
 import com.eestec.planer.dto.ZadatakDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,15 +23,17 @@ public class KorisnikServiceImpl implements KorisnikService {
 
     private KorisnikDAO korisnikDAO;
     private TimDAO timDAO;
+    private final JdbcTemplate jdbcTemplate;
 
-private ZadatakDAO zadatakDAO;
+    private ZadatakDAO zadatakDAO;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public KorisnikServiceImpl(KorisnikDAO korisnikDAO, TimDAO timDAO, ZadatakDAO zadatakDAO) {
+    public KorisnikServiceImpl(KorisnikDAO korisnikDAO, TimDAO timDAO, JdbcTemplate jdbcTemplate, ZadatakDAO zadatakDAO) {
         this.korisnikDAO = korisnikDAO;
         this.timDAO = timDAO;
+        this.jdbcTemplate = jdbcTemplate;
         this.zadatakDAO = zadatakDAO;
     }
 
@@ -72,11 +75,21 @@ private ZadatakDAO zadatakDAO;
                 korisnikRequest.setLozinka(hash);
             }
             if (korisnik != null) {
-                korisnik.setLozinka(korisnikRequest.getLozinka());
-                korisnik.setIme(korisnikRequest.getIme());
-                korisnik.setEmail(korisnikRequest.getEmail());
-                korisnik.setPrezime(korisnikRequest.getPrezime());
-                korisnik.setKorisnickoIme(korisnikRequest.getKorisnickoime());
+                if (korisnikRequest.getLozinka() != null && !korisnikRequest.getLozinka().isEmpty())
+                    korisnik.setLozinka(korisnikRequest.getLozinka());
+
+                if (korisnikRequest.getIme() != null && !korisnikRequest.getIme().isEmpty())
+                    korisnik.setIme(korisnikRequest.getIme());
+
+                if (korisnikRequest.getEmail() != null && !korisnikRequest.getEmail().isEmpty())
+                    korisnik.setEmail(korisnikRequest.getEmail());
+
+                if (korisnikRequest.getPrezime() != null && !korisnikRequest.getPrezime().isEmpty())
+                    korisnik.setPrezime(korisnikRequest.getPrezime());
+
+                if (korisnikRequest.getKorisnickoime() != null && !korisnikRequest.getKorisnickoime().isEmpty())
+                    korisnik.setKorisnickoIme(korisnikRequest.getKorisnickoime());
+
                 korisnikDAO.save(korisnik);
                 return korisnik;
             }
@@ -114,7 +127,7 @@ private ZadatakDAO zadatakDAO;
         TimDTO tim = timDAO.findById(idTim).orElse(null);
         KorisnikDTO korisnik = korisnikDAO.findById(idKorisnik).orElse(null);
         if (tim != null && korisnik != null) {
-            korisnikDAO.leaveTeam(idKorisnik, idTim);
+            jdbcTemplate.update("CALL DeleteKorisnikFromKorisnikRadiZadatak(?, ?)", idKorisnik, idTim);
             return true;
         }
         return false;
@@ -125,18 +138,18 @@ private ZadatakDAO zadatakDAO;
         Optional<KorisnikDTO> optionalKorisnikDTO = korisnikDAO.findBykorisnickoIme(loginForm.getUsername());
         if (optionalKorisnikDTO.isPresent()) {
             KorisnikDTO korisnik = optionalKorisnikDTO.get();
-            if( passwordEncoder.matches(loginForm.getLozinka(), korisnik.getLozinka()))
-                return  korisnik;
+            if (passwordEncoder.matches(loginForm.getLozinka(), korisnik.getLozinka()))
+                return korisnik;
         }
-        return  null;
+        return null;
     }
 
     @Override
     public boolean assignTask(Integer idKorisnik, Integer idZadatak) {
-        KorisnikDTO korisnik =korisnikDAO.findById(idKorisnik).orElse(null);
+        KorisnikDTO korisnik = korisnikDAO.findById(idKorisnik).orElse(null);
         ZadatakDTO zadatak = zadatakDAO.findById(idZadatak).orElse(null);
-        if(korisnik!=null && zadatak!= null){
-            korisnikDAO.assignTask(idKorisnik,idZadatak);
+        if (korisnik != null && zadatak != null) {
+            korisnikDAO.assignTask(idKorisnik, idZadatak);
             return true;
         }
         return false;
@@ -144,10 +157,10 @@ private ZadatakDAO zadatakDAO;
 
     @Override
     public boolean dropTask(Integer idKorisnik, Integer idZadatak) {
-        KorisnikDTO korisnik =korisnikDAO.findById(idKorisnik).orElse(null);
+        KorisnikDTO korisnik = korisnikDAO.findById(idKorisnik).orElse(null);
         ZadatakDTO zadatak = zadatakDAO.findById(idZadatak).orElse(null);
-        if(korisnik!=null && zadatak!= null){
-            korisnikDAO.dropTask(idKorisnik,idZadatak);
+        if (korisnik != null && zadatak != null) {
+            korisnikDAO.dropTask(idKorisnik, idZadatak);
             return true;
         }
         return false;
