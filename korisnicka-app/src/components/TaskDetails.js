@@ -1,9 +1,16 @@
+import { useState } from "react";
 
 
 export default function TaskDetails({ selectedTask, setShowTaskDetails, setEditableTaskDetails, isKoordinator, formatDate }) {
 
+    const [assignTaskConfirmation, setAssignTaskConfirmation] = useState(false);
+
     const handleEditTaskClick = () => {
         setEditableTaskDetails(true);
+    }
+
+    const handleAssignTaskClick = () => {
+
     }
 
     return (
@@ -18,7 +25,7 @@ export default function TaskDetails({ selectedTask, setShowTaskDetails, setEdita
             <h4>Vrijeme kreiranja: {formatDate(selectedTask.rok)}</h4>
             <h4>Rade: </h4>
             <div className="button-line">
-                <button className="long-button">Prijavite se</button>
+                <button className="long-button" onClick={handleAssignTaskClick}>Prijavite se</button>
                 <button className="long-button">Odjavite se</button>
                 {
                     isKoordinator ? <button className="long-button" onClick={handleEditTaskClick}>Izmijenite zadatak</button> : <></>

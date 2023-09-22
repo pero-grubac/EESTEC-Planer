@@ -22,7 +22,7 @@ const getCategoriesAndTasks = async (team, navigate) => {
       }
     );
 
-    console.log("fecovanje ", response.data);
+    //console.log("fecovanje ", response.data);
 
     if (response.status === 403) {
       localStorage.clear();
@@ -67,7 +67,13 @@ const getTimeRemaining = (timeFromBackend) => {
   const currentDate = new Date();
   const currentDay = String(currentDate.getDate()).padStart(2, '0');
   const currentHours = String(currentDate.getHours()).padStart(2, '0');
-  return `${day - currentDay}d ${hours - currentHours}h`;
+  let daysRemaining = (day - currentDay) < 0 ? 0 : day - currentDay;
+  let hoursRemaining = hours - currentHours;
+  if(hoursRemaining < 0){
+    daysRemaining -= 1;
+    hoursRemaining = 24 + hoursRemaining;
+  } 
+  return `${daysRemaining}d ${hoursRemaining}h`;
 }
 
 // const itemsFromBackend = [
@@ -101,44 +107,7 @@ function delay(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
 
-const onDragEnd = (result, columns, setColumns) => {
-  console.log("on drag end result: ", result);
 
-  if (!result.destination) return;
-  const { source, destination } = result;
-
-  if (source.droppableId !== destination.droppableId) {
-    const sourceColumn = columns[source.droppableId];
-    const destColumn = columns[destination.droppableId];
-    const sourceItems = [...sourceColumn.items];
-    const destItems = [...destColumn.items];
-    const [removed] = sourceItems.splice(source.index, 1);
-    destItems.splice(destination.index, 0, removed);
-    setColumns({
-      ...columns,
-      [source.droppableId]: {
-        ...sourceColumn,
-        items: sourceItems,
-      },
-      [destination.droppableId]: {
-        ...destColumn,
-        items: destItems,
-      },
-    });
-  } else {
-    const column = columns[source.droppableId];
-    const copiedItems = [...column.items];
-    const [removed] = copiedItems.splice(source.index, 1);
-    copiedItems.splice(destination.index, 0, removed);
-    setColumns({
-      ...columns,
-      [source.droppableId]: {
-        ...column,
-        items: copiedItems,
-      },
-    });
-  }
-};
 
 export default function KanbanBoard({ loggedUser, team, teams }) {
 
@@ -148,6 +117,88 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
   const [columnsFromBackend, setColumnsFromBackend] = useState([]);
   const [result, setResult] = useState(null);
   const [currentCategory, setCurrentCategory] = useState(null);
+
+  async function refreshBoard() {
+    try {
+      const result = await getCategoriesAndTasks(team, navigate, setItemsFromBackend, setColumnsFromBackend, setResult);
+
+      setItemsFromBackend(result.tasks);
+      setColumnsFromBackend(result.categories);
+      setResult(result);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const onDragEnd = async (result, columns, setColumns, items, team, navigate, setItemsFromBackend, setColumnsFromBackend, setResult) => {
+    // console.log("on drag end result: ", result);
+    // console.log("columns: ", columns);
+    // console.log("new category id: ", columns[result.destination.droppableId].idKategorija);
+    // console.log("task id: ", items.find(item => {return result.draggableId === item.id}).idZadatak);
+
+    const newCategoryId = columns[result.destination.droppableId].idKategorija;
+    const task = items.find(item => { return result.draggableId === item.id });
+
+    if (!result.destination) return;
+    const { source, destination } = result;
+
+    if (source.droppableId !== destination.droppableId) {
+      const sourceColumn = columns[source.droppableId];
+      const destColumn = columns[destination.droppableId];
+      const sourceItems = [...sourceColumn.items];
+      const destItems = [...destColumn.items];
+      const [removed] = sourceItems.splice(source.index, 1);
+      destItems.splice(destination.index, 0, removed);
+      setColumns({
+        ...columns,
+        [source.droppableId]: {
+          ...sourceColumn,
+          items: sourceItems,
+        },
+        [destination.droppableId]: {
+          ...destColumn,
+          items: destItems,
+        },
+      });
+    } else {
+      const column = columns[source.droppableId];
+      const copiedItems = [...column.items];
+      const [removed] = copiedItems.splice(source.index, 1);
+      copiedItems.splice(destination.index, 0, removed);
+      setColumns({
+        ...columns,
+        [source.droppableId]: {
+          ...column,
+          items: copiedItems,
+        },
+      });
+    }
+
+
+    try {
+      const response = await axios.post("http://localhost:8080/zadatak/update",
+        {
+          tekst: task.tekst,
+          rok: task.rok,
+          idZadatak: task.idZadatak,
+          naslov: task.naslov,
+          kategorija: {
+            idKategorija: newCategoryId
+          }
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        },
+      )
+
+      refreshBoard(team, navigate, setItemsFromBackend, setColumnsFromBackend, setResult);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     const fetchCategoriesAndTasks = async () => {
@@ -165,10 +216,6 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
     fetchCategoriesAndTasks();
   }, [team, navigate]);
 
-  console.log("res ", result);
-  console.log("items: ", itemsFromBackend);
-  console.log("col ", columnsFromBackend);
-
   const currentTeam = loggedUser.timovi.filter((tim) => {
     return tim.idTim === team;
   });
@@ -184,8 +231,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
   const [showNewCategory, setShowNewCategory] = useState(false);
   const [leaveTeamConfirmation, setLeaveTeamConfirmation] = useState(false);
   const [editableTaskDetails, setEditableTaskDetails] = useState(false);
-  const [deleteCategoryConfirmation, setDeleteCategoryConfirmation] =
-    useState(false);
+  const [deleteCategoryConfirmation, setDeleteCategoryConfirmation] = useState(false);
 
   const [selectedTask, setSelectedTask] = useState(null);
 
@@ -227,6 +273,8 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
     setDeleteCategoryConfirmation(true);
   };
 
+  console.log(itemsFromBackend);
+
   return (
     <div key={new Date().getTime()} style={{ display: "flex", justifyContent: "center", height: "100%" }}>
       <div className="team-title-container">
@@ -240,7 +288,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
         onDragEnd={
           isClanOdbora && !isKoordinator
             ? () => { }
-            : (result) => onDragEnd(result, columnsFromBackend, setColumnsFromBackend)
+            : (result) => onDragEnd(result, columnsFromBackend, setColumnsFromBackend, itemsFromBackend)
         }
       >
         {Object.entries(columnsFromBackend).map(([columnId, column], index) => {

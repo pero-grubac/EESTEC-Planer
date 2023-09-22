@@ -232,6 +232,7 @@ button {
   display: flex;
   justify-content: left;
   align-items: start;
+  justify-content: center;
   margin: 0.25rem;
   white-space: pre-line;
   white-space: pre-wrap;
