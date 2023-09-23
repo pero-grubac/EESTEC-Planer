@@ -94,6 +94,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
   const [columnsFromBackend, setColumnsFromBackend] = useState([]);
   const [usersFromBackend, setUsersFromBackend] = useState([]);
   const [numUsersFromBackend, setNumUsersFromBackend] = useState(0);
+  const [loggedUserTasks, setLoggedUserTasks] = useState([]);
   const [result, setResult] = useState(null);
   const [currentCategory, setCurrentCategory] = useState(null);
 
@@ -106,6 +107,10 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
       setUsersFromBackend(result.users);
       setNumUsersFromBackend(result.numUsers);
       setResult(result);
+
+      let currentUser = result.users.filter(user => { return user.idKorisnika === loggedUser.idKorisnika })[0];
+      //console.log("current user: ", currentUser);
+      setLoggedUserTasks(currentUser.zadaci);
     } catch (error) {
       console.error(error);
     }
@@ -187,6 +192,11 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
         setUsersFromBackend(result.users);
         setNumUsersFromBackend(result.numUsers);
         setResult(result);
+
+        let currentUser = result.users.filter(user => { return user.idKorisnika === loggedUser.idKorisnika })[0];
+        //console.log("current user: ", currentUser);
+        setLoggedUserTasks(currentUser.zadaci);
+
       } catch (error) {
         console.error(error);
       }
@@ -264,7 +274,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
       <div className="team-num-members-container">
         <h3 className="number-users-content">
           <div className="users-icon"></div>
-           {numUsersFromBackend}</h3>
+          {numUsersFromBackend}</h3>
       </div>
 
       <DragDropContext
@@ -336,7 +346,9 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
                                       borderRadius: "15px",
                                       backgroundColor: snapshot.isDragging
                                         ? "#f2c9c9"
-                                        : "white",
+                                        : (loggedUserTasks.find(loggedUserTask => loggedUserTask.idZadatak === item.idZadatak) ?
+                                          "#ffd6d6"
+                                          : "white"),
                                       color: "black",
                                       ...provided.draggableProps.style,
                                     }}
