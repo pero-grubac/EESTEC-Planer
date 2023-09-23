@@ -262,7 +262,9 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
         <h1>{teams.find(obj => { return obj.idTim === team }).naziv}</h1>
       </div>
       <div className="team-num-members-container">
-        <h3>Broj članova: {numUsersFromBackend}</h3>
+        <h3 className="number-users-content">
+          <div className="users-icon"></div>
+           {numUsersFromBackend}</h3>
       </div>
 
       <DragDropContext
@@ -401,12 +403,15 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
         >
           <div className="back-button-icon"></div>
         </button>
-        <button
-          className="logout-button leave-team-button"
-          onClick={handleLeaveTeamClick}
-        >
-          <div className="leave-team-button-icon"></div>
-        </button>
+        {
+          (!isKoordinator && !isClanOdbora) ?
+            <button
+              className="logout-button leave-team-button"
+              onClick={handleLeaveTeamClick}
+            >
+              <div className="leave-team-button-icon"></div>
+            </button> : <></>
+        }
         <button
           className="logout-button settings-button"
           onClick={handleSettingsClick}
