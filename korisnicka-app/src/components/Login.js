@@ -86,6 +86,7 @@ export const Login = (props) => {
       date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 
     let currentDate = `${currentYear}-${currentMonth}-${currentDay}T${currentTime}`;
+    // console.log("current date: ", currentDate);
 
     try {
       const response = await axios.post("http://localhost:8080/question/add", {
