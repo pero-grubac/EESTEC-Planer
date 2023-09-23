@@ -27,7 +27,8 @@ const UserList = ({ switchTab, selectUser, selectTeam, setTeams }) => {
         switchTab("login");
       }
 
-      setUsers(response.data);
+      let counter = 1;
+      setUsers((response.data).map(user => ({...user, idTable: counter++})));
 
       const responseTeams = await axios.get(
         "http://localhost:8080/team/getAll",
@@ -113,7 +114,7 @@ const UserList = ({ switchTab, selectUser, selectTeam, setTeams }) => {
                   className="table-row"
                   onClick={() => handleUserClick(korisnik)}
                 >
-                  <th>{korisnik.idKorisnika}</th>
+                  <th>{korisnik.idTable}</th>
                   <td>{korisnik.korisnickoIme}</td>
                   <td>{korisnik.ime}</td>
                   <td>{korisnik.prezime}</td>

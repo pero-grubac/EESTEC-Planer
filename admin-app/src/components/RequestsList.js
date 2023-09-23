@@ -36,7 +36,8 @@ const UserList = ({ switchTab, selectRequest }) => {
         switchTab("login");
       }
 
-      setUsers(response.data);
+      let counter = 1;
+      setUsers((response.data).map(request => ({...request, idTable: counter++})));
     } catch (error) {
       console.error("Error fetching requests:", error);
     }
@@ -68,7 +69,7 @@ const UserList = ({ switchTab, selectRequest }) => {
                 className="table-row"
                 onClick={() => handleRequestSelect(korisnik)}
               >
-                <th scope="row">{korisnik.idZahtjev}</th>
+                <th scope="row">{korisnik.idTable}</th>
                 <td>{korisnik.korisnickoIme}</td>
                 <td>{korisnik.ime}</td>
                 <td>{korisnik.prezime}</td>

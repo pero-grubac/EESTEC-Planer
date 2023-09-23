@@ -60,6 +60,7 @@ promjena sifre korisnika
     "idKorisnika": 6
 }
 odjava iz tima
+.put /user/leaveTeam
 {
     "idKorisnika": 6,
     "idTim": "4"

@@ -65,7 +65,7 @@ function App() {
         appProps={{ isAuthenticated }}/>
         <Route path="/teams/FR" element={<KanbanBoard loggedUser={loggedUser} setLoggedUser={setLoggedUser} team={7} teams={teams}></KanbanBoard>} 
         appProps={{ isAuthenticated }}/>
-        <Route path="/settings" element={<Settings></Settings>} />
+        <Route path="/settings" element={<Settings loggedUser={loggedUser}></Settings>} />
       </Routes>
     </div>
   )

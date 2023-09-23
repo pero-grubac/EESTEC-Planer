@@ -2,9 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AccountSettings from "./AccountSettings";
 
-export default function Settings() {
+export default function Settings({loggedUser}) {
     const navigate = useNavigate();
-    const [password, setPassword] = useState("");
 
     const handleBackClick = () => {
         navigate('/teams', { replace: true });
@@ -15,7 +14,7 @@ export default function Settings() {
             <button className="x-button" onClick={handleBackClick}>
                 <div className="x-button-x"></div>
             </button>
-           <AccountSettings></AccountSettings>
+           <AccountSettings loggedUser={loggedUser}></AccountSettings>
         </div>
     )
 }

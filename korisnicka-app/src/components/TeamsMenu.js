@@ -12,6 +12,7 @@ export const TeamsMenu = ({ loggedUser, teams, setLoggedUser }) => {
 
     useEffect(() => {
         if (loggedUser === null) {
+            localStorage.clear();
             navigate('/', { replace: true });
         }
     }, []);

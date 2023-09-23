@@ -40,7 +40,7 @@ export const Login = (props) => {
   return (
     <div className="login-form-container">
       <img src={logo} alt="" className="logo" />
-      <h2 className="heading">Admin</h2>
+      <h2 className="heading">Administrator</h2>
       <form className="login-form" onSubmit={handleSubmit}>
         <label htmlFor="username">Korisničko ime:</label>
         <input
