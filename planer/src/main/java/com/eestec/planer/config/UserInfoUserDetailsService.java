@@ -39,7 +39,6 @@ public class UserInfoUserDetailsService implements UserDetailsService {
                     .orElseThrow(() -> new UsernameNotFoundException("user not found " + username));
 
         Optional<KorisnikDTO> korisnik = korisnikDAO.findBykorisnickoIme(username);
-        // provjera da li je koordinator ili clanodbora ili superuser sta li vec
         if (korisnik.isPresent()) {
             Optional<KoordinatorDTO> koordinator = koordinatorDAO.findBykorisnickoIme(username);
             if(koordinator.isPresent()) {

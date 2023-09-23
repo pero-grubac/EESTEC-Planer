@@ -84,7 +84,6 @@ public class KorisnikController {
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') || hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public ResponseEntity<?> updateKorisnik(@RequestBody KorisnikRequest korisnikRequest) {
-        logger.info(korisnikRequest.toString());
         KorisnikDTO korisnik = korisnikService.updateKorisnik(korisnikRequest);
         if (korisnik != null)
             return ResponseEntity.ok().build();
@@ -131,25 +130,32 @@ public class KorisnikController {
 
     @PutMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginForm loginForm) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginForm.getLozinka(), loginForm.getUsername()));
+        try {
 
-        KorisnikDTO korisnik = korisnikService.login(loginForm);
-        if (authentication.isAuthenticated()) {
-            List<KoordinatorDTO> koordinatorDTOList = koordinatorService.getAllKoordinatori();
-            List<ClanOdboraDTO> clanOdboraDTOList = clanOdboraService.getAllClanOdbora();
-            for (KoordinatorDTO koordinator : koordinatorDTOList)
-                if (koordinator.getIdKoordinator() == korisnik.getIdKorisnika())
-                    korisnik.setUloga("Koordinator");
-            for (ClanOdboraDTO clanOdboraDTO : clanOdboraDTOList)
-                if (clanOdboraDTO.getIdClana() == korisnik.getIdKorisnika())
-                    korisnik.setUloga("Clan odbora");
-            AuthResponse response = new AuthResponse();
-            response.setKorisnik(korisnik);
-            response.setToken(jwtService.generateToken(loginForm.getUsername()));
-            return ResponseEntity.ok(response);
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getLozinka()));
+
+            KorisnikDTO korisnik = korisnikService.login(loginForm);
+            if (korisnik != null) {
+                if (authentication.isAuthenticated()) {
+                    List<KoordinatorDTO> koordinatorDTOList = koordinatorService.getAllKoordinatori();
+                    List<ClanOdboraDTO> clanOdboraDTOList = clanOdboraService.getAllClanOdbora();
+                    for (KoordinatorDTO koordinator : koordinatorDTOList)
+                        if (koordinator.getIdKoordinator() == korisnik.getIdKorisnika())
+                            korisnik.setUloga("Koordinator");
+                    for (ClanOdboraDTO clanOdboraDTO : clanOdboraDTOList)
+                        if (clanOdboraDTO.getIdClana() == korisnik.getIdKorisnika())
+                            korisnik.setUloga("Clan odbora");
+                    AuthResponse response = new AuthResponse();
+                    response.setKorisnik(korisnik);
+                    response.setToken(jwtService.generateToken(loginForm.getUsername()));
+                    return ResponseEntity.ok(response);
+                }
+            }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
+        } catch (Error e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
+
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
-
     }
 
     @PutMapping("/assign")

@@ -1,5 +1,6 @@
 package com.eestec.planer.service;
 
+import com.eestec.planer.controller.KorisnikController;
 import com.eestec.planer.controller.util.KorisnikRequest;
 import com.eestec.planer.controller.util.LoginForm;
 import com.eestec.planer.dao.KorisnikDAO;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class KorisnikServiceImpl implements KorisnikService {
@@ -67,6 +69,7 @@ public class KorisnikServiceImpl implements KorisnikService {
         if (korisnikRequest != null) {
             String hash;
             KorisnikDTO korisnik = korisnikDAO.findById(korisnikRequest.getIdKorisnika()).orElse(null);
+
             if (korisnikRequest.getLozinka() == null || korisnikRequest.getLozinka().isEmpty()) {
                 hash = korisnik.getLozinka();
                 korisnikRequest.setLozinka(hash);
