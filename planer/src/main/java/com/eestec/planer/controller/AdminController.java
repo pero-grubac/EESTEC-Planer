@@ -79,7 +79,7 @@ public class AdminController {
 
     @PutMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginForm loginForm) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginForm.getLozinka(), loginForm.getUsername()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getLozinka()));
         if (authentication.isAuthenticated())
             return ResponseEntity.ok(jwtService.generateToken(loginForm.getUsername()));
         else

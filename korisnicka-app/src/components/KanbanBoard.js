@@ -86,7 +86,7 @@ function delay(time) {
 
 
 
-export default function KanbanBoard({ loggedUser, team, teams }) {
+export default function KanbanBoard({ loggedUser, setLoggedUser, team, teams }) {
 
   const navigate = useNavigate();
 
@@ -382,12 +382,12 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
                           >
                             +
                           </button>
-                        ) : isClanOdbora ? (
+                        ) : (isClanOdbora ? (
                           column.naziv === "Zadati" ? (
                             <button
                               className="plus-button"
                               onClick={() =>
-                                handleNewTaskClick(columnId)
+                                handleNewTaskClick(column)
                               }
                             >
                               +
@@ -396,7 +396,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
                             <></>
                           )
                         ) : (
-                          <></>
+                          <></>)
                         )}
                       </div>
                     );
@@ -502,6 +502,9 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
       {leaveTeamConfirmation ? (
         <LeaveTeamConfirmation
           setLeaveTeamConfirmation={setLeaveTeamConfirmation}
+          team={team}
+          loggedUser={loggedUser}
+          setLoggedUser={setLoggedUser}
         ></LeaveTeamConfirmation>
       ) : (
         <></>
