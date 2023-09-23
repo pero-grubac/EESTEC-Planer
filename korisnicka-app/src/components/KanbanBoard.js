@@ -86,7 +86,7 @@ function delay(time) {
 
 
 
-export default function KanbanBoard({ loggedUser, team, teams }) {
+export default function KanbanBoard({ loggedUser, setLoggedUser, team, teams }) {
 
   const navigate = useNavigate();
 
@@ -94,6 +94,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
   const [columnsFromBackend, setColumnsFromBackend] = useState([]);
   const [usersFromBackend, setUsersFromBackend] = useState([]);
   const [numUsersFromBackend, setNumUsersFromBackend] = useState(0);
+  const [loggedUserTasks, setLoggedUserTasks] = useState([]);
   const [result, setResult] = useState(null);
   const [currentCategory, setCurrentCategory] = useState(null);
 
@@ -106,6 +107,10 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
       setUsersFromBackend(result.users);
       setNumUsersFromBackend(result.numUsers);
       setResult(result);
+
+      let currentUser = result.users.filter(user => { return user.idKorisnika === loggedUser.idKorisnika })[0];
+      //console.log("current user: ", currentUser);
+      setLoggedUserTasks(currentUser.zadaci);
     } catch (error) {
       console.error(error);
     }
@@ -187,6 +192,11 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
         setUsersFromBackend(result.users);
         setNumUsersFromBackend(result.numUsers);
         setResult(result);
+
+        let currentUser = result.users.filter(user => { return user.idKorisnika === loggedUser.idKorisnika })[0];
+        //console.log("current user: ", currentUser);
+        setLoggedUserTasks(currentUser.zadaci);
+
       } catch (error) {
         console.error(error);
       }
@@ -262,7 +272,9 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
         <h1>{teams.find(obj => { return obj.idTim === team }).naziv}</h1>
       </div>
       <div className="team-num-members-container">
-        <h3>Broj članova: {numUsersFromBackend}</h3>
+        <h3 className="number-users-content">
+          <div className="users-icon"></div>
+          {numUsersFromBackend}</h3>
       </div>
 
       <DragDropContext
@@ -334,7 +346,9 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
                                       borderRadius: "15px",
                                       backgroundColor: snapshot.isDragging
                                         ? "#f2c9c9"
-                                        : "white",
+                                        : (loggedUserTasks.find(loggedUserTask => loggedUserTask.idZadatak === item.idZadatak) ?
+                                          "#ffd6d6"
+                                          : "white"),
                                       color: "black",
                                       ...provided.draggableProps.style,
                                     }}
@@ -368,12 +382,12 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
                           >
                             +
                           </button>
-                        ) : isClanOdbora ? (
+                        ) : (isClanOdbora ? (
                           column.naziv === "Zadati" ? (
                             <button
                               className="plus-button"
                               onClick={() =>
-                                handleNewTaskClick(columnId)
+                                handleNewTaskClick(column)
                               }
                             >
                               +
@@ -382,7 +396,7 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
                             <></>
                           )
                         ) : (
-                          <></>
+                          <></>)
                         )}
                       </div>
                     );
@@ -401,12 +415,15 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
         >
           <div className="back-button-icon"></div>
         </button>
-        <button
-          className="logout-button leave-team-button"
-          onClick={handleLeaveTeamClick}
-        >
-          <div className="leave-team-button-icon"></div>
-        </button>
+        {
+          (!isKoordinator && !isClanOdbora) ?
+            <button
+              className="logout-button leave-team-button"
+              onClick={handleLeaveTeamClick}
+            >
+              <div className="leave-team-button-icon"></div>
+            </button> : <></>
+        }
         <button
           className="logout-button settings-button"
           onClick={handleSettingsClick}
@@ -485,6 +502,9 @@ export default function KanbanBoard({ loggedUser, team, teams }) {
       {leaveTeamConfirmation ? (
         <LeaveTeamConfirmation
           setLeaveTeamConfirmation={setLeaveTeamConfirmation}
+          team={team}
+          loggedUser={loggedUser}
+          setLoggedUser={setLoggedUser}
         ></LeaveTeamConfirmation>
       ) : (
         <></>

@@ -74,7 +74,7 @@ export const TeamsMenu = ({ loggedUser, teams, setLoggedUser }) => {
             console.error(error);
         }
 
-        await delay(10);
+        await delay(1000);
         if (!team.aktivan) {
             teams[team.id].aktivan = true;
             reset();

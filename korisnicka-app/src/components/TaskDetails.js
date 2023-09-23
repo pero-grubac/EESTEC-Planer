@@ -51,7 +51,7 @@ export default function TaskDetails({ loggedUser, selectedTask, users, setShowTa
             delay(2000);
             setAssignTaskConfirmation(false);
             setShowTaskDetails(false);
-            refreshBoard();
+            refreshBoard(); 
         } catch (error) {
             console.error(error);
         }

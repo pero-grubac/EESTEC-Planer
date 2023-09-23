@@ -8,6 +8,8 @@ function AdminConfig({ currentAdmin, switchTab }) {
 
   const handleChange = async (e) => {
     e.preventDefault();
+    setConfirmation(false);
+    setError(false);
 
     const admin = await axios.post(
       "http://localhost:8080/admins/update",
@@ -26,7 +28,10 @@ function AdminConfig({ currentAdmin, switchTab }) {
         },
       }
     );
-    if (admin.status !== 200) console.error(admin);
+    if (admin.status === 200)
+      setConfirmation(true);
+    else 
+      setError(true);
 
     if (admin.status === 403) {
       localStorage.clear();

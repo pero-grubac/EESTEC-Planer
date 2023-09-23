@@ -246,7 +246,7 @@ function UserDetails({ switchTab, selectedUser, selectedTeam, teams }) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               id="lozinka"
-              type="text"
+              type="password"
             ></input>
           </div>
         </div>

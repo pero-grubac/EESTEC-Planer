@@ -304,6 +304,8 @@ button {
 
 .task-button {
   display: flex;
+  min-height: 1.7rem;
+  min-width: 1.7rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -441,7 +443,7 @@ button {
   position: absolute;
   z-index: 1000;
   border-radius: 0px 20px 20px 0px;
-  top: 8%;
+  top: 2%;
   left: 0%;
 }
 
@@ -452,21 +454,22 @@ button {
   align-items: center;
   background-color: #600000;
   padding: 1rem;
-  min-width: 6rem;
+  min-width: 3rem;
   max-height: 3rem;
   padding-top: 0;
   padding-bottom: 0;
   position: absolute;
   border-radius: 0px 20px 20px 0px;
-  top: 20%;
+  top: 12%;
   left: 0%;
 }
 
 .button-line {
   display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   justify-content: space-evenly;
-  justify-content: space-between;
 }
 
 .long-button {
@@ -535,4 +538,21 @@ label {
   padding-right: 1rem;
   background-color: white;
   border-radius: 20px;
+}
+
+.number-users-content{
+  display: flex;
+  flex-direction: row;
+}
+
+.users-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url(./images/users-white.png);
+  background-repeat: no-repeat;
+  background-size:contain;
+  min-height: 1.7rem;
+  width: 1.7rem;
+  margin-right: 0.5rem;
 }
