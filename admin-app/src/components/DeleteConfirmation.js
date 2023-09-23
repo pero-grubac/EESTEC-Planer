@@ -32,7 +32,7 @@ export const DeleteConfirmation = ({
     } else if (selectedRequest != null) {
       try {
         const response = await axios.post(
-          `http://localhost:8080/question/delete/${selectedRequest.idZahtjev}`
+          `http://localhost:8080/question/delete/${selectedRequest.idZahtjev}`,null
           ,
           {
             headers: {
