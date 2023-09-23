@@ -16,7 +16,7 @@ function RequestDetails({ switchTab, selectedRequest }) {
 
     const handleAccept = async () => {
         try {
-            const response = await axios.post(`http://localhost:8080/question/approve/${selectedRequest.idZahtjev}`,
+            const response = await axios.post(`http://localhost:8080/question/approve/${selectedRequest.idZahtjev}`,null,
                 {
                     headers: {
                         'Content-Type': 'application/json',
