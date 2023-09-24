@@ -234,7 +234,7 @@ CREATE TABLE `korisnik_radi_zadatak` (
 
 LOCK TABLES `korisnik_radi_zadatak` WRITE;
 /*!40000 ALTER TABLE `korisnik_radi_zadatak` DISABLE KEYS */;
-INSERT INTO `korisnik_radi_zadatak` VALUES (6,3),(6,4),(6,8),(6,13),(6,15),(37,19);
+INSERT INTO `korisnik_radi_zadatak` VALUES (6,3),(6,4),(6,8),(6,15),(37,19);
 /*!40000 ALTER TABLE `korisnik_radi_zadatak` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -352,7 +352,7 @@ CREATE TABLE `zadatak` (
   PRIMARY KEY (`IdZadatak`),
   KEY `fk_Zadatak_Kategorija1_idx` (`IdKategorija`),
   CONSTRAINT `fk_Zadatak_Kategorija1` FOREIGN KEY (`IdKategorija`) REFERENCES `kategorija` (`IdKategorija`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -361,7 +361,7 @@ CREATE TABLE `zadatak` (
 
 LOCK TABLES `zadatak` WRITE;
 /*!40000 ALTER TABLE `zadatak` DISABLE KEYS */;
-INSERT INTO `zadatak` VALUES (3,'Sample task update',1,'2023-12-02 00:00:00',37,'2023-02-02 00:00:00','Sample Title update'),(4,'Sample task update 2',1,'2023-12-02 00:00:00',37,'2023-09-21 19:45:41','Sample Title update 2'),(8,'drugi tim',13,'2023-12-02 00:00:00',33,'2023-09-21 19:46:47','Sample Title'),(13,'sdfsdf',4,'2023-09-30 16:52:00',6,'2023-09-23 16:52:50','dss'),(15,'...',17,'2023-09-29 17:00:00',6,'2023-09-23 17:00:23','Zadatak'),(17,'...',18,'2023-09-29 17:06:00',6,'2023-09-23 17:06:47','Zadatak od clana odbora'),(19,'...',17,'2023-09-30 17:18:00',6,'2023-09-23 17:18:53','Novi zadatak'),(20,'...',2,'2023-09-29 17:19:00',6,'2023-09-23 17:19:15','Novi zadatak'),(22,'',1,'2023-09-30 13:28:00',37,'2023-09-24 13:29:03','Novi zadatak'),(23,'Propisano dokumentom: Brand Policy Paper - January 2021',52,'2023-09-27 13:33:00',37,'2023-09-24 13:34:17','Koristiti crvenu boju #e52a30'),(24,'Sa sve cetiri strane oko logotipa mora postojati razmak velicine slova \"e\" u logotipu. \n\nPropisano dokumentom: Brand Policy Paper - January 2021.',52,'2023-09-30 13:36:00',37,'2023-09-24 13:37:57','Paziti na razmak oko logotipa'),(25,'dfsdfsdfsdf',1,NULL,37,'2023-09-24 14:38:03','dfsfsdfsfdfdfdsdfs');
+INSERT INTO `zadatak` VALUES (3,'Sample task update',1,'2023-12-02 00:00:00',37,'2023-02-02 00:00:00','Sample Title update'),(4,'Sample task update 2',1,'2023-12-02 00:00:00',37,'2023-09-21 19:45:41','Sample Title update 2'),(8,'drugi tim',13,'2023-12-02 00:00:00',33,'2023-09-21 19:46:47','Sample Title'),(15,'...',17,'2023-09-29 17:00:00',6,'2023-09-23 17:00:23','Zadatak'),(17,'...',18,'2023-09-29 17:06:00',6,'2023-09-23 17:06:47','Zadatak od clana odbora'),(19,'...',17,'2023-09-30 17:18:00',6,'2023-09-23 17:18:53','Novi zadatak'),(20,'...',2,'2023-09-29 17:19:00',6,'2023-09-23 17:19:15','Novi zadatak'),(22,'',1,'2023-09-30 13:28:00',37,'2023-09-24 13:29:03','Novi zadatak'),(25,'dfsdfsdfsdf',1,NULL,37,'2023-09-24 14:38:03','dfsfsdfsfdfdfdsdfs'),(26,'Propisano dokumentom Brand Policy Paper - January 2021',52,NULL,37,'2023-09-24 15:13:07','Koristiti crvenu boju: #e52a30'),(27,'Sa sve cetiri strane oko logotipa mora postojati razmak velicine slova \"e\" u logotipu. \n\nPropisano dokumentom: Brand Policy Paper - January 2021.',52,NULL,37,'2023-09-24 15:13:38','Paziti na razmak oko logotipa');
 /*!40000 ALTER TABLE `zadatak` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -458,4 +458,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-24 14:50:57
+-- Dump completed on 2023-09-24 18:24:23
