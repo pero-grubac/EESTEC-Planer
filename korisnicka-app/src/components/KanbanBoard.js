@@ -185,6 +185,10 @@ export default function KanbanBoard({ loggedUser, setLoggedUser, team, teams }) 
           },
         },
       )
+      if (response.status === 403) {
+        localStorage.clear();
+        navigate("/", { replace: true });
+      }
 
       refreshBoard();
     } catch (error) {
@@ -382,7 +386,7 @@ export default function KanbanBoard({ loggedUser, setLoggedUser, team, teams }) 
                                           <div className="countdown-icon"></div>
                                           {
                                             item.rok ? 
-                                            getTimeRemaining(item.rok) : "-- : --"
+                                            getTimeRemaining(item.rok) : "--d --h"
                                           }
                                         </p>
                                       </div>

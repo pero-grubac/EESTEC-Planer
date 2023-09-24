@@ -20,7 +20,7 @@ export const TeamsMenu = ({ loggedUser, teams, setLoggedUser }) => {
     function delay(time) {
         return new Promise(resolve => setTimeout(resolve, time));
     }
-    
+
     const [seed, setSeed] = useState(1);
     const reset = () => {
         setSeed(Math.random());
@@ -69,6 +69,10 @@ export const TeamsMenu = ({ loggedUser, teams, setLoggedUser }) => {
                     },
                 },
             )
+            if (response.status === 403) {
+                localStorage.clear();
+                navigate("/", { replace: true });
+            }
 
         } catch (error) {
             console.error(error);
@@ -83,24 +87,24 @@ export const TeamsMenu = ({ loggedUser, teams, setLoggedUser }) => {
         try {
             const response = await axios.get(
                 `http://localhost:8080/user/getById/${loggedUser.idKorisnika}`,
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: "Bearer " + localStorage.getItem("token"),
-                },
-              }
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + localStorage.getItem("token"),
+                    },
+                }
             );
-        
+
             console.log("fecovanje ", response.data);
-        
+
             if (response.status === 403) {
-              localStorage.clear();
-              navigate("/", { replace: true });
+                localStorage.clear();
+                navigate("/", { replace: true });
             }
 
             setLoggedUser(response.data);
 
-        } catch(error) {
+        } catch (error) {
             console.error(error);
         }
     }
