@@ -51,6 +51,7 @@ export const Login = (props) => {
         // Authentication successful
         console.log("Login successful");
        localStorage.setItem("token", response.data.token);
+       localStorage.setItem("userId", window.btoa(response.data.korisnik.idKorisnika))
 
       const loggedUser = response.data.korisnik;
        props.setLoggedUser(loggedUser);
@@ -59,15 +60,16 @@ export const Login = (props) => {
              setTimeout(() => {
                 navigate('/teams', { replace: true });
         }, 1000);
-      } else {
-        // Handle other successful responses or unexpected data
-        console.log("Unexpected response:", response.data);
+      } 
+      
+      else {
+        localStorage.clear();
+        navigate('/', { replace: true });
       }
 
       props.setUserIsAuthenticated(true);
     } catch (error) {
       // Handle errors (e.g., authentication failure)
-      console.error("Login error:", error.response.data);
       setLoginFailMessage(true);
       // Display an error message to the user
       // Update the UI to indicate the login failed

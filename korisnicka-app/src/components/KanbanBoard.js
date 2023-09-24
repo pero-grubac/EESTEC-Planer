@@ -73,9 +73,12 @@ const getTimeRemaining = (timeFromBackend) => {
   const currentHours = String(currentDate.getHours()).padStart(2, '0');
   let daysRemaining = (day - currentDay) < 0 ? 0 : day - currentDay;
   let hoursRemaining = hours - currentHours;
-  if (hoursRemaining < 0) {
+  if (hoursRemaining <= 0) {
     daysRemaining -= 1;
-    hoursRemaining = 24 + hoursRemaining;
+    hoursRemaining = 24 - 1 + hoursRemaining;
+  }
+  else {
+    hoursRemaining -= 1;
   }
   return `${daysRemaining}d ${hoursRemaining}h`;
 }
@@ -89,6 +92,13 @@ function delay(time) {
 export default function KanbanBoard({ loggedUser, setLoggedUser, team, teams }) {
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loggedUser) {
+      localStorage.clear();
+      navigate('/', { replace: true });
+    }
+  }, []);
 
   const [itemsFromBackend, setItemsFromBackend] = useState([]);
   const [columnsFromBackend, setColumnsFromBackend] = useState([]);
@@ -184,6 +194,10 @@ export default function KanbanBoard({ loggedUser, setLoggedUser, team, teams }) 
 
   useEffect(() => {
     const fetchCategoriesAndTasks = async () => {
+      if (!loggedUser) {
+        localStorage.clear();
+        navigate('/', { replace: true });
+      }
       try {
         const result = await getCategoriesAndTasks(team, navigate);
 
@@ -201,6 +215,8 @@ export default function KanbanBoard({ loggedUser, setLoggedUser, team, teams }) 
         console.error(error);
       }
     };
+
+
 
     fetchCategoriesAndTasks();
   }, [team, navigate]);
@@ -284,128 +300,131 @@ export default function KanbanBoard({ loggedUser, setLoggedUser, team, teams }) 
             : (result) => onDragEnd(result, columnsFromBackend, setColumnsFromBackend, itemsFromBackend)
         }
       >
-        {Object.entries(columnsFromBackend).map(([columnId, column], index) => {
-          return (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-              key={columnId}
-            >
-              <h2>{column.naziv}</h2>
-              <div style={{ margin: 8 }}>
-                {isKoordinator ? (
-                  <button
-                    className="remove-category-button"
-                    onClick={() => handleDeleteCategory(column)}
-                  >
-                    <div className="remove-category-icon"></div>
-                  </button>
-                ) : (
-                  <></>
-                )}
-                <Droppable droppableId={columnId} key={columnId}>
-                  {(provided, snapshot) => {
-                    return (
-                      <div
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}
-                        style={{
-                          background: snapshot.isDraggingOver
-                            ? "rgba(227, 158, 158, 0.5)"
-                            : "rgba(255, 214, 214, 0.5)",
-                          width: 250,
-                          minHeight: 500,
-                          justifyContent: "left",
-                          padding: "0.5rem",
-                          borderRadius: "15px",
-                        }}
-                      >
-                        {column.items.map((item, index) => {
-                          return (
-                            <Draggable
-                              key={item.id}
-                              draggableId={item.id}
-                              index={index}
-                            >
-                              {(provided, snapshot) => {
-                                return (
-                                  <div
-                                    className="task"
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    {...provided.dragHandleProps}
-                                    style={{
-                                      userSelect: "none",
-                                      padding: 10,
-                                      paddingBottom: "0.25rem",
-                                      margin: "0 0 8px 0",
-                                      minHeight: "50px",
-                                      borderRadius: "15px",
-                                      backgroundColor: snapshot.isDragging
-                                        ? "#f2c9c9"
-                                        : (loggedUserTasks.find(loggedUserTask => loggedUserTask.idZadatak === item.idZadatak) ?
-                                          "#ffd6d6"
-                                          : "white"),
-                                      color: "black",
-                                      ...provided.draggableProps.style,
-                                    }}
-                                  >
-                                    {item.naslov}
-                                    <div className="task-info-line">
-                                      <button
-                                        className="task-button"
-                                        onClick={() => handleTaskClick(item)}
-                                      >
-                                        <div className="task-button-icon"></div>
-                                      </button>
-                                      <p className="task-countdown">
-                                        <div className="countdown-icon"></div>
-                                        {
-                                          getTimeRemaining(item.rok)
-                                        }
-                                      </p>
+        <div className="columns-container">
+          {Object.entries(columnsFromBackend).map(([columnId, column], index) => {
+            return (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+                key={columnId}
+              >
+                <h2>{column.naziv}</h2>
+                <div style={{ margin: 8 }}>
+                  {isKoordinator ? (
+                    <button
+                      className="remove-category-button"
+                      onClick={() => handleDeleteCategory(column)}
+                    >
+                      <div className="remove-category-icon"></div>
+                    </button>
+                  ) : (
+                    <></>
+                  )}
+                  <Droppable droppableId={columnId} key={columnId}>
+                    {(provided, snapshot) => {
+                      return (
+                        <div
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                          style={{
+                            background: snapshot.isDraggingOver
+                              ? "rgba(227, 158, 158, 0.5)"
+                              : "rgba(255, 214, 214, 0.5)",
+                            width: 250,
+                            minHeight: 500,
+                            justifyContent: "left",
+                            padding: "0.5rem",
+                            borderRadius: "15px",
+                          }}
+                        >
+                          {column.items.map((item, index) => {
+                            return (
+                              <Draggable
+                                key={item.id}
+                                draggableId={item.id}
+                                index={index}
+                              >
+                                {(provided, snapshot) => {
+                                  return (
+                                    <div
+                                      className="task"
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                      style={{
+                                        userSelect: "none",
+                                        padding: 10,
+                                        paddingBottom: "0.25rem",
+                                        margin: "0 0 8px 0",
+                                        minHeight: "50px",
+                                        borderRadius: "15px",
+                                        backgroundColor: snapshot.isDragging
+                                          ? "#f2c9c9"
+                                          : (loggedUserTasks.find(loggedUserTask => loggedUserTask.idZadatak === item.idZadatak) ?
+                                            "#ffd6d6"
+                                            : "white"),
+                                        color: "black",
+                                        ...provided.draggableProps.style,
+                                      }}
+                                    >
+                                      {item.naslov}
+                                      <div className="task-info-line">
+                                        <button
+                                          className="task-button"
+                                          onClick={() => handleTaskClick(item)}
+                                        >
+                                          <div className="task-button-icon"></div>
+                                        </button>
+                                        <p className="task-countdown">
+                                          <div className="countdown-icon"></div>
+                                          {
+                                            item.rok ? 
+                                            getTimeRemaining(item.rok) : "-- : --"
+                                          }
+                                        </p>
+                                      </div>
                                     </div>
-                                  </div>
-                                );
-                              }}
-                            </Draggable>
-                          );
-                        })}
-                        {provided.placeholder}
-                        {isKoordinator ? (
-                          <button
-                            className="plus-button"
-                            onClick={() => handleNewTaskClick(column)}
-                          >
-                            +
-                          </button>
-                        ) : (isClanOdbora ? (
-                          column.naziv === "Zadati" ? (
+                                  );
+                                }}
+                              </Draggable>
+                            );
+                          })}
+                          {provided.placeholder}
+                          {isKoordinator ? (
                             <button
                               className="plus-button"
-                              onClick={() =>
-                                handleNewTaskClick(column)
-                              }
+                              onClick={() => handleNewTaskClick(column)}
                             >
                               +
                             </button>
+                          ) : (isClanOdbora ? (
+                            column.naziv === "Zadati" ? (
+                              <button
+                                className="plus-button"
+                                onClick={() =>
+                                  handleNewTaskClick(column)
+                                }
+                              >
+                                +
+                              </button>
+                            ) : (
+                              <></>
+                            )
                           ) : (
-                            <></>
-                          )
-                        ) : (
-                          <></>)
-                        )}
-                      </div>
-                    );
-                  }}
-                </Droppable>
+                            <></>)
+                          )}
+                        </div>
+                      );
+                    }}
+                  </Droppable>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </DragDropContext>
 
       <div className="menu-buttons">

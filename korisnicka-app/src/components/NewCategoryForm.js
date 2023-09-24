@@ -27,6 +27,7 @@ export default function NewCategoryForm({setShowNewCategory, navigate, refreshBo
             }
 
             refreshBoard();
+            setShowNewCategory(false);
           } catch (error) {
             console.error(error);
           }

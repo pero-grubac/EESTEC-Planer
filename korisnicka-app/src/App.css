@@ -556,3 +556,10 @@ label {
   width: 1.7rem;
   margin-right: 0.5rem;
 }
+
+.columns-container {
+  display: flex;
+  flex-direction: row;
+  max-width: 75rem;
+  overflow-x: scroll;
+}
