@@ -73,6 +73,8 @@ const getTimeRemaining = (timeFromBackend) => {
   const currentHours = String(currentDate.getHours()).padStart(2, '0');
   let daysRemaining = (day - currentDay) < 0 ? 0 : day - currentDay;
   let hoursRemaining = hours - currentHours;
+  if(daysRemaining <= 0 && hoursRemaining <=0)
+    return "!!!";
   if (hoursRemaining <= 0) {
     daysRemaining -= 1;
     hoursRemaining = 24 - 1 + hoursRemaining;
@@ -80,6 +82,8 @@ const getTimeRemaining = (timeFromBackend) => {
   else {
     hoursRemaining -= 1;
   }
+  if(daysRemaining < 0)
+    daysRemaining = 0;
   return `${daysRemaining}d ${hoursRemaining}h`;
 }
 

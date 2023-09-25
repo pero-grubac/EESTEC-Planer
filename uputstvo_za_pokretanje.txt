@@ -1,0 +1,14 @@
+
+Potrebno je pokrenuti BE dio i pojedinacno aplikacije iz FE u zavisnosti od toga koji dio se testira.
+
+BE: 
+1. Potrebni Java 20+ i JDK 20+
+2. Potreban MySQL
+3. Kreirati novu semu nazvanu "eestecplaner" pomocu fajla "ddl.sql", koji se nalazi u folderu "Model baze"
+4. Pokrenuti skriptu "komande za kreiranje korisnika.txt" iz foldera "Model baze" u kreiranoj semi 
+5. Pokrenuti fajl "PlanerApplication.java" na putanji planer\src\main\java\com.eestec.planer\PlanerApplication
+
+FE:
+1. Potreban instaliran Node JS (konfigurisana komanda npm)
+2. Za obe aplikacije (admin-app i korisnicka-app), u direktorijumima otvoriti konzolu i pokrenuti komandu "npm install"
+3. Nakon uspjesne instalacije, pokrenuti aplikaciju komandom "npm start" iz istog direktorijuma

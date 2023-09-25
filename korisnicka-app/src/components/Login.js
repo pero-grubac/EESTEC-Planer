@@ -130,8 +130,8 @@ export const Login = (props) => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               type="username"
-              placeholder="marko.markovic"
-              // pattern={USER_REGEX}
+              placeholder="korisnicko.ime"
+              pattern={USER_REGEX}
               id="username"
               name="username"
               required
@@ -143,7 +143,7 @@ export const Login = (props) => {
               onChange={(e) => setPassword(e.target.value)}
               type="password"
               placeholder="********"
-              // pattern={PWD_REGEX}
+              pattern={PWD_REGEX}
               id="password"
               name="password"
               required
