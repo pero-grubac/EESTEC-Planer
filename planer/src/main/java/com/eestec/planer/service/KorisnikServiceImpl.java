@@ -106,7 +106,7 @@ public class KorisnikServiceImpl implements KorisnikService {
     public boolean deleteKorisnik(Integer id) {
         KorisnikDTO korisnik = korisnikDAO.findById(id).orElse(null);
         if (korisnik != null) {
-            korisnikDAO.delete(korisnik);
+            jdbcTemplate.update("CALL DeleteUserAndAssociatedData(?)", id);
             return true;
         }
         return false;

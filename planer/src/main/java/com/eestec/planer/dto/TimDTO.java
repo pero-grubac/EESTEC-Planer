@@ -13,7 +13,7 @@ public class TimDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "IdTim")
-    private int IdTim;
+    private Integer IdTim;
 
     @Column(name = "Naziv")
     private String naziv;
@@ -30,7 +30,7 @@ public class TimDTO {
     public TimDTO() {
     }
 
-    public TimDTO(int idTim, String naziv, Integer koordinatorDTO) {
+    public TimDTO(Integer idTim, String naziv, Integer koordinatorDTO) {
         this.IdTim = idTim;
         this.naziv = naziv;
         this.idKoordinator = koordinatorDTO;
@@ -51,7 +51,7 @@ public class TimDTO {
         return IdTim;
     }
 
-    public void setIdTim(int idTim) {
+    public void setIdTim(Integer idTim) {
         IdTim = idTim;
     }
 
