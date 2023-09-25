@@ -66,24 +66,16 @@ function formatDateTime(isoDate) {
 
 const getTimeRemaining = (timeFromBackend) => {
   const date = new Date(timeFromBackend);
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
   const currentDate = new Date();
-  const currentDay = String(currentDate.getDate()).padStart(2, '0');
-  const currentHours = String(currentDate.getHours()).padStart(2, '0');
-  let daysRemaining = (day - currentDay) < 0 ? 0 : day - currentDay;
-  let hoursRemaining = hours - currentHours;
-  if(daysRemaining <= 0 && hoursRemaining <=0)
+  const timeDifference = date - currentDate;
+
+  if (timeDifference < 0) {
     return "!!!";
-  if (hoursRemaining <= 0) {
-    daysRemaining -= 1;
-    hoursRemaining = 24 - 1 + hoursRemaining;
   }
-  else {
-    hoursRemaining -= 1;
-  }
-  if(daysRemaining < 0)
-    daysRemaining = 0;
+
+  const daysRemaining = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+  const hoursRemaining = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
   return `${daysRemaining}d ${hoursRemaining}h`;
 }
 

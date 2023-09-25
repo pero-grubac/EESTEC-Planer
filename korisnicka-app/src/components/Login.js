@@ -5,14 +5,13 @@ import "../index.css";
 import axios from "axios";
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,20}$/;
-const PWD_REGEX = /^[a-zA-Z0-9!@#$%^&*]{8,20}$/;
+const PWD_REGEX = /^[a-zA-Z0-9!@#$%^&*()_+.]{8,20}$/;
 
 function delay(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
 
 export const Login = (props) => {
-  //const [loggedUser, setLoggedUser] = useState(null);
   const navigate = useNavigate();
 
   const [loginFailMessage, setLoginFailMessage] = useState(false);
@@ -214,6 +213,7 @@ export const Login = (props) => {
                   value={regSurname}
                   onChange={(e) => setRegSurname(e.target.value)}
                   type="text"
+                  pattern={USER_REGEX}
                   name="surname"
                   required
                 ></input>
@@ -229,6 +229,7 @@ export const Login = (props) => {
                   onChange={(e) => setRegPassword(e.target.value)}
                   type="password"
                   name="password"
+                  pattern={PWD_REGEX}
                   required
                 ></input>
               </div>

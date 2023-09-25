@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `eestecplaner` /*!40100 DEFAULT CHARACTER SET utf
 USE `eestecplaner`;
 -- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: eestecplaner
+-- Host: localhost    Database: eestecplaner
 -- ------------------------------------------------------
 -- Server version	8.0.32
 
@@ -63,7 +63,7 @@ CREATE TABLE `clanodbora` (
 
 LOCK TABLES `clanodbora` WRITE;
 /*!40000 ALTER TABLE `clanodbora` DISABLE KEYS */;
-INSERT INTO `clanodbora` VALUES (6),(34);
+INSERT INTO `clanodbora` VALUES (42);
 /*!40000 ALTER TABLE `clanodbora` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -81,7 +81,7 @@ CREATE TABLE `kategorija` (
   PRIMARY KEY (`IdKategorija`),
   KEY `fk_Kategorija_Tim1_idx` (`IdTim`),
   CONSTRAINT `IdTim` FOREIGN KEY (`IdTim`) REFERENCES `tim` (`IdTim`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +90,7 @@ CREATE TABLE `kategorija` (
 
 LOCK TABLES `kategorija` WRITE;
 /*!40000 ALTER TABLE `kategorija` DISABLE KEYS */;
-INSERT INTO `kategorija` VALUES (1,'Zadati',4),(2,'Za prauzeti',4),(3,'Preuzeti',4),(4,'Završeni',4),(5,'Zadati',5),(6,'Za prauzeti',5),(7,'Preuzeti',5),(8,'Završeni',5),(9,'Zadati',6),(10,'Za prauzeti',6),(11,'Preuzeti',6),(12,'Završeni',6),(13,'Zadati',7),(14,'Za prauzeti',7),(15,'Preuzeti',7),(16,'Završeni',7),(17,'Zadati',8),(18,'Za prauzeti',8),(19,'Preuzeti',8),(20,'Završeni',8),(52,'Napomene',4);
+INSERT INTO `kategorija` VALUES (1,'Zadati',4),(2,'Za prauzeti',4),(3,'Preuzeti',4),(4,'Završeni',4),(5,'Zadati',5),(6,'Za prauzeti',5),(7,'Preuzeti',5),(8,'Završeni',5),(9,'Zadati',6),(10,'Za prauzeti',6),(11,'Preuzeti',6),(12,'Završeni',6),(13,'Zadati',7),(14,'Za prauzeti',7),(15,'Preuzeti',7),(16,'Završeni',7),(17,'Zadati',8),(18,'Za prauzeti',8),(19,'Preuzeti',8),(20,'Završeni',8),(53,'Napomene',4);
 /*!40000 ALTER TABLE `kategorija` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -131,7 +131,7 @@ CREATE TABLE `koordinator` (
 
 LOCK TABLES `koordinator` WRITE;
 /*!40000 ALTER TABLE `koordinator` DISABLE KEYS */;
-INSERT INTO `koordinator` VALUES (7),(33),(35),(36),(37);
+INSERT INTO `koordinator` VALUES (40),(41);
 /*!40000 ALTER TABLE `koordinator` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,7 +152,7 @@ CREATE TABLE `korisnik` (
   PRIMARY KEY (`IdKorisnika`),
   UNIQUE KEY `KorisnickoIme_UNIQUE` (`KorisnickoIme`),
   UNIQUE KEY `Email_UNIQUE` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -161,7 +161,7 @@ CREATE TABLE `korisnik` (
 
 LOCK TABLES `korisnik` WRITE;
 /*!40000 ALTER TABLE `korisnik` DISABLE KEYS */;
-INSERT INTO `korisnik` VALUES ('Pero','Grubac','pero','$2a$10$IGk.tfspFeWMhMLHg0b/huOya2dT0AKiImYBkfWvYf1B8l45cbovi','pero@example.com',6),('Aleksandra','Stanković','sandra','$2a$10$lKQTqhJrY7BGdvwnNeyzreLlY/T2NF762c1UgYmrSRU3b5TQIO9jC','nema@mail.com',7),('dipsy','dipsy','dipsy','$2a$10$foxeNtksDkLOFFZNNSOfxeo/gyfPhc/AvMlgvE8bPmGcT/aaQ3rjK','dipsy@mail.com',33),('po','po','po','$2a$10$dvsvZsgDU5TO1D54/0D9tuawCPQupZ/U4zVqcuVXCgli6sRJiwqSy','po@mail.com',34),('raphael','tmnt','raphael','$2a$10$bnw/ZUHPdnwZKjCSGASLJObVWWmD1sKOpb1ls78iijunpuR6HDFEi','raphael@mail.com',35),('leonardo','tmnt','leo','$2a$10$x.RlTaz46PPZ6TWmTz2DTOKpdJX4VBnnvu4Ih62k6QjE9dseAujy2','leonardo@mail.com',36),('donatello','tmnt','donatello','$2a$10$KiewjE5QY4q95nf7QSR27OtIwJAIPuZZYZFBE68Da.ZVidYbd4Vka','donatello@mail.com',37),('michelangelo','tmnt','mike ','$2a$10$l5iKhgjwrfBBshsF14lyL.8aaTDGUmcQKEWccVTXUD4fERMU5NHbi','michelangelo@mail.com',38),('dora','marquez','dora ','$2a$10$Fvacjbf5vHhq2oeX7W0Ok.oRVYHu3VLNgkNL8oV9fM2sPwo1mhSo.','stfu@mail.com',39);
+INSERT INTO `korisnik` VALUES ('Sofija','Rodić','sofija','$2a$10$LqQvVfwdMpbQNVH7cMeJ/etF5x1ArP1.kcs8MVJ1BvRtpzn7CoQJu','sofija.rodic@student.etf.unibl.org',40),('Aleksandra','Stanković','aleksandra','$2a$10$oq1b87SgSdlE8usyDlfsx.nGQda4fWE9hZHRyhznuL2N8S.tISFLG','aleksandra.stankovic@student.etf.unibl.org',41),('Mirko','Topić','mirko','$2a$10$bk20aV3hpt0tdHmZ6rzqHuz9lfV9mxDoJoGy.vtcp1y.3PGxphmdG','mirko.topic@student.etf.unibl.org',42),('Pero','Grubač','pero','$2a$10$y69ARd67D4xIyDP3arZ8dO98CboiAvg3sRFLYtcVI7wkJ8z.4qf5m','pero.grubac@student.etf.unibl.org',43);
 /*!40000 ALTER TABLE `korisnik` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -173,7 +173,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`pero`@`localhost`*/ /*!50003 TRIGGER `delete_superuser` AFTER DELETE ON `korisnik` FOR EACH ROW BEGIN
+/*!50003 CREATE*/ /*!50017 DEFINER=`korisnik`@`localhost`*/ /*!50003 TRIGGER `delete_superuser` AFTER DELETE ON `korisnik` FOR EACH ROW BEGIN
     DELETE FROM superuser WHERE IdSuperuser = OLD.IdKorisnika;
 END */;;
 DELIMITER ;
@@ -206,7 +206,7 @@ CREATE TABLE `korisnik_pripada_timu` (
 
 LOCK TABLES `korisnik_pripada_timu` WRITE;
 /*!40000 ALTER TABLE `korisnik_pripada_timu` DISABLE KEYS */;
-INSERT INTO `korisnik_pripada_timu` VALUES (6,4),(7,4),(34,4),(37,4),(6,5),(7,5),(6,6),(36,6),(6,7),(33,7),(6,8),(34,8),(35,8),(37,8);
+INSERT INTO `korisnik_pripada_timu` VALUES (41,4),(42,4),(42,5),(40,6),(42,6),(42,7),(40,8),(42,8);
 /*!40000 ALTER TABLE `korisnik_pripada_timu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -234,7 +234,7 @@ CREATE TABLE `korisnik_radi_zadatak` (
 
 LOCK TABLES `korisnik_radi_zadatak` WRITE;
 /*!40000 ALTER TABLE `korisnik_radi_zadatak` DISABLE KEYS */;
-INSERT INTO `korisnik_radi_zadatak` VALUES (6,3),(6,4),(6,8),(6,15),(37,19);
+INSERT INTO `korisnik_radi_zadatak` VALUES (41,31);
 /*!40000 ALTER TABLE `korisnik_radi_zadatak` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -285,7 +285,7 @@ CREATE TABLE `superuser` (
 
 LOCK TABLES `superuser` WRITE;
 /*!40000 ALTER TABLE `superuser` DISABLE KEYS */;
-INSERT INTO `superuser` VALUES (6),(7),(33),(34),(35),(36),(37);
+INSERT INTO `superuser` VALUES (40),(41),(42);
 /*!40000 ALTER TABLE `superuser` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -312,7 +312,7 @@ CREATE TABLE `tim` (
 
 LOCK TABLES `tim` WRITE;
 /*!40000 ALTER TABLE `tim` DISABLE KEYS */;
-INSERT INTO `tim` VALUES (4,'Design',37),(5,'HR',7),(6,'PR',36),(7,'FR',33),(8,'IT',35);
+INSERT INTO `tim` VALUES (4,'Design',41),(5,'HR',NULL),(6,'PR',40),(7,'FR',NULL),(8,'IT',NULL);
 /*!40000 ALTER TABLE `tim` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -352,7 +352,7 @@ CREATE TABLE `zadatak` (
   PRIMARY KEY (`IdZadatak`),
   KEY `fk_Zadatak_Kategorija1_idx` (`IdKategorija`),
   CONSTRAINT `fk_Zadatak_Kategorija1` FOREIGN KEY (`IdKategorija`) REFERENCES `kategorija` (`IdKategorija`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -361,7 +361,7 @@ CREATE TABLE `zadatak` (
 
 LOCK TABLES `zadatak` WRITE;
 /*!40000 ALTER TABLE `zadatak` DISABLE KEYS */;
-INSERT INTO `zadatak` VALUES (3,'Sample task update',1,'2023-12-02 00:00:00',37,'2023-02-02 00:00:00','Sample Title update'),(4,'Sample task update 2',1,'2023-12-02 00:00:00',37,'2023-09-21 19:45:41','Sample Title update 2'),(8,'drugi tim',13,'2023-12-02 00:00:00',33,'2023-09-21 19:46:47','Sample Title'),(15,'...',17,'2023-09-29 17:00:00',6,'2023-09-23 17:00:23','Zadatak'),(17,'...',18,'2023-09-29 17:06:00',6,'2023-09-23 17:06:47','Zadatak od clana odbora'),(19,'...',17,'2023-09-30 17:18:00',6,'2023-09-23 17:18:53','Novi zadatak'),(20,'...',2,'2023-09-29 17:19:00',6,'2023-09-23 17:19:15','Novi zadatak'),(22,'',1,'2023-09-30 13:28:00',37,'2023-09-24 13:29:03','Novi zadatak'),(25,'dfsdfsdfsdf',1,NULL,37,'2023-09-24 14:38:03','dfsfsdfsfdfdfdsdfs'),(26,'Propisano dokumentom Brand Policy Paper - January 2021',52,NULL,37,'2023-09-24 15:13:07','Koristiti crvenu boju: #e52a30'),(27,'Sa sve cetiri strane oko logotipa mora postojati razmak velicine slova \"e\" u logotipu. \n\nPropisano dokumentom: Brand Policy Paper - January 2021.',52,NULL,37,'2023-09-24 15:13:38','Paziti na razmak oko logotipa');
+INSERT INTO `zadatak` VALUES (28,'Propisano u dokumentu Brand Policy Paper - January 2021',53,NULL,41,'2023-09-25 16:00:48','Koristiti crvenu boju #e52a30'),(29,'Oko logotipa treba da postoji razmak širine slova \"e\" u logotipu.\n\nPropisano dokumentom Brand Policy Paper - January 2021.',53,NULL,41,'2023-09-25 16:03:18','Paziti na razmak oko logotipa!'),(30,'Kreirati poster dimenzija A3 za događaj ______.\n\nPoštovati BPP!\n\nPošto je za štampanje, raditi u CMYK color mode-u. ',2,'2023-10-06 16:06:00',41,'2023-09-25 16:06:55','Kreirati poster za događaj'),(31,'Napraviti u Canvi okvir za slike za predstojeći događaj gdje će PR tim kasnije moći da dodaje slike. \n\nPoštovati BPP. \n\nKad bude gotovo, uploadovati na Google Drive PR tima.',3,'2023-10-08 16:09:00',41,'2023-09-25 16:09:48','Napraviti okvir za slike za događaj'),(32,'Potrebno napraviti objavu za drustvene mreze za najavu predavanja. \n\nPotrebno da bude u 3 dimenzije: Instagram story. Instagram objava, Facebook cover image.',2,'2023-09-30 16:13:00',41,'2023-09-25 16:14:57','Dizajnirati objavu za najavu predavanja'),(33,'Navesti osnovne informacije: mjesto, vrijeme i datum odrzavanja. \nNapisati ko je predavac, i par recenica o predavacu. \nNapisati koja je tema.\nKoristiti dosta emotikona.',10,'2023-10-05 16:23:00',40,'2023-09-25 16:24:12','Napisati opis za objavu u najavi dogadjaja'),(34,'Napraviti feedback formu sa osnovnim pitanjima kako se ucesnicima dopao prethodni dogadjaj. \nImati standardna pitanja kao i za ranije forme, koje mozete naći na Google Disku.',10,'2023-10-06 16:25:00',40,'2023-09-25 16:24:57','Napraviti feedback formu');
 /*!40000 ALTER TABLE `zadatak` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -400,7 +400,7 @@ CREATE TABLE `zahtjev` (
   PRIMARY KEY (`IdZahtjev`),
   UNIQUE KEY `KorisničkoIme_UNIQUE` (`KorisničkoIme`),
   UNIQUE KEY `Email_UNIQUE` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -409,7 +409,7 @@ CREATE TABLE `zahtjev` (
 
 LOCK TABLES `zahtjev` WRITE;
 /*!40000 ALTER TABLE `zahtjev` DISABLE KEYS */;
-INSERT INTO `zahtjev` VALUES ('sandraPhoenix','aleksandra','$2a$10$stRJNurDfI6N6bwIv1M1KelzQd52zPFIJQLVQZcQNW73BcC.KhtOO',22,'rodic','2023-02-02 00:00:00','nemamejlaidalje@mail.com'),('sandra','sandra','$2a$10$SMECEK1Yt7RuHaZLqN0.muPBz6cfPProJOx0EgBBjbUQieJKDBxsW',23,'obrascic','2023-02-02 00:00:00','sandi@mail.com'),('test','Test','$2a$10$ZRxIlTRLvKgVM82oA41lQeMOyjwIkbA93EzF8PCfDaPxhy/y.N47K',26,'Testovic','2023-09-22 11:22:55','test@gmail.com'),('novi','novi','$2a$10$l3g5HYQluFWJHJq9qZMd6erzS8wnZj01yi3WES4PNhrbt4kAb1otS',27,'nalog','2023-09-23 13:14:21','novi@mail.com'),('sofija','sofija','$2a$10$KXAnFRc042fDUSA4J2VNIOOzG1KDRjUXR8TZ1eExWcDn.P4A7IeNe',28,'rodic','2023-09-23 13:15:15','sofija@gmail.com'),('perica','perica','$2a$10$jobcqvVhsiKkaiCpqtSKROjFeQNGW/2UfZJafdC5ukArdBXPN2ZpW',29,'peric','2023-09-23 13:15:52','perica@gmail.com');
+INSERT INTO `zahtjev` VALUES ('marko','Marko','$2a$10$YTUuVfO/qCz3B0SmGLa/v.USV9Ab.st8l16GFkLN5j7STpZNZV4E.',35,'Marković','2023-09-25 15:46:18','marko.markovic@gmail.com'),('ivan','Ivan','$2a$10$ktkoT.IHXh9cjo3q5GdEQe.313GqG2/qv6cNUpu9YEI8RrO.M/hVa',36,'Ivanić','2023-09-25 15:47:30','ivan.ivanic@gmail.com'),('jovan','Jovan','$2a$10$gKV19kPe2vHG26mf4JqnBOge1cthoUqrRY4YtHlch7PgOL7LNedHG',37,'Jovanic','2023-09-25 15:48:41','jovan.jovanic@gmail.com');
 /*!40000 ALTER TABLE `zahtjev` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -496,4 +496,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-25 14:33:50
+-- Dump completed on 2023-09-25 16:49:19
