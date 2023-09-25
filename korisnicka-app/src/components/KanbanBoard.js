@@ -22,8 +22,6 @@ const getCategoriesAndTasks = async (team, navigate) => {
       }
     );
 
-    //console.log("fecovanje ", response.data);
-
     if (response.status === 403) {
       localStorage.clear();
       navigate("/", { replace: true });
@@ -55,7 +53,7 @@ const getCategoriesAndTasks = async (team, navigate) => {
 function formatDateTime(isoDate) {
   const date = new Date(isoDate);
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is zero-based
+  const month = String(date.getMonth() + 1).padStart(2, '0'); 
   const day = String(date.getDate()).padStart(2, '0');
   const hours = String(date.getHours()).padStart(2, '0');
   const minutes = String(date.getMinutes()).padStart(2, '0');
@@ -115,7 +113,6 @@ export default function KanbanBoard({ loggedUser, setLoggedUser, team, teams }) 
       setResult(result);
 
       let currentUser = result.users.filter(user => { return user.idKorisnika === loggedUser.idKorisnika })[0];
-      //console.log("current user: ", currentUser);
       setLoggedUserTasks(currentUser.zadaci);
     } catch (error) {
       console.error(error);
@@ -208,7 +205,6 @@ export default function KanbanBoard({ loggedUser, setLoggedUser, team, teams }) 
         setResult(result);
 
         let currentUser = result.users.filter(user => { return user.idKorisnika === loggedUser.idKorisnika })[0];
-        //console.log("current user: ", currentUser);
         setLoggedUserTasks(currentUser.zadaci);
 
       } catch (error) {

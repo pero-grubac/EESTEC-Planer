@@ -63,8 +63,6 @@ export default function AccountSettings({ loggedUser }) {
         navigate('/', { replace: true });
       }
 
-      console.log(user.data);
-
       navigate('/teams', { replace: true });
 
     } catch (error) {

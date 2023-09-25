@@ -6,7 +6,6 @@ import { TeamImages } from "./TeamImages";
 import axios from "axios";
 
 export const TeamsMenu = ({ loggedUser, teams, setLoggedUser }) => {
-    //console.log(loggedUser);
 
     const navigate = useNavigate();
 
@@ -29,12 +28,10 @@ export const TeamsMenu = ({ loggedUser, teams, setLoggedUser }) => {
     try {
         if (loggedUser.timovi.length !== 0) {
             teams.forEach((team, id) => {
-                //console.log(loggedUser.timovi)
                 const matchingTeam = loggedUser.timovi.find((tim) => team.naziv === tim.naziv);
                 if (matchingTeam) {
                     teams[id].aktivan = true;
                 }
-                //console.log(teams[id]);
             })
         }
     } catch (error) {
@@ -57,7 +54,6 @@ export const TeamsMenu = ({ loggedUser, teams, setLoggedUser }) => {
     }
 
     const handleJoinClick = async (team) => {
-        // dodaj u tim
 
         try {
             const response = await axios.put("http://localhost:8080/user/joinTeam",
@@ -94,8 +90,6 @@ export const TeamsMenu = ({ loggedUser, teams, setLoggedUser }) => {
                     },
                 }
             );
-
-            console.log("fecovanje ", response.data);
 
             if (response.status === 403) {
                 localStorage.clear();

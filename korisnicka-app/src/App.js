@@ -71,14 +71,6 @@ function App() {
       </Routes>
     </div>
   )
-
-  // return(
-
-
-  //   <div>
-  //     <KanbanBoard/>
-  //   </div>
-  // );
 }
 
 export default App;

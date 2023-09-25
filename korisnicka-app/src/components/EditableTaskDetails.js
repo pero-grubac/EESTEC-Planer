@@ -13,8 +13,6 @@ export default function EditableTaskDetails({ setShowEditableTaskDetails, setSho
 
     const handleUpdateTaskClick = async () => {
         try {
-            console.log(taskText, taskDeadline, selectedTask.idAutora, taskTitle, selectedTask.kategorija.idKategorija
-            )
             const response = await axios.post("http://localhost:8080/zadatak/update",
                 {
                     tekst: taskText,

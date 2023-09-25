@@ -29,38 +29,36 @@ export const Login = (props) => {
 
   const [isLogin, setIsLogin] = useState(true);
 
- 
-  const handleLoginSubmit = async  (e) => {
+
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
+
+    setLoginFailMessage(false);
 
     const loginForm = {
       username: username,
       lozinka: password,
     };
 
-    console.log(loginForm);
-
     try {
       const response = await axios.put(
         "http://localhost:8080/user/login",
         loginForm
       );
-        console.log(response);
       if (response.status === 200) {
-        // Authentication successful
         console.log("Login successful");
-       localStorage.setItem("token", response.data.token);
-       localStorage.setItem("userId", window.btoa(response.data.korisnik.idKorisnika))
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("userId", window.btoa(response.data.korisnik.idKorisnika))
 
-      const loggedUser = response.data.korisnik;
-       props.setLoggedUser(loggedUser);
-            
+        const loggedUser = response.data.korisnik;
+        props.setLoggedUser(loggedUser);
 
-             setTimeout(() => {
-                navigate('/teams', { replace: true });
+
+        setTimeout(() => {
+          navigate('/teams', { replace: true });
         }, 1000);
-      } 
-      
+      }
+
       else {
         localStorage.clear();
         navigate('/', { replace: true });
@@ -68,10 +66,7 @@ export const Login = (props) => {
 
       props.setUserIsAuthenticated(true);
     } catch (error) {
-      // Handle errors (e.g., authentication failure)
       setLoginFailMessage(true);
-      // Display an error message to the user
-      // Update the UI to indicate the login failed
     }
   };
 
@@ -83,11 +78,19 @@ export const Login = (props) => {
     let currentDay = String(date.getDate()).padStart(2, "0");
     let currentMonth = String(date.getMonth() + 1).padStart(2, "0");
     let currentYear = date.getFullYear();
+    let hours = date.getHours();
+    if (hours < 10)
+      hours = "0" + hours;
+    let minutes = date.getHours();
+    if (minutes < 10)
+      minutes = "0" + minutes;
+    let seconds = date.getHours();
+    if (seconds < 10)
+      seconds = "0" + seconds;
     let currentTime =
-      date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+      hours + ":" + minutes + ":" + seconds;
 
     let currentDate = `${currentYear}-${currentMonth}-${currentDay}T${currentTime}`;
-    // console.log("current date: ", currentDate);
 
     try {
       const response = await axios.post("http://localhost:8080/question/add", {
@@ -100,20 +103,13 @@ export const Login = (props) => {
       });
 
       if (response.status === 200) {
-        // Authentication successful
         console.log("Registration successful");
 
         setShowSuccessfulRegistrationMessage(true);
         await delay(1000);
         setIsLogin(true);
-        // Store authentication data (e.g., token) and redirect
-        // You can use a state management library like Redux for this
-      } else {
-        // Handle other successful responses or unexpected data
-        console.log("Unexpected response:", response.data);
       }
     } catch (error) {
-      console.log(error);
     }
   };
 

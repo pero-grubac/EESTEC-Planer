@@ -43,8 +43,6 @@ export default function LeaveTeamConfirmation({ loggedUser, setLoggedUser, setLe
                 }
             );
 
-            console.log("fecovanje ", response.data);
-
             if (response.status === 403) {
                 localStorage.clear();
                 navigate("/", { replace: true });

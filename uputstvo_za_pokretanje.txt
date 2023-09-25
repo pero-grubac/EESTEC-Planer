@@ -12,3 +12,11 @@ FE:
 1. Potreban instaliran Node JS (konfigurisana komanda npm)
 2. Za obe aplikacije (admin-app i korisnicka-app), u direktorijumima otvoriti konzolu i pokrenuti komandu "npm install"
 3. Nakon uspjesne instalacije, pokrenuti aplikaciju komandom "npm start" iz istog direktorijuma
+
+Korisnicka aplikacija:
+- funkcionalnosti koordinatora je moguce testirati prijavom sa korisnickim imenom "aleksandra" i lozinkom "aleksandra"
+- funkcionalnosti clana upravnog odbora je moguce testirati prijavom sa korisnickim imenom "mirko" i lozinkom "mirko123"
+- funkcionalnosti obicnog korisnika je moguce testirati prijavom sa korisnickim imenom "pero" i lozinkom "peropero"
+
+Administratorska aplikacija:
+- funkcionalnosti aplikacije je moguce testirati prijavom sa korisnickim imenom "admin" i sifrom "admin"

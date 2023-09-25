@@ -12,7 +12,6 @@ export default function NewTaskForm({ setShowNewTaskForm, categoryId, loggedUser
     const [taskDeadline, setTaskDeadline] = useState("");
 
     const handleSubmitNewTask = async () => {
-        console.log("deadline: ", taskDeadline);
         try {
             const createTask = await axios.post(
                 "http://localhost:8080/zadatak/create",
