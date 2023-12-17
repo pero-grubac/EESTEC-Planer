@@ -28,7 +28,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/admins")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost")
 public class AdminController {
     private final AdminServiceImpl adminService; // Use AdminServiceImpl
     private final Logger logger = LoggerFactory.getLogger(KorisnikController.class);
