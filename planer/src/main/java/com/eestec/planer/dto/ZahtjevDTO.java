@@ -1,19 +1,26 @@
 package com.eestec.planer.dto;
 
 import jakarta.persistence.*;
-import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Data
+
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name="zahtjev")
 public class ZahtjevDTO
 {
+    public ZahtjevDTO(String korisnickoIme, String ime, String lozinka, int idZahtjev, String prezime, String email, LocalDateTime datumKreiranja) {
+        KorisnickoIme = korisnickoIme;
+        Ime = ime;
+        Lozinka = lozinka;
+        IdZahtjev = idZahtjev;
+        Prezime = prezime;
+        Email = email;
+        this.datumKreiranja = datumKreiranja;
+    }
 
+    public ZahtjevDTO() {
+    }
 
     @Column(name = "KorisničkoIme")
     private String KorisnickoIme;

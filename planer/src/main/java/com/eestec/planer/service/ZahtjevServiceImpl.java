@@ -7,8 +7,7 @@ import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.dto.ZahtjevDTO;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import lombok.Getter;
-import lombok.Setter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
