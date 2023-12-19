@@ -19,4 +19,4 @@ Korisnicka aplikacija:
 - funkcionalnosti obicnog korisnika je moguce testirati prijavom sa korisnickim imenom "pero" i lozinkom "peropero"
 
 Administratorska aplikacija:
-- funkcionalnosti aplikacije je moguce testirati prijavom sa korisnickim imenom "admin" i sifrom "admin"
+- funkcionalnosti aplikacije je moguce testirati prijavom sa korisnickim imenom "admin" i lozinkom "admin"
