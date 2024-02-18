@@ -1,6 +1,5 @@
 package com.eestec.planer.service;
 
-import com.eestec.planer.controller.KorisnikController;
 import com.eestec.planer.controller.util.KorisnikRequest;
 import com.eestec.planer.controller.util.LoginForm;
 import com.eestec.planer.dao.KorisnikDAO;
@@ -106,7 +105,8 @@ public class KorisnikServiceImpl implements KorisnikService {
     public boolean deleteKorisnik(Integer id) {
         KorisnikDTO korisnik = korisnikDAO.findById(id).orElse(null);
         if (korisnik != null) {
-            jdbcTemplate.update("CALL DeleteUserAndAssociatedData(?)", id);
+            korisnik.setDeleted(true);
+            korisnikDAO.save(korisnik);
             return true;
         }
         return false;
@@ -167,6 +167,16 @@ public class KorisnikServiceImpl implements KorisnikService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean isDeleted(String username) {
+        KorisnikDTO korisnik = korisnikDAO.findBykorisnickoIme(username).orElse(null);
+        if(korisnik!=null){
+            Byte deleted = korisnikDAO.isDeletedByUsername(username);
+            return  deleted != null && deleted != 0;
+        }
+        return true;
     }
 
 

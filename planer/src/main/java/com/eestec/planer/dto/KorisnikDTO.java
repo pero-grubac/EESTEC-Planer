@@ -21,6 +21,9 @@ public class KorisnikDTO {
     @Column(name = "Lozinka")
     private String lozinka;
 
+    @JsonIgnore
+    @Column(name = "Obrisan")
+    private boolean deleted;
     @Column(name = "Email", unique = true)
     private String email;
     @Id
@@ -77,6 +80,7 @@ public class KorisnikDTO {
 
     private static transient String role = "KORISNIK";
     private transient String uloga = "Korisnik";
+
     public String getIme() {
         return ime;
     }
@@ -168,5 +172,13 @@ public class KorisnikDTO {
 
     public void setZadaci(Set<ZadatakDTO> zadaci) {
         this.zadaci = zadaci;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 }

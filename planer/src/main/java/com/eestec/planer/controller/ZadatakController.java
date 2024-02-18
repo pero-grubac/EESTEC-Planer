@@ -5,6 +5,7 @@ import com.eestec.planer.controller.util.ElementiTima;
 import com.eestec.planer.dao.KategorijaDAO;
 import com.eestec.planer.dao.ZadatakDAO;
 import com.eestec.planer.dto.*;
+import com.eestec.planer.service.EmailServiceImpl;
 import com.eestec.planer.service.KorisnikServiceImpl;
 import com.eestec.planer.service.ZadatakService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +31,15 @@ public class ZadatakController {
     private ZadatakDAO zadatakDAO;
     @Autowired
     private KorisnikServiceImpl korisnikService;
+    @Autowired
+    private EmailServiceImpl emailService;
     private final Logger logger = LoggerFactory.getLogger(ZadatakController.class);
 
-    @GetMapping("/all")
+    @GetMapping("/all/{arc}")
     @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
-    public List<ZadatakDTO> getAllZadaci() {
+    public List<ZadatakDTO> getAllZadaci(@PathVariable Byte arc) {
 
-        return zadatakService.getAllZadaci();
+        return zadatakService.getAllZadaci(arc);
 
     }
 
@@ -47,10 +50,19 @@ public class ZadatakController {
     public ResponseEntity<?> kreirajZadatak(@RequestBody ZadatakDTO zadatakDTO) {
         ZadatakDTO kreiraniZadatak = zadatakService.createZadatak(zadatakDTO);
 
+        sendEmails(kreiraniZadatak, "Novi zadatak - ");
+
         if (kreiraniZadatak != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(kreiraniZadatak);
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Došlo je do greške prilikom kreiranja zadatka.");
+        }
+    }
+
+    private void sendEmails(ZadatakDTO kreiraniZadatak, String naslov) {
+        List<String> emails = zadatakService.getEmails(kreiraniZadatak.getIdZadatak());
+        for (String email : emails) {
+            emailService.email(email, naslov + kreiraniZadatak.getNaslov(), kreiraniZadatak.getTekst());
         }
     }
 
@@ -122,6 +134,7 @@ public class ZadatakController {
     @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public ResponseEntity<ZadatakDTO> update(@RequestBody ZadatakDTO zadatak) {
         ZadatakDTO zadatakDTO = zadatakService.updateZadatak(zadatak);
+        sendEmails(zadatakDTO, "Ažuriran zadatak - ");
         if (zadatakDTO != null)
             return ResponseEntity.ok().build();
         else return ResponseEntity.notFound().build();
@@ -130,6 +143,8 @@ public class ZadatakController {
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public ResponseEntity<?> delete(@PathVariable Integer id) {
+        ZadatakDTO zadatak = zadatakService.getZadatak(id);
+        sendEmails(zadatak, "Obrisan zadatak - ");
         if (zadatakService.deleteZadtak(id)) {
             return ResponseEntity.ok("Zahtjev s ID-om " + id + " je obrisan.");
         }

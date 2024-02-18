@@ -22,8 +22,8 @@ public class ZadatakServiceImpl implements ZadatakService {
     private KategorijaDAO kategorijaDAO;
 
     @Override
-    public List<ZadatakDTO> getAllZadaci() {
-        return zadatakDAO.findAll();
+    public List<ZadatakDTO> getAllZadaci(Byte arc) {
+        return zadatakDAO.getZadatakDTOByArhiviran(arc);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class ZadatakServiceImpl implements ZadatakService {
                 zadatak.setRok(zadatakDTO.getRok());
 
             if (zadatakDTO.getKategorija() != null) {
-                    zadatak.setKategorija(zadatakDTO.getKategorija());
+                zadatak.setKategorija(zadatakDTO.getKategorija());
             }
             return zadatak;
         }
@@ -96,12 +96,17 @@ public class ZadatakServiceImpl implements ZadatakService {
 
     @Override
     public boolean deleteZadtak(Integer id) {
-       ZadatakDTO zadatak = zadatakDAO.findById(id).orElse(null);
-       if(zadatak!=null){
-           zadatakDAO.delete(zadatak);
-           return true;
-       }
-       return false;
+        ZadatakDTO zadatak = zadatakDAO.findById(id).orElse(null);
+        if (zadatak != null) {
+            zadatakDAO.delete(zadatak);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<String> getEmails(Integer id) {
+        return zadatakDAO.userEmails(id);
     }
 
 

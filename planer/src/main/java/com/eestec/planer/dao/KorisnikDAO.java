@@ -1,9 +1,7 @@
 package com.eestec.planer.dao;
 
 
-import com.eestec.planer.dto.AdminDTO;
 import com.eestec.planer.dto.KorisnikDTO;
-import com.eestec.planer.dto.TimDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -33,17 +31,16 @@ public interface KorisnikDAO extends JpaRepository<KorisnikDTO, Integer> {
     void joinTeam(@Param("idKorisnika") Integer idKorisnika, @Param("idTim") Integer idTim);
 
     @Modifying
-    @Query(value = "INSERT INTO korisnik_radi_zadatak (`Korisnik_IdKorisnika`, `Zadatak_IdZadatak`) VALUES (:idKorisnika,:idZadatka)",nativeQuery = true)
+    @Query(value = "INSERT INTO korisnik_radi_zadatak (`Korisnik_IdKorisnika`, `Zadatak_IdZadatak`) VALUES (:idKorisnika,:idZadatka)", nativeQuery = true)
     @Transactional
-    void assignTask(@Param("idKorisnika")Integer idKorisnika,@Param("idZadatka") Integer idZadatka);
-
+    void assignTask(@Param("idKorisnika") Integer idKorisnika, @Param("idZadatka") Integer idZadatka);
 
 
     @Modifying
     @Query(value = "DELETE FROM korisnik_radi_zadatak " +
             "WHERE Korisnik_IdKorisnika = :idKorisnika AND Zadatak_IdZadatak = :idZadatak", nativeQuery = true)
     @Transactional
-    void dropTask(@Param("idKorisnika")Integer idKorisnika,@Param("idZadatak") Integer idZadatak);
+    void dropTask(@Param("idKorisnika") Integer idKorisnika, @Param("idZadatak") Integer idZadatak);
 
     @Query("SELECT k FROM KorisnikDTO k WHERE k.korisnickoime = :korisnickoime")
     Optional<KorisnikDTO> findBykorisnickoIme(@Param("korisnickoime") String korisnickoIme);
@@ -52,4 +49,8 @@ public interface KorisnikDAO extends JpaRepository<KorisnikDTO, Integer> {
             "INNER JOIN korisnik_pripada_timu kt on k.IdKorisnika=kt.Korisnik_IdKorisnika " +
             "WHERE kt.Tim_IdTim =:idTim", nativeQuery = true)
     List<KorisnikDTO> getAllByIdTim(@Param("idTim") Integer idTim);
+
+    @Query(value = "SELECT k.Obrisan FROM korisnik k WHERE k.KorisnickoIme =:username", nativeQuery = true)
+    Byte isDeletedByUsername(@Param("username") String username);
+
 }

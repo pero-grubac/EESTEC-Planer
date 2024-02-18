@@ -1,34 +1,25 @@
 package com.eestec.planer.controller;
 
-import com.eestec.planer.controller.util.AuthResponse;
 import com.eestec.planer.controller.util.KorisnikRequest;
 import com.eestec.planer.controller.util.LoginForm;
 import com.eestec.planer.dto.AdminDTO;
 import com.eestec.planer.service.AdminServiceImpl;
+import com.eestec.planer.service.EmailServiceImpl;
 import com.eestec.planer.service.JwtService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/admins")
-@CrossOrigin(origins = "http://localhost")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AdminController {
     private final AdminServiceImpl adminService; // Use AdminServiceImpl
     private final Logger logger = LoggerFactory.getLogger(KorisnikController.class);
@@ -41,10 +32,12 @@ public class AdminController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
+    private EmailServiceImpl emailService;
+
+    @Autowired
     public AdminController(AdminServiceImpl adminService) {
         this.adminService = adminService;
     }
-
 
 
 //    @GetMapping("/getall")
@@ -76,6 +69,12 @@ public class AdminController {
         }
     }
 
+    @GetMapping("/email")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<Void> hello() {
+        emailService.email("perogrubac99@gmail.com","eplaner","test");
+        return ResponseEntity.ok().build();
+    }
 
     @PutMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginForm loginForm) {

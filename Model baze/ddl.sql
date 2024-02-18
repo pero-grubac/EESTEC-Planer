@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `eestecplaner` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `eestecplaner`;
--- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
 -- Host: localhost    Database: eestecplaner
 -- ------------------------------------------------------
--- Server version	8.0.32
+-- Server version	8.0.34
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -131,7 +129,7 @@ CREATE TABLE `koordinator` (
 
 LOCK TABLES `koordinator` WRITE;
 /*!40000 ALTER TABLE `koordinator` DISABLE KEYS */;
-INSERT INTO `koordinator` VALUES (40),(41);
+INSERT INTO `koordinator` VALUES (40),(41),(43);
 /*!40000 ALTER TABLE `koordinator` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -149,10 +147,11 @@ CREATE TABLE `korisnik` (
   `Lozinka` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `Email` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `IdKorisnika` int NOT NULL AUTO_INCREMENT,
+  `Obrisan` tinyint DEFAULT '0',
   PRIMARY KEY (`IdKorisnika`),
   UNIQUE KEY `KorisnickoIme_UNIQUE` (`KorisnickoIme`),
   UNIQUE KEY `Email_UNIQUE` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -161,7 +160,7 @@ CREATE TABLE `korisnik` (
 
 LOCK TABLES `korisnik` WRITE;
 /*!40000 ALTER TABLE `korisnik` DISABLE KEYS */;
-INSERT INTO `korisnik` VALUES ('Sofija','Rodić','sofija','$2a$10$LqQvVfwdMpbQNVH7cMeJ/etF5x1ArP1.kcs8MVJ1BvRtpzn7CoQJu','sofija.rodic@student.etf.unibl.org',40),('Aleksandra','Stanković','aleksandra','$2a$10$oq1b87SgSdlE8usyDlfsx.nGQda4fWE9hZHRyhznuL2N8S.tISFLG','aleksandra.stankovic@student.etf.unibl.org',41),('Mirko','Topić','mirko','$2a$10$bk20aV3hpt0tdHmZ6rzqHuz9lfV9mxDoJoGy.vtcp1y.3PGxphmdG','mirko.topic@student.etf.unibl.org',42),('Pero','Grubač','pero','$2a$10$y69ARd67D4xIyDP3arZ8dO98CboiAvg3sRFLYtcVI7wkJ8z.4qf5m','pero.grubac@student.etf.unibl.org',43);
+INSERT INTO `korisnik` VALUES ('Sofija','Rodić','sofija','$2a$10$LqQvVfwdMpbQNVH7cMeJ/etF5x1ArP1.kcs8MVJ1BvRtpzn7CoQJu','sofija.rodic@student.etf.unibl.org',40,0),('Aleksandra','Stanković','aleksandra','$2a$10$oq1b87SgSdlE8usyDlfsx.nGQda4fWE9hZHRyhznuL2N8S.tISFLG','aleksandra.stankovic@student.etf.unibl.org',41,0),('Mirko','Topić','mirko','$2a$10$bk20aV3hpt0tdHmZ6rzqHuz9lfV9mxDoJoGy.vtcp1y.3PGxphmdG','mirko.topic@student.etf.unibl.org',42,0),('Pero','Grubač','pero','$2a$10$0YsD8KyR3pyLq.XPW8TALeZFJD.mJPaX2vFJZE6SxJMicvhtKaEz2','pero.grubac@student.etf.unibl.org',43,0),('Marko','Marković','marko','$2a$10$YTUuVfO/qCz3B0SmGLa/v.USV9Ab.st8l16GFkLN5j7STpZNZV4E.','marko.markovic@gmail.com',44,0);
 /*!40000 ALTER TABLE `korisnik` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -206,7 +205,7 @@ CREATE TABLE `korisnik_pripada_timu` (
 
 LOCK TABLES `korisnik_pripada_timu` WRITE;
 /*!40000 ALTER TABLE `korisnik_pripada_timu` DISABLE KEYS */;
-INSERT INTO `korisnik_pripada_timu` VALUES (41,4),(42,4),(42,5),(40,6),(42,6),(42,7),(40,8),(42,8);
+INSERT INTO `korisnik_pripada_timu` VALUES (41,4),(42,4),(43,4),(42,5),(43,5),(40,6),(42,6),(43,6),(42,7),(40,8),(42,8),(43,8);
 /*!40000 ALTER TABLE `korisnik_pripada_timu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -234,7 +233,7 @@ CREATE TABLE `korisnik_radi_zadatak` (
 
 LOCK TABLES `korisnik_radi_zadatak` WRITE;
 /*!40000 ALTER TABLE `korisnik_radi_zadatak` DISABLE KEYS */;
-INSERT INTO `korisnik_radi_zadatak` VALUES (41,31);
+INSERT INTO `korisnik_radi_zadatak` VALUES (41,30),(43,30),(41,31);
 /*!40000 ALTER TABLE `korisnik_radi_zadatak` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -285,7 +284,7 @@ CREATE TABLE `superuser` (
 
 LOCK TABLES `superuser` WRITE;
 /*!40000 ALTER TABLE `superuser` DISABLE KEYS */;
-INSERT INTO `superuser` VALUES (40),(41),(42);
+INSERT INTO `superuser` VALUES (40),(41),(42),(43);
 /*!40000 ALTER TABLE `superuser` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -312,7 +311,7 @@ CREATE TABLE `tim` (
 
 LOCK TABLES `tim` WRITE;
 /*!40000 ALTER TABLE `tim` DISABLE KEYS */;
-INSERT INTO `tim` VALUES (4,'Design',41),(5,'HR',NULL),(6,'PR',40),(7,'FR',NULL),(8,'IT',NULL);
+INSERT INTO `tim` VALUES (4,'Design',41),(5,'HR',NULL),(6,'PR',40),(7,'FR',NULL),(8,'IT',43);
 /*!40000 ALTER TABLE `tim` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -344,15 +343,17 @@ DROP TABLE IF EXISTS `zadatak`;
 CREATE TABLE `zadatak` (
   `IdZadatak` int NOT NULL AUTO_INCREMENT,
   `Tekst` varchar(450) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `IdKategorija` int NOT NULL,
+  `IdKategorija` int DEFAULT NULL,
   `Rok` datetime DEFAULT NULL,
   `IdAutora` int NOT NULL,
   `DatumKreiranja` datetime NOT NULL,
   `Naslov` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `DatumArhiviranja` date DEFAULT NULL,
+  `Arhiviran` tinyint DEFAULT '0',
   PRIMARY KEY (`IdZadatak`),
   KEY `fk_Zadatak_Kategorija1_idx` (`IdKategorija`),
   CONSTRAINT `fk_Zadatak_Kategorija1` FOREIGN KEY (`IdKategorija`) REFERENCES `kategorija` (`IdKategorija`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -361,7 +362,7 @@ CREATE TABLE `zadatak` (
 
 LOCK TABLES `zadatak` WRITE;
 /*!40000 ALTER TABLE `zadatak` DISABLE KEYS */;
-INSERT INTO `zadatak` VALUES (28,'Propisano u dokumentu Brand Policy Paper - January 2021',53,NULL,41,'2023-09-25 16:00:48','Koristiti crvenu boju #e52a30'),(29,'Oko logotipa treba da postoji razmak širine slova \"e\" u logotipu.\n\nPropisano dokumentom Brand Policy Paper - January 2021.',53,NULL,41,'2023-09-25 16:03:18','Paziti na razmak oko logotipa!'),(30,'Kreirati poster dimenzija A3 za događaj ______.\n\nPoštovati BPP!\n\nPošto je za štampanje, raditi u CMYK color mode-u. ',2,'2023-10-06 16:06:00',41,'2023-09-25 16:06:55','Kreirati poster za događaj'),(31,'Napraviti u Canvi okvir za slike za predstojeći događaj gdje će PR tim kasnije moći da dodaje slike. \n\nPoštovati BPP. \n\nKad bude gotovo, uploadovati na Google Drive PR tima.',3,'2023-10-08 16:09:00',41,'2023-09-25 16:09:48','Napraviti okvir za slike za događaj'),(32,'Potrebno napraviti objavu za drustvene mreze za najavu predavanja. \n\nPotrebno da bude u 3 dimenzije: Instagram story. Instagram objava, Facebook cover image.',2,'2023-09-30 16:13:00',41,'2023-09-25 16:14:57','Dizajnirati objavu za najavu predavanja'),(33,'Navesti osnovne informacije: mjesto, vrijeme i datum odrzavanja. \nNapisati ko je predavac, i par recenica o predavacu. \nNapisati koja je tema.\nKoristiti dosta emotikona.',10,'2023-10-05 16:23:00',40,'2023-09-25 16:24:12','Napisati opis za objavu u najavi dogadjaja'),(34,'Napraviti feedback formu sa osnovnim pitanjima kako se ucesnicima dopao prethodni dogadjaj. \nImati standardna pitanja kao i za ranije forme, koje mozete naći na Google Disku.',10,'2023-10-06 16:25:00',40,'2023-09-25 16:24:57','Napraviti feedback formu');
+INSERT INTO `zadatak` VALUES (29,'Oko logotipa treba da postoji razmak širine slova \"e\" u logotipu.\n\nPropisano dokumentom Brand Policy Paper - January 2021.',53,NULL,41,'2023-09-25 16:03:18','Paziti na razmak oko logotipa!',NULL,1),(30,'Kreirati poster dimenzija A3 za događaj ______.\n\nPoštovati BPP!\n\nPošto je za štampanje, raditi u CMYK color mode-u. ',2,'2023-10-06 16:06:00',41,'2023-09-25 16:06:55','Kreirati poster za događaj',NULL,0),(31,'Napraviti u Canvi okvir za slike za predstojeći događaj gdje će PR tim kasnije moći da dodaje slike. \n\nPoštovati BPP. \n\nKad bude gotovo, uploadovati na Google Drive PR tima.',3,'2023-10-08 16:09:00',41,'2023-09-25 16:09:48','Napraviti okvir za slike za događaj',NULL,0),(32,'Potrebno napraviti objavu za drustvene mreze za najavu predavanja. \n\nPotrebno da bude u 3 dimenzije: Instagram story. Instagram objava, Facebook cover image.',2,'2023-09-30 16:13:00',41,'2023-09-25 16:14:57','Dizajnirati objavu za najavu predavanja',NULL,0),(33,'Navesti osnovne informacije: mjesto, vrijeme i datum odrzavanja. \nNapisati ko je predavac, i par recenica o predavacu. \nNapisati koja je tema.\nKoristiti dosta emotikona.\nIzmjena',10,'2024-06-05 18:23:00',40,'2023-09-25 16:24:12','Napisati opis za objavu u najavi dogadjaja',NULL,0),(35,'Čestitaj Stefanu rođendan.',10,'2024-02-23 09:45:00',40,'2023-12-17 21:45:52','Rođendan',NULL,0);
 /*!40000 ALTER TABLE `zadatak` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -409,7 +410,7 @@ CREATE TABLE `zahtjev` (
 
 LOCK TABLES `zahtjev` WRITE;
 /*!40000 ALTER TABLE `zahtjev` DISABLE KEYS */;
-INSERT INTO `zahtjev` VALUES ('marko','Marko','$2a$10$YTUuVfO/qCz3B0SmGLa/v.USV9Ab.st8l16GFkLN5j7STpZNZV4E.',35,'Marković','2023-09-25 15:46:18','marko.markovic@gmail.com'),('ivan','Ivan','$2a$10$ktkoT.IHXh9cjo3q5GdEQe.313GqG2/qv6cNUpu9YEI8RrO.M/hVa',36,'Ivanić','2023-09-25 15:47:30','ivan.ivanic@gmail.com'),('jovan','Jovan','$2a$10$gKV19kPe2vHG26mf4JqnBOge1cthoUqrRY4YtHlch7PgOL7LNedHG',37,'Jovanic','2023-09-25 15:48:41','jovan.jovanic@gmail.com');
+INSERT INTO `zahtjev` VALUES ('jovan','Jovan','$2a$10$gKV19kPe2vHG26mf4JqnBOge1cthoUqrRY4YtHlch7PgOL7LNedHG',37,'Jovanic','2023-09-25 15:48:41','jovan.jovanic@gmail.com');
 /*!40000 ALTER TABLE `zahtjev` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -496,4 +497,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-25 16:49:19
+-- Dump completed on 2024-02-18 20:58:07

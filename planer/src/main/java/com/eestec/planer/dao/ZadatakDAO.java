@@ -19,7 +19,12 @@ public interface ZadatakDAO extends JpaRepository<ZadatakDTO, Integer> {
     @Modifying
     @Query(value = "UPDATE zadatak z SET z.Tekst = :tekst, z.Rok = :rok, z.Naslov = :naslov, z.IdKategorija = :idKategorija WHERE z.IdZadatak = :id", nativeQuery = true)
     void updateZadatak(@Param("tekst") String tekst, @Param("rok") LocalDateTime rok, @Param("naslov") String naslov, @Param("idKategorija") Integer idKategorija, @Param("id") Integer id);
+     @Query(value = "SELECT Email FROM korisnik k \n" +
+             "INNER JOIN korisnik_pripada_timu kpt ON kpt.Korisnik_IdKorisnika = k.IdKorisnika \n" +
+             "INNER JOIN kategorija kat ON kat.IdTim = kpt.Tim_IdTim \n" +
+             "INNER JOIN zadatak z ON z.IdKategorija = kat.IdKategorija \n" +
+             "WHERE z.IdZadatak = :id", nativeQuery = true)
+    List<String> userEmails(@Param("id") Integer id);
 
-
-    ;
+     List<ZadatakDTO> getZadatakDTOByArhiviran(Byte aByte);
 }

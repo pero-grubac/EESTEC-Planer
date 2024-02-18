@@ -4,10 +4,7 @@ import com.eestec.planer.controller.util.*;
 import com.eestec.planer.dto.ClanOdboraDTO;
 import com.eestec.planer.dto.KoordinatorDTO;
 import com.eestec.planer.dto.KorisnikDTO;
-import com.eestec.planer.service.ClanOdboraServiceImpl;
-import com.eestec.planer.service.JwtService;
-import com.eestec.planer.service.KoordinatorServiceImpl;
-import com.eestec.planer.service.KorisnikServiceImpl;
+import com.eestec.planer.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +31,9 @@ public class KorisnikController {
     private JwtService jwtService;
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     public KorisnikController(KorisnikServiceImpl korisnikService, KoordinatorServiceImpl koordinatorService, ClanOdboraServiceImpl clanOdboraService) {
@@ -77,6 +77,7 @@ public class KorisnikController {
     public ResponseEntity<KorisnikDTO> createKorisnik(@RequestBody KorisnikDTO korisnikDTO) {
         KorisnikDTO korisnik = korisnikService.createKorisnik(korisnikDTO);
         if (korisnik != null) {
+            emailService.email(korisnik.getEmail(), "EESTEC Planer", "Dobrodošli u EESTEC Planer");
             return ResponseEntity.ok(korisnik);
         } else return ResponseEntity.notFound().build();
     }
@@ -130,32 +131,32 @@ public class KorisnikController {
 
     @PutMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginForm loginForm) {
-        try {
-
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getLozinka()));
-
-            KorisnikDTO korisnik = korisnikService.login(loginForm);
-            if (korisnik != null) {
-                if (authentication.isAuthenticated()) {
-                    List<KoordinatorDTO> koordinatorDTOList = koordinatorService.getAllKoordinatori();
-                    List<ClanOdboraDTO> clanOdboraDTOList = clanOdboraService.getAllClanOdbora();
-                    for (KoordinatorDTO koordinator : koordinatorDTOList)
-                        if (koordinator.getIdKoordinator() == korisnik.getIdKorisnika())
-                            korisnik.setUloga("Koordinator");
-                    for (ClanOdboraDTO clanOdboraDTO : clanOdboraDTOList)
-                        if (clanOdboraDTO.getIdClana() == korisnik.getIdKorisnika())
-                            korisnik.setUloga("Clan odbora");
-                    AuthResponse response = new AuthResponse();
-                    response.setKorisnik(korisnik);
-                    response.setToken(jwtService.generateToken(loginForm.getUsername()));
-                    return ResponseEntity.ok(response);
+        if (!korisnikService.isDeleted(loginForm.getUsername())) {
+            try {
+                Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getLozinka()));
+                KorisnikDTO korisnik = korisnikService.login(loginForm);
+                if (korisnik != null) {
+                    if (authentication.isAuthenticated()) {
+                        List<KoordinatorDTO> koordinatorDTOList = koordinatorService.getAllKoordinatori();
+                        List<ClanOdboraDTO> clanOdboraDTOList = clanOdboraService.getAllClanOdbora();
+                        for (KoordinatorDTO koordinator : koordinatorDTOList)
+                            if (koordinator.getIdKoordinator() == korisnik.getIdKorisnika())
+                                korisnik.setUloga("Koordinator");
+                        for (ClanOdboraDTO clanOdboraDTO : clanOdboraDTOList)
+                            if (clanOdboraDTO.getIdClana() == korisnik.getIdKorisnika())
+                                korisnik.setUloga("Clan odbora");
+                        AuthResponse response = new AuthResponse();
+                        response.setKorisnik(korisnik);
+                        response.setToken(jwtService.generateToken(loginForm.getUsername()));
+                        return ResponseEntity.ok(response);
+                    }
                 }
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
+            } catch (Error e) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
             }
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
-        } catch (Error e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
-
         }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
     }
 
     @PutMapping("/assign")

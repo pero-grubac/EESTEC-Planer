@@ -7,8 +7,10 @@ import com.eestec.planer.dto.ZadatakDTO;
 import java.util.List;
 
 public interface ZadatakService {
-    public List<ZadatakDTO> getAllZadaci();
+    public List<ZadatakDTO> getAllZadaci(Byte arc);
+
     ZadatakDTO getZadatak(Integer id);
+
     public void joinZadatak(Integer korisnikId, Integer zadatakId);
 
     ZadatakDTO createZadatak(ZadatakDTO zadatakDTO);
@@ -19,4 +21,5 @@ public interface ZadatakService {
 
     boolean deleteZadtak(Integer id);
 
+    List<String> getEmails(Integer id);
 }
