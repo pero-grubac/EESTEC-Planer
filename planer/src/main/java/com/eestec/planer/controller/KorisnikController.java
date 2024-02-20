@@ -4,6 +4,7 @@ import com.eestec.planer.controller.util.*;
 import com.eestec.planer.dto.ClanOdboraDTO;
 import com.eestec.planer.dto.KoordinatorDTO;
 import com.eestec.planer.dto.KorisnikDTO;
+import com.eestec.planer.exception.WrongCredentialsException;
 import com.eestec.planer.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,8 @@ import org.slf4j.LoggerFactory;
 @RequestMapping("/user")
 @CrossOrigin(origins = "http://localhost:3000")
 public class KorisnikController {
-    private final Logger logger = LoggerFactory.getLogger(KorisnikController.class);
+    @Autowired
+    private  LogServiceImpl logService;
     private final KorisnikServiceImpl korisnikService;
     private final KoordinatorServiceImpl koordinatorService;
     private final ClanOdboraServiceImpl clanOdboraService;
@@ -77,7 +79,7 @@ public class KorisnikController {
     public ResponseEntity<KorisnikDTO> createKorisnik(@RequestBody KorisnikDTO korisnikDTO) {
         KorisnikDTO korisnik = korisnikService.createKorisnik(korisnikDTO);
         if (korisnik != null) {
-            emailService.email(korisnik.getEmail(), "EESTEC Planer", "Dobrodošli u EESTEC Planer");
+            emailService.email(korisnik.getEmail(),korisnik.getKorisnickoIme(), "EESTEC Planer", "Dobrodošli u EESTEC Planer");
             return ResponseEntity.ok(korisnik);
         } else return ResponseEntity.notFound().build();
     }
@@ -151,11 +153,14 @@ public class KorisnikController {
                         return ResponseEntity.ok(response);
                     }
                 }
+                logService.create(new WrongCredentialsException(loginForm.getUsername()).getMessage());
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
-            } catch (Error e) {
+            } catch (Exception e) {
+                logService.create(new WrongCredentialsException(loginForm.getUsername()).getMessage());
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
             }
         }
+        logService.create(new WrongCredentialsException(loginForm.getUsername()).getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
     }
 

@@ -1,5 +1,6 @@
 package com.eestec.planer.service;
 
+import com.eestec.planer.exception.EmailSendingException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -11,9 +12,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 public class EmailServiceImpl implements EmailService {
     @Autowired
     private JavaMailSender javaMailSender;
+    @Autowired
+    private LogService logService;
 
     @Override
-    public void email(String receiver, String subject, String content) {
+    public void email(String receiver, String username, String subject, String content) {
         System.out.println(receiver + " " + subject + " " + content);
     /*    MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
@@ -23,9 +26,8 @@ public class EmailServiceImpl implements EmailService {
             helper.setText(content);
 
             javaMailSender.send(message);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-            // TODO logovati ako email nije dobro poslat
+        } catch (Exception e) {
+            logService.create(new EmailSendingException(username, receiver).getMessage());
         }*/
     }
 }

@@ -60,9 +60,9 @@ public class ZadatakController {
     }
 
     private void sendEmails(ZadatakDTO kreiraniZadatak, String naslov) {
-        List<String> emails = zadatakService.getEmails(kreiraniZadatak.getIdZadatak());
-        for (String email : emails) {
-            emailService.email(email, naslov + kreiraniZadatak.getNaslov(), kreiraniZadatak.getTekst());
+        List<KorisnikDTO> korisnici = zadatakService.getKorisniciInTeam(kreiraniZadatak.getIdZadatak());
+        for (KorisnikDTO korisnik : korisnici) {
+            emailService.email(korisnik.getEmail(),korisnik.getKorisnickoIme(), naslov + kreiraniZadatak.getNaslov(), kreiraniZadatak.getTekst());
         }
     }
 

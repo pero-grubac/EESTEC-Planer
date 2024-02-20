@@ -3,11 +3,9 @@ package com.eestec.planer.controller;
 import com.eestec.planer.controller.util.KorisnikRequest;
 import com.eestec.planer.controller.util.LoginForm;
 import com.eestec.planer.dto.AdminDTO;
-import com.eestec.planer.service.AdminServiceImpl;
-import com.eestec.planer.service.EmailServiceImpl;
-import com.eestec.planer.service.JwtService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.eestec.planer.exception.WrongCredentialsException;
+import com.eestec.planer.service.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +13,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,8 +22,9 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:3000")
 public class AdminController {
     private final AdminServiceImpl adminService; // Use AdminServiceImpl
-    private final Logger logger = LoggerFactory.getLogger(KorisnikController.class);
 
+    @Autowired
+    private final LogServiceImpl logService;
 
     @Autowired
     private JwtService jwtService;
@@ -35,8 +36,9 @@ public class AdminController {
     private EmailServiceImpl emailService;
 
     @Autowired
-    public AdminController(AdminServiceImpl adminService) {
+    public AdminController(AdminServiceImpl adminService, LogServiceImpl logService) {
         this.adminService = adminService;
+        this.logService = logService;
     }
 
 
@@ -72,17 +74,25 @@ public class AdminController {
     @GetMapping("/email")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> hello() {
-        emailService.email("perogrubac99@gmail.com","eplaner","test");
+        emailService.email("","pero", "eplaner", "test");
         return ResponseEntity.ok().build();
     }
-
     @PutMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginForm loginForm) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getLozinka()));
-        if (authentication.isAuthenticated())
-            return ResponseEntity.ok(jwtService.generateToken(loginForm.getUsername()));
-        else
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
+        try {
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getLozinka()));            if (authentication.isAuthenticated()) {
+                // User authenticated successfully
+                return ResponseEntity.ok(jwtService.generateToken(loginForm.getUsername()));
+            } else {
+                // User not authenticated
+                logService.create(new WrongCredentialsException(loginForm.getUsername()).getMessage());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed for user " + loginForm.getUsername());
+            }
+        } catch (AuthenticationException e) {
+            // Handle authentication exception (e.g., user not found)
+            logService.create(new WrongCredentialsException(loginForm.getUsername()).getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed for user " + loginForm.getUsername());
+        }
     }
 
 

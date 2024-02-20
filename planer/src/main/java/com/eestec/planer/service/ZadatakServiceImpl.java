@@ -105,7 +105,7 @@ public class ZadatakServiceImpl implements ZadatakService {
     }
 
     @Override
-    public List<String> getEmails(Integer id) {
+    public List<KorisnikDTO> getKorisniciInTeam(Integer id) {
         return zadatakDAO.userEmails(id);
     }
 

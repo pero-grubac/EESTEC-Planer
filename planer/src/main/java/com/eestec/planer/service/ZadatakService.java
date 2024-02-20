@@ -1,6 +1,6 @@
 package com.eestec.planer.service;
 
-import com.eestec.planer.dto.TimDTO;
+import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.dto.ZadatakDTO;
 
 
@@ -21,5 +21,5 @@ public interface ZadatakService {
 
     boolean deleteZadtak(Integer id);
 
-    List<String> getEmails(Integer id);
+    List<KorisnikDTO> getKorisniciInTeam(Integer id);
 }

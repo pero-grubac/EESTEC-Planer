@@ -238,6 +238,31 @@ INSERT INTO `korisnik_radi_zadatak` VALUES (41,30),(43,30),(41,31);
 UNLOCK TABLES;
 
 --
+-- Table structure for table `logs`
+--
+
+DROP TABLE IF EXISTS `logs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `logs` (
+  `IdLog` int NOT NULL AUTO_INCREMENT,
+  `Datum` datetime NOT NULL,
+  `Poruka` varchar(1000) NOT NULL,
+  PRIMARY KEY (`IdLog`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `logs`
+--
+
+LOCK TABLES `logs` WRITE;
+/*!40000 ALTER TABLE `logs` DISABLE KEYS */;
+INSERT INTO `logs` VALUES (1,'2024-02-20 19:05:20','Unsuccessful login attempt for username: admin'),(2,'2024-02-20 19:06:42','Unsuccessful login attempt for username: admin');
+/*!40000 ALTER TABLE `logs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `notifikacija`
 --
 
@@ -497,4 +522,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-18 20:58:07
+-- Dump completed on 2024-02-20 19:24:00
