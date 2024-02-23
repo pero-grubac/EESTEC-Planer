@@ -26,8 +26,7 @@ public class KomentarDTO {
     @Column(name = "Tekst")
     private String tekst;
 
-    public KomentarDTO() {
-    }
+   
 
     public KomentarDTO(Integer idZadatak, KorisnikDTO korisnik, LocalDateTime datum, String tekst) {
         this.idZadatak = idZadatak;
