@@ -1,12 +1,18 @@
 package com.eestec.planer.controller;
 
+import com.eestec.planer.config.AdminInfoDetails;
 import com.eestec.planer.controller.util.KorisnikTim;
 import com.eestec.planer.dto.KoordinatorDTO;
+import com.eestec.planer.dto.LogDTO;
+import com.eestec.planer.dto.PorukaLoga;
 import com.eestec.planer.dto.SuperUserDTO;
-import com.eestec.planer.service.*;
+import com.eestec.planer.service.LogService;
+import com.eestec.planer.service.implementations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,17 +31,19 @@ public class KoordinatorController {
     private final TimServiceImpl timService;
     private final ClanOdboraServiceImpl clanOdboraService;
     private final KorisnikServiceImpl korisnikService;
+    private final LogService logService;
 
     @Autowired
     public KoordinatorController(KoordinatorServiceImpl koordinatorService,
                                  SuperUserServiceImpl superUserService,
                                  TimServiceImpl timService, ClanOdboraServiceImpl clanOdboraService,
-                                 KorisnikServiceImpl korisnikService) {
+                                 KorisnikServiceImpl korisnikService, LogService logService) {
         this.koordinatorService = koordinatorService;
         this.superUserService = superUserService;
         this.timService = timService;
         this.clanOdboraService = clanOdboraService;
         this.korisnikService = korisnikService;
+        this.logService = logService;
     }
 
     @GetMapping("/getAll")
@@ -46,7 +54,7 @@ public class KoordinatorController {
 
     @PostMapping("/new")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<Void> createKoordinator(@RequestBody KorisnikTim korisnikTim) {
+    public ResponseEntity<Void> createKoordinator(@RequestBody KorisnikTim korisnikTim, @AuthenticationPrincipal AdminInfoDetails adminInfoDetails) {
 
         clanOdboraService.deleteClanOdbora(korisnikTim.getIdKorisnika());
         SuperUserDTO superUserDTO = superUserService.getSuperUser(korisnikTim.getIdKorisnika());
@@ -56,8 +64,10 @@ public class KoordinatorController {
         KoordinatorDTO koordinatorDTO = koordinatorService.createKoordinator(korisnikTim.getIdKorisnika());
         boolean isOK = koordinatorService.addToTeam(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
         korisnikService.joinTim(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
-        if (koordinatorDTO != null && isOK)
+        if (koordinatorDTO != null && isOK) {
+            logService.create(PorukaLoga.PROMJENA_ULOGE.getValue(), adminInfoDetails.getUsername());
             return ResponseEntity.ok().build();
+        }
         return ResponseEntity.notFound().build();
     }
 
@@ -87,5 +97,9 @@ public class KoordinatorController {
         }
     }
 
-
+    @GetMapping("/logs")
+    @PreAuthorize("hasAuthority('Koordinator')")
+    public ResponseEntity<List<LogDTO>> getLogs() {
+        return new ResponseEntity<>(logService.getLogsForKoordinator(), HttpStatus.OK);
+    }
 }

@@ -5,8 +5,8 @@ import com.eestec.planer.dto.ClanOdboraDTO;
 import com.eestec.planer.dto.KoordinatorDTO;
 import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.dto.PorukaLoga;
-import com.eestec.planer.exception.WrongCredentialsException;
 import com.eestec.planer.service.*;
+import com.eestec.planer.service.implementations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +18,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @RestController
 @RequestMapping("/user")
 @CrossOrigin(origins = "http://localhost:3000")
 public class KorisnikController {
     @Autowired
-    private  LogServiceImpl logService;
+    private LogServiceImpl logService;
     private final KorisnikServiceImpl korisnikService;
     private final KoordinatorServiceImpl koordinatorService;
     private final ClanOdboraServiceImpl clanOdboraService;
@@ -89,8 +86,10 @@ public class KorisnikController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN') || hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public ResponseEntity<?> updateKorisnik(@RequestBody KorisnikRequest korisnikRequest) {
         KorisnikDTO korisnik = korisnikService.updateKorisnik(korisnikRequest);
-        if (korisnik != null)
+        if (korisnik != null) {
+
             return ResponseEntity.ok().build();
+        }
         else return ResponseEntity.notFound().build();
     }
 
@@ -106,8 +105,9 @@ public class KorisnikController {
     @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public ResponseEntity<String> joinTeam(@RequestBody KorisnikTim korisnikTim) {
         if (korisnikTim != null && korisnikTim.getIdKorisnika() != null && korisnikTim.getIdTim() != null) {
-            boolean isOK = korisnikService.joinTim(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
-            if (isOK) {
+            KorisnikDTO korisnik = korisnikService.joinTim(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
+            if (korisnik != null) {
+                logService.create(PorukaLoga.PRIJAVA_U_TIM.getValue(), korisnik.getKorisnickoIme());
                 return ResponseEntity.ok("Uspjesna prijava.");
             } else {
                 return ResponseEntity.notFound().build();
@@ -170,8 +170,9 @@ public class KorisnikController {
     @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public ResponseEntity<String> assign(@RequestBody KorisnikZadatak korisnikZadatak) {
         if (korisnikZadatak != null && korisnikZadatak.getIdKorisnika() != null && korisnikZadatak.getIdZadatak() != null) {
-            boolean isOK = korisnikService.assignTask(korisnikZadatak.getIdKorisnika(), korisnikZadatak.getIdZadatak());
-            if (isOK) {
+            KorisnikDTO korisnik = korisnikService.assignTask(korisnikZadatak.getIdKorisnika(), korisnikZadatak.getIdZadatak());
+            if (korisnik != null) {
+                logService.create(PorukaLoga.PRIJAVA_NA_ZADATAK.getValue(),korisnik.getKorisnickoIme());
                 return ResponseEntity.ok().build();
             } else {
                 return ResponseEntity.notFound().build();

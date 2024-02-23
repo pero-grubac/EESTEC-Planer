@@ -1,4 +1,4 @@
-package com.eestec.planer.service;
+package com.eestec.planer.service.implementations;
 
 import com.eestec.planer.controller.util.KorisnikRequest;
 import com.eestec.planer.controller.util.LoginForm;
@@ -8,6 +8,7 @@ import com.eestec.planer.dao.ZadatakDAO;
 import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.dto.TimDTO;
 import com.eestec.planer.dto.ZadatakDTO;
+import com.eestec.planer.service.KorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -114,14 +115,14 @@ public class KorisnikServiceImpl implements KorisnikService {
 
     @Override
     @Transactional
-    public boolean joinTim(int idKorisnik, int idTim) {
+    public KorisnikDTO joinTim(int idKorisnik, int idTim) {
         TimDTO tim = timDAO.findById(idTim).orElse(null);
         KorisnikDTO korisnik = korisnikDAO.findById(idKorisnik).orElse(null);
         if (tim != null && korisnik != null) {
             korisnikDAO.joinTeam(idKorisnik, idTim);
-            return true;
+            return korisnik;
         }
-        return false;
+        return null;
 
     }
 
@@ -148,14 +149,14 @@ public class KorisnikServiceImpl implements KorisnikService {
     }
 
     @Override
-    public boolean assignTask(Integer idKorisnik, Integer idZadatak) {
+    public KorisnikDTO assignTask(Integer idKorisnik, Integer idZadatak) {
         KorisnikDTO korisnik = korisnikDAO.findById(idKorisnik).orElse(null);
         ZadatakDTO zadatak = zadatakDAO.findById(idZadatak).orElse(null);
         if (korisnik != null && zadatak != null) {
             korisnikDAO.assignTask(idKorisnik, idZadatak);
-            return true;
+            return korisnik;
         }
-        return false;
+        return null;
     }
 
     @Override

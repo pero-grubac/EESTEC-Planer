@@ -3,7 +3,7 @@ package com.eestec.planer.controller;
 
 import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.dto.TimDTO;
-import com.eestec.planer.service.TimServiceImpl;
+import com.eestec.planer.service.implementations.TimServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

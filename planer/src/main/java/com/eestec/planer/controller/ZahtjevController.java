@@ -1,7 +1,9 @@
 package com.eestec.planer.controller;
 
 
+import com.eestec.planer.dto.PorukaLoga;
 import com.eestec.planer.dto.ZahtjevDTO;
+import com.eestec.planer.service.LogService;
 import com.eestec.planer.service.ZahtjevService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,8 @@ import org.slf4j.LoggerFactory;
 public class ZahtjevController {
     @Autowired
     ZahtjevService zahtjevService;
+    @Autowired
+    LogService logService;
     private final Logger logger = LoggerFactory.getLogger(ZahtjevController.class);
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -46,16 +50,21 @@ public class ZahtjevController {
     public ResponseEntity<?> addZahtjev(@RequestBody ZahtjevDTO zahtjev) {
         logger.info(" " + zahtjev.toString());
         ZahtjevDTO zahtjevDTO= zahtjevService.addZahtjev(zahtjev);
-        if(zahtjevDTO!=null)
+        if(zahtjevDTO!=null) {
+            logService.create(PorukaLoga.POKUSAJ_REGISTRACIJE.getValue(),zahtjev.getKorisnickoIme());
             return ResponseEntity.ok().build();
+        }
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/approve/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<String> approveRequest(@PathVariable int id) {
-        boolean result = zahtjevService.odobriZahtjev(id);
-        if (result) return ResponseEntity.ok("Zahtjev s ID-om " + id + " je odobren.");
+        ZahtjevDTO zahtjev = zahtjevService.odobriZahtjev(id);
+        if (zahtjev != null) {
+            logService.create(PorukaLoga.USPJESNO_REGISTROVAN_NALOG_POTVRDJEN_OD_REGISTRACIJE.getValue(),zahtjev.getKorisnickoIme());
+            return ResponseEntity.ok("Zahtjev s ID-om " + id + " je odobren.");
+        }
         else return ResponseEntity.notFound().build();
     }
 

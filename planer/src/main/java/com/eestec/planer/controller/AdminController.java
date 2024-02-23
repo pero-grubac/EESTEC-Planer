@@ -3,10 +3,14 @@ package com.eestec.planer.controller;
 import com.eestec.planer.controller.util.KorisnikRequest;
 import com.eestec.planer.controller.util.LoginForm;
 import com.eestec.planer.dto.AdminDTO;
+import com.eestec.planer.dto.LogDTO;
 import com.eestec.planer.dto.PorukaLoga;
-import com.eestec.planer.exception.WrongCredentialsException;
-import com.eestec.planer.service.*;
 
+import com.eestec.planer.service.LogService;
+import com.eestec.planer.service.implementations.AdminServiceImpl;
+import com.eestec.planer.service.implementations.EmailServiceImpl;
+import com.eestec.planer.service.implementations.JwtService;
+import com.eestec.planer.service.implementations.LogServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +19,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/admins")
@@ -25,7 +30,7 @@ public class AdminController {
     private final AdminServiceImpl adminService; // Use AdminServiceImpl
 
     @Autowired
-    private final LogServiceImpl logService;
+    private final LogService logService;
 
     @Autowired
     private JwtService jwtService;
@@ -95,6 +100,12 @@ public class AdminController {
             logService.create(PorukaLoga.NEUSPJESNA_PRIJAVA.getValue(),loginForm.getUsername());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed for user " + loginForm.getUsername());
         }
+    }
+
+    @GetMapping("/logs")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<List<LogDTO>> getLogs() {
+        return new ResponseEntity<>(logService.getLogsForAdmin(), HttpStatus.OK);
     }
 
 

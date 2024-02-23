@@ -1,4 +1,4 @@
-package com.eestec.planer.service;
+package com.eestec.planer.service.implementations;
 
 import com.eestec.planer.config.AdminInfoDetails;
 import com.eestec.planer.dao.AdminDAO;

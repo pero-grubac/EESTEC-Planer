@@ -1,4 +1,4 @@
-package com.eestec.planer.service;
+package com.eestec.planer.service.implementations;
 
 import com.eestec.planer.dao.KategorijaDAO;
 import com.eestec.planer.dao.TimDAO;
@@ -6,6 +6,7 @@ import com.eestec.planer.dto.KategorijaDTO;
 import com.eestec.planer.dto.KoordinatorDTO;
 import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.dto.TimDTO;
+import com.eestec.planer.service.KategorijaService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;

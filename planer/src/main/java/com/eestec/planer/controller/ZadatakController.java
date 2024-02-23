@@ -1,19 +1,23 @@
 package com.eestec.planer.controller;
 
 
+import com.eestec.planer.config.KorisnikInfoDetails;
 import com.eestec.planer.controller.util.ElementiTima;
 import com.eestec.planer.dao.KategorijaDAO;
 import com.eestec.planer.dao.ZadatakDAO;
 import com.eestec.planer.dto.*;
-import com.eestec.planer.service.EmailServiceImpl;
-import com.eestec.planer.service.KorisnikServiceImpl;
+import com.eestec.planer.service.LogService;
+import com.eestec.planer.service.implementations.EmailServiceImpl;
+import com.eestec.planer.service.implementations.KorisnikServiceImpl;
 import com.eestec.planer.service.ZadatakService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import org.slf4j.Logger;
@@ -23,6 +27,8 @@ import org.slf4j.LoggerFactory;
 @RequestMapping("/zadatak")
 @CrossOrigin(origins = "http://localhost:3000")
 public class ZadatakController {
+    @Autowired
+    LogService logService;
     @Autowired
     ZadatakService zadatakService;
     @Autowired
@@ -47,12 +53,11 @@ public class ZadatakController {
     //  @PreAuthorize("hasAuthority('ROLE_SUPERUSER')")
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
-    public ResponseEntity<?> kreirajZadatak(@RequestBody ZadatakDTO zadatakDTO) {
+    public ResponseEntity<?> kreirajZadatak(@RequestBody ZadatakDTO zadatakDTO, @AuthenticationPrincipal KorisnikInfoDetails korisnikInfoDetails) {
         ZadatakDTO kreiraniZadatak = zadatakService.createZadatak(zadatakDTO);
-
-        sendEmails(kreiraniZadatak, "Novi zadatak - ");
-
         if (kreiraniZadatak != null) {
+            logService.create(PorukaLoga.KREIRANJE_ZADATKA.getValue(), korisnikInfoDetails.getUsername());
+            sendEmails(kreiraniZadatak, "Novi zadatak - ");
             return ResponseEntity.status(HttpStatus.CREATED).body(kreiraniZadatak);
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Došlo je do greške prilikom kreiranja zadatka.");
@@ -132,12 +137,27 @@ public class ZadatakController {
 
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
-    public ResponseEntity<ZadatakDTO> update(@RequestBody ZadatakDTO zadatak) {
-        ZadatakDTO zadatakDTO = zadatakService.updateZadatak(zadatak);
-        sendEmails(zadatakDTO, "Ažuriran zadatak - ");
-        if (zadatakDTO != null)
-            return ResponseEntity.ok().build();
-        else return ResponseEntity.notFound().build();
+    public ResponseEntity<ZadatakDTO> update(@RequestBody ZadatakDTO zadatak, @AuthenticationPrincipal KorisnikInfoDetails korisnikInfoDetails) {
+        ZadatakDTO zadatakDTOBeforeUpdate = zadatakService.getZadatak(zadatak.getIdZadatak());
+        if (zadatakDTOBeforeUpdate == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Integer idKategorija = zadatakDTOBeforeUpdate.getKategorija().getIdKategorija();
+        String tekst = zadatakDTOBeforeUpdate.getTekst();
+        String naslov = zadatakDTOBeforeUpdate.getNaslov();
+        LocalDateTime rok = zadatakDTOBeforeUpdate.getRok();
+        ZadatakDTO zadatakDTOAfterUpdate = zadatakService.updateZadatak(zadatak);
+        // ovjde zadatakDTOAfterUpdate nece nikad biti null, ali necu mijenjati metodu u servisu,
+        // posto postoji mogucnost da ce se ista metoda iz servisa koristiti na nekom drugom mjestu
+        // tako da ce ovdje biti jedna bespotrebna null provjera
+        if (zadatakDTOAfterUpdate != null) {
+            if (!idKategorija.equals(zadatakDTOAfterUpdate.getKategorija().getIdKategorija()))
+                logService.create(PorukaLoga.PROMJENA_KATEGORIJE_ZADATKA.getValue(),korisnikInfoDetails.getUsername());
+            if (!tekst.equals(zadatakDTOAfterUpdate.getTekst()) || !naslov.equals(zadatakDTOAfterUpdate.getNaslov())
+                    || !rok.isEqual(zadatakDTOAfterUpdate.getRok()))
+                logService.create(PorukaLoga.IZMJENA_ZADATKA.getValue(), korisnikInfoDetails.getUsername());
+            sendEmails(zadatakDTOAfterUpdate, "Ažuriran zadatak - ");
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")

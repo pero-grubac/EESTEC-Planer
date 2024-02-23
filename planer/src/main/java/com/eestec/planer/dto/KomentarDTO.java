@@ -27,6 +27,10 @@ public class KomentarDTO {
         this.tekst = tekst;
     }
 
+    public KomentarDTO() {
+
+    }
+
     public Integer getIdKomentar() {
         return idKomentar;
     }

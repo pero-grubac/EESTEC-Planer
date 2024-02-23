@@ -1,7 +1,7 @@
 package com.eestec.planer.filter;
 
 import com.eestec.planer.config.UserInfoUserDetailsService;
-import com.eestec.planer.service.JwtService;
+import com.eestec.planer.service.implementations.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,10 +1,11 @@
-package com.eestec.planer.service;
+package com.eestec.planer.service.implementations;
 
 import com.eestec.planer.dao.KategorijaDAO;
 import com.eestec.planer.dao.KorisnikDAO;
 import com.eestec.planer.dao.ZadatakDAO;
 import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.dto.ZadatakDTO;
+import com.eestec.planer.service.ZadatakService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

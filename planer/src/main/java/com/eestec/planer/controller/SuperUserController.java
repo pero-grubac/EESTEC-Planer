@@ -1,7 +1,7 @@
 package com.eestec.planer.controller;
 
 import com.eestec.planer.dto.SuperUserDTO;
-import com.eestec.planer.service.SuperUserServiceImpl;
+import com.eestec.planer.service.implementations.SuperUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

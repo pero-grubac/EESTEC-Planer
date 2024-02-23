@@ -1,10 +1,11 @@
-package com.eestec.planer.service;
+package com.eestec.planer.service.implementations;
 
 import com.eestec.planer.dao.ObjavaDAO;
 import com.eestec.planer.dao.SuperUserDAO;
 import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.dto.ObjavaDTO;
 import com.eestec.planer.dto.SuperUserDTO;
+import com.eestec.planer.service.ObjavaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
