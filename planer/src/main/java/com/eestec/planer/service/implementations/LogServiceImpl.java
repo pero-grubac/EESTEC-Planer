@@ -4,6 +4,7 @@ import com.eestec.planer.dao.LogDAO;
 import com.eestec.planer.dto.LogDTO;
 import com.eestec.planer.dto.PorukaLoga;
 import com.eestec.planer.service.LogService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 
 @Service
+@Transactional
 public class LogServiceImpl implements LogService {
     private final LogDAO logDAO;
 

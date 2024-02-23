@@ -2,6 +2,7 @@ package com.eestec.planer.controller;
 
 import com.eestec.planer.config.AdminInfoDetails;
 import com.eestec.planer.dto.*;
+import com.eestec.planer.service.EmailService;
 import com.eestec.planer.service.LogService;
 import com.eestec.planer.service.implementations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +24,17 @@ public class ClanOdboraController {
     private final KoordinatorServiceImpl koordinatorService;
     private final KorisnikServiceImpl korisnikService;
     private final LogService logService;
+    private final EmailService emailService;
 
     @Autowired
-    public ClanOdboraController(ClanOdboraServiceImpl clanOdboraService, SuperUserServiceImpl superUserService, TimServiceImpl timService, KoordinatorServiceImpl koordinatorService, KorisnikServiceImpl korisnikService, LogService logService) {
+    public ClanOdboraController(ClanOdboraServiceImpl clanOdboraService, SuperUserServiceImpl superUserService, TimServiceImpl timService, KoordinatorServiceImpl koordinatorService, KorisnikServiceImpl korisnikService, LogService logService, EmailService emailService) {
         this.clanOdboraService = clanOdboraService;
         this.superUserService = superUserService;
         this.timService = timService;
         this.koordinatorService = koordinatorService;
         this.korisnikService = korisnikService;
         this.logService = logService;
+        this.emailService = emailService;
     }
 
     @GetMapping("/getAll")
@@ -54,6 +57,14 @@ public class ClanOdboraController {
         for(TimDTO tim : timovi)
             korisnikService.joinTim(id, tim.getIdTim());
         if (clanOdboraDTO != null) {
+            KorisnikDTO korisnik = clanOdboraDTO.getSuperuser().getKorisnik();
+            List<ClanOdboraDTO> clanoviOdbora = clanOdboraService.getAllClanOdbora();
+            clanoviOdbora.forEach(clanOdbora -> {
+                KorisnikDTO clanOdboraKorisnik = clanOdbora.getSuperuser().getKorisnik();
+                emailService.email(clanOdboraKorisnik.getEmail(),clanOdboraKorisnik.getKorisnickoIme(),
+                        "Kreiran je novi član odbora!", "Korisnik sa korisničkim imenom "
+                                + korisnik.getKorisnickoIme() + " je novi član odbora.");
+            });
             logService.create(PorukaLoga.PROMJENA_ULOGE.getValue(), adminInfoDetails.getUsername());
             return ResponseEntity.ok(clanOdboraDTO);
         }

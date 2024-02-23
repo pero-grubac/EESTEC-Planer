@@ -141,21 +141,30 @@ public class ZadatakController {
         ZadatakDTO zadatakDTOBeforeUpdate = zadatakService.getZadatak(zadatak.getIdZadatak());
         if (zadatakDTOBeforeUpdate == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
         Integer idKategorija = zadatakDTOBeforeUpdate.getKategorija().getIdKategorija();
         String tekst = zadatakDTOBeforeUpdate.getTekst();
         String naslov = zadatakDTOBeforeUpdate.getNaslov();
         LocalDateTime rok = zadatakDTOBeforeUpdate.getRok();
+
+        boolean flag = false;
         ZadatakDTO zadatakDTOAfterUpdate = zadatakService.updateZadatak(zadatak);
         // ovjde zadatakDTOAfterUpdate nece nikad biti null, ali necu mijenjati metodu u servisu,
         // posto postoji mogucnost da ce se ista metoda iz servisa koristiti na nekom drugom mjestu
         // tako da ce ovdje biti jedna bespotrebna null provjera
         if (zadatakDTOAfterUpdate != null) {
-            if (!idKategorija.equals(zadatakDTOAfterUpdate.getKategorija().getIdKategorija()))
+            if (idKategorija != null && !idKategorija.equals(zadatakDTOAfterUpdate.getKategorija().getIdKategorija())) {
                 logService.create(PorukaLoga.PROMJENA_KATEGORIJE_ZADATKA.getValue(),korisnikInfoDetails.getUsername());
-            if (!tekst.equals(zadatakDTOAfterUpdate.getTekst()) || !naslov.equals(zadatakDTOAfterUpdate.getNaslov())
-                    || !rok.isEqual(zadatakDTOAfterUpdate.getRok()))
+                flag = true;
+            }
+            if ((tekst != null && !tekst.equals(zadatakDTOAfterUpdate.getTekst())) ||
+                    (naslov != null && !naslov.equals(zadatakDTOAfterUpdate.getNaslov())) ||
+                    (rok != null && !rok.isEqual(zadatakDTOAfterUpdate.getRok()))) {
                 logService.create(PorukaLoga.IZMJENA_ZADATKA.getValue(), korisnikInfoDetails.getUsername());
-            sendEmails(zadatakDTOAfterUpdate, "Ažuriran zadatak - ");
+                flag = true;
+            }
+            if (flag)
+                sendEmails(zadatakDTOAfterUpdate, "Ažuriran zadatak - ");
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -165,8 +174,8 @@ public class ZadatakController {
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         ZadatakDTO zadatak = zadatakService.getZadatak(id);
 
-        (zadatak, "Obrisan zadatak - ");
         if (zadatakService.deleteZadtak(id)) {
+            sendEmails(zadatak, "Obrisan zadatak - ");
             return ResponseEntity.ok("Zahtjev s ID-om " + id + " je obrisan.");
         }
         return ResponseEntity.notFound().build();

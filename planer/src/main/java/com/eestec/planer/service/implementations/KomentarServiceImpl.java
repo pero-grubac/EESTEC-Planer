@@ -1,12 +1,15 @@
 package com.eestec.planer.service.implementations;
 
 import com.eestec.planer.dao.KomentarDAO;
+import com.eestec.planer.dao.KorisnikDAO;
 import com.eestec.planer.dto.KomentarDTO;
+import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.service.KomentarService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,9 +17,11 @@ import java.util.List;
 public class KomentarServiceImpl implements KomentarService {
 
     private final KomentarDAO komentarDAO;
+    private final KorisnikDAO korisnikDAO;
 
-    public KomentarServiceImpl(KomentarDAO komentarDAO) {
+    public KomentarServiceImpl(KomentarDAO komentarDAO, KorisnikDAO korisnikDAO) {
         this.komentarDAO = komentarDAO;
+        this.korisnikDAO = korisnikDAO;
     }
 
     @Override
@@ -26,7 +31,10 @@ public class KomentarServiceImpl implements KomentarService {
 
     @Override
     public List<KomentarDTO> getAllByZadatakIdAndKorisnikId(Integer zadatakId, Integer korisnikId) {
-        return komentarDAO.findAllByIdZadatakAndIdKorisnik(zadatakId, korisnikId);
+        KorisnikDTO korisnik = korisnikDAO.findById(korisnikId).orElse(null);
+        if (korisnik == null)
+            return new ArrayList<>();
+        return komentarDAO.findAllByIdZadatakAndKorisnik(zadatakId, korisnik);
     }
 
     @Override

@@ -2,10 +2,8 @@ package com.eestec.planer.controller;
 
 import com.eestec.planer.config.AdminInfoDetails;
 import com.eestec.planer.controller.util.KorisnikTim;
-import com.eestec.planer.dto.KoordinatorDTO;
-import com.eestec.planer.dto.LogDTO;
-import com.eestec.planer.dto.PorukaLoga;
-import com.eestec.planer.dto.SuperUserDTO;
+import com.eestec.planer.dto.*;
+import com.eestec.planer.service.EmailService;
 import com.eestec.planer.service.LogService;
 import com.eestec.planer.service.implementations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,18 +30,20 @@ public class KoordinatorController {
     private final ClanOdboraServiceImpl clanOdboraService;
     private final KorisnikServiceImpl korisnikService;
     private final LogService logService;
+    private final EmailService emailService;
 
     @Autowired
     public KoordinatorController(KoordinatorServiceImpl koordinatorService,
                                  SuperUserServiceImpl superUserService,
                                  TimServiceImpl timService, ClanOdboraServiceImpl clanOdboraService,
-                                 KorisnikServiceImpl korisnikService, LogService logService) {
+                                 KorisnikServiceImpl korisnikService, LogService logService, EmailService emailService) {
         this.koordinatorService = koordinatorService;
         this.superUserService = superUserService;
         this.timService = timService;
         this.clanOdboraService = clanOdboraService;
         this.korisnikService = korisnikService;
         this.logService = logService;
+        this.emailService = emailService;
     }
 
     @GetMapping("/getAll")
@@ -65,6 +65,14 @@ public class KoordinatorController {
         boolean isOK = koordinatorService.addToTeam(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
         korisnikService.joinTim(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
         if (koordinatorDTO != null && isOK) {
+            KorisnikDTO korisnik = koordinatorDTO.getSuperuser().getKorisnik();
+            List<ClanOdboraDTO> clanoviOdbora = clanOdboraService.getAllClanOdbora();
+            clanoviOdbora.forEach(clanOdbora -> {
+                KorisnikDTO clanOdboraKorisnik = clanOdbora.getSuperuser().getKorisnik();
+                emailService.email(clanOdboraKorisnik.getEmail(),clanOdboraKorisnik.getKorisnickoIme(),
+                        "Kreiran je novi koordinator!", "Korisnik sa korisničkim imenom "
+                                + korisnik.getKorisnickoIme() + " je novi koordinator.");
+            });
             logService.create(PorukaLoga.PROMJENA_ULOGE.getValue(), adminInfoDetails.getUsername());
             return ResponseEntity.ok().build();
         }

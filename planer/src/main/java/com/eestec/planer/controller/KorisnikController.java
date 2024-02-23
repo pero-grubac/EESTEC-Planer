@@ -1,10 +1,7 @@
 package com.eestec.planer.controller;
 
 import com.eestec.planer.controller.util.*;
-import com.eestec.planer.dto.ClanOdboraDTO;
-import com.eestec.planer.dto.KoordinatorDTO;
-import com.eestec.planer.dto.KorisnikDTO;
-import com.eestec.planer.dto.PorukaLoga;
+import com.eestec.planer.dto.*;
 import com.eestec.planer.service.*;
 import com.eestec.planer.service.implementations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +24,7 @@ public class KorisnikController {
     private final KorisnikServiceImpl korisnikService;
     private final KoordinatorServiceImpl koordinatorService;
     private final ClanOdboraServiceImpl clanOdboraService;
+    private final TimService timService;
     @Autowired
     private JwtService jwtService;
     @Autowired
@@ -36,10 +34,11 @@ public class KorisnikController {
     private EmailService emailService;
 
     @Autowired
-    public KorisnikController(KorisnikServiceImpl korisnikService, KoordinatorServiceImpl koordinatorService, ClanOdboraServiceImpl clanOdboraService) {
+    public KorisnikController(KorisnikServiceImpl korisnikService, KoordinatorServiceImpl koordinatorService, ClanOdboraServiceImpl clanOdboraService, TimService timService) {
         this.korisnikService = korisnikService;
         this.koordinatorService = koordinatorService;
         this.clanOdboraService = clanOdboraService;
+        this.timService = timService;
     }
 
     @GetMapping("/getAll")
@@ -107,6 +106,14 @@ public class KorisnikController {
         if (korisnikTim != null && korisnikTim.getIdKorisnika() != null && korisnikTim.getIdTim() != null) {
             KorisnikDTO korisnik = korisnikService.joinTim(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
             if (korisnik != null) {
+                TimDTO tim = timService.getTim(korisnikTim.getIdTim());
+                KoordinatorDTO koordinator = koordinatorService.getKoordinator(tim.getIdKoordinator());
+                if (koordinator != null) {
+                    KorisnikDTO koordinatorKorisnik = koordinator.getSuperuser().getKorisnik();
+                    emailService.email(koordinatorKorisnik.getEmail(),koordinatorKorisnik.getKorisnickoIme(),
+                            "Korisnik se pridružio Vašem timu", "Korisnik sa korisničkim imenom "
+                                    + korisnik.getKorisnickoIme() + " se pridružio Vašem timu " + tim.getNaziv() + ".");
+                }
                 logService.create(PorukaLoga.PRIJAVA_U_TIM.getValue(), korisnik.getKorisnickoIme());
                 return ResponseEntity.ok("Uspjesna prijava.");
             } else {
