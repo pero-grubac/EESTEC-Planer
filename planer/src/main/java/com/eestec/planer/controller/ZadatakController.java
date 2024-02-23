@@ -164,7 +164,8 @@ public class ZadatakController {
     @PreAuthorize("hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         ZadatakDTO zadatak = zadatakService.getZadatak(id);
-        sendEmails(zadatak, "Obrisan zadatak - ");
+
+        (zadatak, "Obrisan zadatak - ");
         if (zadatakService.deleteZadtak(id)) {
             return ResponseEntity.ok("Zahtjev s ID-om " + id + " je obrisan.");
         }

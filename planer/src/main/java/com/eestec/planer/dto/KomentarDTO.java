@@ -1,5 +1,6 @@
 package com.eestec.planer.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -13,16 +14,25 @@ public class KomentarDTO {
     private Integer idKomentar;
     @Column(name = "IdZadatak")
     private Integer idZadatak;
+
+    @JsonIgnore
+    @ManyToOne
     @Column(name = "IdKorisnik")
-    private Integer idKorisnik;
+    private KorisnikDTO korisnik;
+
+    private String korisnickoIme;
     @Column(name = "Datum")
     private LocalDateTime datum;
     @Column(name = "Tekst")
     private String tekst;
 
-    public KomentarDTO(Integer idZadatak, Integer idKorisnik, LocalDateTime datum, String tekst) {
+    public KomentarDTO() {
+    }
+
+    public KomentarDTO(Integer idZadatak, KorisnikDTO korisnik, LocalDateTime datum, String tekst) {
         this.idZadatak = idZadatak;
-        this.idKorisnik = idKorisnik;
+        this.korisnik = korisnik;
+        this.korisnickoIme = korisnik.getKorisnickoIme();
         this.datum = datum;
         this.tekst = tekst;
     }
@@ -47,12 +57,12 @@ public class KomentarDTO {
         this.idZadatak = idZadatak;
     }
 
-    public Integer getIdKorisnik() {
-        return idKorisnik;
+    public KorisnikDTO getKorisnik() {
+        return korisnik;
     }
 
-    public void setIdKorisnik(Integer idKorisnik) {
-        this.idKorisnik = idKorisnik;
+    public void setKorisnik(KorisnikDTO korisnik) {
+        this.korisnik = korisnik;
     }
 
     public LocalDateTime getDatum() {
@@ -69,5 +79,13 @@ public class KomentarDTO {
 
     public void setTekst(String tekst) {
         this.tekst = tekst;
+    }
+
+    public String getKorisnickoIme() {
+        return korisnickoIme;
+    }
+
+    public void setKorisnickoIme(String korisnickoIme) {
+        this.korisnickoIme = korisnickoIme;
     }
 }
