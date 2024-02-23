@@ -3,6 +3,7 @@ package com.eestec.planer.controller;
 import com.eestec.planer.controller.util.KorisnikRequest;
 import com.eestec.planer.controller.util.LoginForm;
 import com.eestec.planer.dto.AdminDTO;
+import com.eestec.planer.dto.PorukaLoga;
 import com.eestec.planer.exception.WrongCredentialsException;
 import com.eestec.planer.service.*;
 
@@ -82,15 +83,16 @@ public class AdminController {
         try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getLozinka()));            if (authentication.isAuthenticated()) {
                 // User authenticated successfully
+                logService.create(PorukaLoga.USPJESNA_PRIJAVA.getValue(),loginForm.getUsername());
                 return ResponseEntity.ok(jwtService.generateToken(loginForm.getUsername()));
             } else {
                 // User not authenticated
-                logService.create(new WrongCredentialsException(loginForm.getUsername()).getMessage());
+                logService.create(PorukaLoga.NEUSPJESNA_PRIJAVA.getValue(),loginForm.getUsername());
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed for user " + loginForm.getUsername());
             }
         } catch (AuthenticationException e) {
             // Handle authentication exception (e.g., user not found)
-            logService.create(new WrongCredentialsException(loginForm.getUsername()).getMessage());
+            logService.create(PorukaLoga.NEUSPJESNA_PRIJAVA.getValue(),loginForm.getUsername());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed for user " + loginForm.getUsername());
         }
     }

@@ -110,6 +110,36 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
+-- Table structure for table `komentar`
+--
+
+DROP TABLE IF EXISTS `komentar`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `komentar` (
+  `IdKomentar` int NOT NULL AUTO_INCREMENT,
+  `IdZadatak` int NOT NULL,
+  `IdKorisnik` int NOT NULL,
+  `Datum` datetime NOT NULL,
+  `Tekst` varchar(255) NOT NULL,
+  PRIMARY KEY (`IdKomentar`),
+  KEY `fk_komentar_has_korisnik_idx` (`IdKorisnik`),
+  KEY `fk_komentar_has_zadatak_idx` (`IdZadatak`),
+  CONSTRAINT `fk_komentar_has_korisnik` FOREIGN KEY (`IdKorisnik`) REFERENCES `korisnik` (`IdKorisnika`),
+  CONSTRAINT `fk_komentar_has_zadatak` FOREIGN KEY (`IdZadatak`) REFERENCES `zadatak` (`IdZadatak`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `komentar`
+--
+
+LOCK TABLES `komentar` WRITE;
+/*!40000 ALTER TABLE `komentar` DISABLE KEYS */;
+/*!40000 ALTER TABLE `komentar` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `koordinator`
 --
 
@@ -238,28 +268,30 @@ INSERT INTO `korisnik_radi_zadatak` VALUES (41,30),(43,30),(41,31);
 UNLOCK TABLES;
 
 --
--- Table structure for table `logs`
+-- Table structure for table `log`
 --
 
-DROP TABLE IF EXISTS `logs`;
+DROP TABLE IF EXISTS `log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `logs` (
+CREATE TABLE `log` (
   `IdLog` int NOT NULL AUTO_INCREMENT,
   `Datum` datetime NOT NULL,
-  `Poruka` varchar(1000) NOT NULL,
-  PRIMARY KEY (`IdLog`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `IdPoruka` int NOT NULL,
+  `Subjekat` varchar(45) NOT NULL,
+  PRIMARY KEY (`IdLog`),
+  KEY `fk_logovi_has_poruka_loga_idx` (`IdPoruka`),
+  CONSTRAINT `fk_logovi_has_poruka_loga` FOREIGN KEY (`IdPoruka`) REFERENCES `poruka_loga` (`IdPoruke`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `logs`
+-- Dumping data for table `log`
 --
 
-LOCK TABLES `logs` WRITE;
-/*!40000 ALTER TABLE `logs` DISABLE KEYS */;
-INSERT INTO `logs` VALUES (1,'2024-02-20 19:05:20','Unsuccessful login attempt for username: admin'),(2,'2024-02-20 19:06:42','Unsuccessful login attempt for username: admin');
-/*!40000 ALTER TABLE `logs` ENABLE KEYS */;
+LOCK TABLES `log` WRITE;
+/*!40000 ALTER TABLE `log` DISABLE KEYS */;
+/*!40000 ALTER TABLE `log` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -287,6 +319,30 @@ CREATE TABLE `notifikacija` (
 LOCK TABLES `notifikacija` WRITE;
 /*!40000 ALTER TABLE `notifikacija` DISABLE KEYS */;
 /*!40000 ALTER TABLE `notifikacija` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `poruka_loga`
+--
+
+DROP TABLE IF EXISTS `poruka_loga`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `poruka_loga` (
+  `IdPoruke` int NOT NULL AUTO_INCREMENT,
+  `Poruka` varchar(100) NOT NULL,
+  PRIMARY KEY (`IdPoruke`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `poruka_loga`
+--
+
+LOCK TABLES `poruka_loga` WRITE;
+/*!40000 ALTER TABLE `poruka_loga` DISABLE KEYS */;
+INSERT INTO `poruka_loga` VALUES (1,'Pokusaj registracije'),(2,'Uspjesno registrovan ( nalog potvrđen od registracije)'),(3,'Email nije uspjesno poslat'),(4,'Prijava u tim '),(5,'Prijava na zadatak'),(6,'Promjena kategorije zadatka'),(7,'Izmjena zadatka'),(8,'Kreiranje zadatka'),(9,'Arhiviran zadatak'),(10,'Promjena uloge'),(11,'Nespjesna prijava'),(12,'Uspjesna prijava');
+/*!40000 ALTER TABLE `poruka_loga` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -522,4 +578,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-20 19:24:00
+-- Dump completed on 2024-02-23  8:20:21

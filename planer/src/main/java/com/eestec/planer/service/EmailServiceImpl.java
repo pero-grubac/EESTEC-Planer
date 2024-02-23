@@ -1,5 +1,6 @@
 package com.eestec.planer.service;
 
+import com.eestec.planer.dto.PorukaLoga;
 import com.eestec.planer.exception.EmailSendingException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -18,7 +19,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void email(String receiver, String username, String subject, String content) {
         System.out.println(receiver + " " + subject + " " + content);
-    /*    MimeMessage message = javaMailSender.createMimeMessage();
+      /*  MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
         try {
             helper.setTo(receiver);
@@ -27,7 +28,8 @@ public class EmailServiceImpl implements EmailService {
 
             javaMailSender.send(message);
         } catch (Exception e) {
-            logService.create(new EmailSendingException(username, receiver).getMessage());
+            String subjekat = username + ": " + receiver;
+            logService.create(PorukaLoga.EMAIL_NIJE_USPJESNO_POSLAT.getValue(), subjekat);
         }*/
     }
 }

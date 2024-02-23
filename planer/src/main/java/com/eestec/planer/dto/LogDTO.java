@@ -5,11 +5,12 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "logs")
+@Table(name = "log")
 public class LogDTO {
-    public LogDTO( String poruka) {
+    public LogDTO(int poruka, String subjekat) {
         this.datum = LocalDateTime.now();
-        this.poruka = poruka;
+        this.idPoruka = poruka;
+        this.subjekat = subjekat;
     }
 
     @Id
@@ -18,8 +19,10 @@ public class LogDTO {
     private Integer idLog;
     @Column(name = "Datum")
     private LocalDateTime datum;
-    @Column(name = "Poruka")
-    private String poruka;
+    @Column(name = "IdPoruka")
+    private int idPoruka;
+    @Column(name = "Subjekat")
+    private String subjekat;
 
     public LogDTO() {
 
@@ -42,11 +45,19 @@ public class LogDTO {
     }
 
 
-    public String getPoruka() {
-        return poruka;
+    public int getIdPoruka() {
+        return idPoruka;
     }
 
-    public void setPoruka(String poruka) {
-        this.poruka = poruka;
+    public void setIdPoruka(int poruka) {
+        this.idPoruka = poruka;
+    }
+
+    public String getSubjekat() {
+        return subjekat;
+    }
+
+    public void setSubjekat(String subjekat) {
+        this.subjekat = subjekat;
     }
 }

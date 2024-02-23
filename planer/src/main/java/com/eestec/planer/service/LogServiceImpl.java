@@ -15,8 +15,8 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public void create( String poruka) {
-        LogDTO log = new LogDTO(poruka);
+    public void create(int poruka,String subjekat) {
+        LogDTO log = new LogDTO(poruka,subjekat);
         logDAO.save(log);
     }
 }

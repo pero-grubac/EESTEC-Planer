@@ -4,5 +4,5 @@ import com.eestec.planer.dto.LogDTO;
 
 public interface LogService {
 
-    void create(String poruka);
+    void create(int poruka,String subjekat);
 }

@@ -4,6 +4,7 @@ import com.eestec.planer.controller.util.*;
 import com.eestec.planer.dto.ClanOdboraDTO;
 import com.eestec.planer.dto.KoordinatorDTO;
 import com.eestec.planer.dto.KorisnikDTO;
+import com.eestec.planer.dto.PorukaLoga;
 import com.eestec.planer.exception.WrongCredentialsException;
 import com.eestec.planer.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,17 +151,18 @@ public class KorisnikController {
                         AuthResponse response = new AuthResponse();
                         response.setKorisnik(korisnik);
                         response.setToken(jwtService.generateToken(loginForm.getUsername()));
+                        logService.create(PorukaLoga.USPJESNA_PRIJAVA.getValue(),loginForm.getUsername());
                         return ResponseEntity.ok(response);
                     }
                 }
-                logService.create(new WrongCredentialsException(loginForm.getUsername()).getMessage());
+                logService.create(PorukaLoga.NEUSPJESNA_PRIJAVA.getValue(),loginForm.getUsername());
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
             } catch (Exception e) {
-                logService.create(new WrongCredentialsException(loginForm.getUsername()).getMessage());
+                logService.create(PorukaLoga.NEUSPJESNA_PRIJAVA.getValue(),loginForm.getUsername());
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
             }
         }
-        logService.create(new WrongCredentialsException(loginForm.getUsername()).getMessage());
+        logService.create(PorukaLoga.NEUSPJESNA_PRIJAVA.getValue(),loginForm.getUsername());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
     }
 
