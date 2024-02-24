@@ -30,8 +30,8 @@ public class EmailServiceImpl implements EmailService {
 //
 //            javaMailSender.send(message);
 //        } catch (Exception e) {
-//            String subjekat = username + ": " + receiver;
-//            logService.create(PorukaLoga.EMAIL_NIJE_USPJESNO_POSLAT.getValue(), subjekat);
+//
+//            logService.create(PorukaLoga.EMAIL_NIJE_USPJESNO_POSLAT.getValue(), username);
 //        }
     }
 }
