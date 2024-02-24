@@ -86,4 +86,10 @@ public class ClanOdboraController {
     public ResponseEntity<List<LogDTOMessage>> getLogs() {
         return new ResponseEntity<>(logService.getLogsForClanOdbora(), HttpStatus.OK);
     }
+
+    @GetMapping("/logs/{subject}")
+    @PreAuthorize("hasAuthority('Clan odbora')")
+    public ResponseEntity<List<LogDTOMessage>> getLogsBySubject(@PathVariable String subject) {
+        return new ResponseEntity<>(logService.getLogsForClanOdboraBySubject(subject), HttpStatus.OK);
+    }
 }

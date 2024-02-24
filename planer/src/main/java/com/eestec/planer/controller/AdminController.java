@@ -109,6 +109,12 @@ public class AdminController {
         return new ResponseEntity<>(logService.getLogsForAdmin(), HttpStatus.OK);
     }
 
+    @GetMapping("/logs/{subject}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<List<LogDTOMessage>> getLogsBySubject(@PathVariable String subject) {
+        return new ResponseEntity<>(logService.getLogsForAdminBySubject(subject), HttpStatus.OK);
+    }
+
 
 //    @DeleteMapping("/delete/{id}")
 //    //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
