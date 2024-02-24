@@ -4,6 +4,7 @@ import com.eestec.planer.controller.util.KorisnikRequest;
 import com.eestec.planer.controller.util.LoginForm;
 import com.eestec.planer.dto.AdminDTO;
 import com.eestec.planer.dto.LogDTO;
+import com.eestec.planer.dto.LogDTOMessage;
 import com.eestec.planer.dto.PorukaLoga;
 
 import com.eestec.planer.service.LogService;
@@ -104,7 +105,7 @@ public class AdminController {
 
     @GetMapping("/logs")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<List<LogDTO>> getLogs() {
+    public ResponseEntity<List<LogDTOMessage>> getLogs() {
         return new ResponseEntity<>(logService.getLogsForAdmin(), HttpStatus.OK);
     }
 

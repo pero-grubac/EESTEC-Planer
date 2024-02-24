@@ -1,4 +1,5 @@
 package com.eestec.planer;
+import com.eestec.planer.dto.PorukaLoga;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

@@ -23,5 +23,13 @@ public enum PorukaLoga {
     public int getValue() {
         return value;
     }
+
+    public static PorukaLoga getByValue(int value) {
+        for (PorukaLoga porukaLoga : PorukaLoga.values()) {
+            if (porukaLoga.getValue() == value)
+                return porukaLoga;
+        }
+        return null;
+    }
 }
 

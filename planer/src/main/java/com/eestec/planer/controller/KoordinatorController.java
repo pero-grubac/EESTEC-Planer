@@ -107,7 +107,7 @@ public class KoordinatorController {
 
     @GetMapping("/logs")
     @PreAuthorize("hasAuthority('Koordinator')")
-    public ResponseEntity<List<LogDTO>> getLogs() {
+    public ResponseEntity<List<LogDTOMessage>> getLogs() {
         return new ResponseEntity<>(logService.getLogsForKoordinator(), HttpStatus.OK);
     }
 }

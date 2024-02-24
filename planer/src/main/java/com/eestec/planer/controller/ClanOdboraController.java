@@ -83,7 +83,7 @@ public class ClanOdboraController {
 
     @GetMapping("/logs")
     @PreAuthorize("hasAuthority('Clan odbora')")
-    public ResponseEntity<List<LogDTO>> getLogs() {
+    public ResponseEntity<List<LogDTOMessage>> getLogs() {
         return new ResponseEntity<>(logService.getLogsForClanOdbora(), HttpStatus.OK);
     }
 }

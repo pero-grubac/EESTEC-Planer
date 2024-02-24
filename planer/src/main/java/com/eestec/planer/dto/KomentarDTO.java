@@ -17,7 +17,7 @@ public class KomentarDTO {
 
     @JsonIgnore
     @ManyToOne
-    @Column(name = "IdKorisnik")
+    @JoinColumn(name = "IdKorisnik")
     private KorisnikDTO korisnik;
 
     private String korisnickoIme;
