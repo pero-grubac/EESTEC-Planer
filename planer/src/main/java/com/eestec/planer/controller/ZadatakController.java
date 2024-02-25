@@ -6,6 +6,7 @@ import com.eestec.planer.controller.util.ElementiTima;
 import com.eestec.planer.dao.KategorijaDAO;
 import com.eestec.planer.dao.ZadatakDAO;
 import com.eestec.planer.dto.*;
+import com.eestec.planer.service.EmailService;
 import com.eestec.planer.service.LogService;
 import com.eestec.planer.service.implementations.EmailServiceImpl;
 import com.eestec.planer.service.implementations.KorisnikServiceImpl;
@@ -37,6 +38,7 @@ public class ZadatakController {
     private ZadatakDAO zadatakDAO;
     @Autowired
     private KorisnikServiceImpl korisnikService;
+
     @Autowired
     private EmailServiceImpl emailService;
     private final Logger logger = LoggerFactory.getLogger(ZadatakController.class);
@@ -67,7 +69,7 @@ public class ZadatakController {
     private void sendEmails(ZadatakDTO kreiraniZadatak, String naslov) {
         List<KorisnikDTO> korisnici = zadatakService.getKorisniciInTeam(kreiraniZadatak.getIdZadatak());
         for (KorisnikDTO korisnik : korisnici) {
-            emailService.email(korisnik.getEmail(),korisnik.getKorisnickoIme(), naslov + kreiraniZadatak.getNaslov(), kreiraniZadatak.getTekst());
+            emailService.email(korisnik.getEmail(), korisnik.getKorisnickoIme(), naslov + kreiraniZadatak.getNaslov(), kreiraniZadatak.getTekst());
         }
     }
 
@@ -154,7 +156,7 @@ public class ZadatakController {
         // tako da ce ovdje biti jedna bespotrebna null provjera
         if (zadatakDTOAfterUpdate != null) {
             if (idKategorija != null && !idKategorija.equals(zadatakDTOAfterUpdate.getKategorija().getIdKategorija())) {
-                logService.create(PorukaLoga.PROMJENA_KATEGORIJE_ZADATKA.getValue(),korisnikInfoDetails.getUsername());
+                logService.create(PorukaLoga.PROMJENA_KATEGORIJE_ZADATKA.getValue(), korisnikInfoDetails.getUsername());
                 flag = true;
             }
             if ((tekst != null && !tekst.equals(zadatakDTOAfterUpdate.getTekst())) ||
@@ -181,5 +183,19 @@ public class ZadatakController {
         return ResponseEntity.notFound().build();
     }
 
+    @PutMapping("/archive/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
+    public ResponseEntity<List<ZadatakDTO>> archive(@PathVariable int id) {
+        zadatakService.archiving(id);
+        ZadatakDTO zadatakDTO = zadatakService.getZadatak(id);
+        List<ZadatakDTO> zadaci = new ArrayList<>();
+        KategorijaDTO kategorijaDTO = kategorijaDAO.findByIdKategorija(zadatakDTO.getKategorija().getIdKategorija());
+        List<KategorijaDTO> kategorije = kategorijaDAO.findByTimDTO_IdTim(kategorijaDTO.getTimDTO().getIdTim());
 
+        for (KategorijaDTO kategorija : kategorije) {
+            List<ZadatakDTO> temp = zadatakService.getZadaciByKategorijaId(kategorija.getIdKategorija());
+            zadaci.addAll(temp);
+        }
+        return ResponseEntity.ok(zadaci);
+    }
 }

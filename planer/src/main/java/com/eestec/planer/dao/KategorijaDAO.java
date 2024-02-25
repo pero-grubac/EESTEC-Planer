@@ -15,10 +15,11 @@ public interface KategorijaDAO extends JpaRepository<KategorijaDTO, Integer>
     List<KategorijaDTO> findAll();
     KategorijaDTO findByIdKategorija(int idKategorija);
 
-    @Query(value = "select k.* from kategorija k \n" +
-            "inner join tim t on t.IdTim=k.IdTim \n" +
-            "where k.IdTim =:idTim",nativeQuery = true)
-    List<KategorijaDTO> findByTimDTO_IdTim(@Param("idTim") Integer idTim);
+    @Query(value = "SELECT k.* FROM kategorija k " +
+            "INNER JOIN tim t ON t.IdTim = k.IdTim " +
+            "WHERE t.IdTim = :idTim", nativeQuery = true)
+    List<KategorijaDTO> findByTimDTO_IdTim(@Param("idTim") int idTim);
+
 
     @Modifying
     @Query(value = "INSERT INTO kategorija (Naziv, IdTim) VALUES (:naziv, :id)", nativeQuery = true)

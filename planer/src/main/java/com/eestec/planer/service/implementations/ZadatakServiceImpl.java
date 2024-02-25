@@ -3,6 +3,7 @@ package com.eestec.planer.service.implementations;
 import com.eestec.planer.dao.KategorijaDAO;
 import com.eestec.planer.dao.KorisnikDAO;
 import com.eestec.planer.dao.ZadatakDAO;
+import com.eestec.planer.dto.KategorijaDTO;
 import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.dto.ZadatakDTO;
 import com.eestec.planer.service.ZadatakService;
@@ -108,6 +109,16 @@ public class ZadatakServiceImpl implements ZadatakService {
     @Override
     public List<KorisnikDTO> getKorisniciInTeam(Integer id) {
         return zadatakDAO.userEmails(id);
+    }
+
+    @Override
+    public void archiving(int id) {
+        ZadatakDTO zadatak = zadatakDAO.findById(id).orElse(null);
+        if(zadatak!=null){
+            zadatak.setDatumArhiviranja(LocalDateTime.now());
+            zadatak.setArhiviran(true);
+        }
+
     }
 
 

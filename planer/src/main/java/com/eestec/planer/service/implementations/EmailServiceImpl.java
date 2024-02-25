@@ -20,18 +20,18 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void email(String receiver, String username, String subject, String content) {
-//        System.out.println(receiver + " " + subject + " " + content);
-//        MimeMessage message = javaMailSender.createMimeMessage();
-//        MimeMessageHelper helper = new MimeMessageHelper(message);
-//        try {
-//            helper.setTo(receiver);
-//            helper.setSubject(subject);
-//            helper.setText(content);
-//
-//            javaMailSender.send(message);
-//        } catch (Exception e) {
-//
-//            logService.create(PorukaLoga.EMAIL_NIJE_USPJESNO_POSLAT.getValue(), username);
-//        }
+        System.out.println(receiver + " " + subject + " " + content);
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+       /* try {
+            helper.setTo(receiver);
+            helper.setSubject(subject);
+            helper.setText(content);
+
+            javaMailSender.send(message);
+        } catch (Exception e) {
+
+            logService.create(PorukaLoga.EMAIL_NIJE_USPJESNO_POSLAT.getValue(), username);
+        }*/
     }
 }

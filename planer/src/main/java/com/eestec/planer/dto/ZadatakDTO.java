@@ -39,7 +39,7 @@ public class ZadatakDTO {
     @JsonIgnore
     private Set<KorisnikDTO> korisnici = new HashSet<>();
     @Column(name = "DatumArhiviranja")
-    private Date datumArhiviranja;
+    private LocalDateTime datumArhiviranja;
 
     @Column(name = "Arhiviran")
     private Byte arhiviran;
@@ -111,11 +111,11 @@ public class ZadatakDTO {
     public ZadatakDTO() {
     }
 
-    public Date getDatumArhiviranja() {
+    public LocalDateTime getDatumArhiviranja() {
         return datumArhiviranja;
     }
 
-    public void setDatumArhiviranja(Date datumArhiviranja) {
+    public void setDatumArhiviranja(LocalDateTime datumArhiviranja) {
         this.datumArhiviranja = datumArhiviranja;
     }
 

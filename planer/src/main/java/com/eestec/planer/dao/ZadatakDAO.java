@@ -14,7 +14,8 @@ import java.util.List;
 
 @Repository
 public interface ZadatakDAO extends JpaRepository<ZadatakDTO, Integer> {
-    List<ZadatakDTO> findByKategorija_IdKategorija(int idKategorije);
+    @Query(value = "SELECT z.* FROM zadatak z  WHERE z.Arhiviran = 0 AND z.IdKategorija = :id", nativeQuery = true)
+    List<ZadatakDTO> findByKategorija_IdKategorija(@Param("id") int id);
 
     @Modifying
     @Query(value = "UPDATE zadatak z SET z.Tekst = :tekst, z.Rok = :rok, z.Naslov = :naslov, z.IdKategorija = :idKategorija WHERE z.IdZadatak = :id", nativeQuery = true)
@@ -27,4 +28,8 @@ public interface ZadatakDAO extends JpaRepository<ZadatakDTO, Integer> {
     List<KorisnikDTO> userEmails(@Param("id") Integer id);
 
      List<ZadatakDTO> getZadatakDTOByArhiviran(Byte aByte);
+
+     //STATISTIKA
+
+
 }

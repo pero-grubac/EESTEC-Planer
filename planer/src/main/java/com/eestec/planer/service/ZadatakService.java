@@ -22,4 +22,5 @@ public interface ZadatakService {
     boolean deleteZadtak(Integer id);
 
     List<KorisnikDTO> getKorisniciInTeam(Integer id);
+    void archiving(int id);
 }
