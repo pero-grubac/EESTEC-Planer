@@ -1,10 +1,12 @@
-package com.eestec.planer.service;
+package com.eestec.planer.service.implementations;
 
 import com.eestec.planer.dao.KategorijaDAO;
 import com.eestec.planer.dao.KorisnikDAO;
 import com.eestec.planer.dao.ZadatakDAO;
+import com.eestec.planer.dto.KategorijaDTO;
 import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.dto.ZadatakDTO;
+import com.eestec.planer.service.ZadatakService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +24,8 @@ public class ZadatakServiceImpl implements ZadatakService {
     private KategorijaDAO kategorijaDAO;
 
     @Override
-    public List<ZadatakDTO> getAllZadaci() {
-        return zadatakDAO.findAll();
+    public List<ZadatakDTO> getAllZadaci(Byte arc) {
+        return zadatakDAO.getZadatakDTOByArhiviran(arc);
     }
 
     @Override
@@ -87,7 +89,7 @@ public class ZadatakServiceImpl implements ZadatakService {
                 zadatak.setRok(zadatakDTO.getRok());
 
             if (zadatakDTO.getKategorija() != null) {
-                    zadatak.setKategorija(zadatakDTO.getKategorija());
+                zadatak.setKategorija(zadatakDTO.getKategorija());
             }
             return zadatak;
         }
@@ -96,12 +98,27 @@ public class ZadatakServiceImpl implements ZadatakService {
 
     @Override
     public boolean deleteZadtak(Integer id) {
-       ZadatakDTO zadatak = zadatakDAO.findById(id).orElse(null);
-       if(zadatak!=null){
-           zadatakDAO.delete(zadatak);
-           return true;
-       }
-       return false;
+        ZadatakDTO zadatak = zadatakDAO.findById(id).orElse(null);
+        if (zadatak != null) {
+            zadatakDAO.delete(zadatak);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<KorisnikDTO> getKorisniciInTeam(Integer id) {
+        return zadatakDAO.userEmails(id);
+    }
+
+    @Override
+    public void archiving(int id) {
+        ZadatakDTO zadatak = zadatakDAO.findById(id).orElse(null);
+        if(zadatak!=null){
+            zadatak.setDatumArhiviranja(LocalDateTime.now());
+            zadatak.setArhiviran(true);
+        }
+
     }
 
 

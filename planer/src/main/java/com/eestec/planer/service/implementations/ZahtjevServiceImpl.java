@@ -1,10 +1,11 @@
-package com.eestec.planer.service;
+package com.eestec.planer.service.implementations;
 
 
 import com.eestec.planer.dao.KorisnikDAO;
 import com.eestec.planer.dao.ZahtjevDAO;
 import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.dto.ZahtjevDTO;
+import com.eestec.planer.service.ZahtjevService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
@@ -60,7 +61,7 @@ public class ZahtjevServiceImpl implements ZahtjevService {
 
     @Transactional
     @Override
-    public boolean odobriZahtjev(int id) {
+    public ZahtjevDTO odobriZahtjev(int id) {
         ZahtjevDTO zahtjev = zahtjevDAO.findById(id).orElse(null);
         if (zahtjev != null) {
             KorisnikDTO korisnik = new KorisnikDTO();
@@ -71,9 +72,9 @@ public class ZahtjevServiceImpl implements ZahtjevService {
             korisnik.setEmail(zahtjev.getEmail());
             korisnikDAO.save(korisnik);
             zahtjevDAO.delete(zahtjev);
-            return true;
+            return zahtjev;
         }
-        return false;
+        return null;
     }
 
     @Override

@@ -1,14 +1,16 @@
 package com.eestec.planer.service;
 
-import com.eestec.planer.dto.TimDTO;
+import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.dto.ZadatakDTO;
 
 
 import java.util.List;
 
 public interface ZadatakService {
-    public List<ZadatakDTO> getAllZadaci();
+    public List<ZadatakDTO> getAllZadaci(Byte arc);
+
     ZadatakDTO getZadatak(Integer id);
+
     public void joinZadatak(Integer korisnikId, Integer zadatakId);
 
     ZadatakDTO createZadatak(ZadatakDTO zadatakDTO);
@@ -19,4 +21,6 @@ public interface ZadatakService {
 
     boolean deleteZadtak(Integer id);
 
+    List<KorisnikDTO> getKorisniciInTeam(Integer id);
+    void archiving(int id);
 }

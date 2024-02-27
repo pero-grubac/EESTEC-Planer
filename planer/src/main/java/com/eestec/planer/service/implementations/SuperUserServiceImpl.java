@@ -1,9 +1,10 @@
-package com.eestec.planer.service;
+package com.eestec.planer.service.implementations;
 
 import com.eestec.planer.dao.KorisnikDAO;
 import com.eestec.planer.dao.SuperUserDAO;
 import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.dto.SuperUserDTO;
+import com.eestec.planer.service.SuperUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

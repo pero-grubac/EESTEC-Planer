@@ -1,13 +1,9 @@
 package com.eestec.planer.controller;
 
 import com.eestec.planer.controller.util.*;
-import com.eestec.planer.dto.ClanOdboraDTO;
-import com.eestec.planer.dto.KoordinatorDTO;
-import com.eestec.planer.dto.KorisnikDTO;
-import com.eestec.planer.service.ClanOdboraServiceImpl;
-import com.eestec.planer.service.JwtService;
-import com.eestec.planer.service.KoordinatorServiceImpl;
-import com.eestec.planer.service.KorisnikServiceImpl;
+import com.eestec.planer.dto.*;
+import com.eestec.planer.service.*;
+import com.eestec.planer.service.implementations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,27 +15,30 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @RestController
 @RequestMapping("/user")
 @CrossOrigin(origins = "http://localhost:3000")
 public class KorisnikController {
-    private final Logger logger = LoggerFactory.getLogger(KorisnikController.class);
+    @Autowired
+    private LogServiceImpl logService;
     private final KorisnikServiceImpl korisnikService;
     private final KoordinatorServiceImpl koordinatorService;
     private final ClanOdboraServiceImpl clanOdboraService;
+    private final TimService timService;
     @Autowired
     private JwtService jwtService;
     @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    public KorisnikController(KorisnikServiceImpl korisnikService, KoordinatorServiceImpl koordinatorService, ClanOdboraServiceImpl clanOdboraService) {
+    private EmailService emailService;
+
+    @Autowired
+    public KorisnikController(KorisnikServiceImpl korisnikService, KoordinatorServiceImpl koordinatorService, ClanOdboraServiceImpl clanOdboraService, TimService timService) {
         this.korisnikService = korisnikService;
         this.koordinatorService = koordinatorService;
         this.clanOdboraService = clanOdboraService;
+        this.timService = timService;
     }
 
     @GetMapping("/getAll")
@@ -77,6 +76,7 @@ public class KorisnikController {
     public ResponseEntity<KorisnikDTO> createKorisnik(@RequestBody KorisnikDTO korisnikDTO) {
         KorisnikDTO korisnik = korisnikService.createKorisnik(korisnikDTO);
         if (korisnik != null) {
+            emailService.email(korisnik.getEmail(),korisnik.getKorisnickoIme(), "EESTEC Planer", "Dobrodošli u EESTEC Planer");
             return ResponseEntity.ok(korisnik);
         } else return ResponseEntity.notFound().build();
     }
@@ -85,8 +85,10 @@ public class KorisnikController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN') || hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public ResponseEntity<?> updateKorisnik(@RequestBody KorisnikRequest korisnikRequest) {
         KorisnikDTO korisnik = korisnikService.updateKorisnik(korisnikRequest);
-        if (korisnik != null)
+        if (korisnik != null) {
+
             return ResponseEntity.ok().build();
+        }
         else return ResponseEntity.notFound().build();
     }
 
@@ -102,8 +104,17 @@ public class KorisnikController {
     @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public ResponseEntity<String> joinTeam(@RequestBody KorisnikTim korisnikTim) {
         if (korisnikTim != null && korisnikTim.getIdKorisnika() != null && korisnikTim.getIdTim() != null) {
-            boolean isOK = korisnikService.joinTim(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
-            if (isOK) {
+            KorisnikDTO korisnik = korisnikService.joinTim(korisnikTim.getIdKorisnika(), korisnikTim.getIdTim());
+            if (korisnik != null) {
+                TimDTO tim = timService.getTim(korisnikTim.getIdTim());
+                KoordinatorDTO koordinator = koordinatorService.getKoordinator(tim.getIdKoordinator());
+                if (koordinator != null) {
+                    KorisnikDTO koordinatorKorisnik = koordinator.getSuperuser().getKorisnik();
+                    emailService.email(koordinatorKorisnik.getEmail(),koordinatorKorisnik.getKorisnickoIme(),
+                            "Korisnik se pridružio Vašem timu", "Korisnik sa korisničkim imenom "
+                                    + korisnik.getKorisnickoIme() + " se pridružio Vašem timu " + tim.getNaziv() + ".");
+                }
+                logService.create(PorukaLoga.PRIJAVA_U_TIM.getValue(), korisnik.getKorisnickoIme());
                 return ResponseEntity.ok("Uspjesna prijava.");
             } else {
                 return ResponseEntity.notFound().build();
@@ -130,40 +141,45 @@ public class KorisnikController {
 
     @PutMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginForm loginForm) {
-        try {
-
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getLozinka()));
-
-            KorisnikDTO korisnik = korisnikService.login(loginForm);
-            if (korisnik != null) {
-                if (authentication.isAuthenticated()) {
-                    List<KoordinatorDTO> koordinatorDTOList = koordinatorService.getAllKoordinatori();
-                    List<ClanOdboraDTO> clanOdboraDTOList = clanOdboraService.getAllClanOdbora();
-                    for (KoordinatorDTO koordinator : koordinatorDTOList)
-                        if (koordinator.getIdKoordinator() == korisnik.getIdKorisnika())
-                            korisnik.setUloga("Koordinator");
-                    for (ClanOdboraDTO clanOdboraDTO : clanOdboraDTOList)
-                        if (clanOdboraDTO.getIdClana() == korisnik.getIdKorisnika())
-                            korisnik.setUloga("Clan odbora");
-                    AuthResponse response = new AuthResponse();
-                    response.setKorisnik(korisnik);
-                    response.setToken(jwtService.generateToken(loginForm.getUsername()));
-                    return ResponseEntity.ok(response);
+        if (!korisnikService.isDeleted(loginForm.getUsername())) {
+            try {
+                Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getLozinka()));
+                KorisnikDTO korisnik = korisnikService.login(loginForm);
+                if (korisnik != null) {
+                    if (authentication.isAuthenticated()) {
+                        List<KoordinatorDTO> koordinatorDTOList = koordinatorService.getAllKoordinatori();
+                        List<ClanOdboraDTO> clanOdboraDTOList = clanOdboraService.getAllClanOdbora();
+                        for (KoordinatorDTO koordinator : koordinatorDTOList)
+                            if (koordinator.getIdKoordinator() == korisnik.getIdKorisnika())
+                                korisnik.setUloga("Koordinator");
+                        for (ClanOdboraDTO clanOdboraDTO : clanOdboraDTOList)
+                            if (clanOdboraDTO.getIdClana() == korisnik.getIdKorisnika())
+                                korisnik.setUloga("Clan odbora");
+                        AuthResponse response = new AuthResponse();
+                        response.setKorisnik(korisnik);
+                        response.setToken(jwtService.generateToken(loginForm.getUsername()));
+                        logService.create(PorukaLoga.USPJESNA_PRIJAVA.getValue(),loginForm.getUsername());
+                        return ResponseEntity.ok(response);
+                    }
                 }
+                logService.create(PorukaLoga.NEUSPJESNA_PRIJAVA.getValue(),loginForm.getUsername());
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
+            } catch (Exception e) {
+                logService.create(PorukaLoga.NEUSPJESNA_PRIJAVA.getValue(),loginForm.getUsername());
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
             }
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
-        } catch (Error e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
-
         }
+        logService.create(PorukaLoga.NEUSPJESNA_PRIJAVA.getValue(),loginForm.getUsername());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + loginForm.getUsername() + " not found");
     }
 
     @PutMapping("/assign")
     @PreAuthorize("hasAuthority('KORISNIK') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
     public ResponseEntity<String> assign(@RequestBody KorisnikZadatak korisnikZadatak) {
         if (korisnikZadatak != null && korisnikZadatak.getIdKorisnika() != null && korisnikZadatak.getIdZadatak() != null) {
-            boolean isOK = korisnikService.assignTask(korisnikZadatak.getIdKorisnika(), korisnikZadatak.getIdZadatak());
-            if (isOK) {
+            KorisnikDTO korisnik = korisnikService.assignTask(korisnikZadatak.getIdKorisnika(), korisnikZadatak.getIdZadatak());
+            if (korisnik != null) {
+                logService.create(PorukaLoga.PRIJAVA_NA_ZADATAK.getValue(),korisnik.getKorisnickoIme());
                 return ResponseEntity.ok().build();
             } else {
                 return ResponseEntity.notFound().build();

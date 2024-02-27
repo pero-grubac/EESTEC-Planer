@@ -1,12 +1,11 @@
-package com.eestec.planer.service;
+package com.eestec.planer.service.implementations;
 
 import com.eestec.planer.dao.KoordinatorDAO;
-import com.eestec.planer.dao.KorisnikDAO;
-import com.eestec.planer.dao.TimDAO;
 import com.eestec.planer.dto.KoordinatorDTO;
 import com.eestec.planer.dto.KorisnikDTO;
 import com.eestec.planer.dto.SuperUserDTO;
 import com.eestec.planer.dto.TimDTO;
+import com.eestec.planer.service.KoordinatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,18 +1,13 @@
 package com.eestec.planer.controller;
 
 import com.eestec.planer.dto.KategorijaDTO;
-import com.eestec.planer.dto.KorisnikDTO;
-import com.eestec.planer.dto.TimDTO;
-import com.eestec.planer.service.KategorijaService;
-import com.eestec.planer.service.KategorijaServiceImpl;
+import com.eestec.planer.service.implementations.KategorijaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

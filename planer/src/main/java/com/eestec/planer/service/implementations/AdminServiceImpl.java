@@ -1,9 +1,10 @@
-package com.eestec.planer.service;
+package com.eestec.planer.service.implementations;
 
 import com.eestec.planer.controller.util.KorisnikRequest;
 import com.eestec.planer.controller.util.LoginForm;
 import com.eestec.planer.dao.AdminDAO;
 import com.eestec.planer.dto.AdminDTO;
+import com.eestec.planer.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

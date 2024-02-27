@@ -1,7 +1,10 @@
 package com.eestec.planer.dto;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,6 +38,11 @@ public class ZadatakDTO {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "zadaci")
     @JsonIgnore
     private Set<KorisnikDTO> korisnici = new HashSet<>();
+    @Column(name = "DatumArhiviranja")
+    private LocalDateTime datumArhiviranja;
+
+    @Column(name = "Arhiviran")
+    private Byte arhiviran;
 
     public int getIdZadatak() {
         return idZadatak;
@@ -101,6 +109,22 @@ public class ZadatakDTO {
     }
 
     public ZadatakDTO() {
+    }
+
+    public LocalDateTime getDatumArhiviranja() {
+        return datumArhiviranja;
+    }
+
+    public void setDatumArhiviranja(LocalDateTime datumArhiviranja) {
+        this.datumArhiviranja = datumArhiviranja;
+    }
+
+    public boolean getArhiviran() {
+        return arhiviran != null && arhiviran != 0;
+    }
+
+    public void setArhiviran(Boolean arhiviran) {
+        this.arhiviran = (byte) (arhiviran != null && arhiviran ? 1 : 0);
     }
 }
 

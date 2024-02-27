@@ -1,7 +1,5 @@
 package com.eestec.planer.service;
 import com.eestec.planer.dto.ZahtjevDTO;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -14,7 +12,7 @@ public interface ZahtjevService {
 
     public ZahtjevDTO addZahtjev(ZahtjevDTO zahtjev);
 
-    public boolean odobriZahtjev(int id);
+    public ZahtjevDTO odobriZahtjev(int id);
 }
 
 

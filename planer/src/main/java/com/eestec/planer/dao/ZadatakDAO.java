@@ -14,12 +14,22 @@ import java.util.List;
 
 @Repository
 public interface ZadatakDAO extends JpaRepository<ZadatakDTO, Integer> {
-    List<ZadatakDTO> findByKategorija_IdKategorija(int idKategorije);
+    @Query(value = "SELECT z.* FROM zadatak z  WHERE z.Arhiviran = 0 AND z.IdKategorija = :id", nativeQuery = true)
+    List<ZadatakDTO> findByKategorija_IdKategorija(@Param("id") int id);
 
     @Modifying
     @Query(value = "UPDATE zadatak z SET z.Tekst = :tekst, z.Rok = :rok, z.Naslov = :naslov, z.IdKategorija = :idKategorija WHERE z.IdZadatak = :id", nativeQuery = true)
     void updateZadatak(@Param("tekst") String tekst, @Param("rok") LocalDateTime rok, @Param("naslov") String naslov, @Param("idKategorija") Integer idKategorija, @Param("id") Integer id);
+     @Query(value = "SELECT * FROM korisnik k \n" +
+             "INNER JOIN korisnik_pripada_timu kpt ON kpt.Korisnik_IdKorisnika = k.IdKorisnika \n" +
+             "INNER JOIN kategorija kat ON kat.IdTim = kpt.Tim_IdTim \n" +
+             "INNER JOIN zadatak z ON z.IdKategorija = kat.IdKategorija \n" +
+             "WHERE z.IdZadatak = :id", nativeQuery = true)
+    List<KorisnikDTO> userEmails(@Param("id") Integer id);
+
+     List<ZadatakDTO> getZadatakDTOByArhiviran(Byte aByte);
+
+     //STATISTIKA
 
 
-    ;
 }
