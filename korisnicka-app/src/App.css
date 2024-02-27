@@ -65,7 +65,10 @@ button {
   font-weight: 100;
 }
 
-.user-list {
+.log-list {
+  min-height: 85vh;
+  max-height: 85vh;
+  min-width: 90%;
   background-color: #600000;
   border-radius: 10px;
   margin: 38px;
@@ -563,3 +566,48 @@ label {
   max-width: 75rem;
   overflow-x: scroll;
 }
+
+.my-table {
+  color: black;
+  background-color: white;
+  border-radius: 5px;
+  background-color: #ffd6d6;
+  margin: 1rem;
+  min-width: 97%;
+  max-width: 97%;
+  overflow-y: scroll;
+}
+
+td {
+  background-color: white;
+}
+
+td, th {
+  padding: 0.3rem;
+}
+
+.search {
+  display: flex;
+  justify-content: left;
+  padding: 1rem;
+}
+
+.table-wrapper {
+  max-height: 30rem;
+  overflow-y: scroll;
+}
+
+thead {
+  position: sticky;
+  top: 0;
+  background-color: #ffd6d6;
+}
+
+tr:hover {
+  
+}
+
+
+
+
+
