@@ -42,7 +42,7 @@ export const Comments = () => {
                     ))
                 }
             </div>
-            <textarea placeholder='Novi komentar...'></textarea>
+            <textarea className='new-comment-input' placeholder='Novi komentar...'></textarea>
             <button>Dodaj komentar</button>
         </div>
     );

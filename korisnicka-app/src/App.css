@@ -45,6 +45,7 @@ input, textarea {
 textarea {
   max-height: 4rem;
   background-color: white;
+  resize: none;
 }
 
 button {
@@ -647,14 +648,21 @@ h2 {
 .comments-container {
   display: flex;
   flex-direction: column;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.60);
   min-height: 10rem;
-  min-width: 10rem;
+  min-width: 20rem;
   padding: 1rem;
+  margin: 1rem;
+  border-radius: 20px;
+  max-height: 33.3rem;
 }
 
 .task-with-comments-container {
   display: flex;
   flex-direction: column;
   z-index: 999;
+}
+
+.new-comment-input {
+  min-height: 3rem;
 }
