@@ -611,7 +611,20 @@ h2 {
   margin-left: 1rem;
 }
 
+.comments-list-container{
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  min-height: 10rem;
+  min-width: 10rem;
+}
 
+.comment-container {
+  background-color: white;
+  min-height: 5rem;
+  min-width: 5rem;
+  color: black;
+}
 
 
 

@@ -8,6 +8,7 @@ import Settings from './components/Settings';
 import { useState } from 'react';
 import { Routes, Route, useNavigate } from "react-router-dom";
 import './index.css';
+import { Comments } from './components/Comments.js';
 
 
 
@@ -55,7 +56,8 @@ function App() {
   return (
     <div className='background'>
       <Routes>
-        <Route path="/" element={<Login setLoggedUser={setLoggedUser} setUserIsAuthenticated={setUserIsAuthenticated}></Login>} />
+        <Route path="/" element={<Comments></Comments>} />
+        {/* <Route path="/" element={<Login setLoggedUser={setLoggedUser} setUserIsAuthenticated={setUserIsAuthenticated}></Login>} /> */}
         <Route path="/teams" element={<TeamsMenu loggedUser={loggedUser} setLoggedUser={setLoggedUser} teams={teams} />}
           appProps={{ isAuthenticated }} />
         <Route path="/teams/Design" element={<KanbanBoard loggedUser={loggedUser} setLoggedUser={setLoggedUser} team={4} teams={teams}></KanbanBoard>}
