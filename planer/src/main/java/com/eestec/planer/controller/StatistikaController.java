@@ -15,33 +15,38 @@ public class StatistikaController {
 
 
     @GetMapping("/taskbymonth/{year}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<?> getMonthyTasksByUserByYear(@PathVariable Integer year){
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
+    public ResponseEntity<?> getMonthyTasksByUserByYear(@PathVariable Integer year) {
         return ResponseEntity.ok(statistikaService.mjesecniBrojZadatakaPoKorisniku(year));
     }
+
     @GetMapping("/numberofusers")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<?> getNumberOfUsers(){
-        return   ResponseEntity.ok(statistikaService.brojKorisnika());
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
+    public ResponseEntity<?> getNumberOfUsers() {
+        return ResponseEntity.ok(statistikaService.brojKorisnika());
     }
+
     @GetMapping("/taksperuser")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<?> tasksPerUser(){
-        return  ResponseEntity.ok(statistikaService.brojZadatakaPoKorisniku());
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
+    public ResponseEntity<?> tasksPerUser() {
+        return ResponseEntity.ok(statistikaService.brojZadatakaPoKorisniku());
     }
+
     @GetMapping("/taskbymonthbyteam/{year}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<?> getMonthyTasksByTeamByYear(@PathVariable Integer year){
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
+    public ResponseEntity<?> getMonthyTasksByTeamByYear(@PathVariable Integer year) {
         return ResponseEntity.ok(statistikaService.mjesecniBrojZadatakaPoTimu(year));
     }
+
     @GetMapping("/taskbymonth/{userid}/{year}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<?> getMonthyTasks(@PathVariable Integer userid,@PathVariable Integer year){
-        return ResponseEntity.ok(statistikaService.mjesecniBrojZadatakaKorisnika(userid,year));
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
+    public ResponseEntity<?> getMonthyTasks(@PathVariable Integer userid, @PathVariable Integer year) {
+        return ResponseEntity.ok(statistikaService.mjesecniBrojZadatakaKorisnika(userid, year));
     }
+
     @GetMapping("/taskbymonthinteam/{teamid}/{year}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<?> getMonthyTasksInTeam(@PathVariable Integer teamid,@PathVariable Integer year){
-        return ResponseEntity.ok(statistikaService.mjesecniBrojZadatakaPoKorisnikuUnutarTima(teamid,year));
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
+    public ResponseEntity<?> getMonthyTasksInTeam(@PathVariable Integer teamid, @PathVariable Integer year) {
+        return ResponseEntity.ok(statistikaService.mjesecniBrojZadatakaPoKorisnikuUnutarTima(teamid, year));
     }
 }
