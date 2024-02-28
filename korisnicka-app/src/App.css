@@ -34,12 +34,17 @@ label {
   margin-top: 0.75rem;
 }
 
-input {
+input, textarea {
   background-color: #ffd6d6;
   padding: 6px;
   border-radius: 5px;
   margin: 0.25rem 0;
   max-height: 2rem;
+}
+
+textarea {
+  max-height: 4rem;
+  background-color: white;
 }
 
 button {
@@ -232,6 +237,10 @@ button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.task-info-container{
+  flex-direction: row;
 }
 
 .text-area {
@@ -431,6 +440,7 @@ button {
   position: absolute;
   right: 5%;
   top: 40%;
+  z-index: 0;
   background-color: white;
   color:#e52a30;
 }
@@ -612,19 +622,39 @@ h2 {
 }
 
 .comments-list-container{
-  display: flex;
-  flex-direction: column;
-  background-color: black;
-  min-height: 10rem;
-  min-width: 10rem;
+  max-height: 30rem;
+  overflow-y: scroll;
 }
 
 .comment-container {
+  display: flex;
+  flex-direction: column;
   background-color: white;
   min-height: 5rem;
   min-width: 5rem;
   color: black;
+  justify-items: left;
+  border: 1px solid #e52a30;
+  border-radius: 3px;
+  margin: 0.2rem;
+  padding: 1rem;
 }
 
+.comment-item {
+  display: flex;
+}
 
+.comments-container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  min-height: 10rem;
+  min-width: 10rem;
+  padding: 1rem;
+}
 
+.task-with-comments-container {
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
+}

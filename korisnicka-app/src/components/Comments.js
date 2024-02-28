@@ -33,16 +33,17 @@ export const Comments = () => {
 
 
     return (
-        <div className='comments-list-container'>
-            {
-                comments.map(comment => (
-                    <div className='comment-container'>
+        <div className='comments-container'>
+            <div className='comments-list-container'>
+                {
+                    comments.map(comment => (
                         <Comment author={comment.korisnik} commentText={comment.tekst} dateTime={comment.datum}>
-
                         </Comment>
-                    </div>
-                ))
-            }
+                    ))
+                }
+            </div>
+            <textarea placeholder='Novi komentar...'></textarea>
+            <button>Dodaj komentar</button>
         </div>
     );
 };

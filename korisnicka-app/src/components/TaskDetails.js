@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AssignTaskStatusChangeMessage from "./AssignTaskStatusChangeMessage";
 import axios from "axios";
+import { Comments } from "./Comments";
 
 
 function delay(time) {
@@ -54,7 +55,7 @@ export default function TaskDetails({ loggedUser, selectedTask, users, setShowTa
             delay(2000);
             setAssignTaskConfirmation(false);
             setShowTaskDetails(false);
-            refreshBoard(); 
+            refreshBoard();
         } catch (error) {
             console.error(error);
         }
@@ -91,34 +92,40 @@ export default function TaskDetails({ loggedUser, selectedTask, users, setShowTa
     }
 
     return (
-        <div className="new-task-form-container">
-            <button className="x-button" onClick={() => setShowTaskDetails(false)}>
-                <div className="x-button-x"></div>
-            </button>
-            <h2>Detalji:</h2>
-            <h3 className="text-background">{selectedTask.naslov}</h3>
-            <h4>Autor: {author}</h4>
-            <h4>Do: {formatDate(selectedTask.rok)}</h4>
-            <h4 className="text-area text-output">{selectedTask.tekst}</h4>
-            <h4>Vrijeme kreiranja: {formatDate(selectedTask.rok)}</h4>
-            <h4>Rade: {workingOnTask}</h4>
-            <div className="button-line">
+        <div className="new-task-form-container task-info-container">
+            <div className="task-with-comments-container">
+                <button className="x-button" onClick={() => setShowTaskDetails(false)}>
+                    <div className="x-button-x"></div>
+                </button>
+                <h2>Detalji:</h2>
+                <h3 className="text-background">{selectedTask.naslov}</h3>
+                <h4>Autor: {author}</h4>
+                <h4>Do: {formatDate(selectedTask.rok)}</h4>
+                <h4 className="text-area text-output">{selectedTask.tekst}</h4>
+                <h4>Vrijeme kreiranja: {formatDate(selectedTask.rok)}</h4>
+                <h4>Rade: {workingOnTask}</h4>
+                <div className="button-line">
+                    {
+                        isAssignedByUser ? <button className="long-button" onClick={handleDropTaskClick}>Odjavite se</button> :
+                            <button className="long-button" onClick={handleAssignTaskClick}>Prijavite se</button>
+                    }
+                    {
+                        isKoordinator ? <button className="long-button" onClick={handleEditTaskClick}>Izmijenite zadatak</button> : <></>
+                    }
+                </div>
                 {
-                    isAssignedByUser ? <button className="long-button" onClick={handleDropTaskClick}>Odjavite se</button> :
-                        <button className="long-button" onClick={handleAssignTaskClick}>Prijavite se</button>
+                    assignTaskConfirmation ? <AssignTaskStatusChangeMessage message={"Prijavljeni ste na zadatak!"}>
+                    </AssignTaskStatusChangeMessage> : <></>
                 }
                 {
-                    isKoordinator ? <button className="long-button" onClick={handleEditTaskClick}>Izmijenite zadatak</button> : <></>
+                    dropTaskConfirmation ? <AssignTaskStatusChangeMessage message={"Odjavljeni ste sa zadatka!"}>
+                    </AssignTaskStatusChangeMessage> : <></>
                 }
             </div>
-            {
-                assignTaskConfirmation ? <AssignTaskStatusChangeMessage message={"Prijavljeni ste na zadatak!"}>
-                </AssignTaskStatusChangeMessage> : <></>
-            }
-            {
-                dropTaskConfirmation ? <AssignTaskStatusChangeMessage message={"Odjavljeni ste sa zadatka!"}>
-                </AssignTaskStatusChangeMessage> : <></>
-            }
+            <Comments></Comments>
         </div>
+
+
+
     )
 }
