@@ -66,13 +66,16 @@ button {
 }
 
 .log-list {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
   min-height: 85vh;
   max-height: 85vh;
   min-width: 90%;
   background-color: #600000;
   border-radius: 10px;
   margin: 38px;
-  justify-content: center;
+  justify-content: left;
 }
 
 .logo {
@@ -595,6 +598,7 @@ td, th {
 .table-wrapper {
   max-height: 30rem;
   overflow-y: scroll;
+  min-width: 100%;
 }
 
 thead {
@@ -603,8 +607,8 @@ thead {
   background-color: #ffd6d6;
 }
 
-tr:hover {
-  
+h2 {
+  margin-left: 1rem;
 }
 
 

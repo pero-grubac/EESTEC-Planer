@@ -68,7 +68,15 @@ function App() {
           appProps={{ isAuthenticated }} />
         <Route path="/teams/FR" element={<KanbanBoard loggedUser={loggedUser} setLoggedUser={setLoggedUser} team={7} teams={teams}></KanbanBoard>}
           appProps={{ isAuthenticated }} />
-        <Route path="/teams/logs" element={<Logs></Logs>}
+        <Route path="/teams/Design/logs" element={<Logs loggedUser={loggedUser} setLoggedUser={setLoggedUser} team={0} teams={teams}></Logs>}
+          appProps={{ isAuthenticated }} />
+        <Route path="/teams/IT/logs" element={<Logs loggedUser={loggedUser} setLoggedUser={setLoggedUser} team={1} teams={teams}></Logs>}
+          appProps={{ isAuthenticated }} />
+        <Route path="/teams/HR/logs" element={<Logs loggedUser={loggedUser} setLoggedUser={setLoggedUser} team={2} teams={teams}></Logs>}
+          appProps={{ isAuthenticated }} />
+        <Route path="/teams/PR/logs" element={<Logs loggedUser={loggedUser} setLoggedUser={setLoggedUser} team={3} teams={teams}></Logs>}
+          appProps={{ isAuthenticated }} />
+        <Route path="/teams/FR/logs" element={<Logs loggedUser={loggedUser} setLoggedUser={setLoggedUser} team={4} teams={teams}></Logs>}
           appProps={{ isAuthenticated }} />
         <Route path="/settings" element={<Settings loggedUser={loggedUser}></Settings>} />
       </Routes>

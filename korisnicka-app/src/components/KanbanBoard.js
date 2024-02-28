@@ -53,7 +53,7 @@ const getCategoriesAndTasks = async (team, navigate) => {
 function formatDateTime(isoDate) {
   const date = new Date(isoDate);
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0'); 
+  const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
   const hours = String(date.getHours()).padStart(2, '0');
   const minutes = String(date.getMinutes()).padStart(2, '0');
@@ -278,8 +278,13 @@ export default function KanbanBoard({ loggedUser, setLoggedUser, team, teams }) 
     setDeleteCategoryConfirmation(true);
   };
 
+  const handleLogsClick = () => {
+    navigate("./logs", { replace: true });
+  };
+
   return (
     <div key={new Date().getTime()} style={{ display: "flex", justifyContent: "center", height: "100%" }}>
+
       <div className="team-title-container">
         <h1>{teams.find(obj => { return obj.idTim === team }).naziv}</h1>
       </div>
@@ -377,8 +382,8 @@ export default function KanbanBoard({ loggedUser, setLoggedUser, team, teams }) 
                                         <p className="task-countdown">
                                           <div className="countdown-icon"></div>
                                           {
-                                            item.rok ? 
-                                            getTimeRemaining(item.rok) : "--d --h"
+                                            item.rok ?
+                                              getTimeRemaining(item.rok) : "--d --h"
                                           }
                                         </p>
                                       </div>
@@ -423,7 +428,27 @@ export default function KanbanBoard({ loggedUser, setLoggedUser, team, teams }) 
         </div>
       </DragDropContext>
 
+
+
       <div className="menu-buttons">
+        {
+          (isKoordinator || isClanOdbora) ?
+            <button
+              className="logout-button stats-button"
+              onClick={handleLogsClick}
+            >
+              <div className="stats-button-icon"></div>
+            </button> : <></>
+        }
+        {
+          (isKoordinator || isClanOdbora) ?
+            <button
+              className="logout-button logs-button"
+              onClick={handleLogsClick}
+            >
+              <div className="logs-button-icon"></div>
+            </button> : <></>
+        }
         <button
           className="logout-button back-button"
           onClick={handleTeamViewClick}
