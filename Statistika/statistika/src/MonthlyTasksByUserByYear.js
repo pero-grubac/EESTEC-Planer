@@ -76,7 +76,7 @@ const responsee = [
 ];
 */
 
-const getData = async (godina) => {
+const getData = async (godina,token) => {
   try {
     const response = await axios.get(
       `http://localhost:8080/stats/taskbymonth/${godina}`, // Use template literals to insert the variable
@@ -84,8 +84,7 @@ const getData = async (godina) => {
         headers: {
           "Content-Type": "application/json",
           Authorization:
-            "Bearer " +
-            "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVrc2FuZHJhIiwiaWF0IjoxNzA5MjE0MDg0LCJleHAiOjE3MDkyMTU4ODR9.kQGlCyjxyZMR1zhMedzMYaVYOR8qMXepLkHqvgEA_m0",
+          `Bearer ${token}`,
         },
       }
     );

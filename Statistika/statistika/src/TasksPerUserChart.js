@@ -11,20 +11,19 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const CustomBarChart = () => {
+const CustomBarChart = ({ token }) => {
+  // Accept token as a prop
   const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/stats/taksperuser`,
+          "http://localhost:8080/stats/taksperuser",
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization:
-                "Bearer " +
-                "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVrc2FuZHJhIiwiaWF0IjoxNzA5MjE0MDg0LCJleHAiOjE3MDkyMTU4ODR9.kQGlCyjxyZMR1zhMedzMYaVYOR8qMXepLkHqvgEA_m0",
+              Authorization: `Bearer ${token}`, // Use the token prop
             },
           }
         );
@@ -33,7 +32,7 @@ const CustomBarChart = () => {
           username: item.first.korisnickoIme,
           name: item.first.ime,
           lastName: item.first.prezime,
-          Zadaci: item.second,
+          "Broj zadataka": item.second,
           id: index,
         }));
         setData(transformedData);
@@ -43,8 +42,7 @@ const CustomBarChart = () => {
     };
 
     fetchData();
-  }, []);
-
+  }, [token]);
   return (
     <div>
       <h2>BROJ ZADATAKA PO KORISNIKU</h2>
@@ -58,7 +56,8 @@ const CustomBarChart = () => {
             right: 30,
             left: 20,
             bottom: 5,
-          }}>
+          }}
+        >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="username" />
           <YAxis />
@@ -68,7 +67,7 @@ const CustomBarChart = () => {
                 return (
                   <div className="custom-tooltip">
                     <p className="label">{` ${payload[0].payload.name} ${payload[0].payload.lastName}`}</p>
-                    <p className="desc">{`Broj zadataka: ${payload[0].payload.Zadaci}`}</p>
+                    <p className="desc">{`Broj zadataka: ${payload[0].payload["Broj zadataka"]}`}</p>
                   </div>
                 );
               }
@@ -76,7 +75,7 @@ const CustomBarChart = () => {
             }}
           />
           <Legend />
-          <Bar dataKey="Zadaci" barSize={20} fill="#8884d8" />
+          <Bar dataKey="Broj zadataka" barSize={20} fill="#8884d8" />
         </BarChart>
       </ResponsiveContainer>
     </div>

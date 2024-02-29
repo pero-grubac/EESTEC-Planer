@@ -81,16 +81,13 @@ public class StatistikaServiceImpl implements StatistikaService {
 
     @Override
     public List<Triple<Optional<TimDTO>, Integer, Long>> mjesecniBrojZadatakaPoTimu(Integer year) {
-        String query = "SELECT t.IdTim as IdTim, MONTH(z.DatumArhiviranja) AS month,COUNT(*) as broj_zadataka \n" +
+        String query ="SELECT t.IdTim as IdTim, MONTH(z.DatumArhiviranja) AS month,COUNT(*) as broj_zadataka \n" +
                 "FROM tim t \n" +
-                "JOIN korisnik_pripada_timu kpt on t.IdTim=kpt.Tim_IdTim \n" +
-                "JOIN korisnik k on kpt.Korisnik_IdKorisnika=k.IdKorisnika \n" +
-                "JOIN korisnik_radi_zadatak krz on k.IdKorisnika=krz.Korisnik_IdKorisnika \n" +
-                "JOIN zadatak z on krz.Zadatak_IdZadatak=z.IdZadatak \n" +
-                "JOIN kategorija kat on  z.IdKategorija=kat.IdKategorija \n" +
-                "WHERE z.Arhiviran = 1 and kat.IdTim=t.IdTim and YEAR(z.DatumArhiviranja)= ?\n" +
-                "GROUP BY t.IdTim, MONTH(z.DatumArhiviranja) \n" +
-                "ORDER BY  month DESC,t.IdTim;";
+                " JOIN kategorija kat on  t.IdTim=kat.IdTim \n" +
+                " JOIN zadatak z on z.IdKategorija = kat.IdKategorija\n" +
+                "   WHERE z.Arhiviran = 1   and YEAR(z.DatumArhiviranja)= ? \n" +
+                "    GROUP BY t.IdTim, MONTH(z.DatumArhiviranja) \n" +
+                "                ORDER BY  month DESC,t.IdTim;";
         List<Triple<Optional<TimDTO>, Integer, Long>> resultList = new ArrayList<>();
         List<Map<String, Object>> results = jdbcTemplate.queryForList(query, year);
         for (Map<String, Object> row : results) {
@@ -112,7 +109,7 @@ public class StatistikaServiceImpl implements StatistikaService {
                 "JOIN zadatak z on z.IdZadatak=krz.Zadatak_IdZadatak \n" +
                 "WHERE z.Arhiviran = 1 and k.IdKorisnika=? and YEAR(z.DatumArhiviranja) = ? \n" +
                 "GROUP BY MONTH(z.DatumArhiviranja) \n" +
-                "ORDER BY  month DESC;";
+                "ORDER BY  month ASC;";
         List<Map<String, Object>> results = jdbcTemplate.queryForList(query,idKorisnika,godina);
         List<Pair<Integer, Integer>> resultList = new ArrayList<>();
         for (Map<String, Object> row : results) {
@@ -144,4 +141,5 @@ public class StatistikaServiceImpl implements StatistikaService {
         }
         return resultList;
     }
+
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid } from "recharts";
-import getData from "./MonthlyTasksByUserByYear";
+import axios from "axios";
 
 const colors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "red", "pink"];
 const getPath = (x, y, width, height) => {
@@ -18,23 +18,59 @@ const TriangleBar = (props) => {
 
   return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
 };
-const MonthlyTasksByUserByYearChart = ({ godina, token }) => {
+const TasksPerUserInTeamChart = ({ godina, id, token }) => {
   const [mappedData, setMappedData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getData(godina, token);
-        setMappedData(data);
+        const response = await axios.get(
+          `http://localhost:8080/stats/taskbymonthinteam/${id}/${godina}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const responsedata = response.data.map((item) => ({
+          mjesec: item.second,
+          list: [
+            {
+              korisnickoIme: item.first.korisnickoIme,
+              brojZadataka: item.third,
+            },
+          ],
+        }));
+       
+        setMappedData(responsedata);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, [godina]);
-
-  // Group the data by month (mjesec)
+  }, [id, godina, token]);
+ 
+  const countTasksByMonth = (data) => {
+    const monthlyCounts = {};
+    
+    // Iterate through each data item
+    data.forEach((item) => {
+      const month = item.second; // Extract the month from the data
+      const taskCount = item.third; // Extract the number of tasks
+      if (!monthlyCounts[month]) {
+        // If the month doesn't exist in the counts, initialize it to zero
+        monthlyCounts[month] = 0;
+      }
+      // Increment the task count for the corresponding month
+      monthlyCounts[month] += taskCount;
+    });
+    
+    return monthlyCounts;
+  };
+  console.log(countTasksByMonth(mappedData));
+  
   const dataByMonth = mappedData.reduce((acc, item) => {
     if (!acc[item.mjesec]) {
       acc[item.mjesec] = [];
@@ -42,6 +78,7 @@ const MonthlyTasksByUserByYearChart = ({ godina, token }) => {
     acc[item.mjesec].push(item);
     return acc;
   }, {});
+
   const monthNames = [
     "January",
     "February",
@@ -56,8 +93,8 @@ const MonthlyTasksByUserByYearChart = ({ godina, token }) => {
     "November",
     "December",
   ];
+ 
 
-  // Render a BarChart for each month's data
   const charts = Object.entries(dataByMonth).map(([month, data]) => (
     <div key={month} style={{ marginRight: 20 }}>
       <h3>Mjesec: {monthNames[month - 1]}</h3>
@@ -91,10 +128,10 @@ const MonthlyTasksByUserByYearChart = ({ godina, token }) => {
 
   return (
     <div>
-      <h2>MJESECNI BROJ ZADATAKA PO KORISNIKU U GODINI: {godina}</h2>
+      <h2>MJESECNI BROJ ZADATAKA PO KORISNIKU U TIMU U GODINI: {godina}</h2>
       <div style={{ display: "flex" }}>{charts}</div>
     </div>
   );
 };
 
-export default MonthlyTasksByUserByYearChart;
+export default TasksPerUserInTeamChart;
