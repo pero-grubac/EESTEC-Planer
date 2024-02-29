@@ -48,7 +48,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers( "/admins/login","/user/login").permitAll()
                             .requestMatchers("/question/add").permitAll()
-                            .requestMatchers( "/admins/**","/user/**", "/superuser/**", "/question/**", "/clanodbora/**", "/team/**","/zadatak/**","/category/**","/koordinator/**","/stats/**").authenticated();
+                            .requestMatchers( "/admins/**","/user/**", "/superuser/**", "/question/**", "/clanodbora/**", "/team/**","/zadatak/**","/category/**","/koordinator/**","/stats/**","/comments/**").authenticated();
 
 
                 })

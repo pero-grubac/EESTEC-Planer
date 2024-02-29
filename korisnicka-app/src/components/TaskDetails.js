@@ -122,7 +122,7 @@ export default function TaskDetails({ loggedUser, selectedTask, users, setShowTa
                     </AssignTaskStatusChangeMessage> : <></>
                 }
             </div>
-            <Comments></Comments>
+            <Comments loggedUser={loggedUser} task={selectedTask}></Comments>
         </div>
 
 
