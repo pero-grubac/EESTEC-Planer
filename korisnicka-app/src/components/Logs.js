@@ -1,194 +1,57 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {formatDateTime} from '../utils/formatDateTime';
+import { formatDateTime } from '../utils/formatDateTime';
 
-export const Logs = ({ loggedUser, isKoordinator, isClanOdbora, setLoggedUser, team, teams }) => {
-  //const [logs, setLogs] = useState([]);
+export const Logs = ({ loggedUser, setLoggedUser, team, teams }) => {
+  const [logs, setLogs] = useState([]);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
 
-  var logs = [
-    {
-      idLog: 1,
-      idTable: 1,
-      datum: 1203127,
-      subjekat: "aaa",
-      poruka: { tekstPoruke: "aaaaaaa" }
-    },
-    {
-      idLog: 2,
-      idTable: 2,
-      datum: 1203127,
-      subjekat: "bbb",
-      poruka: { tekstPoruke: "bbbbbbb" }
-    },
-    {
-      idLog: 3,
-      idTable: 3,
-      datum: 1203127,
-      subjekat: "ccc",
-      poruka: { tekstPoruke: "ccccccc" }
-    },
-    {
-      idLog: 4,
-      idTable: 4,
-      datum: 1203127,
-      subjekat: "aaa",
-      poruka: { tekstPoruke: "aaaaaaa" }
-    },
-    {
-      idLog: 5,
-      idTable: 5,
-      datum: 1203127,
-      subjekat: "bbb",
-      poruka: { tekstPoruke: "bbbbbbb" }
-    },
-    {
-      idLog: 6,
-      idTable: 6,
-      datum: 1203127,
-      subjekat: "ccc",
-      poruka: { tekstPoruke: "ccccccc" }
-    },
-    {
-      idLog: 7,
-      idTable: 7,
-      datum: 1203127,
-      subjekat: "aaa",
-      poruka: { tekstPoruke: "aaaaaaa" }
-    },
-    {
-      idLog: 8,
-      idTable: 8,
-      datum: 1203127,
-      subjekat: "bbb",
-      poruka: { tekstPoruke: "bbbbbbb" }
-    },
-    {
-      idLog: 9,
-      idTable: 9,
-      datum: 1203127,
-      subjekat: "ccc",
-      poruka: { tekstPoruke: "ccccccc" }
-    },
-    {
-      idLog: 10,
-      idTable: 10,
-      datum: 1203127,
-      subjekat: "aaa",
-      poruka: { tekstPoruke: "aaaaaaa" }
-    },
-    {
-      idLog: 21,
-      idTable: 21,
-      datum: 1203127,
-      subjekat: "bbb",
-      poruka: { tekstPoruke: "bbbbbbb" }
-    },
-    {
-      idLog: 31,
-      idTable: 31,
-      datum: 1203127,
-      subjekat: "ccc",
-      poruka: { tekstPoruke: "ccccccc" }
-    },
-    {
-      idLog: 11,
-      idTable: 11,
-      datum: 1203127,
-      subjekat: "aaa",
-      poruka: { tekstPoruke: "aaaaaaa" }
-    },
-    {
-      idLog: 26,
-      idTable: 26,
-      datum: 1203127,
-      subjekat: "bbb",
-      poruka: { tekstPoruke: "bbbbbbb" }
-    },
-    {
-      idLog: 36,
-      idTable: 36,
-      datum: 1203127,
-      subjekat: "ccc",
-      poruka: { tekstPoruke: "ccccccc" }
-    },
-    {
-      idLog: 16,
-      idTable: 16,
-      datum: 1203127,
-      subjekat: "aaa",
-      poruka: { tekstPoruke: "aaaaaaa" }
-    },
-    {
-      idLog: 28,
-      idTable: 28,
-      datum: 1203127,
-      subjekat: "bbb",
-      poruka: { tekstPoruke: "bbbbbbb" }
-    },
-    {
-      idLog: 38,
-      idTable: 38,
-      datum: 1203127,
-      subjekat: "ccc",
-      poruka: { tekstPoruke: "ccccccc" }
-    },
-    {
-      idLog: 18,
-      idTable: 18,
-      datum: 1203127,
-      subjekat: "aaa",
-      poruka: { tekstPoruke: "aaaaaaa" }
-    },
-    {
-      idLog: 29,
-      idTable: 29,
-      datum: 1203127,
-      subjekat: "bbb",
-      poruka: { tekstPoruke: "bbbbbbb" }
-    },
-    {
-      idLog: 39,
-      idTable: 39,
-      datum: 1203127,
-      subjekat: "ccc",
-      poruka: { tekstPoruke: "ccccccc" }
-    },
-
-  ]
-
   const handleBoardViewClick = () => {
     navigate("../", { replace: true });
   }
-  
+
   useEffect(() => {
-    //fetchLogs();
+    fetchLogs();
   }, []);
 
-  //   const fetchLogs = async () => {
-  //     try {
+  const fetchLogs = async () => {
+    try {
 
-  //       const response = await axios.get("http://localhost:8080/question/all", {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: "Bearer " + localStorage.getItem("token"),
-  //         },
-  //       });
+      var response;
 
-  //       if(response.status === 403){
-  //         localStorage.clear();
-  //         switchTab("login");
-  //       }
+      if (loggedUser.uloga === "Clan odbora") {
+        response = await axios.get("http://localhost:8080/clanodbora/logs", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+      }
 
-  //       let counter = 1;
-  //       setLogs((response.data).map(request => ({...request, idTable: counter++})));
-  //     } catch (error) {
-  //       console.error("Error fetching requests:", error);
-  //     }
-  //   };
+      else {
+        response = await axios.get("http://localhost:8080/koordinator/logs", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+      }
+
+      if (response.status === 403) {
+        localStorage.clear();
+        navigate("/", { replace: true });
+      }
+
+      let counter = 1;
+      setLogs((response.data).map(log => ({ ...log, idTable: counter++ })));
+      
+    } catch (error) {
+      console.error("Error fetching requests:", error);
+    }
+  };
 
   return (
     <div className="log-list">
@@ -214,9 +77,9 @@ export const Logs = ({ loggedUser, isKoordinator, isClanOdbora, setLoggedUser, t
               .filter((log) => {
                 return search.toLowerCase() === ""
                   ? log
-                  : log.datum.toString().toLowerCase().includes(search) ||
+                  : formatDateTime(log.datum).toString().toLowerCase().includes(search) ||
                   log.subjekat.toLowerCase().includes(search) ||
-                  log.poruka.tekstPoruke.toLowerCase().includes(search);
+                  log.tekstPoruke.toLowerCase().includes(search);
               })
               .map((log) => (
                 <tr
@@ -226,7 +89,7 @@ export const Logs = ({ loggedUser, isKoordinator, isClanOdbora, setLoggedUser, t
                   <th>{log.idTable}</th>
                   <td>{formatDateTime(log.datum)}</td>
                   <td>{log.subjekat}</td>
-                  <td>{log.poruka.tekstPoruke}</td>
+                  <td>{log.tekstPoruke}</td>
                 </tr>
               ))}
           </tbody>
@@ -236,7 +99,7 @@ export const Logs = ({ loggedUser, isKoordinator, isClanOdbora, setLoggedUser, t
       <div className="menu-buttons">
         <button
           className="logout-button logs-button"
-          onClick={() => navigate('../teams/' + teams[team].naziv , { replace: true })}
+          onClick={() => navigate('../teams/' + teams[team].naziv, { replace: true })}
         >
           <div className="logs-button-icon"></div>
         </button>

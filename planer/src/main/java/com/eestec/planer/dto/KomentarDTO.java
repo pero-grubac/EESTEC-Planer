@@ -15,12 +15,12 @@ public class KomentarDTO {
     @Column(name = "IdZadatak")
     private Integer idZadatak;
 
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name = "IdKorisnik")
     private KorisnikDTO korisnik;
 
-    private String korisnickoIme;
+
     @Column(name = "Datum")
     private LocalDateTime datum;
     @Column(name = "Tekst")
@@ -31,7 +31,6 @@ public class KomentarDTO {
     public KomentarDTO(Integer idZadatak, KorisnikDTO korisnik, LocalDateTime datum, String tekst) {
         this.idZadatak = idZadatak;
         this.korisnik = korisnik;
-        this.korisnickoIme = korisnik.getKorisnickoIme();
         this.datum = datum;
         this.tekst = tekst;
     }
@@ -80,11 +79,5 @@ public class KomentarDTO {
         this.tekst = tekst;
     }
 
-    public String getKorisnickoIme() {
-        return korisnickoIme;
-    }
 
-    public void setKorisnickoIme(String korisnickoIme) {
-        this.korisnickoIme = korisnickoIme;
-    }
 }
