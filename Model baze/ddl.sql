@@ -263,7 +263,7 @@ CREATE TABLE `korisnik_radi_zadatak` (
 
 LOCK TABLES `korisnik_radi_zadatak` WRITE;
 /*!40000 ALTER TABLE `korisnik_radi_zadatak` DISABLE KEYS */;
-INSERT INTO `korisnik_radi_zadatak` VALUES (41,30),(43,30),(41,31);
+INSERT INTO `korisnik_radi_zadatak` VALUES (41,30),(43,30),(41,31),(40,32),(41,32),(42,32),(43,32);
 /*!40000 ALTER TABLE `korisnik_radi_zadatak` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -282,7 +282,7 @@ CREATE TABLE `log` (
   PRIMARY KEY (`IdLog`),
   KEY `fk_logovi_has_poruka_loga_idx` (`IdPoruka`),
   CONSTRAINT `fk_logovi_has_poruka_loga` FOREIGN KEY (`IdPoruka`) REFERENCES `poruka_loga` (`IdPoruke`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -291,7 +291,7 @@ CREATE TABLE `log` (
 
 LOCK TABLES `log` WRITE;
 /*!40000 ALTER TABLE `log` DISABLE KEYS */;
-INSERT INTO `log` VALUES (4,'2024-02-23 14:50:29',12,'aleksandra'),(5,'2024-02-24 16:33:15',12,'aleksandra');
+INSERT INTO `log` VALUES (4,'2024-02-23 14:50:29',12,'aleksandra'),(5,'2024-02-24 16:33:15',12,'aleksandra'),(6,'2024-02-28 18:21:03',12,'aleksandra'),(7,'2024-02-28 18:22:42',12,'admin'),(8,'2024-02-28 18:26:08',12,'admin'),(9,'2024-02-28 18:27:10',12,'aleksandra'),(10,'2024-02-28 18:31:50',12,'aleksandra'),(11,'2024-02-28 19:59:27',12,'aleksandra'),(12,'2024-02-28 20:04:02',12,'admin'),(13,'2024-02-28 20:52:43',12,'aleksandra'),(14,'2024-02-28 21:24:03',12,'aleksandra'),(15,'2024-02-28 22:00:27',12,'aleksandra');
 /*!40000 ALTER TABLE `log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -444,7 +444,7 @@ CREATE TABLE `zadatak` (
 
 LOCK TABLES `zadatak` WRITE;
 /*!40000 ALTER TABLE `zadatak` DISABLE KEYS */;
-INSERT INTO `zadatak` VALUES (29,'Oko logotipa treba da postoji razmak širine slova \"e\" u logotipu.\n\nPropisano dokumentom Brand Policy Paper - January 2021.',53,NULL,41,'2023-09-25 16:03:18','Paziti na razmak oko logotipa!','2023-09-25',0),(30,'Kreirati poster dimenzija A3 za događaj ______.\n\nPoštovati BPP!\n\nPošto je za štampanje, raditi u CMYK color mode-u. ',2,'2023-10-06 16:06:00',41,'2023-09-25 16:06:55','Kreirati poster za događaj','2024-10-25',1),(31,'Napraviti u Canvi okvir za slike za predstojeći događaj gdje će PR tim kasnije moći da dodaje slike. \n\nPoštovati BPP. \n\nKad bude gotovo, uploadovati na Google Drive PR tima.',3,'2023-10-08 16:09:00',41,'2023-09-25 16:09:48','Napraviti okvir za slike za događaj','2023-09-25',1),(32,'Potrebno napraviti objavu za drustvene mreze za najavu predavanja. \n\nPotrebno da bude u 3 dimenzije: Instagram story. Instagram objava, Facebook cover image.',2,'2023-09-30 16:13:00',41,'2023-09-25 16:14:57','Dizajnirati objavu za najavu predavanja',NULL,0),(33,'Navesti osnovne informacije: mjesto, vrijeme i datum odrzavanja. \nNapisati ko je predavac, i par recenica o predavacu. \nNapisati koja je tema.\nKoristiti dosta emotikona.\nIzmjena',10,'2024-06-05 18:23:00',40,'2023-09-25 16:24:12','Napisati opis za objavu u najavi dogadjaja',NULL,0),(35,'Čestitaj Stefanu rođendan.',10,'2024-02-23 09:45:00',40,'2023-12-17 21:45:52','Rođendan',NULL,0);
+INSERT INTO `zadatak` VALUES (29,'Oko logotipa treba da postoji razmak širine slova \"e\" u logotipu.\n\nPropisano dokumentom Brand Policy Paper - January 2021.',53,NULL,41,'2023-09-25 16:03:18','Paziti na razmak oko logotipa!','2023-09-25',0),(30,'Kreirati poster dimenzija A3 za događaj ______.\n\nPoštovati BPP!\n\nPošto je za štampanje, raditi u CMYK color mode-u. ',2,'2023-10-06 16:06:00',41,'2023-09-25 16:06:55','Kreirati poster za događaj','2024-10-25',1),(31,'Napraviti u Canvi okvir za slike za predstojeći događaj gdje će PR tim kasnije moći da dodaje slike. \n\nPoštovati BPP. \n\nKad bude gotovo, uploadovati na Google Drive PR tima.',3,'2023-10-08 16:09:00',41,'2023-09-25 16:09:48','Napraviti okvir za slike za događaj','2023-09-25',1),(32,'Potrebno napraviti objavu za drustvene mreze za najavu predavanja. \n\nPotrebno da bude u 3 dimenzije: Instagram story. Instagram objava, Facebook cover image.',2,'2023-09-30 16:13:00',41,'2023-09-25 16:14:57','Dizajnirati objavu za najavu predavanja','2024-09-25',1),(33,'Navesti osnovne informacije: mjesto, vrijeme i datum odrzavanja. \nNapisati ko je predavac, i par recenica o predavacu. \nNapisati koja je tema.\nKoristiti dosta emotikona.\nIzmjena',10,'2024-06-05 18:23:00',40,'2023-09-25 16:24:12','Napisati opis za objavu u najavi dogadjaja',NULL,0),(35,'Čestitaj Stefanu rođendan.',10,'2024-02-23 09:45:00',40,'2023-12-17 21:45:52','Rođendan',NULL,0);
 /*!40000 ALTER TABLE `zadatak` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -579,4 +579,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-27 19:21:24
+-- Dump completed on 2024-02-29  7:28:27
