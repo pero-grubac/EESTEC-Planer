@@ -1,13 +1,21 @@
 import React from "react";
-import MonthyTasksByUserByYearChart from "./MonthyTasksByUserByYearChart";
+import MonthlyTasksByTeamByYearChart from "./MonthlyTasksByTeamByYearChart";
+/*
+import MonthlyTasksByUserByYearChart from "./MonthlyTasksByUserByYearChart";
+import CustomBarChart from "./TasksPerUserChart";
 const godina = 2024;
-
+ <div>
+        <MonthlyTasksByUserByYearChart godina={godina} />
+      </div>
+      <div>
+        <CustomBarChart />
+      </div>
+      */
+     const godina = 2024;
 function App() {
   return (
     <div>
-      <div>
-        <MonthyTasksByUserByYearChart godina={godina} />
-      </div>
+     <MonthlyTasksByTeamByYearChart godina={godina}/>
     </div>
   );
 }

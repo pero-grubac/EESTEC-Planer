@@ -16,7 +16,7 @@ public class StatistikaController {
 
     @GetMapping("/taskbymonth/{year}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
-    public ResponseEntity<?> getMonthyTasksByUserByYear(@PathVariable Integer year) {
+    public ResponseEntity<?> getMonthlyTasksByUserByYear(@PathVariable Integer year) {
         return ResponseEntity.ok(statistikaService.mjesecniBrojZadatakaPoKorisniku(year));
     }
 
@@ -34,7 +34,7 @@ public class StatistikaController {
 
     @GetMapping("/taskbymonthbyteam/{year}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') || hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
-    public ResponseEntity<?> getMonthyTasksByTeamByYear(@PathVariable Integer year) {
+    public ResponseEntity<?> getMonthlyTasksByTeamByYear(@PathVariable Integer year) {
         return ResponseEntity.ok(statistikaService.mjesecniBrojZadatakaPoTimu(year));
     }
 

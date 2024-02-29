@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid } from "recharts";
-import getData from "./MonthyTasksByUserByYear";
+import getData from "./MonthlyTasksByUserByYear";
 
 const colors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "red", "pink"];
 const getPath = (x, y, width, height) => {
@@ -18,7 +18,7 @@ const getPath = (x, y, width, height) => {
   
     return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
   };
-const MonthyTasksByUserByYearChart = ({ godina }) => {
+const MonthlyTasksByUserByYearChart = ({ godina }) => {
   const [mappedData, setMappedData] = useState([]);
 
   useEffect(() => {
@@ -83,4 +83,4 @@ const MonthyTasksByUserByYearChart = ({ godina }) => {
   );
 };
 
-export default MonthyTasksByUserByYearChart;
+export default MonthlyTasksByUserByYearChart;
