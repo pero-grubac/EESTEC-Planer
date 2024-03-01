@@ -3,6 +3,7 @@ package com.eestec.planer.controller;
 
 import com.eestec.planer.dto.PorukaLoga;
 import com.eestec.planer.dto.ZahtjevDTO;
+import com.eestec.planer.service.EmailService;
 import com.eestec.planer.service.LogService;
 import com.eestec.planer.service.ZahtjevService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ public class ZahtjevController {
     ZahtjevService zahtjevService;
     @Autowired
     LogService logService;
+    @Autowired
+    private EmailService emailService;
     private final Logger logger = LoggerFactory.getLogger(ZahtjevController.class);
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -62,6 +65,7 @@ public class ZahtjevController {
     public ResponseEntity<String> approveRequest(@PathVariable int id) {
         ZahtjevDTO zahtjev = zahtjevService.odobriZahtjev(id);
         if (zahtjev != null) {
+            emailService.email(zahtjev.getEmail(),zahtjev.getKorisnickoIme(), "EESTEC Planer", "Dobrodošli u EESTEC Planer");
             logService.create(PorukaLoga.USPJESNO_REGISTROVAN_NALOG_POTVRDJEN_OD_REGISTRACIJE.getValue(),zahtjev.getKorisnickoIme());
             return ResponseEntity.ok("Zahtjev s ID-om " + id + " je odobren.");
         }

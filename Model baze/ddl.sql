@@ -164,7 +164,7 @@ CREATE TABLE `korisnik` (
   PRIMARY KEY (`IdKorisnika`),
   UNIQUE KEY `KorisnickoIme_UNIQUE` (`KorisnickoIme`),
   UNIQUE KEY `Email_UNIQUE` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -173,7 +173,7 @@ CREATE TABLE `korisnik` (
 
 LOCK TABLES `korisnik` WRITE;
 /*!40000 ALTER TABLE `korisnik` DISABLE KEYS */;
-INSERT INTO `korisnik` VALUES ('Sofija','Rodić','sofija','$2a$10$LqQvVfwdMpbQNVH7cMeJ/etF5x1ArP1.kcs8MVJ1BvRtpzn7CoQJu','sofija.rodic@student.etf.unibl.org',40,0),('Aleksandra','Stanković','aleksandra','$2a$10$oq1b87SgSdlE8usyDlfsx.nGQda4fWE9hZHRyhznuL2N8S.tISFLG','aleksandra.stankovic@student.etf.unibl.org',41,0),('Mirko','Topić','mirko','$2a$10$bk20aV3hpt0tdHmZ6rzqHuz9lfV9mxDoJoGy.vtcp1y.3PGxphmdG','mirko.topic@student.etf.unibl.org',42,0),('Pero','Grubač','pero','$2a$10$0YsD8KyR3pyLq.XPW8TALeZFJD.mJPaX2vFJZE6SxJMicvhtKaEz2','pero.grubac@student.etf.unibl.org',43,0),('Marko','Marković','marko','$2a$10$YTUuVfO/qCz3B0SmGLa/v.USV9Ab.st8l16GFkLN5j7STpZNZV4E.','marko.markovic@gmail.com',44,0);
+INSERT INTO `korisnik` VALUES ('Sofija','Rodić','sofija','$2a$10$LqQvVfwdMpbQNVH7cMeJ/etF5x1ArP1.kcs8MVJ1BvRtpzn7CoQJu','sofija.rodic@student.etf.unibl.org',40,0),('Aleksandra','Stanković','aleksandra','$2a$10$oq1b87SgSdlE8usyDlfsx.nGQda4fWE9hZHRyhznuL2N8S.tISFLG','aleksandra.stankovic@student.etf.unibl.org',41,0),('Mirko','Topić','mirko','$2a$10$bk20aV3hpt0tdHmZ6rzqHuz9lfV9mxDoJoGy.vtcp1y.3PGxphmdG','mirko.topic@student.etf.unibl.org',42,0),('Pero','Grubač','pero','$2a$10$0YsD8KyR3pyLq.XPW8TALeZFJD.mJPaX2vFJZE6SxJMicvhtKaEz2','pero.grubac@student.etf.unibl.org',43,0),('Marko','Marković','marko','$2a$10$YTUuVfO/qCz3B0SmGLa/v.USV9Ab.st8l16GFkLN5j7STpZNZV4E.','marko.markovic@gmail.com',44,0),('Jovan','Jovanic','jovan','$2a$10$gKV19kPe2vHG26mf4JqnBOge1cthoUqrRY4YtHlch7PgOL7LNedHG','jovan.jovanic@gmail.com',45,0),('mihailo','vasic','mihailo','$2a$10$HBTRlx3CcDu4JTf48bRB.esEirJjpZ2ROicReLNdIVq3mrUByRbtS','vacic@gmail.com',46,0),('aleksandar','drljaca','aleksandar','$2a$10$yTUPp92d76N4mv18w7T17eLbzmXkWbImFiLas9oVSEA.7g884yhx6','aleksandar@gmail.com',47,0),('stefan','milakovic','stefan','$2a$10$Y2eVyZ8I0Q8nS5h.Hgalv.cTHq5I52LhNT5uA2tTvEWFZ5GpGQin.','stefan@gmail.com',48,0),('bojan','ramic','bojan','$2a$10$5clWRwKh.KsrSOasHVC3heGMvgsODzwIOSlyUfTWS4tYNlGXtAzs.','bojan@gmail.com',49,0),('milenko','miljenovic','milenko','$2a$10$lB3N.CVJO6aJ30dz64AVG.W2HCSMH4EES70U7pc0LfusLmXr5a2om','milenko@gmail.com',50,0);
 /*!40000 ALTER TABLE `korisnik` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -248,7 +248,7 @@ CREATE TABLE `log` (
   PRIMARY KEY (`IdLog`),
   KEY `fk_logovi_has_poruka_loga_idx` (`IdPoruka`),
   CONSTRAINT `fk_logovi_has_poruka_loga` FOREIGN KEY (`IdPoruka`) REFERENCES `poruka_loga` (`IdPoruke`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -257,7 +257,7 @@ CREATE TABLE `log` (
 
 LOCK TABLES `log` WRITE;
 /*!40000 ALTER TABLE `log` DISABLE KEYS */;
-INSERT INTO `log` VALUES (4,'2024-02-23 14:50:29',12,'aleksandra'),(5,'2024-02-24 16:33:15',12,'aleksandra'),(6,'2024-02-28 18:21:03',12,'aleksandra'),(7,'2024-02-28 18:22:42',12,'admin'),(8,'2024-02-28 18:26:08',12,'admin'),(9,'2024-02-28 18:27:10',12,'aleksandra'),(10,'2024-02-28 18:31:50',12,'aleksandra'),(11,'2024-02-28 19:59:27',12,'aleksandra'),(12,'2024-02-28 20:04:02',12,'admin'),(13,'2024-02-28 20:52:43',12,'aleksandra'),(14,'2024-02-28 21:24:03',12,'aleksandra'),(15,'2024-02-28 22:00:27',12,'aleksandra'),(16,'2024-02-29 16:13:58',12,'aleksandra'),(17,'2024-02-29 16:51:04',12,'aleksandra'),(18,'2024-02-29 17:28:11',12,'aleksandra'),(19,'2024-02-29 18:07:11',12,'aleksandra'),(20,'2024-02-29 18:40:46',12,'aleksandra'),(21,'2024-02-29 19:10:45',12,'aleksandra'),(22,'2024-02-29 19:22:24',12,'aleksandra'),(23,'2024-02-29 19:41:02',12,'aleksandra'),(24,'2024-02-29 20:55:37',12,'aleksandra'),(25,'2024-02-29 20:58:01',12,'aleksandra'),(26,'2024-02-29 21:33:23',12,'aleksandra'),(27,'2024-02-29 22:04:15',12,'aleksandra'),(28,'2024-02-29 22:07:56',11,'aleksandra'),(29,'2024-02-29 22:16:44',12,'aleksandra'),(30,'2024-02-29 22:49:58',12,'aleksandra'),(31,'2024-02-29 23:21:05',12,'aleksandra');
+INSERT INTO `log` VALUES (4,'2024-02-23 14:50:29',12,'aleksandra'),(5,'2024-02-24 16:33:15',12,'aleksandra'),(6,'2024-02-28 18:21:03',12,'aleksandra'),(7,'2024-02-28 18:22:42',12,'admin'),(8,'2024-02-28 18:26:08',12,'admin'),(9,'2024-02-28 18:27:10',12,'aleksandra'),(10,'2024-02-28 18:31:50',12,'aleksandra'),(11,'2024-02-28 19:59:27',12,'aleksandra'),(12,'2024-02-28 20:04:02',12,'admin'),(13,'2024-02-28 20:52:43',12,'aleksandra'),(14,'2024-02-28 21:24:03',12,'aleksandra'),(15,'2024-02-28 22:00:27',12,'aleksandra'),(16,'2024-02-29 16:13:58',12,'aleksandra'),(17,'2024-02-29 16:51:04',12,'aleksandra'),(18,'2024-02-29 17:28:11',12,'aleksandra'),(19,'2024-02-29 18:07:11',12,'aleksandra'),(20,'2024-02-29 18:40:46',12,'aleksandra'),(21,'2024-02-29 19:10:45',12,'aleksandra'),(22,'2024-02-29 19:22:24',12,'aleksandra'),(23,'2024-02-29 19:41:02',12,'aleksandra'),(24,'2024-02-29 20:55:37',12,'aleksandra'),(25,'2024-02-29 20:58:01',12,'aleksandra'),(26,'2024-02-29 21:33:23',12,'aleksandra'),(27,'2024-02-29 22:04:15',12,'aleksandra'),(28,'2024-02-29 22:07:56',11,'aleksandra'),(29,'2024-02-29 22:16:44',12,'aleksandra'),(30,'2024-02-29 22:49:58',12,'aleksandra'),(31,'2024-02-29 23:21:05',12,'aleksandra'),(32,'2024-03-01 10:49:17',1,'mihailo'),(33,'2024-03-01 10:49:41',1,'aleksandar'),(34,'2024-03-01 10:50:08',1,'stefan'),(35,'2024-03-01 10:50:54',12,'admin'),(36,'2024-03-01 10:50:58',2,'jovan'),(37,'2024-03-01 10:51:00',2,'mihailo'),(38,'2024-03-01 10:51:02',2,'aleksandar'),(39,'2024-03-01 10:51:03',2,'stefan'),(40,'2024-03-01 10:57:02',1,'bojan'),(41,'2024-03-01 10:57:29',1,'milenko'),(42,'2024-03-01 10:58:08',12,'admin'),(43,'2024-03-01 10:58:13',2,'bojan'),(44,'2024-03-01 10:58:15',2,'milenko'),(47,'2024-03-01 11:13:32',12,'admin'),(53,'2024-03-01 11:32:57',12,'admin'),(54,'2024-03-01 11:33:03',2,'a');
 /*!40000 ALTER TABLE `log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -414,7 +414,7 @@ CREATE TABLE `zahtjev` (
   PRIMARY KEY (`IdZahtjev`),
   UNIQUE KEY `KorisničkoIme_UNIQUE` (`KorisničkoIme`),
   UNIQUE KEY `Email_UNIQUE` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -423,7 +423,6 @@ CREATE TABLE `zahtjev` (
 
 LOCK TABLES `zahtjev` WRITE;
 /*!40000 ALTER TABLE `zahtjev` DISABLE KEYS */;
-INSERT INTO `zahtjev` VALUES ('jovan','Jovan','$2a$10$gKV19kPe2vHG26mf4JqnBOge1cthoUqrRY4YtHlch7PgOL7LNedHG',37,'Jovanic','2023-09-25 15:48:41','jovan.jovanic@gmail.com');
 /*!40000 ALTER TABLE `zahtjev` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -436,4 +435,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-29 23:35:17
+-- Dump completed on 2024-03-01 11:37:48
