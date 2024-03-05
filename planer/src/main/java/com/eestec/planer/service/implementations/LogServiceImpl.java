@@ -4,7 +4,10 @@ import com.eestec.planer.dao.LogDAO;
 import com.eestec.planer.dto.LogDTO;
 import com.eestec.planer.dto.LogDTOMessage;
 import com.eestec.planer.dto.PorukaLoga;
+import com.eestec.planer.dto.TimDTO;
 import com.eestec.planer.service.LogService;
+import com.eestec.planer.service.TimService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +21,8 @@ import java.util.List;
 @Transactional
 public class LogServiceImpl implements LogService {
     private final LogDAO logDAO;
-
+    @Autowired
+    private TimService timService;
     private final List<Integer> logsForAdmin = Arrays.asList(PorukaLoga.POKUSAJ_REGISTRACIJE.getValue(),
             PorukaLoga.USPJESNO_REGISTROVAN_NALOG_POTVRDJEN_OD_REGISTRACIJE.getValue(),
             PorukaLoga.EMAIL_NIJE_USPJESNO_POSLAT.getValue());
@@ -55,14 +59,14 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public List<LogDTOMessage> getLogsForKoordinator() {
-        List<LogDTO> logs = logDAO.findAllByIdPorukaIn(logsForKoordinator);
+    public List<LogDTOMessage> getLogsForKoordinator(Integer idTim) {
+        List<LogDTO> logs = logDAO.findAllByIdPorukaInAndTim(logsForKoordinator,idTim);
         return mapLogs(logs);
     }
 
     @Override
-    public List<LogDTOMessage> getLogsForKoordinatorBySubject(String subject) {
-        List<LogDTO> logs = logDAO.findAllByIdPorukaInAndSubjekat(logsForKoordinator, subject);
+    public List<LogDTOMessage> getLogsForKoordinatorBySubject(String subject, Integer idTim) {
+        List<LogDTO> logs = logDAO.findAllByIdPorukaInAndSubjekatAndTim(logsForKoordinator, subject,idTim);
         return mapLogs(logs);
     }
 
@@ -85,6 +89,10 @@ public class LogServiceImpl implements LogService {
             logWithMessage.setDatum(log.getDatum());
             logWithMessage.setIdLog((log.getIdLog()));
             logWithMessage.setSubjekat(log.getSubjekat());
+            if(log.getTim()!=null){
+                TimDTO tim = timService.getTim(log.getTim());
+                logWithMessage.setTim(tim);
+            }
             // nece ovdje nikad biti null, ali eto
             logWithMessage.setTekstPoruke(PorukaLoga.getByValue(log.getIdPoruka()).toString());
             logsWithMessage.add(logWithMessage);

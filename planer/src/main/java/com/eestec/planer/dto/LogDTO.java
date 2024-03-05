@@ -23,6 +23,8 @@ public class LogDTO {
     private int idPoruka;
     @Column(name = "Subjekat")
     private String subjekat;
+    @Column(name = "IdTIm")
+    private Integer tim;
 
     public LogDTO() {
 
@@ -59,5 +61,13 @@ public class LogDTO {
 
     public void setSubjekat(String subjekat) {
         this.subjekat = subjekat;
+    }
+
+    public Integer getTim() {
+        return tim;
+    }
+
+    public void setTim(Integer tim) {
+        this.tim = tim;
     }
 }

@@ -9,5 +9,8 @@ import java.util.List;
 public interface LogDAO extends JpaRepository<LogDTO,Integer> {
 
     List<LogDTO> findAllByIdPorukaIn(List<Integer> numbers);
+    List<LogDTO> findAllByIdPorukaInAndTim(List<Integer> numbers,Integer tim);
     List<LogDTO> findAllByIdPorukaInAndSubjekat(List<Integer> numbers, String subjekat);
+    List<LogDTO> findAllByIdPorukaInAndSubjekatAndTim(List<Integer> numbers, String subjekat,Integer tim);
+
 }

@@ -8,7 +8,7 @@ public class LogDTOMessage {
     private LocalDateTime datum;
     private String tekstPoruke;
     private String subjekat;
-
+private TimDTO tim;
 
     public Integer getIdLog() {
         return idLog;
@@ -40,5 +40,13 @@ public class LogDTOMessage {
 
     public void setSubjekat(String subjekat) {
         this.subjekat = subjekat;
+    }
+
+    public TimDTO getTim() {
+        return tim;
+    }
+
+    public void setTim(TimDTO tim) {
+        this.tim = tim;
     }
 }

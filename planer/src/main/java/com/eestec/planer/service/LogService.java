@@ -10,8 +10,8 @@ public interface LogService {
     void create(int poruka,String subjekat);
     public List<LogDTOMessage> getLogsForAdmin();
     public List<LogDTOMessage> getLogsForAdminBySubject(String subject);
-    public List<LogDTOMessage> getLogsForKoordinator();
-    public List<LogDTOMessage> getLogsForKoordinatorBySubject(String subject);
+    public List<LogDTOMessage> getLogsForKoordinator(Integer idTim);
+    public List<LogDTOMessage> getLogsForKoordinatorBySubject(String subject,Integer idTim);
     public List<LogDTOMessage> getLogsForClanOdbora();
     public List<LogDTOMessage> getLogsForClanOdboraBySubject(String subject);
 }

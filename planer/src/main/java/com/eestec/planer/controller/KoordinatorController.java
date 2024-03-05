@@ -105,15 +105,15 @@ public class KoordinatorController {
         }
     }
 
-    @GetMapping("/logs")
+    @GetMapping("/logs/{idTim}")
     @PreAuthorize("hasAuthority('Koordinator')")
-    public ResponseEntity<List<LogDTOMessage>> getLogs() {
-        return new ResponseEntity<>(logService.getLogsForKoordinator(), HttpStatus.OK);
+    public ResponseEntity<List<LogDTOMessage>> getLogs(@PathVariable Integer idTim) {
+        return new ResponseEntity<>(logService.getLogsForKoordinator(idTim), HttpStatus.OK);
     }
 
-    @GetMapping("/logs/{subject}")
+    @GetMapping("/logs/{subject}/{idTim}")
     @PreAuthorize("hasAuthority('Koordinator')")
-    public ResponseEntity<List<LogDTOMessage>> getLogsBySubject(@PathVariable String subject) {
-        return new ResponseEntity<>(logService.getLogsForKoordinatorBySubject(subject), HttpStatus.OK);
+    public ResponseEntity<List<LogDTOMessage>> getLogsBySubject(@PathVariable String subject,@PathVariable Integer idTim) {
+        return new ResponseEntity<>(logService.getLogsForKoordinatorBySubject(subject,idTim), HttpStatus.OK);
     }
 }

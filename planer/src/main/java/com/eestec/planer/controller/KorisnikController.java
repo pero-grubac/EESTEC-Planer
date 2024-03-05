@@ -144,11 +144,14 @@ public class KorisnikController {
         if (!korisnikService.isDeleted(loginForm.getUsername())) {
             try {
                 Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getLozinka()));
+
                 KorisnikDTO korisnik = korisnikService.login(loginForm);
+
                 if (korisnik != null) {
                     if (authentication.isAuthenticated()) {
                         List<KoordinatorDTO> koordinatorDTOList = koordinatorService.getAllKoordinatori();
                         List<ClanOdboraDTO> clanOdboraDTOList = clanOdboraService.getAllClanOdbora();
+
                         for (KoordinatorDTO koordinator : koordinatorDTOList)
                             if (koordinator.getIdKoordinator() == korisnik.getIdKorisnika())
                                 korisnik.setUloga("Koordinator");
