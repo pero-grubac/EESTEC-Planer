@@ -14,16 +14,17 @@ export const Logs = ({ loggedUser, setLoggedUser, team, teams }) => {
   }
 
   useEffect(() => {
-    fetchLogs();
-  }, []);
+    fetchLogs(team, teams);
+  }, [team, teams]);
 
-  const fetchLogs = async () => {
+  const fetchLogs = async (team, teams) => {
     try {
 
+      console.log("TEAM: " + team);
       var response;
 
       if (loggedUser.uloga === "Clan odbora") {
-        response = await axios.get("http://localhost:8080/clanodbora/logs", {
+        response = await axios.get(`http://localhost:8080/clanodbora/logs`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -32,7 +33,7 @@ export const Logs = ({ loggedUser, setLoggedUser, team, teams }) => {
       }
 
       else {
-        response = await axios.get("http://localhost:8080/koordinator/logs", {
+        response = await axios.get(`http://localhost:8080/koordinator/logs/${teams[team].idTim}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + localStorage.getItem("token"),
