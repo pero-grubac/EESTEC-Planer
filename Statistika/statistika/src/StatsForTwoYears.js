@@ -67,31 +67,26 @@ const StatsForTwoYears = ({ prva, druga, id, token }) => {
     ];
 
     const monthlyCounts = {};
-
+    monthNames.forEach(month => {
+      monthlyCounts[month] = 0;
+    });
     // Iterate through each data item
     data.forEach((item) => {
       const month = item.mjesec; // Extract the month from the data
       item.list.forEach((task) => {
-        if (!monthlyCounts[month]) {
-          // If the month doesn't exist in the counts, initialize it to zero
-          monthlyCounts[month] = 0;
-        }
         // Increment the task count for the corresponding month
-        monthlyCounts[month] += task.brojZadataka;
+        monthlyCounts[monthNames[parseInt(month) - 1]] += task.brojZadataka;
       });
     });
-
+  
     // Convert the monthlyCounts object into an array of objects
-    const result = Object.keys(monthlyCounts).map((month) => ({
+    const result = monthNames.map(month => ({
       month,
       tasks: monthlyCounts[month],
     }));
 
     // Map the month number to its corresponding name
-    return result.map((monthData) => ({
-      ...monthData,
-      month: monthNames[parseInt(monthData.month) - 1],
-    }));
+    return result;
   };
 
   // Merge the data from yearOne and yearTwo into a single array
