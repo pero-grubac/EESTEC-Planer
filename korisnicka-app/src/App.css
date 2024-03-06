@@ -671,7 +671,7 @@ h2 {
 .stats-container {
   overflow-y: scroll;
   overflow-x: hidden;
-  max-width: 75%;
+  max-width: 75vw;
   padding: 2rem;
 }
 
@@ -689,4 +689,8 @@ h2 {
   max-width: 90vw;
   overflow-x: scroll;
   overflow-y: hidden;
+}
+
+body {
+  overflow: hidden;
 }
