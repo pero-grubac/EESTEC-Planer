@@ -667,3 +667,19 @@ h2 {
 .new-comment-input {
   min-height: 3rem;
 }
+
+.stats-container {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  overflow-x: scroll;
+  min-height: 99%;
+}
+
+.two-year-comparison-container {
+  display: flex;
+  flex-direction: column;
+  justify-items: stretch;
+  min-width: 80rem;
+  justify-items: left;
+}

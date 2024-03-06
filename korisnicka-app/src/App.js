@@ -8,7 +8,7 @@ import Settings from './components/Settings';
 import { useState } from 'react';
 import { Routes, Route, useNavigate } from "react-router-dom";
 import './index.css';
-import { Comments } from './components/Comments.js';
+import { Stats } from './components/Stats.js';
 
 
 
@@ -70,6 +70,7 @@ function App() {
           appProps={{ isAuthenticated }} />
         <Route path="/teams/FR" element={<KanbanBoard loggedUser={loggedUser} setLoggedUser={setLoggedUser} team={7} teams={teams}></KanbanBoard>}
           appProps={{ isAuthenticated }} />
+
         <Route path="/teams/Design/logs" element={<Logs loggedUser={loggedUser} setLoggedUser={setLoggedUser} team={0} teams={teams}></Logs>}
           appProps={{ isAuthenticated }} />
         <Route path="/teams/IT/logs" element={<Logs loggedUser={loggedUser} setLoggedUser={setLoggedUser} team={1} teams={teams}></Logs>}
@@ -80,6 +81,18 @@ function App() {
           appProps={{ isAuthenticated }} />
         <Route path="/teams/FR/logs" element={<Logs loggedUser={loggedUser} setLoggedUser={setLoggedUser} team={4} teams={teams}></Logs>}
           appProps={{ isAuthenticated }} />
+
+        <Route path="/teams/Design/stats" element={<Stats loggedUser={loggedUser} setLoggedUser={setLoggedUser} team={0} teams={teams}></Stats>}
+          appProps={{ isAuthenticated }} />
+        <Route path="/teams/IT/stats" element={<Stats loggedUser={loggedUser} setLoggedUser={setLoggedUser} team={1} teams={teams}></Stats>}
+          appProps={{ isAuthenticated }} />
+        <Route path="/teams/HR/stats" element={<Stats loggedUser={loggedUser} setLoggedUser={setLoggedUser} team={2} teams={teams}></Stats>}
+          appProps={{ isAuthenticated }} />
+        <Route path="/teams/PR/stats" element={<Stats loggedUser={loggedUser} setLoggedUser={setLoggedUser} team={3} teams={teams}></Stats>}
+          appProps={{ isAuthenticated }} />
+        <Route path="/teams/FR/stats" element={<Stats loggedUser={loggedUser} setLoggedUser={setLoggedUser} team={4} teams={teams}></Stats>}
+          appProps={{ isAuthenticated }} />
+
         <Route path="/settings" element={<Settings loggedUser={loggedUser}></Settings>} />
       </Routes>
     </div>

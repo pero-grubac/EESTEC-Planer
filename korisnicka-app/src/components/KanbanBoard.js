@@ -271,6 +271,10 @@ export default function KanbanBoard({ loggedUser, setLoggedUser, team, teams }) 
     navigate("./logs", { replace: true });
   };
 
+  const handleStatsClick = () => {
+    navigate("./stats", { replace: true });
+  };
+
   return (
     <div key={new Date().getTime()} style={{ display: "flex", justifyContent: "center", height: "100%" }}>
 
@@ -424,7 +428,7 @@ export default function KanbanBoard({ loggedUser, setLoggedUser, team, teams }) 
           (isKoordinator || isClanOdbora) ?
             <button
               className="logout-button stats-button"
-              onClick={handleLogsClick}
+              onClick={handleStatsClick}
             >
               <div className="stats-button-icon"></div>
             </button> : <></>
