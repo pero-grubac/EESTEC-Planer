@@ -8,7 +8,7 @@ import TotalNumberOfUsers from "./TotalNumberOfUsers";
 import StatsForTwoYears from "./StatsForTwoYears";
 const godina = 2024;
 const god = 2023;
-const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWhhaWxvIiwiaWF0IjoxNzA5NzU1NDkxLCJleHAiOjE3MDk3NTcyOTF9.SpJG_w3Haa-Sk1sJxAeeN0ZLWWd_qBhK6O9YbAI13ZU";
+const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWhhaWxvIiwiaWF0IjoxNzA5NzU3NzA4LCJleHAiOjE3MDk3NTk1MDh9.8OO8H6GKuju3HPm5lVkGnuunv288tcwMFnrZBstYUro";
 const idKorisnika = 43;
 const idTim = 7;
 function App() {
