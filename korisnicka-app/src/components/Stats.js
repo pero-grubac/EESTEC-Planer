@@ -10,7 +10,6 @@ import TotalNumberOfUsers from "./TotalNumberOfUsers";
 import StatsForTwoYears from "./StatsForTwoYears";
 
 export const Stats = ({ loggedUser, setLoggedUser, team, teams }) => {
-    const [logs, setLogs] = useState([]);
     const navigate = useNavigate();
 
 
@@ -18,74 +17,19 @@ export const Stats = ({ loggedUser, setLoggedUser, team, teams }) => {
         navigate("../", { replace: true });
     }
 
-    useEffect(() => {
-        fetchLogs(team, teams);
-    }, [team, teams]);
-
-    const fetchLogs = async (team, teams) => {
-        try {
-
-            console.log("TEAM: " + team);
-            var response;
-
-            if (loggedUser.uloga === "Clan odbora") {
-                response = await axios.get(`http://localhost:8080/clanodbora/logs`, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: "Bearer " + localStorage.getItem("token"),
-                    },
-                });
-            }
-
-            else {
-                response = await axios.get(`http://localhost:8080/koordinator/logs/${teams[team].idTim}`, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: "Bearer " + localStorage.getItem("token"),
-                    },
-                });
-            }
-
-            if (response.status === 403) {
-                localStorage.clear();
-                navigate("/", { replace: true });
-            }
-
-            let counter = 1;
-            setLogs((response.data).map(log => ({ ...log, idTable: counter++ })));
-
-        } catch (error) {
-            console.error("Error fetching requests:", error);
-        }
-    };
-
     let currentDate = new Date();
     let currentYear = currentDate.getFullYear();
     let startingYear = currentYear - 3;
 
     return (
         <div className="log-list stats-container">
-            <div style={{ display: "flex" }}>
                 <MonthlyTasksByUserByYearChart godina={currentYear} token={localStorage.getItem("token")} />
-            </div>
-            <div>
                 <CustomBarChart token={localStorage.getItem("token")} />
-            </div>
-            <div>
                 <MonthlyTasksByTeamByYearChart godina={currentYear} token={localStorage.getItem("token")} />
-            </div>
-            <div>
                 <MonthlyTasksByYear godina={currentYear} id={loggedUser.idKorisnika} token={localStorage.getItem("token")} />
-            </div>
-            <div>
                 <TasksPerUserInTeamChart godina={currentYear} id={teams[team].idTim} token={localStorage.getItem("token")} />
-            </div>
-            <div>
                 <TotalNumberOfUsers token={localStorage.getItem("token")} />
-            </div>
-            <div>
                 <StatsForTwoYears prva={currentYear - 1} druga={currentYear} id={teams[team].idTim} token={localStorage.getItem("token")} />
-            </div>
 
             <div className="menu-buttons">
                 <button

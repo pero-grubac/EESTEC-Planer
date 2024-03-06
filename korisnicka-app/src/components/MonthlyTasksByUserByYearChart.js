@@ -92,7 +92,7 @@ const MonthlyTasksByUserByYearChart = ({ godina, token }) => {
   return (
     <div>
       <h2>MJESECNI BROJ ZADATAKA PO KORISNIKU U GODINI: {godina}</h2>
-      <div style={{ display: "flex" }}>{charts}</div>
+      <div className="horizontal-scroll" style={{ display: "flex" }}>{charts}</div>
     </div>
   );
 };

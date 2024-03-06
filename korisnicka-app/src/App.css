@@ -669,11 +669,10 @@ h2 {
 }
 
 .stats-container {
-  display: flex;
-  flex-direction: column;
   overflow-y: scroll;
-  overflow-x: scroll;
-  min-height: 99%;
+  overflow-x: hidden;
+  max-width: 75%;
+  padding: 2rem;
 }
 
 .two-year-comparison-container {
@@ -682,4 +681,12 @@ h2 {
   justify-items: stretch;
   min-width: 80rem;
   justify-items: left;
+}
+
+.horizontal-scroll {
+  display: flex;
+  flex-direction: row;
+  max-width: 90vw;
+  overflow-x: scroll;
+  overflow-y: hidden;
 }

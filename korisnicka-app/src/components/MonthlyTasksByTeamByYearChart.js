@@ -122,23 +122,23 @@ const MonthlyTasksByTeamByYearChart = ({ godina, token }) => {
     setActiveIndex(index);
   };
   const monthNames = [
-    "January",
-    "February",
-    "March",
+    "Januar",
+    "Februar",
+    "Mart",
     "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "Maj",
+    "Jun",
+    "Jul",
+    "Avgust",
+    "Septembar",
+    "Oktobar",
+    "Novembar",
+    "Decembar",
   ];
   return (
     <div>
       <h2>BROJ ZADATAKA PO TIMU U GODINI {godina}</h2>
-      <div style={{ display: "flex" }}>
+      <div className="horizontal-scroll" style={{ display: "flex" }}>
         {chartData.map((monthData, index) => (
           <div
             key={index}

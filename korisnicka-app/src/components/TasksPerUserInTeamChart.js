@@ -80,18 +80,18 @@ const TasksPerUserInTeamChart = ({ godina, id, token }) => {
   }, {});
 
   const monthNames = [
-    "January",
-    "February",
-    "March",
+    "Januar",
+    "Februar",
+    "Mart",
     "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "Maj",
+    "Jun",
+    "Jul",
+    "Avgust",
+    "Septembar",
+    "Oktobar",
+    "Novembar",
+    "Decembar",
   ];
  
 
@@ -129,7 +129,7 @@ const TasksPerUserInTeamChart = ({ godina, id, token }) => {
   return (
     <div>
       <h2>MJESECNI BROJ ZADATAKA PO KORISNIKU U TIMU U GODINI: {godina}</h2>
-      <div style={{ display: "flex" }}>{charts}</div>
+      <div className="horizontal-scroll" style={{ display: "flex" }}>{charts}</div>
     </div>
   );
 };
