@@ -24,4 +24,5 @@ public interface KorisnikService {
     KorisnikDTO assignTask(Integer idKorisnik, Integer idZadatak);
     boolean dropTask(Integer idKorisnik,Integer idZadatak);
     boolean isDeleted(String username);
+     List<KorisnikDTO> getKorisniciInTeam(Integer id);
 }

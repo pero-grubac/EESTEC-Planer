@@ -53,4 +53,10 @@ public interface KorisnikDAO extends JpaRepository<KorisnikDTO, Integer> {
     @Query(value = "SELECT k.Obrisan FROM korisnik k WHERE k.KorisnickoIme =:username", nativeQuery = true)
     Byte isDeletedByUsername(@Param("username") String username);
 
+    @Query(value = "SELECT k.* FROM korisnik k \n" +
+            "INNER JOIN korisnik_pripada_timu kpt ON kpt.Korisnik_IdKorisnika = k.IdKorisnika \n" +
+            "INNER JOIN kategorija kat ON kat.IdTim = kpt.Tim_IdTim \n" +
+            "INNER JOIN zadatak z ON z.IdKategorija = kat.IdKategorija \n" +
+            "WHERE z.IdZadatak = :id", nativeQuery = true)
+    List<KorisnikDTO> userEmails(@Param("id") Integer id);
 }

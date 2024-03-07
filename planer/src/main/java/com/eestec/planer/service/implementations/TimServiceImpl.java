@@ -61,8 +61,8 @@ public class TimServiceImpl implements TimService {
         }
         return false;
     }
-    public  List<KorisnikDTO> getAllByIdTim(Integer idTim){
-        return korisnikDAO.getAllByIdTim(idTim);
+    public  List<KorisnikDTO> getAllByIdTim(Integer idKategorija){
+        return korisnikDAO.getAllByIdTim(idKategorija);
     }
     @Override
     @Transactional

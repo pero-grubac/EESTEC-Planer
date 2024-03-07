@@ -119,8 +119,8 @@ public class ZadatakDTO {
         this.datumArhiviranja = datumArhiviranja;
     }
 
-    public boolean getArhiviran() {
-        return arhiviran != null && arhiviran != 0;
+    public Byte getArhiviran() {
+        return arhiviran ;
     }
 
     public void setArhiviran(Boolean arhiviran) {

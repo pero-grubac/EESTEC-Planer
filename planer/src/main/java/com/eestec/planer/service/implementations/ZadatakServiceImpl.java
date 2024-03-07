@@ -106,10 +106,7 @@ public class ZadatakServiceImpl implements ZadatakService {
         return false;
     }
 
-    @Override
-    public List<KorisnikDTO> getKorisniciInTeam(Integer id) {
-        return zadatakDAO.userEmails(id);
-    }
+
 
     @Override
     public void archiving(int id) {

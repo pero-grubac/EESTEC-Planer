@@ -55,11 +55,14 @@ public class ZadatakController {
     //  @PreAuthorize("hasAuthority('ROLE_SUPERUSER')")
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('Koordinator') || hasAuthority('Clan odbora')")
-    public ResponseEntity<?> kreirajZadatak(@RequestBody ZadatakDTO zadatakDTO, @AuthenticationPrincipal KorisnikInfoDetails korisnikInfoDetails) {
+    public ResponseEntity<?> kreirajZadatak(@RequestBody ZadatakDTO zadatakDTO) {
         ZadatakDTO kreiraniZadatak = zadatakService.createZadatak(zadatakDTO);
+        kreiraniZadatak.setArhiviran(false);
         if (kreiraniZadatak != null) {
-            logService.create(PorukaLoga.KREIRANJE_ZADATKA.getValue(), korisnikInfoDetails.getUsername());
+            KorisnikDTO korisnikDTO = korisnikService.getKorisnik(kreiraniZadatak.getIdAutora());
+            logService.create(PorukaLoga.KREIRANJE_ZADATKA.getValue(), korisnikDTO.getKorisnickoIme());
             sendEmails(kreiraniZadatak, "Novi zadatak - ");
+            System.out.println("3");
             return ResponseEntity.status(HttpStatus.CREATED).body(kreiraniZadatak);
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Došlo je do greške prilikom kreiranja zadatka.");
@@ -67,7 +70,7 @@ public class ZadatakController {
     }
 
     private void sendEmails(ZadatakDTO kreiraniZadatak, String naslov) {
-        List<KorisnikDTO> korisnici = zadatakService.getKorisniciInTeam(kreiraniZadatak.getIdZadatak());
+        List<KorisnikDTO> korisnici = korisnikService.getKorisniciInTeam(kreiraniZadatak.getIdZadatak());
         for (KorisnikDTO korisnik : korisnici) {
             emailService.email(korisnik.getEmail(), korisnik.getKorisnickoIme(), naslov + kreiraniZadatak.getNaslov(), kreiraniZadatak.getTekst());
         }

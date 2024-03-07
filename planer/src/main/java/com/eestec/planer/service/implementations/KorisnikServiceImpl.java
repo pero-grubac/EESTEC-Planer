@@ -45,7 +45,10 @@ public class KorisnikServiceImpl implements KorisnikService {
         korisnikDAO.findAll().forEach(korisnikDTOList::add);
         return korisnikDTOList;
     }
-
+    @Override
+    public List<KorisnikDTO> getKorisniciInTeam(Integer id) {
+        return korisnikDAO.userEmails(id);
+    }
     @Override
     @Transactional
     public KorisnikDTO getKorisnik(Integer id) {

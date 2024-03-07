@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class KorisnikInfoDetails implements UserDetails {
+
+
     private String korisnickoIme;
     private String lozinka;
     private List<GrantedAuthority> authorities;
