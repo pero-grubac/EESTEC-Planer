@@ -105,7 +105,7 @@ const StatsForTwoYears = ({ prva, druga, id, token, tim }) => {
   return (
     <div className="chart-div stat-div">
       <h2>
-        Vaša aktivnost u {tim.naziv} timu u godinama {prva} i {druga}
+        Vaša aktivnost u {tim.naziv} timu u godinama {prva}. i {druga}.
       </h2>
       <h4>Brojevi označavaju završene zadatke</h4>
       <br></br>

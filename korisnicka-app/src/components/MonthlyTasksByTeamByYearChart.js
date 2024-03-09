@@ -59,7 +59,7 @@ const MonthlyTasksByTeamByYearChart = ({ godina, token }) => {
   ];
   return (
     <div className="stat-div">
-      <h2>Aktivnost članova u timovima</h2>
+      <h2>Aktivnost članova po timovima u godini {godina}.</h2>
       <h4>Brojevi označavaju završene zadatke</h4>
       <br></br>
       <div className="pie-charts-container">

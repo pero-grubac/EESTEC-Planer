@@ -64,7 +64,7 @@ const MonthlyTasksByYear = ({ godina, id, token }) => {
 
   return (
     <div className="chart-div stat-div">
-      <h2>Vaša aktivnost u godini {godina}</h2>
+      <h2>Vaša aktivnost u godini {godina}.</h2>
       <h4>Brojevi označavaju završene zadatke</h4>
       <br></br>
       <div style={{ display: "flex" }}>

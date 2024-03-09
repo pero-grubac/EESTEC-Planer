@@ -105,7 +105,7 @@ const TasksPerUserInTeamChart = ({ godina, id, token, tim }) => {
 
   return (
     <div className="stat-div">
-      <h2>Aktivnost članova {tim.naziv} tima kroz godinu {godina}</h2>
+      <h2>Aktivnost članova {tim.naziv} tima kroz godinu {godina}.</h2>
       <h4>Brojevi označavaju završene zadatke</h4>
       <br></br>
       <div>{charts}</div>

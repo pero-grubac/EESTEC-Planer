@@ -106,7 +106,7 @@ const MonthlyTasksByUserByYearChart = ({ godina, token }) => {
   ));
   return (
     <div>
-      <h2>Aktivnost članova kroz godinu {godina}</h2>
+      <h2>Aktivnost članova kroz godinu {godina}.</h2>
       <h4>Brojevi označavaju završene zadatke</h4>
       <br></br>
       <div>{charts}</div>
