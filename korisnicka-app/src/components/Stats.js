@@ -8,9 +8,26 @@ import MonthlyTasksByYear from "./MonthlyTasksByYear";
 import TasksPerUserInTeamChart from "./TasksPerUserInTeamChart";
 import TotalNumberOfUsers from "./TotalNumberOfUsers";
 import StatsForTwoYears from "./StatsForTwoYears";
+import jsPDF from "jspdf";
+
+
+const exportDivToPDF = () => {
+  var doc = new jsPDF();
+  var source = window.document.getElementsByTagName("stats-container").innerHTML;
+  doc.html(
+    source,
+    {
+      'x': 15,
+      'y': 15,
+      'width': 200,
+    });
+  doc.save("test.pdf");
+}
 
 export const Stats = ({ loggedUser, setLoggedUser, team, teams }) => {
+
   const navigate = useNavigate();
+
 
   const handleBoardViewClick = () => {
     navigate("../", { replace: true });
@@ -27,7 +44,7 @@ export const Stats = ({ loggedUser, setLoggedUser, team, teams }) => {
   const isClanOdbora = loggedUser.uloga === "Clan odbora";
 
   return (
-    <div className="log-list stats-container">
+    <div className="log-list stats-container" id="stats-container">
       {
         isClanOdbora ?
           <div>
@@ -78,6 +95,10 @@ export const Stats = ({ loggedUser, setLoggedUser, team, teams }) => {
             <TotalNumberOfUsers token={localStorage.getItem("token")} />
           </div> : <div></div>
       }
+
+      <button
+        onClick={exportDivToPDF}
+      >Preuzmi</button>
 
 
       <div className="menu-buttons">
