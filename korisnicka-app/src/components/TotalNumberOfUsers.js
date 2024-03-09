@@ -26,7 +26,7 @@ const TotalNumberOfUsers =({token})=>{
     }, [token]);
     return (
         <div>
-          <h2>UKUPAN BROJ KORISNIKA: {mappedData}</h2>
+          <p>Trenutni broj članova EESTEC LC Banja Luka je {mappedData}.</p>
         </div>
       );  
 };

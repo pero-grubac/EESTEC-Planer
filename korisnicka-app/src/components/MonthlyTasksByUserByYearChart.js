@@ -46,18 +46,18 @@ const MonthlyTasksByUserByYearChart = ({ godina, token }) => {
   }, [godina, token]);
 
   const monthNames = [
-    "January",
-    "February",
-    "March",
+    "Januar",
+    "Februar",
+    "Mart",
     "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "Maj",
+    "Jun",
+    "Jul",
+    "Avgust",
+    "Septembar",
+    "Oktobar",
+    "Novembar",
+    "Decembar",
   ];
 
   const dataByMonth = mappedData.reduce((acc, item) => {
@@ -70,8 +70,8 @@ const MonthlyTasksByUserByYearChart = ({ godina, token }) => {
   }, {});
 
   const charts = Object.entries(dataByMonth).map(([monthName, data]) => (
-    <div style={{ display: "flex" }} key={monthName}>
-      <h3>Mjesec: {monthName}</h3>
+    <div className="chart-div stat-div" key={monthName}>
+      <h3>{monthName}</h3>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
           data={data}
@@ -106,7 +106,9 @@ const MonthlyTasksByUserByYearChart = ({ godina, token }) => {
   ));
   return (
     <div>
-      <h2>MJESECNI BROJ ZADATAKA PO KORISNIKU U GODINI: {godina}</h2>
+      <h2>Aktivnost članova kroz godinu {godina}</h2>
+      <h4>Brojevi označavaju završene zadatke</h4>
+      <br></br>
       <div>{charts}</div>
     </div>
   );

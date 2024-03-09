@@ -44,52 +44,57 @@ const MonthlyTasksByTeamByYearChart = ({ godina, token }) => {
     }));
   };
   const monthNames = [
-    "January",
-    "February",
-    "March",
+    "Januar",
+    "Februar",
+    "Mart",
     "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "Maj",
+    "Jun",
+    "Jul",
+    "Avgust",
+    "Septembar",
+    "Oktobar",
+    "Novembar",
+    "Decembar",
   ];
   return (
-    <div>
-      {chartData.map((monthData, index) => (
-        <div key={index}>
-          <h3>Mjesec: {monthNames[monthData.month - 1]}</h3>
-          <div style={{ height: "400px" }}>
-            <ResponsivePie
-              width={500}
-              data={monthData.data}
-              margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
-              cornerRadius={3}
-              activeOuterRadiusOffset={8}
-              borderWidth={4}
-              borderColor="white"
-              enableArcLinkLabels={true}
-              arcLinkLabelsSkipAngle={10}
-              arcLinkLabelsTextColor="#333333"
-              arcLinkLabelsThickness={2}
-              arcLinkLabelsColor={{ from: "color" }}
-              arcLabelsSkipAngle={10}
-              arcLabelsTextColor="black"
-              isInteractive={false}
-              arcLabel={(arc) =>
-                ` ${(
-                  (arc.value /
-                    monthData.data.reduce((acc, d) => acc + d.value, 0)) *
-                  100
-                ).toFixed(2)}% (${arc.value})`
-              }
-            />
+    <div className="stat-div">
+      <h2>Aktivnost članova u timovima</h2>
+      <h4>Brojevi označavaju završene zadatke</h4>
+      <br></br>
+      <div className="pie-charts-container">
+        {chartData.map((monthData, index) => (
+          <div key={index}>
+            <h3>{monthNames[monthData.month - 1]}</h3>
+            <div style={{ height: "400px" }}>
+              <ResponsivePie
+                width={500}
+                data={monthData.data}
+                margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+                cornerRadius={3}
+                activeOuterRadiusOffset={8}
+                borderWidth={4}
+                borderColor="white"
+                enableArcLinkLabels={true}
+                arcLinkLabelsSkipAngle={10}
+                arcLinkLabelsTextColor="#333333"
+                arcLinkLabelsThickness={4}
+                arcLinkLabelsColor={{ from: "color" }}
+                arcLabelsSkipAngle={10}
+                arcLabelsTextColor="black"
+                isInteractive={false}
+                arcLabel={(arc) =>
+                  ` ${(
+                    (arc.value /
+                      monthData.data.reduce((acc, d) => acc + d.value, 0)) *
+                    100
+                  ).toFixed(2)}% (${arc.value})`
+                }
+              />
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };

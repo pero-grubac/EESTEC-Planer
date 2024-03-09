@@ -44,8 +44,10 @@ const CustomBarChart = ({ token }) => {
     fetchData();
   }, [token]);
   return (
-    <div>
-      <h2>BROJ ZADATAKA PO KORISNIKU</h2>
+    <div className="chart-div stat-div">
+      <h2>Aktivnost članova</h2>
+      <h4>Brojevi označavaju završene zadatke</h4>
+      <br></br>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
           width={500}

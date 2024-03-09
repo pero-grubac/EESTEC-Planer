@@ -671,19 +671,13 @@ h2 {
 .stats-container {
   overflow-y: scroll;
   overflow-x: hidden;
-  max-width: 75vw;
+  min-width: 70vw;
+  max-width: 90vw;
   padding: 2rem;
   background-color: white;
   color: black;
 }
 
-.two-year-comparison-container {
-  display: flex;
-  flex-direction: column;
-  justify-items: stretch;
-  min-width: 80rem;
-  justify-items: left;
-}
 
 .horizontal-scroll {
   display: flex;
@@ -695,4 +689,24 @@ h2 {
 
 body {
   overflow: hidden;
+}
+
+.recharts-surface{
+  display: flex;
+  align-content: space-evenly;
+  min-width: fit-content;
+}
+
+.pie-charts-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.chart-div {
+  width: 90vw;
+}
+
+.stat-div{
+  margin-bottom: 5rem;
 }

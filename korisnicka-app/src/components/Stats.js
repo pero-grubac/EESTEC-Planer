@@ -26,7 +26,10 @@ export const Stats = ({ loggedUser, setLoggedUser, team, teams }) => {
         godina={currentYear}
         token={localStorage.getItem("token")}
       />
-      <CustomBarChart token={localStorage.getItem("token")} />
+      <CustomBarChart
+        width={500}
+        className="tasks-per-user-bar-chart"
+        token={localStorage.getItem("token")} />
       <MonthlyTasksByTeamByYearChart
         godina={currentYear}
         token={localStorage.getItem("token")}
@@ -37,12 +40,14 @@ export const Stats = ({ loggedUser, setLoggedUser, team, teams }) => {
         token={localStorage.getItem("token")}
       />
       <TasksPerUserInTeamChart
+        tim={teams[team]}
         godina={currentYear}
         id={teams[team].idTim}
         token={localStorage.getItem("token")}
       />
       <TotalNumberOfUsers token={localStorage.getItem("token")} />
       <StatsForTwoYears
+        tim={teams[team]}
         prva={currentYear - 1}
         druga={currentYear}
         id={teams[team].idTim}

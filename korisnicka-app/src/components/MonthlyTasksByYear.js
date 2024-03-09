@@ -10,18 +10,18 @@ import {
 } from "recharts";
 import axios from "axios";
 const monthNames = [
-  "January",
-  "February",
-  "March",
+  "Januar",
+  "Februar",
+  "Mart",
   "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
+  "Maj",
+  "Jun",
+  "Jul",
+  "Avgust",
+  "Septembar",
+  "Oktobar",
+  "Novembar",
+  "Decembar",
 ];
 
 const MonthlyTasksByYear = ({ godina, id, token }) => {
@@ -63,8 +63,10 @@ const MonthlyTasksByYear = ({ godina, id, token }) => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div>
-      <h2>BROJ ZADATAKA KORISNIKA U GODINI: {godina}</h2>
+    <div className="chart-div stat-div">
+      <h2>Vaša aktivnost u godini {godina}</h2>
+      <h4>Brojevi označavaju završene zadatke</h4>
+      <br></br>
       <div style={{ display: "flex" }}>
         <ResponsiveContainer width="100%" height={400}>
           <AreaChart

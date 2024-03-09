@@ -11,7 +11,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const StatsForTwoYears = ({ prva, druga, id, token }) => {
+const StatsForTwoYears = ({ prva, druga, id, token, tim }) => {
   const [yearOne, setYearOne] = useState([]);
   const [yearTwo, setYearTwo] = useState([]);
 
@@ -103,10 +103,12 @@ const StatsForTwoYears = ({ prva, druga, id, token }) => {
   });
 
   return (
-    <div className="two-year-comparison-container">
+    <div className="chart-div stat-div">
       <h2>
-        GODINE {prva} I {druga}
+        Vaša aktivnost u {tim.naziv} timu u godinama {prva} i {druga}
       </h2>
+      <h4>Brojevi označavaju završene zadatke</h4>
+      <br></br>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart
           width={500}

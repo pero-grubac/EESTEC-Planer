@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import axios from "axios";
 
-const TasksPerUserInTeamChart = ({ godina, id, token }) => {
+const TasksPerUserInTeamChart = ({ godina, id, token, tim }) => {
   const [mappedData, setMappedData] = useState([]);
 
   useEffect(() => {
@@ -44,18 +44,18 @@ const TasksPerUserInTeamChart = ({ godina, id, token }) => {
   }, [id, godina, token]);
 
   const monthNames = [
-    "January",
-    "February",
-    "March",
+    "Januar",
+    "Februar",
+    "Mart",
     "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "Maj",
+    "Jun",
+    "Jul",
+    "Avgust",
+    "Septembar",
+    "Oktobar",
+    "Novembar",
+    "Decembar",
   ];
 
   const dataByMonth = mappedData.reduce((acc, item) => {
@@ -68,8 +68,8 @@ const TasksPerUserInTeamChart = ({ godina, id, token }) => {
   }, {});
 
   const charts = Object.entries(dataByMonth).map(([monthName, data]) => (
-    <div style={{ display: "flex" }} key={monthName}>
-      <h3>Mjesec: {monthName}</h3>
+    <div className="chart-div" key={monthName}>
+      <h3>{monthName}</h3>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
           data={data}
@@ -104,8 +104,10 @@ const TasksPerUserInTeamChart = ({ godina, id, token }) => {
   ));
 
   return (
-    <div>
-      <h2>MJESECNI BROJ ZADATAKA PO KORISNIKU U TIMU U GODINI: {godina}</h2>
+    <div className="stat-div">
+      <h2>Aktivnost članova {tim.naziv} tima kroz godinu {godina}</h2>
+      <h4>Brojevi označavaju završene zadatke</h4>
+      <br></br>
       <div>{charts}</div>
     </div>
   );
