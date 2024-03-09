@@ -64,6 +64,7 @@ const MonthlyTasksByTeamByYearChart = ({ godina, token }) => {
           <h3>Mjesec: {monthNames[monthData.month - 1]}</h3>
           <div style={{ height: "400px" }}>
             <ResponsivePie
+              width={500}
               data={monthData.data}
               margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
               cornerRadius={3}

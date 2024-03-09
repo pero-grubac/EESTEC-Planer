@@ -673,6 +673,8 @@ h2 {
   overflow-x: hidden;
   max-width: 75vw;
   padding: 2rem;
+  background-color: white;
+  color: black;
 }
 
 .two-year-comparison-container {
