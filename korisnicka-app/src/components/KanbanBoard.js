@@ -424,15 +424,13 @@ export default function KanbanBoard({ loggedUser, setLoggedUser, team, teams }) 
 
 
       <div className="menu-buttons">
-        {
-          (isKoordinator || isClanOdbora) ?
-            <button
-              className="logout-button stats-button"
-              onClick={handleStatsClick}
-            >
-              <div className="stats-button-icon"></div>
-            </button> : <></>
-        }
+
+        <button
+          className="logout-button stats-button"
+          onClick={handleStatsClick}
+        >
+          <div className="stats-button-icon"></div>
+        </button>
         {
           (isKoordinator || isClanOdbora) ?
             <button

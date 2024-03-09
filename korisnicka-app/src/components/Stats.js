@@ -18,34 +18,46 @@ export const Stats = ({ loggedUser, setLoggedUser, team, teams }) => {
 
   let currentDate = new Date();
   let currentYear = currentDate.getFullYear();
-  let startingYear = currentYear - 3;
+
+  const currentTeam = loggedUser.timovi.filter((tim) => {
+    return tim.idTim === teams[team].idTim;
+  });
+
+  const isKoordinator = loggedUser.idKorisnika === currentTeam[0].idKoordinator;
+  const isClanOdbora = loggedUser.uloga === "Clan odbora";
 
   return (
     <div className="log-list stats-container">
-      <MonthlyTasksByUserByYearChart
-        godina={currentYear}
-        token={localStorage.getItem("token")}
-      />
-      <CustomBarChart
-        width={500}
-        className="tasks-per-user-bar-chart"
-        token={localStorage.getItem("token")} />
-      <MonthlyTasksByTeamByYearChart
-        godina={currentYear}
-        token={localStorage.getItem("token")}
-      />
-      <MonthlyTasksByYear
-        godina={currentYear}
-        id={loggedUser.idKorisnika}
-        token={localStorage.getItem("token")}
-      />
-      <TasksPerUserInTeamChart
-        tim={teams[team]}
-        godina={currentYear}
-        id={teams[team].idTim}
-        token={localStorage.getItem("token")}
-      />
-      <TotalNumberOfUsers token={localStorage.getItem("token")} />
+      {
+        isClanOdbora ?
+          <div>
+            <MonthlyTasksByUserByYearChart
+              godina={currentYear}
+              token={localStorage.getItem("token")}
+            />
+            <MonthlyTasksByTeamByYearChart
+              godina={currentYear}
+              token={localStorage.getItem("token")}
+            />
+            <CustomBarChart
+              width={500}
+              className="tasks-per-user-bar-chart"
+              token={localStorage.getItem("token")} />
+          </div> : <div></div>
+      }
+
+      {
+        isKoordinator ?
+          <div>
+            <TasksPerUserInTeamChart
+              tim={teams[team]}
+              godina={currentYear}
+              id={teams[team].idTim}
+              token={localStorage.getItem("token")}
+            />
+          </div> : <div></div>
+      }
+
       <StatsForTwoYears
         tim={teams[team]}
         prva={currentYear - 1}
@@ -53,6 +65,20 @@ export const Stats = ({ loggedUser, setLoggedUser, team, teams }) => {
         id={teams[team].idTim}
         token={localStorage.getItem("token")}
       />
+
+      <MonthlyTasksByYear
+        godina={currentYear}
+        id={loggedUser.idKorisnika}
+        token={localStorage.getItem("token")}
+      />
+
+      {
+        isClanOdbora ?
+          <div>
+            <TotalNumberOfUsers token={localStorage.getItem("token")} />
+          </div> : <div></div>
+      }
+
 
       <div className="menu-buttons">
         <button
