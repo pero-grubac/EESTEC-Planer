@@ -32,6 +32,7 @@ const CustomBarChart = ({ token }) => {
           username: item.first.korisnickoIme,
           name: item.first.ime,
           lastName: item.first.prezime,
+          fullname: item.first.ime + " " + item.first.prezime,
           "Broj zadataka": item.second,
           id: index,
         }));
@@ -61,7 +62,7 @@ const CustomBarChart = ({ token }) => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="username" />
+          <XAxis dataKey="fullname" />
           <YAxis />
           <Tooltip
             content={({ payload, label }) => {
