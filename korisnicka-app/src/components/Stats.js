@@ -9,24 +9,116 @@ import TasksPerUserInTeamChart from "./TasksPerUserInTeamChart";
 import TotalNumberOfUsers from "./TotalNumberOfUsers";
 import StatsForTwoYears from "./StatsForTwoYears";
 import jsPDF from "jspdf";
+import { useRef } from "react";
+import { html2pdf } from "html2pdf.js";
+import html2canvas from "html2canvas";
 
 
-const exportDivToPDF = () => {
-  var doc = new jsPDF();
-  var source = window.document.getElementsByTagName("stats-container").innerHTML;
-  doc.html(
-    source,
-    {
-      'x': 15,
-      'y': 15,
-      'width': 200,
-    });
-  doc.save("test.pdf");
-}
+
 
 export const Stats = ({ loggedUser, setLoggedUser, team, teams }) => {
 
+  const contentRef = useRef(null);
+
   const navigate = useNavigate();
+
+
+  const ExportDivToPDF = async () => {
+
+    // OVO RADI ZA TEKST
+
+    //var doc = new jsPDF();
+
+    // var divContents = document.getElementById("stats-container").innerHTML;
+    // var printWindow = window.open('', '', 'height=400, width=800');
+    // printWindow.document.write('<html><head></head><body>');
+    // printWindow.document.write(divContents);
+    // printWindow.document.write('</body></html>');
+    // printWindow.document.close();
+    // printWindow.print();
+
+
+    // var pdf = new jsPDF();
+    // var htmlContent = printWindow.document.documentElement;
+
+    // pdf.html(
+    //   htmlContent,
+    //   {
+    //     callback: function (pdf) {
+    //       pdf.save('test.pdf');
+    //       printWindow.close();
+    //     },
+    //     x: 15,
+    //     y: 15,
+    //     width: 170
+    //   }
+    // );
+
+
+
+    // const report = new jsPDF('portrait','pt','a4');
+    //   report.html(document.querySelector('#stats-container')).then(() => {
+    //       report.save('report.pdf');
+    //   }
+
+
+
+    // OVO SAMO NE RADI IZ NEKOG RAZLOGA
+
+    // const content = contentRef.current;
+
+    // const options = {
+    //   filename: 'my-document.pdf',
+    //   margin: 1,
+    //   image: { type: 'jpeg', quality: 0.98 },
+    //   html2canvas: { scale: 2 },
+    //   jsPDF: {
+    //     unit: 'in',
+    //     format: 'letter',
+    //     orientation: 'portrait',
+    //   },
+    // };
+
+    // html2pdf().set(options).from(content).save();
+
+
+    const downloadFileName = "a";
+
+    const input = document.getElementById("stats-container");
+
+    const canvas = await html2canvas(input, {
+      scrollX: 0,
+      scrollY: 0,
+      allowTaint: true,
+      useCORS: true,
+      logging: false,
+      height: input.scrollHeight,
+      windowHeight: input.scrollHeight,
+    })
+      .then(function (canvas) {
+        var imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+        const imgWidth = 210;
+        const pageHeight = 295;
+        const imgHeight = (imgWidth * canvas.height) / canvas.width;
+        //pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+        let position = 0;
+        let heightLeft = imgHeight;
+        while (heightLeft >= 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(canvas, 'PNG', 0, position, imgWidth, imgHeight, '', 'FAST');
+          heightLeft -= pageHeight;
+        }
+        pdf.save(`${downloadFileName}.pdf`);
+      });
+
+
+
+
+  };
+
 
 
   const handleBoardViewClick = () => {
@@ -44,63 +136,64 @@ export const Stats = ({ loggedUser, setLoggedUser, team, teams }) => {
   const isClanOdbora = loggedUser.uloga === "Clan odbora";
 
   return (
-    <div className="log-list stats-container" id="stats-container">
-      {
-        isClanOdbora ?
-          <div>
-            <MonthlyTasksByUserByYearChart
-              godina={currentYear}
-              token={localStorage.getItem("token")}
-            />
-            <MonthlyTasksByTeamByYearChart
-              godina={currentYear}
-              token={localStorage.getItem("token")}
-            />
-            <CustomBarChart
-              width={500}
-              className="tasks-per-user-bar-chart"
-              token={localStorage.getItem("token")} />
-          </div> : <div></div>
-      }
+    <div>
+      <div className="log-list stats-container" id="stats-container">
+        {
+          isClanOdbora ?
+            <div>
+              <MonthlyTasksByUserByYearChart
+                godina={currentYear}
+                token={localStorage.getItem("token")}
+              />
+              <MonthlyTasksByTeamByYearChart
+                godina={currentYear}
+                token={localStorage.getItem("token")}
+              />
+              <CustomBarChart
+                width={500}
+                className="tasks-per-user-bar-chart"
+                token={localStorage.getItem("token")} />
+            </div> : <div></div>
+        }
 
-      {
-        isKoordinator ?
-          <div>
-            <TasksPerUserInTeamChart
-              tim={teams[team]}
-              godina={currentYear}
-              id={teams[team].idTim}
-              token={localStorage.getItem("token")}
-            />
-          </div> : <div></div>
-      }
+        {
+          isKoordinator ?
+            <div>
+              <TasksPerUserInTeamChart
+                tim={teams[team]}
+                godina={currentYear}
+                id={teams[team].idTim}
+                token={localStorage.getItem("token")}
+              />
+            </div> : <div></div>
+        }
 
-      <StatsForTwoYears
-        tim={teams[team]}
-        prva={currentYear - 1}
-        druga={currentYear}
-        id={teams[team].idTim}
-        token={localStorage.getItem("token")}
-      />
+        <StatsForTwoYears
+          tim={teams[team]}
+          prva={currentYear - 1}
+          druga={currentYear}
+          id={teams[team].idTim}
+          token={localStorage.getItem("token")}
+        />
 
-      <MonthlyTasksByYear
-        godina={currentYear}
-        id={loggedUser.idKorisnika}
-        token={localStorage.getItem("token")}
-      />
+        <MonthlyTasksByYear
+          godina={currentYear}
+          id={loggedUser.idKorisnika}
+          token={localStorage.getItem("token")}
+        />
 
-      {
-        isClanOdbora ?
-          <div>
-            <TotalNumberOfUsers token={localStorage.getItem("token")} />
-          </div> : <div></div>
-      }
+        {
+          isClanOdbora ?
+            <div>
+              <TotalNumberOfUsers token={localStorage.getItem("token")} />
+            </div> : <div></div>
+        }
 
-      <button
-        onClick={exportDivToPDF}
-      >Preuzmi</button>
+        <button
+          onClick={ExportDivToPDF}
+        >Preuzmite PDF</button>
 
-
+      </div>
       <div className="menu-buttons">
         <button
           className="logout-button logs-button"
