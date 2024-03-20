@@ -83,7 +83,7 @@ const TasksPerUserInTeamChart = ({ godina, id, token, tim }) => {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="fullname" />
-          <YAxis />
+          <YAxis allowDecimals={false} />
           <Tooltip
             content={({ payload, label }) => {
               if (payload && payload.length) {
