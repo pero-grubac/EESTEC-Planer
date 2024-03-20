@@ -70,41 +70,47 @@ const MonthlyTasksByUserByYearChart = ({ godina, token }) => {
     return acc;
   }, {});
 
-  const charts = Object.entries(dataByMonth).map(([monthName, data]) => (
-    <div className="chart-div stat-div" key={monthName}>
-      <h3>{monthName}</h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart
-          data={data}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="fullname" />
-          <YAxis />
-          <Tooltip
-            content={({ payload, label }) => {
-              if (payload && payload.length) {
-                return (
-                  <div className="custom-tooltip">
-                    <p className="label">{` ${payload[0].payload.name} ${payload[0].payload.lastName}`}</p>
-                    <p className="desc">{`Broj zadataka: ${payload[0].payload["Broj zadataka"]}`}</p>
-                  </div>
-                );
-              }
-              return null;
+  const charts = Object.entries(dataByMonth)
+    .sort((a, b) => {
+      const monthA = monthNames.indexOf(a[0]);
+      const monthB = monthNames.indexOf(b[0]);
+      return monthA - monthB;
+    })
+    .map(([monthName, data]) => (
+      <div className="chart-div stat-div" key={monthName}>
+        <h3>{monthName}</h3>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart
+            data={data}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
             }}
-          />
-          <Legend />
-          <Bar dataKey="Broj zadataka" barSize={20} fill="#8884d8" />
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
-  ));
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="fullname" />
+            <YAxis allowDecimals={false} />
+            <Tooltip
+              content={({ payload, label }) => {
+                if (payload && payload.length) {
+                  return (
+                    <div className="custom-tooltip">
+                      <p className="label">{` ${payload[0].payload.name} ${payload[0].payload.lastName}`}</p>
+                      <p className="desc">{`Broj zadataka: ${payload[0].payload["Broj zadataka"]}`}</p>
+                    </div>
+                  );
+                }
+                return null;
+              }}
+            />
+            <Legend />
+            <Bar dataKey="Broj zadataka" barSize={20} fill="#8884d8" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    ));
   return (
     <div>
       <h2>Aktivnost članova kroz godinu {godina}.</h2>
