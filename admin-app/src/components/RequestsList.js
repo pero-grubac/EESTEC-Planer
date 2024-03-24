@@ -55,7 +55,7 @@ const UserList = ({ switchTab, selectRequest }) => {
         <Table hover className="table table-bordered my-table">
           <thead>
             <tr>
-              <th className="table-header"></th>
+              <th className="table-header">#</th>
               <th className="table-header">Korisničko ime</th>
               <th className="table-header">Ime</th>
               <th className="table-header">Prezime</th>

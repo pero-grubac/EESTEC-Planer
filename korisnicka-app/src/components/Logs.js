@@ -9,8 +9,21 @@ export const Logs = ({ loggedUser, setLoggedUser, team, teams }) => {
   const navigate = useNavigate();
 
 
-  const handleBoardViewClick = () => {
+  const handleLogoutClick = () => {
+    localStorage.clear();
     navigate("../", { replace: true });
+  };
+
+  const handleTeamViewClick = () => {
+    navigate("../teams", { replace: true });
+  };
+
+  const handleSettingsClick = () => {
+    navigate("../settings/", { replace: true });
+  };
+
+  const handleBackClick = () => {
+    navigate("../teams/" + teams[team].naziv, { replace: true });
   }
 
   useEffect(() => {
@@ -19,8 +32,6 @@ export const Logs = ({ loggedUser, setLoggedUser, team, teams }) => {
 
   const fetchLogs = async (team, teams) => {
     try {
-
-      console.log("TEAM: " + team);
       var response;
 
       if (loggedUser.uloga === "Clan odbora") {
@@ -100,27 +111,26 @@ export const Logs = ({ loggedUser, setLoggedUser, team, teams }) => {
       <div className="menu-buttons">
         <button
           className="logout-button logs-button"
-          onClick={() => navigate('../teams/' + teams[team].naziv, { replace: true })}
+          onClick={handleBackClick}
         >
           <div className="logs-button-icon"></div>
         </button>
         <button
           className="logout-button back-button"
+          onClick={handleTeamViewClick}
         >
           <div className="back-button-icon"></div>
         </button>
         <button
-          className="logout-button leave-team-button"
-
-        >
-          <div className="leave-team-button-icon"></div>
-        </button>
-        <button
           className="logout-button settings-button"
+          onClick={handleSettingsClick}
         >
           <div className="settings-button-icon"></div>
         </button>
-        <button className="logout-button" >
+        <button 
+          className="logout-button"
+          onClick={handleLogoutClick}
+        >
           <div className="logout-button-icon"></div>
         </button>
       </div>

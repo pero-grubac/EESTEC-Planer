@@ -38,7 +38,6 @@ function AdminConfig({ currentAdmin, switchTab }) {
       switchTab("login");
     }
 
-    // podesi opet confirmation i error da bi se mogla prikazati poruka
   };
   return (
     <form className="user-details-container" onSubmit={handleChange}>

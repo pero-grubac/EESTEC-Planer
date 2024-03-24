@@ -6,6 +6,7 @@ import UserDetails from "./components/UserDetails.js";
 import UserList from "./components/UserList";
 import AdminConfig from "./components/AdminConfig.js";
 import { useState } from "react";
+import { Logs } from "./components/Logs.js";
 
 export const Main = (props) => {
   const sidebarItems = [
@@ -21,11 +22,16 @@ export const Main = (props) => {
     },
     {
       id: 3,
+      name: "logs",
+      text: "Logovi"
+    },
+    {
+      id: 4,
       name: "admin-config",
       text: "Podešavanje admin naloga",
     },
     {
-      id: 4,
+      id: 5,
       name: "logout",
       text: "Odjava",
     }
@@ -69,6 +75,8 @@ export const Main = (props) => {
         ></DeleteConfirmation>
       case 'admin-config':
         return <AdminConfig switchTab={toggleTab} currentAdmin={props.admin}></AdminConfig>
+      case 'logs':
+        return <Logs switchTab={toggleTab}></Logs>
       case 'logout':
         props.onFormSwitch('login');
       default:

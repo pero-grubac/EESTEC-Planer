@@ -22,6 +22,23 @@ export const Stats = ({ loggedUser, setLoggedUser, team, teams }) => {
 
   const navigate = useNavigate();
 
+  const handleLogoutClick = () => {
+    localStorage.clear();
+    navigate("../", { replace: true });
+  };
+
+  const handleTeamViewClick = () => {
+    navigate("../teams", { replace: true });
+  };
+
+  const handleSettingsClick = () => {
+    navigate("../settings/", { replace: true });
+  };
+
+  const handleBackClick = () => {
+    navigate("../teams/" + teams[team].naziv, { replace: true });
+  }
+
 
   const ExportDivToPDF = async () => {
 
@@ -113,10 +130,6 @@ export const Stats = ({ loggedUser, setLoggedUser, team, teams }) => {
         }
         pdf.save(`${downloadFileName}.pdf`);
       });
-
-
-
-
   };
 
 
@@ -197,22 +210,23 @@ export const Stats = ({ loggedUser, setLoggedUser, team, teams }) => {
       <div className="menu-buttons">
         <button
           className="logout-button logs-button"
-          onClick={() =>
-            navigate("../teams/" + teams[team].naziv, { replace: true })
-          }
+          onClick={handleBackClick}
         >
           <div className="logs-button-icon"></div>
         </button>
-        <button className="logout-button back-button">
+        <button className="logout-button back-button"
+          onClick={handleTeamViewClick}
+        >
           <div className="back-button-icon"></div>
         </button>
-        <button className="logout-button leave-team-button">
-          <div className="leave-team-button-icon"></div>
-        </button>
-        <button className="logout-button settings-button">
+        <button className="logout-button settings-button"
+          onClick={handleSettingsClick}
+        >
           <div className="settings-button-icon"></div>
         </button>
-        <button className="logout-button">
+        <button className="logout-button"
+          onClick={handleLogoutClick}
+        >
           <div className="logout-button-icon"></div>
         </button>
       </div>
