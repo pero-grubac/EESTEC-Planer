@@ -212,7 +212,7 @@ export const Stats = ({ loggedUser, setLoggedUser, team, teams }) => {
           className="logout-button logs-button"
           onClick={handleBackClick}
         >
-          <div className="logs-button-icon"></div>
+          <div className="stats-button-icon"></div>
         </button>
         <button className="logout-button back-button"
           onClick={handleTeamViewClick}

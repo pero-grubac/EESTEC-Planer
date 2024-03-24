@@ -438,6 +438,26 @@ button {
   background-size:contain;
 }
 
+.logs-button-icon {
+  margin-right: 0.25rem;
+  min-height: 1.8rem;
+  width: 1.8rem;
+  z-index: 999;
+  background-image: url(./images/logs.png);
+  background-repeat: no-repeat;
+  background-size:contain;
+}
+
+.stats-button-icon {
+  margin-right: 0.25rem;
+  min-height: 1.8rem;
+  width: 1.8rem;
+  z-index: 999;
+  background-image: url(./images/stats.png);
+  background-repeat: no-repeat;
+  background-size:contain;
+}
+
 .add-category-button {
   position: absolute;
   right: 5%;
