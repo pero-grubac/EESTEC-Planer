@@ -10,6 +10,7 @@ import TotalNumberOfUsers from "./TotalNumberOfUsers";
 import StatsForTwoYears from "./StatsForTwoYears";
 import jsPDF from "jspdf";
 import { useRef } from "react";
+import { formatDateTime } from "../utils/formatDateTime";
 
 
 
@@ -40,12 +41,19 @@ export const Stats = ({ loggedUser, setLoggedUser, team, teams }) => {
 
   const ExportDivToPDF = () => {
 
+    const printCSS = "@page {margin: 10%; size: A4;}  body {margin: 4rem; margin-left: 10%; margin-right: 10%}";
+
     var doc = new jsPDF();
+
+    const date = new Date();
+    const formattedDate = formatDateTime(date);
 
     var divContents = document.getElementById("stats-container").innerHTML;
     var printWindow = window.open('', '', 'height=400, width=800');
-    printWindow.document.write('<html><head><style> body {margin: 2rem; margin-left: 10%; margin-right: 10%} </style><link rel="stylesheet" href="../print.css" type="text/css"></head><body>');
+    printWindow.document.write('<html><head><style>' + printCSS + '</style></head><body>');
+    printWindow.document.write('<h1>Izvještaj</h1>');
     printWindow.document.write(divContents);
+    printWindow.document.write('<p>Izvještaj generisan '+ formattedDate +'.</p>');
     printWindow.document.write('</body></html>');
     printWindow.print();
     printWindow.close();
