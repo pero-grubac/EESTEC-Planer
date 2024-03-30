@@ -733,4 +733,11 @@ body {
   margin-bottom: 5rem;
 }
 
+#stats-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: left;
+}
+
 /* .html2canvas-container { width: 2480px  !important; height: 3508px !important; } */
