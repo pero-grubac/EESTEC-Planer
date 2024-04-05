@@ -11,9 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 @RestController
 @RequestMapping("/question")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -25,6 +30,7 @@ public class ZahtjevController {
     @Autowired
     private EmailService emailService;
     private final Logger logger = LoggerFactory.getLogger(ZahtjevController.class);
+
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<ZahtjevDTO> getAllQuestions() {
@@ -52,9 +58,9 @@ public class ZahtjevController {
     @PostMapping("/add")
     public ResponseEntity<?> addZahtjev(@RequestBody ZahtjevDTO zahtjev) {
         logger.info(" " + zahtjev.toString());
-        ZahtjevDTO zahtjevDTO= zahtjevService.addZahtjev(zahtjev);
-        if(zahtjevDTO!=null) {
-            logService.create(PorukaLoga.POKUSAJ_REGISTRACIJE.getValue(),zahtjev.getKorisnickoIme());
+        ZahtjevDTO zahtjevDTO = zahtjevService.addZahtjev(zahtjev);
+        if (zahtjevDTO != null) {
+            logService.create(PorukaLoga.POKUSAJ_REGISTRACIJE.getValue(), zahtjev.getKorisnickoIme());
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
@@ -65,11 +71,10 @@ public class ZahtjevController {
     public ResponseEntity<String> approveRequest(@PathVariable int id) {
         ZahtjevDTO zahtjev = zahtjevService.odobriZahtjev(id);
         if (zahtjev != null) {
-            emailService.email(zahtjev.getEmail(),zahtjev.getKorisnickoIme(), "EESTEC Planer", "Dobrodošli u EESTEC Planer");
-            logService.create(PorukaLoga.USPJESNO_REGISTROVAN_NALOG_POTVRDJEN_OD_REGISTRACIJE.getValue(),zahtjev.getKorisnickoIme());
+            emailService.email(zahtjev.getEmail(), zahtjev.getKorisnickoIme(), "EESTEC Planer", "Dobrodošli u EESTEC Planer");
+            logService.create(PorukaLoga.USPJESNO_REGISTROVAN_NALOG_POTVRDJEN_OD_REGISTRACIJE.getValue(), zahtjev.getKorisnickoIme());
             return ResponseEntity.ok("Zahtjev s ID-om " + id + " je odobren.");
-        }
-        else return ResponseEntity.notFound().build();
+        } else return ResponseEntity.notFound().build();
     }
 
 

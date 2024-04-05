@@ -42,6 +42,8 @@ public class ZahtjevDTO
     private LocalDateTime datumKreiranja;
 
 
+
+
     public String getKorisnickoIme() {
         return KorisnickoIme;
     }

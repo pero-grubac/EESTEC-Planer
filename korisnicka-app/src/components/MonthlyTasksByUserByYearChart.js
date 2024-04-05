@@ -70,6 +70,7 @@ const MonthlyTasksByUserByYearChart = ({ godina, token }) => {
     return acc;
   }, {});
 
+
   const charts = Object.entries(dataByMonth)
     .sort((a, b) => {
       const monthA = monthNames.indexOf(a[0]);
