@@ -100,9 +100,9 @@ export default function TaskDetails({ loggedUser, selectedTask, users, setShowTa
                 <h2>Detalji:</h2>
                 <h3 className="text-background">{selectedTask.naslov}</h3>
                 <h4>Autor: {author}</h4>
-                <h4>Do: {formatDate(selectedTask.rok)}</h4>
+                <h4>Do: {selectedTask.rok ? formatDate(selectedTask.rok) : "--d --h"}</h4>
                 <h4 className="text-area text-output">{selectedTask.tekst}</h4>
-                <h4>Vrijeme kreiranja: {formatDate(selectedTask.rok)}</h4>
+                <h4>Vrijeme kreiranja: {formatDate(selectedTask.datumKreiranja)}</h4>
                 <h4>Rade: {workingOnTask}</h4>
                 <div className="button-line">
                     {
