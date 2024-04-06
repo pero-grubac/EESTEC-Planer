@@ -68,7 +68,12 @@ const TasksPerUserInTeamChart = ({ godina, id, token, tim }) => {
     return acc;
   }, {});
 
-  const charts = Object.entries(dataByMonth).map(([monthName, data]) => (
+  const charts = Object.entries(dataByMonth)
+  .sort((a, b) => {
+    const monthA = monthNames.indexOf(a[0]);
+    const monthB = monthNames.indexOf(b[0]);
+    return monthA - monthB;
+  }).map(([monthName, data]) => (
     <div className="chart-div" key={monthName}>
       <h3>{monthName}</h3>
       <ResponsiveContainer width="100%" height={300}>
