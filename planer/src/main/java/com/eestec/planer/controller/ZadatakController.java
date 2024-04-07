@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/zadatak")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ZadatakController {
     @Autowired
     LogService logService;
