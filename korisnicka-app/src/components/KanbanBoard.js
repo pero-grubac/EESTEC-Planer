@@ -288,10 +288,7 @@ export default function KanbanBoard({ loggedUser, setLoggedUser, team, teams }) 
       </div>
 
       <DragDropContext
-        onDragEnd={
-          isClanOdbora && !isKoordinator
-            ? () => { }
-            : (result) => onDragEnd(result, columnsFromBackend, setColumnsFromBackend, itemsFromBackend)
+        onDragEnd={(result) => onDragEnd(result, columnsFromBackend, setColumnsFromBackend, itemsFromBackend)
         }
       >
         <div className="columns-container">

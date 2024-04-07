@@ -22,7 +22,9 @@ export default function TaskDetails({ loggedUser, selectedTask, users, setShowTa
     usersOnTask.forEach(user => user.idKorisnika === loggedUser.idKorisnika ? (isAssignedByUser = true) : {});
 
     let workingOnTask = "";
-    usersOnTask.forEach(user => workingOnTask += user.ime + " " + user.prezime + " ");
+    let usersOnTaskNum = usersOnTask.length;
+
+    usersOnTask.forEach(user => workingOnTask += user.ime + " " + user.prezime  + (--usersOnTaskNum > 0 ? ", " : ""));
 
     let author = "";
     users.forEach(user => (user.idKorisnika === selectedTask.idAutora) ? (author = user.ime + " " + user.prezime) : {});
