@@ -46,9 +46,15 @@ public class KorisnikServiceImpl implements KorisnikService {
         return korisnikDTOList;
     }
     @Override
-    public List<KorisnikDTO> getKorisniciInTeam(Integer id) {
+    public List<KorisnikDTO> getKorisniciInTeamByIdEmail(Integer id) {
         return korisnikDAO.userEmails(id);
     }
+
+    @Override
+    public List<KorisnikDTO> getKorisniciByIdTeam(Integer id) {
+        return korisnikDAO.getKorisniciByIdTeam(id);
+    }
+
     @Override
     @Transactional
     public KorisnikDTO getKorisnik(Integer id) {

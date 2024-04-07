@@ -6,7 +6,6 @@ import com.eestec.planer.controller.util.ElementiTima;
 import com.eestec.planer.dao.KategorijaDAO;
 import com.eestec.planer.dao.ZadatakDAO;
 import com.eestec.planer.dto.*;
-import com.eestec.planer.service.EmailService;
 import com.eestec.planer.service.LogService;
 import com.eestec.planer.service.implementations.EmailServiceImpl;
 import com.eestec.planer.service.implementations.KorisnikServiceImpl;
@@ -70,7 +69,7 @@ public class ZadatakController {
     }
 
     private void sendEmails(ZadatakDTO kreiraniZadatak, String naslov) {
-        List<KorisnikDTO> korisnici = korisnikService.getKorisniciInTeam(kreiraniZadatak.getIdZadatak());
+        List<KorisnikDTO> korisnici = korisnikService.getKorisniciInTeamByIdEmail(kreiraniZadatak.getIdZadatak());
         for (KorisnikDTO korisnik : korisnici) {
             emailService.email(korisnik.getEmail(), korisnik.getKorisnickoIme(), naslov + kreiraniZadatak.getNaslov(), kreiraniZadatak.getTekst());
         }
@@ -96,7 +95,7 @@ public class ZadatakController {
             List<ZadatakDTO> temp = zadatakService.getZadaciByKategorijaId(kategorija.getIdKategorija());
             zadaci.addAll(temp);
         }
-        List<KorisnikDTO> sviKorisnici = korisnikService.getAllKorisnici();
+        List<KorisnikDTO> sviKorisnici = korisnikService.getKorisniciByIdTeam(idTim);
         List<KorisnikDTO> korisniciTima = new ArrayList<>();
         int brojKorisnika = 0;
         for (KorisnikDTO korisnikDTO : sviKorisnici) {
@@ -119,9 +118,8 @@ public class ZadatakController {
                     }
                 }
             }
-            if (!tempKorisnik.getZadaci().isEmpty()) {
                 korisniciTima.add(tempKorisnik);
-            }
+
 
             for (TimDTO timDTO : korisnikDTO.getTimovi()) {
                 if (timDTO.getIdTim() == idTim) {

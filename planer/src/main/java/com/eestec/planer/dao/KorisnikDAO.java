@@ -59,4 +59,8 @@ public interface KorisnikDAO extends JpaRepository<KorisnikDTO, Integer> {
             "INNER JOIN zadatak z ON z.IdKategorija = kat.IdKategorija \n" +
             "WHERE z.IdZadatak = :id", nativeQuery = true)
     List<KorisnikDTO> userEmails(@Param("id") Integer id);
+    @Query(value = "SELECT k.* FROM korisnik k \n" +
+            "INNER JOIN korisnik_pripada_timu kpt ON kpt.Korisnik_IdKorisnika = k.IdKorisnika \n" +
+            "WHERE kpt.Tim_IdTim = :id", nativeQuery = true)
+    List<KorisnikDTO> getKorisniciByIdTeam(@Param("id") Integer id);
 }
