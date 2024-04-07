@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/question")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:4200"})
 public class ZahtjevController {
     @Autowired
     ZahtjevService zahtjevService;

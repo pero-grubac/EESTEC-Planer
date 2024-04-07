@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/category")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:4200"})
 public class KategorijaController {
     private final KategorijaServiceImpl kategorijaService;
     private final Logger logger = LoggerFactory.getLogger(KategorijaController.class);

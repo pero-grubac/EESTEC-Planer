@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/clanodbora")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:4200"})
 public class ClanOdboraController {
     private final ClanOdboraServiceImpl clanOdboraService;
     private final SuperUserServiceImpl superUserService;
