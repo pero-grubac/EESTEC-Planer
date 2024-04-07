@@ -51,7 +51,7 @@ export const Stats = ({ loggedUser, setLoggedUser, team, teams }) => {
     var divContents = document.getElementById("stats-container").innerHTML;
     var printWindow = window.open('', '', 'height=400, width=800');
     printWindow.document.write('<html><head><style>' + printCSS + '</style></head><body>');
-    printWindow.document.write('<h1>Izvještaj</h1>');
+    printWindow.document.write('<h1>Izvještaj - EESTEC LC Banja Luka</h1>');
     printWindow.document.write(divContents);
     printWindow.document.write('<p>Izvještaj generisan '+ formattedDate +'.</p>');
     printWindow.document.write('</body></html>');
