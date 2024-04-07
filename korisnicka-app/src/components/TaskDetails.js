@@ -33,6 +33,34 @@ export default function TaskDetails({ loggedUser, selectedTask, users, setShowTa
         setEditableTaskDetails(true);
     }
 
+    const handleArchiveTaskClick = async () => {
+        try{
+            console.log("task id: " + selectedTask.idZadatak);
+            const response = await axios.put(
+                `http://localhost:8080/zadatak/archive/${selectedTask.idZadatak}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + localStorage.getItem("token"),
+                    },
+                }
+            );
+
+            if (response.status === 403) {
+                localStorage.clear();
+                navigate("/", { replace: true });
+            }
+
+            setAssignTaskConfirmation(true);
+            delay(2000);
+            setAssignTaskConfirmation(false);
+            setShowTaskDetails(false);
+            refreshBoard();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const handleAssignTaskClick = async () => {
         try {
             const response = await axios.put("http://localhost:8080/user/assign",
@@ -113,6 +141,9 @@ export default function TaskDetails({ loggedUser, selectedTask, users, setShowTa
                     }
                     {
                         isKoordinator ? <button className="long-button" onClick={handleEditTaskClick}>Izmijenite zadatak</button> : <></>
+                    }
+                    {
+                        isKoordinator ? <button className="long-button" onClick={handleArchiveTaskClick}>Arhivirajte zadatak</button> : <></>
                     }
                 </div>
                 {

@@ -741,4 +741,6 @@ body {
   justify-content: left;
 }
 
-/* .html2canvas-container { width: 2480px  !important; height: 3508px !important; } */
+.comment-time {
+  font-size: 12px;
+}
