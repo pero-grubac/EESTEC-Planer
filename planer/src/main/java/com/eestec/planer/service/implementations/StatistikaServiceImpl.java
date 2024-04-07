@@ -103,17 +103,28 @@ public class StatistikaServiceImpl implements StatistikaService {
 
     @Override
     public List<Pair<Integer, Integer>> mjesecniBrojZadatakaKorisnika(Integer idKorisnika, Integer godina) {
-        String query = "SELECT  MONTH(z.DatumArhiviranja) AS month, COUNT(*) as broj_zadataka \n" +
-                "FROM korisnik k \n" +
-                "JOIN korisnik_radi_zadatak krz on k.IdKorisnika=krz.Korisnik_IdKorisnika \n" +
-                "JOIN zadatak z on z.IdZadatak=krz.Zadatak_IdZadatak \n" +
-                "WHERE z.Arhiviran = 1 and k.IdKorisnika=? and YEAR(z.DatumArhiviranja) = ? \n" +
-                "GROUP BY MONTH(z.DatumArhiviranja) \n" +
-                "ORDER BY  month ASC;";
+        String query = "SELECT months.month AS month, IFNULL(COUNT(z.IdZadatak), 0) AS broj_zadataka \n" +
+                "FROM ( \n" +
+                "    SELECT 1 AS month\n" +
+                "    UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 \n" +
+                "    UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10 UNION SELECT 11 \n" +
+                "    UNION SELECT 12 \n" +
+                ") AS months \n" +
+                "LEFT JOIN ( \n" +
+                "    SELECT MONTH(z.DatumArhiviranja) AS month, z.IdZadatak \n" +
+                "    FROM korisnik k \n" +
+                "    JOIN korisnik_radi_zadatak krz ON k.IdKorisnika = krz.Korisnik_IdKorisnika \n" +
+                "    JOIN zadatak z ON z.IdZadatak = krz.Zadatak_IdZadatak \n" +
+                "    WHERE z.Arhiviran = 1 AND k.IdKorisnika = ? AND YEAR(z.DatumArhiviranja) = ? \n" +
+                ") AS z ON months.month = z.month \n" +
+                "WHERE months.month <= MONTH(CURDATE()) \n" +
+                "GROUP BY months.month \n" +
+                "ORDER BY months.month ASC;";
+
         List<Map<String, Object>> results = jdbcTemplate.queryForList(query,idKorisnika,godina);
         List<Pair<Integer, Integer>> resultList = new ArrayList<>();
         for (Map<String, Object> row : results) {
-            Pair<Integer, Integer> pair = Pair.of((Integer) row.get("month"), ((Long) row.get("broj_zadataka")).intValue());
+            Pair<Integer, Integer> pair = Pair.of(((Long) row.get("month")).intValue(), ((Long) row.get("broj_zadataka")).intValue());
             resultList.add(pair);
         }
         return resultList;
