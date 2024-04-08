@@ -38,6 +38,7 @@ export default function TaskDetails({ loggedUser, selectedTask, users, setShowTa
             console.log("task id: " + selectedTask.idZadatak);
             const response = await axios.put(
                 `http://localhost:8080/zadatak/archive/${selectedTask.idZadatak}`,
+                {},
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -45,7 +46,7 @@ export default function TaskDetails({ loggedUser, selectedTask, users, setShowTa
                     },
                 }
             );
-
+           
             if (response.status === 403) {
                 localStorage.clear();
                 navigate("/", { replace: true });
